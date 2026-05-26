@@ -1,0 +1,32 @@
+name: Run Amara Trading Bot
+
+on:
+  schedule:
+    # Mapped to 9:45 PM, 11:30 PM, 2:00 AM, and 3:55 AM Shanghai Time (converted to UTC)
+    - cron: '45 13 * * 1-5'
+    - cron: '30 15 * * 1-5'
+    - cron: '00 18 * * 1-5'
+    - cron: '55 19 * * 1-5'
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set Up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install alpaca-py anthropic pandas ta requests python-dotenv pytz
+
+      - name: Execute Amara Bot
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+        run: python amara.py
