@@ -64,7 +64,7 @@
   .goal-losing { background: #450a0a; color: #f87171; }
   .goal-neutral { background: #1e293b; color: #94a3b8; }
 </style>
-<script id="embedded-data">var EMBEDDED_DATA = {"positions":[],"daily_stats":[],"scan_log":[],"total_capital_usd":100000,"cash_available":100000.0,"portfolio_value":100000.0,"buying_power":200000.0,"benchmark":{"symbol":"SPY","start_date":"2026-05-26","start_price":749.0,"current_price":749.0,"goal_days":14}};</script>
+<script id="embedded-data">var EMBEDDED_DATA = {"positions":[],"daily_stats":[],"scan_log":[],"total_capital_usd":100000,"cash_available":100000.0,"portfolio_value":100000.0,"buying_power":200000.0,"benchmark":{"symbol":"SPY","start_date":"2026-05-26","start_price":748.67,"current_price":748.67,"goal_days":14}};</script>
 </head>
 <body>
 
@@ -270,7 +270,7 @@
 <!-- Technical Scan Log (top 20, non-Claude stocks, latest scan) -->
 <div class="section-title" onclick="toggleSection('techSection')">📊 Latest Scan — Top 20 scored stocks &amp; why they weren't bought <span class="toggle-icon">▼</span></div>
 <div id="techSection" class="section-body">
-<div style="margin-bottom:10px; font-size:0.8rem; color:#94a3b8;">Top 20 stocks from the most recent scan (score ≥50), excluding Claude's top-5 picks and currently held stocks. "Why Not Bought" shows exactly what was missing.</div>
+<div style="margin-bottom:10px; font-size:0.8rem; color:#94a3b8;">Top 20 stocks by momentum score from the most recent scan, excluding Claude's top-5 picks and currently held stocks. "Why Not Bought" shows exactly what was missing.</div>
 <table id="techTable">
   <thead>
     <tr>
@@ -524,8 +524,7 @@ function renderData(data) {
   const techAll = scanLog.filter(s =>
     s.sent_to_claude !== true &&
     !s.hold_review &&
-    !openSymbols.has(s.symbol) &&
-    (s.score || 0) >= 50
+    !openSymbols.has(s.symbol)
   );
   let latestTechTs = "";
   techAll.forEach(s => { if ((s.timestamp || "") > latestTechTs) latestTechTs = s.timestamp || ""; });
