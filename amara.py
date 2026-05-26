@@ -32,7 +32,7 @@ _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Dashboard is written to Google Drive so the household can view it via a
 # shared static link without exposing secrets.env or the script directory.
 # The local Google Drive sync client keeps this path always up-to-date.
-DASHBOARD_PATH = "/Users/lillianafang/Google Drive/My Drive/amara_dashboard.md"
+DASHBOARD_PATH = dashboard_path = "amara_dashboard.md"
 
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
