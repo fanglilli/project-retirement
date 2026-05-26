@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amara — Trading Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f1f5f9; color: #1e293b; min-height: 100vh; padding: 24px; }
+  h1 { font-size: 1.5rem; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+  .subtitle { color: #64748b; font-size: 0.85rem; margin-bottom: 24px; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 99px; font-size: 0.75rem; font-weight: 600; }
+  .badge-paper { background: #dbeafe; color: #1d4ed8; }
+  .badge-live { background: #dcfce7; color: #15803d; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+  .card { background: #ffffff; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .card-label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+  .card-value { font-size: 1.8rem; font-weight: 700; }
+  .card-sub { font-size: 0.8rem; color: #94a3b8; margin-top: 4px; }
+  .positive { color: #16a34a; }
+  .negative { color: #dc2626; }
+  .neutral { color: #475569; }
+  .section-title { font-size: 1rem; font-weight: 600; color: #334155; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 8px; user-select: none; }
+  .section-title:hover { color: #0f172a; }
+  .section-title .toggle-icon { font-size: 0.7rem; color: #94a3b8; transition: transform 0.2s; }
+  .section-title.collapsed .toggle-icon { transform: rotate(-90deg); }
+  .section-body { transition: none; }
+  table { width: 100%; border-collapse: collapse; background: #ffffff; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; margin-bottom: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  th { background: #f8fafc; padding: 12px 16px; text-align: left; font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid #e2e8f0; }
+  th.sortable { cursor: pointer; user-select: none; }
+  th.sortable:hover { color: #475569; background: #f1f5f9; }
+  th.sort-asc::after { content: " ▲"; }
+  th.sort-desc::after { content: " ▼"; }
+  .claude-badge { display: inline-block; background: #ede9fe; color: #7c3aed; font-size: 0.65rem; font-weight: 700; padding: 1px 6px; border-radius: 99px; margin-left: 4px; vertical-align: middle; }
+  .row-claude { background: #faf5ff !important; }
+  .row-claude td { border-top-color: #ede9fe; }
+  td { padding: 12px 16px; border-top: 1px solid #f1f5f9; font-size: 0.875rem; color: #334155; }
+  tr:hover td { background: #f8fafc; }
+  .status-open { color: #2563eb; }
+  .status-closed-profit { color: #16a34a; }
+  .status-closed-loss { color: #dc2626; }
+  .progress-bar { background: #e2e8f0; border-radius: 99px; height: 8px; margin-top: 8px; }
+  .progress-fill { height: 100%; border-radius: 99px; transition: width 0.3s; }
+  .progress-green { background: #22c55e; }
+  .progress-red { background: #ef4444; }
+  .progress-yellow { background: #f59e0b; }
+  .refresh-btn { background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.875rem; margin-bottom: 24px; box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+  .refresh-btn:hover { background: #2563eb; }
+  .empty-state { text-align: center; padding: 40px; color: #94a3b8; }
+  .alert-box { background: #fef2f2; border: 1px solid #fca5a5; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #dc2626; font-size: 0.875rem; }
+  .last-update { font-size: 0.75rem; color: #94a3b8; margin-bottom: 16px; }
+  .goal-card { background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 100%); border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; color: white; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .goal-left { flex: 1; min-width: 200px; }
+  .goal-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: #94a3b8; margin-bottom: 4px; }
+  .goal-desc { font-size: 1rem; font-weight: 600; color: #f1f5f9; }
+  .goal-sub { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
+  .goal-metrics { display: flex; gap: 32px; flex-wrap: wrap; }
+  .goal-metric { text-align: center; }
+  .goal-metric-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; color: #64748b; margin-bottom: 2px; }
+  .goal-metric-value { font-size: 1.5rem; font-weight: 700; }
+  .goal-metric-sub { font-size: 0.72rem; color: #64748b; margin-top: 2px; }
+  .goal-status { font-size: 0.85rem; font-weight: 600; padding: 6px 14px; border-radius: 99px; white-space: nowrap; }
+  .goal-winning { background: #14532d; color: #4ade80; }
+  .goal-losing { background: #450a0a; color: #f87171; }
+  .goal-neutral { background: #1e293b; color: #94a3b8; }
+</style>
+<script id="embedded-data">var EMBEDDED_DATA = {"positions": [], "daily_stats": [], "scan_log": [], "total_capital_usd": 100000, "cash_available": 100000.0, "portfolio_value": 100000.0, "buying_power": 200000.0};</script>
+</head>
+<body>
+
+<h1>🤖 Amara — Trading Dashboard</h1>
+<div class="subtitle">
+  <span class="badge badge-paper">🧪 Paper Trading</span>
+  &nbsp; No real money is being used
+</div>
+
+<!-- Goal Section -->
+<div id="goalSection" style="display:none; margin-bottom:24px;">
+  <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:#64748b; margin-bottom:10px; font-weight:600;">🎯 2-Week Challenge — Beat the S&amp;P 500 &nbsp;<span id="goalSub" style="font-weight:400; color:#94a3b8"></span></div>
+  <div class="grid" style="margin-bottom:0">
+    <div class="card" style="background:#1e293b; border-color:#334155;">
+      <div class="card-label" style="color:#64748b">Our Return</div>
+      <div class="card-value" id="goalOurReturn">—</div>
+      <div class="card-sub" style="color:#475569">vs $100,000 base</div>
+    </div>
+    <div class="card" style="background:#1e293b; border-color:#334155;">
+      <div class="card-label" style="color:#64748b">SPY Return</div>
+      <div class="card-value" id="goalSpyReturn" style="color:#94a3b8">—</div>
+      <div class="card-sub" id="goalSpyBase" style="color:#475569">S&amp;P 500 benchmark</div>
+    </div>
+    <div class="card" style="background:#1e293b; border-color:#334155;">
+      <div class="card-label" style="color:#64748b">Challenge Status</div>
+      <div id="goalStatus" class="card-value" style="font-size:1.1rem">—</div>
+      <div class="card-sub" id="goalDaysLeft" style="color:#475569">—</div>
+    </div>
+  </div>
+</div>
+
+<button class="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+<div class="last-update" id="lastUpdate">上次更新：—</div>
+
+<div id="alertBox" style="display:none" class="alert-box"></div>
+
+<!-- 統計卡片 -->
+<div class="grid" id="statsGrid">
+  <div class="card">
+    <div class="card-label">Portfolio Value</div>
+    <div class="card-value neutral" id="totalCapital">—</div>
+    <div class="card-sub" id="cashAvailableSub">Starting capital: $100,000</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Current Value</div>
+    <div class="card-value" id="currentValue">—</div>
+    <div class="card-sub" id="currentValueSub">—</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Total P&L</div>
+    <div class="card-value" id="totalPnl">—</div>
+    <div class="card-sub" id="totalPnlPct">—</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Today's P&L</div>
+    <div class="card-value" id="todayPnl">—</div>
+    <div class="card-sub" id="todayTrades">—</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Open Positions</div>
+    <div class="card-value neutral" id="openPositions">0</div>
+    <div class="card-sub">Max 10 stocks</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Win Rate</div>
+    <div class="card-value" id="winRate">—</div>
+    <div class="card-sub" id="winRateSub">—</div>
+  </div>
+</div>
+
+<!-- Daily Summary Card -->
+<div class="card" id="dailySummaryCard" style="margin-bottom:24px; display:none;">
+  <div class="card-label">📅 Today's Activity — <span id="summaryDate">—</span></div>
+  <div style="display:flex; gap:28px; flex-wrap:wrap; margin-top:10px; align-items:flex-end;">
+    <div><div style="color:#94a3b8;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Scanned</div><div style="font-size:1.4rem;font-weight:700;color:#334155" id="summaryScanned">—</div></div>
+    <div><div style="color:#94a3b8;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Claude Reviewed</div><div style="font-size:1.4rem;font-weight:700;color:#7c3aed" id="summaryClaude">—</div></div>
+    <div><div style="color:#94a3b8;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Bought</div><div style="font-size:1.4rem;font-weight:700;color:#16a34a" id="summaryBought">—</div></div>
+    <div><div style="color:#94a3b8;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Sold</div><div style="font-size:1.4rem;font-weight:700;color:#dc2626" id="summarySold">—</div></div>
+    <div style="margin-left:auto; text-align:right"><div style="color:#94a3b8;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;">Today's P&L</div><div style="font-size:1.4rem;font-weight:700" id="summaryPnl">—</div></div>
+  </div>
+</div>
+
+<!-- P&L Bar (dual direction) -->
+<div class="card" style="margin-bottom: 24px;">
+  <div class="card-label">Portfolio P&L — Loss limit: -30% (bot shuts down) &nbsp;|&nbsp; Target: beat SPY</div>
+  <div style="margin-top:14px;">
+    <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:#94a3b8; margin-bottom:5px; padding:0 2px;">
+      <span style="color:#ef4444">⛔ -30%</span>
+      <span>0%</span>
+      <span style="color:#22c55e">+30% 🎯</span>
+    </div>
+    <div style="position:relative; background:#f1f5f9; border-radius:8px; height:18px; overflow:hidden;">
+      <div style="position:absolute; left:50%; top:0; width:2px; height:100%; background:#cbd5e1; z-index:2; transform:translateX(-50%)"></div>
+      <div id="pnlBarLoss" style="position:absolute; right:50%; top:0; height:100%; background:#ef4444; border-radius:8px 0 0 8px; width:0%;"></div>
+      <div id="pnlBarGain" style="position:absolute; left:50%; top:0; height:100%; background:#22c55e; border-radius:0 8px 8px 0; width:0%;"></div>
+    </div>
+    <div id="pnlBarText" style="font-size:0.8rem; color:#64748b; margin-top:6px; text-align:center;"></div>
+  </div>
+</div>
+
+<!-- Open Positions -->
+<div class="section-title" onclick="toggleSection('openSection')">📋 Open Positions <span class="toggle-icon">▼</span></div>
+<div id="openSection" class="section-body">
+<table id="openTable">
+  <thead>
+    <tr>
+      <th>Stock</th>
+      <th>Entry Price</th>
+      <th>Last Price</th>
+      <th>Entry Date</th>
+      <th>Stop Loss</th>
+      <th>Take Profit</th>
+      <th>Cost (USD)</th>
+      <th>🧠 Hold Review</th>
+    </tr>
+  </thead>
+  <tbody id="openBody">
+    <tr><td colspan="8" class="empty-state">No open positions</td></tr>
+  </tbody>
+</table>
+</div><!-- end openSection -->
+
+<!-- Trade History -->
+<div class="section-title" onclick="toggleSection('historySection')">📒 Trade History <span class="toggle-icon">▼</span></div>
+<div id="historySection" class="section-body">
+<table id="historyTable">
+  <thead>
+    <tr>
+      <th>Stock</th>
+      <th>Entry Price</th>
+      <th>Exit Price</th>
+      <th>P&L (USD)</th>
+      <th>Result</th>
+      <th>Reason</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody id="historyBody">
+    <tr><td colspan="7" class="empty-state">No trade history yet</td></tr>
+  </tbody>
+</table>
+
+</div><!-- end historySection -->
+
+<!-- Claude Analysis Log (top 5 only, latest scan) -->
+<div class="section-title" onclick="toggleSection('claudeSection')">🧠 Claude Analysis — Top picks reviewed by AI <span class="toggle-icon">▼</span></div>
+<div id="claudeSection" class="section-body">
+<div style="margin-bottom:6px; font-size:0.8rem; color:#94a3b8;">Top 5 fresh candidates from latest scan sent to Claude for buy/skip decision. <span id="claudeScanLabel" style="color:#64748b"></span></div>
+<table id="claudeTable">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Stock</th>
+      <th class="sortable" data-col="2" data-type="num">Score ↕</th>
+      <th class="sortable" data-col="3" data-type="num">RSI ↕</th>
+      <th class="sortable" data-col="4" data-type="num">Volume ↕</th>
+      <th class="sortable" data-col="5" data-type="num">Decision ↕</th>
+      <th>Claude's Analysis</th>
+    </tr>
+  </thead>
+  <tbody id="claudeBody">
+    <tr><td colspan="7" class="empty-state">No Claude analyses yet — will appear here after the first market scan</td></tr>
+  </tbody>
+</table>
+</div><!-- end claudeSection -->
+
+<!-- Score Legend -->
+<div class="section-title" onclick="toggleSection('legendSection')">📐 How the Score Works <span class="toggle-icon">▼</span></div>
+<div id="legendSection" class="section-body" style="display:none">
+<div style="font-size:0.85rem;color:#94a3b8;line-height:1.8;max-width:700px">
+  <p style="color:#cbd5e1;margin-bottom:8px">Each stock is scored out of <strong style="color:#e2e8f0">100 points</strong> across 4 momentum criteria. A stock needs <strong style="color:#4ade80">60+ points</strong> to pass and be sent to Claude for final approval.</p>
+  <table style="width:100%;border-collapse:collapse;font-size:0.82rem">
+    <tr style="border-bottom:1px solid #1e293b">
+      <th style="text-align:left;padding:6px 8px;color:#94a3b8;font-weight:600">Criterion</th>
+      <th style="text-align:center;padding:6px 8px;color:#94a3b8;font-weight:600">Points</th>
+      <th style="text-align:left;padding:6px 8px;color:#94a3b8;font-weight:600">What it means</th>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b">
+      <td style="padding:6px 8px;color:#94a3b8">RSI between 55–75</td>
+      <td style="text-align:center;padding:6px 8px;color:#4ade80;font-weight:700">30 pts</td>
+      <td style="padding:6px 8px;color:#94a3b8">RSI measures buying momentum (0–100). Below 55 = not yet moving. Above 75 = overbought, risky to buy. The 55–75 zone is the "momentum sweet spot."</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b">
+      <td style="padding:6px 8px;color:#94a3b8">Price &gt; 20-day avg</td>
+      <td style="text-align:center;padding:6px 8px;color:#4ade80;font-weight:700">25 pts</td>
+      <td style="padding:6px 8px;color:#94a3b8">Stock is trading above its 20-day moving average — an uptrend confirmation. Stocks below their average are still in decline or sideways.</td>
+    </tr>
+    <tr style="border-bottom:1px solid #1e293b">
+      <td style="padding:6px 8px;color:#94a3b8">5-day avg &gt; 20-day avg</td>
+      <td style="text-align:center;padding:6px 8px;color:#4ade80;font-weight:700">20 pts</td>
+      <td style="padding:6px 8px;color:#94a3b8">Short-term average crossing above long-term average (mini "golden cross") — signals that recent momentum is accelerating.</td>
+    </tr>
+    <tr>
+      <td style="padding:6px 8px;color:#94a3b8">Volume ≥ 1.5× average</td>
+      <td style="text-align:center;padding:6px 8px;color:#4ade80;font-weight:700">25 pts</td>
+      <td style="padding:6px 8px;color:#94a3b8">Today's volume is 1.5× the 20-day average — a surge means institutions or big money are moving in, not just retail noise.</td>
+    </tr>
+  </table>
+  <p style="margin-top:10px">After scoring, the <strong style="color:#e2e8f0">top 5 stocks</strong> are sent to Claude for a second opinion on risk/reward. Claude needs a confidence score of 6/10 or higher to approve a buy.</p>
+</div>
+</div><!-- end legendSection -->
+
+<!-- Technical Scan Log (top 20, non-Claude stocks, latest scan) -->
+<div class="section-title" onclick="toggleSection('techSection')">📊 Latest Scan — Top 20 scored stocks &amp; why they weren't bought <span class="toggle-icon">▼</span></div>
+<div id="techSection" class="section-body">
+<div style="margin-bottom:10px; font-size:0.8rem; color:#94a3b8;">Top 20 stocks from the most recent scan (score ≥50), excluding Claude's top-5 picks and currently held stocks. "Why Not Bought" shows exactly what was missing.</div>
+<table id="techTable">
+  <thead>
+    <tr>
+      <th class="sortable" data-table="tech" data-col="0" data-type="str">Time</th>
+      <th class="sortable" data-table="tech" data-col="1" data-type="str">Stock</th>
+      <th class="sortable" data-table="tech" data-col="2" data-type="num">Score</th>
+      <th class="sortable" data-table="tech" data-col="3" data-type="num">RSI</th>
+      <th class="sortable" data-table="tech" data-col="4" data-type="num">Volume</th>
+      <th>Why Not Bought</th>
+    </tr>
+  </thead>
+  <tbody id="techBody">
+    <tr><td colspan="6" class="empty-state">No scan data yet</td></tr>
+  </tbody>
+</table>
+</div><!-- end techSection -->
+
+<script>
+function loadData() {
+  document.getElementById("lastUpdate").textContent = "Last updated: " + new Date().toLocaleString("en-GB") + " (Cmd+R to reload fresh data)";
+  if (typeof EMBEDDED_DATA !== "undefined" && EMBEDDED_DATA) {
+    document.getElementById("alertBox").style.display = "none";
+    renderData(EMBEDDED_DATA);
+  } else {
+    document.getElementById("alertBox").style.display = "block";
+    document.getElementById("alertBox").textContent = "⚠️ No data yet — start the bot and it will update this dashboard automatically.";
+  }
+}
+
+function fmt(n) {
+  return "$" + Math.round(n).toLocaleString("en-US");
+}
+
+function scoreChip(score) {
+  const bg = score >= 70 ? '#dcfce7' : score >= 60 ? '#fef9c3' : '#f1f5f9';
+  const color = score >= 70 ? '#15803d' : score >= 60 ? '#854d0e' : '#64748b';
+  return `<span style="background:${bg};color:${color};padding:2px 8px;border-radius:99px;font-size:0.75rem;font-weight:600">${score}/100</span>`;
+}
+
+function renderData(data) {
+  const positions = data.positions || [];
+  const capital = data.total_capital_usd || 100000;
+
+  const portfolioValue  = data.portfolio_value  || null;
+  const cashAvailable   = data.cash_available   || null;
+  const buyingPower     = data.buying_power      || null;
+
+  if (portfolioValue !== null) {
+    document.getElementById("totalCapital").textContent = "$" + Math.round(portfolioValue).toLocaleString("en-US");
+    document.getElementById("totalCapital").className = "card-value " + (portfolioValue >= capital ? "positive" : "negative");
+    const invested = portfolioValue - (cashAvailable || 0);
+    document.getElementById("cashAvailableSub").textContent =
+      `Cash: $${Math.round(cashAvailable).toLocaleString("en-US")} · Invested: $${Math.round(invested).toLocaleString("en-US")}`;
+  } else {
+    document.getElementById("totalCapital").textContent = "$" + Math.round(capital).toLocaleString("en-US");
+    document.getElementById("totalCapital").className = "card-value neutral";
+    document.getElementById("cashAvailableSub").textContent = "Starting capital (not yet synced)";
+  }
+
+  const openPos = positions.filter(p => p.status === "open");
+  const closedPos = positions.filter(p => p.status === "closed");
+
+  const totalPnl = closedPos.reduce((s, p) => s + (p.pnl_usd || 0), 0);
+  const unrealizedPnl = openPos.reduce((s, p) => {
+    if (!p.last_price) return s;
+    const pnlPct = (p.last_price - p.entry_price) / p.entry_price;
+    return s + pnlPct * (p.cost_usd || 0);
+  }, 0);
+  const currentValue = capital + totalPnl + unrealizedPnl;
+  const totalReturn = totalPnl + unrealizedPnl;
+  const _d = new Date(); const today = `${_d.getFullYear()}-${String(_d.getMonth()+1).padStart(2,'0')}-${String(_d.getDate()).padStart(2,'0')}`;
+  const todayClosed = closedPos.filter(p => (p.exit_date || "").startsWith(today));
+  const todayPnl = todayClosed.reduce((s, p) => s + (p.pnl_usd || 0), 0);
+  const todayTrades = todayClosed.length;
+
+  const winners = closedPos.filter(p => p.pnl_usd > 0).length;
+  const winRate = closedPos.length > 0 ? (winners / closedPos.length * 100).toFixed(0) : null;
+
+  document.getElementById("currentValue").textContent = fmt(currentValue);
+  document.getElementById("currentValue").className = "card-value " + (totalReturn >= 0 ? "positive" : "negative");
+  const unrealizedLabel = unrealizedPnl !== 0 ? ` · Open positions: ${unrealizedPnl >= 0 ? "+" : ""}${fmt(unrealizedPnl)}` : (openPos.length > 0 ? " · Open positions: awaiting price" : "");
+  document.getElementById("currentValueSub").textContent = (totalReturn >= 0 ? "▲ " : "▼ ") + Math.abs(totalReturn / capital * 100).toFixed(1) + "% total return" + unrealizedLabel;
+
+  document.getElementById("totalPnl").textContent = (totalReturn >= 0 ? "+" : "") + fmt(totalReturn);
+  document.getElementById("totalPnl").className = "card-value " + (totalReturn >= 0 ? "positive" : "negative");
+  document.getElementById("totalPnlPct").textContent = (totalReturn >= 0 ? "▲ +" : "▼ ") + (totalReturn / capital * 100).toFixed(2) + "%" + (unrealizedPnl !== 0 ? ` · Realized: ${totalPnl >= 0 ? "+" : ""}${fmt(totalPnl)}` : "");
+
+  document.getElementById("todayPnl").textContent = (todayPnl >= 0 ? "+" : "") + fmt(todayPnl);
+  document.getElementById("todayPnl").className = "card-value " + (todayPnl >= 0 ? "positive" : "negative");
+  document.getElementById("todayTrades").textContent = todayTrades + " trades today";
+
+  document.getElementById("openPositions").textContent = openPos.length;
+  document.getElementById("winRate").textContent = winRate ? winRate + "%" : "—";
+  document.getElementById("winRate").className = "card-value " + (winRate >= 50 ? "positive" : winRate ? "negative" : "neutral");
+  document.getElementById("winRateSub").textContent = closedPos.length > 0 ? winners + " wins / " + (closedPos.length - winners) + " losses" : "No records yet";
+
+  // ── Daily Summary Card ──
+  const scanLog = data.scan_log || [];
+  const todayScans = scanLog.filter(s => (s.timestamp || "").startsWith(today));
+  if (todayScans.length > 0 || todayTrades > 0) {
+    const todayClaudeCount = todayScans.filter(s => s.sent_to_claude === true).length;
+    const todayBought = positions.filter(p => (p.entry_date || "").startsWith(today)).length;
+    const summaryPnlEl = document.getElementById("summaryPnl");
+    document.getElementById("dailySummaryCard").style.display = "block";
+    document.getElementById("summaryDate").textContent = today;
+    document.getElementById("summaryScanned").textContent = todayScans.length;
+    document.getElementById("summaryClaude").textContent = todayClaudeCount;
+    document.getElementById("summaryBought").textContent = todayBought;
+    document.getElementById("summarySold").textContent = todayTrades;
+    summaryPnlEl.textContent = (todayPnl >= 0 ? "+" : "") + fmt(todayPnl);
+    summaryPnlEl.style.color = todayPnl >= 0 ? "#16a34a" : "#dc2626";
+  }
+
+  // ── Dual P&L Bar ──
+  const pnlPct = totalPnl / capital * 100;
+  const maxPct = 30;
+  const lossBar = document.getElementById("pnlBarLoss");
+  const gainBar = document.getElementById("pnlBarGain");
+  const pnlText = document.getElementById("pnlBarText");
+  lossBar.style.width = "0%";
+  gainBar.style.width = "0%";
+  if (pnlPct < 0) {
+    const fillPct = Math.min(Math.abs(pnlPct) / maxPct * 100, 100);
+    lossBar.style.width = fillPct + "%";
+  } else if (pnlPct > 0) {
+    const fillPct = Math.min(pnlPct / maxPct * 100, 100);
+    gainBar.style.width = fillPct + "%";
+  }
+  const sign = pnlPct >= 0 ? "+" : "";
+  pnlText.textContent = `Total P&L: ${sign}${pnlPct.toFixed(2)}% (${sign}${fmt(totalPnl)})  ·  Loss limit: -30% (${fmt(capital * 0.3)})`;
+  pnlText.style.color = pnlPct >= 0 ? "#16a34a" : "#dc2626";
+
+  // ── Goal section — SPY benchmark ──
+  const bm = data.benchmark;
+  if (bm && bm.start_price) {
+    const spyRet = (bm.current_price - bm.start_price) / bm.start_price * 100;
+    const ourRet = totalPnl / capital * 100;
+    const startDate = new Date(bm.start_date);
+    const daysIn = Math.floor((new Date() - startDate) / 86400000) + 1;
+    const daysLeft = Math.max(0, bm.goal_days - daysIn);
+    const winning = ourRet > spyRet;
+    document.getElementById("goalSection").style.display = "block";
+    document.getElementById("goalSub").textContent = `Day ${daysIn} of ${bm.goal_days}`;
+    const ourEl = document.getElementById("goalOurReturn");
+    ourEl.textContent = (ourRet >= 0 ? "+" : "") + ourRet.toFixed(2) + "%";
+    ourEl.className = "card-value " + (ourRet >= 0 ? "positive" : "negative");
+    document.getElementById("goalSpyReturn").textContent = (spyRet >= 0 ? "+" : "") + spyRet.toFixed(2) + "%";
+    document.getElementById("goalSpyBase").textContent = "SPY @ $" + bm.start_price.toFixed(2);
+    const statusEl = document.getElementById("goalStatus");
+    const daysLeftEl = document.getElementById("goalDaysLeft");
+    daysLeftEl.textContent = daysLeft > 0 ? `${daysLeft} day${daysLeft !== 1 ? "s" : ""} remaining` : "Challenge complete";
+    if (daysIn <= 1 && ourRet === 0) {
+      statusEl.textContent = "Just started";
+      statusEl.style.color = "#94a3b8";
+    } else if (winning) {
+      statusEl.textContent = "✅ Beating SPY";
+      statusEl.style.color = "#4ade80";
+    } else {
+      statusEl.textContent = "❌ Behind SPY";
+      statusEl.style.color = "#f87171";
+    }
+  }
+
+  // ── Open Positions table ──
+  const buyReasonMap = {};
+  const holdReviewMap = {};
+  (data.scan_log || []).forEach(s => {
+    if (s.sent_to_claude && !s.hold_review && s.claude_approved) {
+      if (!buyReasonMap[s.symbol] || s.timestamp > (buyReasonMap[s.symbol].ts || "")) {
+        buyReasonMap[s.symbol] = { reason: s.claude_reason, ts: s.timestamp };
+      }
+    }
+    if (s.hold_review) {
+      if (!holdReviewMap[s.symbol] || s.timestamp > (holdReviewMap[s.symbol].ts || "")) {
+        holdReviewMap[s.symbol] = { reason: s.claude_reason, hold: s.claude_approved, confidence: s.confidence, ts: s.timestamp };
+      }
+    }
+  });
+  const openBody = document.getElementById("openBody");
+  if (openPos.length === 0) {
+    openBody.innerHTML = '<tr><td colspan="8" class="empty-state">No open positions</td></tr>';
+  } else {
+    openBody.innerHTML = openPos.map(p => {
+      const lastPrice = p.last_price;
+      const pnlPct = lastPrice ? ((lastPrice - p.entry_price) / p.entry_price * 100) : null;
+      const pnlLabel = pnlPct !== null
+        ? ` <span style="color:${pnlPct >= 0 ? "#4ade80" : "#f87171"};font-size:0.75rem">(${pnlPct >= 0 ? "+" : ""}${pnlPct.toFixed(1)}%)</span>`
+        : "";
+      const lastPriceCell = lastPrice
+        ? `$${lastPrice.toFixed(2)}${pnlLabel} <span style="color:#475569;font-size:0.7rem">${p.last_checked || ""}</span>`
+        : '<span style="color:#475569">—</span>';
+      const hr = holdReviewMap[p.symbol];
+      let holdCell = '<span style="color:#475569;font-size:0.75rem">Pending next scan</span>';
+      if (hr) {
+        const icon = hr.hold ? "✅" : "⚠️";
+        const color = hr.hold ? "#4ade80" : "#fbbf24";
+        holdCell = `<div style="font-size:0.75rem"><span style="color:${color};font-weight:600">${icon} ${hr.hold ? "Still valid" : "Watch"}</span> <span style="color:#64748b">${hr.confidence}/10</span><br><span style="color:#94a3b8">${formatClaudeAnalysis(hr.reason)}</span></div>`;
+      }
+      return `
+      <tr>
+        <td><strong>${p.symbol}</strong></td>
+        <td>$${p.entry_price.toFixed(2)}</td>
+        <td>${lastPriceCell}</td>
+        <td>${p.entry_date}</td>
+        <td style="color:#f87171">$${p.stop_loss_price.toFixed(2)}</td>
+        <td style="color:#4ade80">$${p.take_profit_price.toFixed(2)}</td>
+        <td>${fmt(p.cost_usd)}</td>
+        <td style="max-width:200px">${holdCell}</td>
+      </tr>`;
+    }).join("");
+  }
+
+  // ── Trade History table ──
+  const historyBody = document.getElementById("historyBody");
+  const sortedHistory = [...closedPos].sort((a, b) => (b.exit_date || "").localeCompare(a.exit_date || ""));
+  if (sortedHistory.length === 0) {
+    historyBody.innerHTML = '<tr><td colspan="7" class="empty-state">No trade history yet</td></tr>';
+  } else {
+    historyBody.innerHTML = sortedHistory.map(p => {
+      const profit = p.pnl_usd > 0;
+      const cls = profit ? "status-closed-profit" : "status-closed-loss";
+      return `
+        <tr>
+          <td><strong>${p.symbol}</strong></td>
+          <td>$${p.entry_price.toFixed(2)}</td>
+          <td>$${(p.exit_price || 0).toFixed(2)}</td>
+          <td class="${cls}">${p.pnl_usd >= 0 ? "+" : ""}${fmt(p.pnl_usd)}</td>
+          <td class="${cls}">${profit ? "✅ Profit" : "❌ Loss"}</td>
+          <td style="color:#94a3b8">${p.exit_reason || "—"}</td>
+          <td style="color:#64748b">${(p.exit_date || "").slice(0, 10)}</td>
+        </tr>
+      `;
+    }).join("");
+  }
+
+  // ── Claude Analysis table ──
+  const claudeAll = scanLog.filter(s => s.sent_to_claude === true && !s.hold_review);
+  let latestClaudeTs = "";
+  claudeAll.forEach(s => { if ((s.timestamp || "") > latestClaudeTs) latestClaudeTs = s.timestamp || ""; });
+  const claudeRows = latestClaudeTs
+    ? claudeAll.filter(s => {
+        const diff = (new Date(latestClaudeTs) - new Date(s.timestamp)) / 60000;
+        return diff >= 0 && diff <= 10;
+      }).reverse()
+    : [];
+  window._claudeLog = claudeRows;
+  renderClaudeTable(claudeRows, latestClaudeTs);
+
+  // ── Technical Scan table ──
+  const openSymbols = new Set(openPos.map(p => p.symbol));
+  const techAll = scanLog.filter(s =>
+    s.sent_to_claude !== true &&
+    !s.hold_review &&
+    !openSymbols.has(s.symbol) &&
+    (s.score || 0) >= 50
+  );
+  let latestTechTs = "";
+  techAll.forEach(s => { if ((s.timestamp || "") > latestTechTs) latestTechTs = s.timestamp || ""; });
+  const techRows = latestTechTs
+    ? techAll.filter(s => {
+        const diff = (new Date(latestTechTs) - new Date(s.timestamp)) / 60000;
+        return diff >= 0 && diff <= 10;
+      }).reverse()
+    : [];
+  window._techLog = techRows;
+  renderTechTable(techRows);
+}
+
+// ── Format Claude analysis text ──
+function formatClaudeAnalysis(text) {
+  if (!text || text === "—") return '<span style="color:#475569">—</span>';
+  let clean = text.replace(/[①②③]\s*(?:最關鍵的(?:技術|警示)?訊號(?:是)?[：:]?|整體風險(?:報酬)?(?:是否划算)?[：:]?|最主要的下行風險[：:]?|下行風險[：:]?|風險報酬[：:]?)/g, (m) => {
+    const num = m.match(/[①②③]/)[0];
+    return num + ' ';
+  });
+  const parts = clean.split(/(?=[①②③])/).map(p => p.trim()).filter(Boolean);
+  if (parts.length <= 1) return highlightNums(clean);
+  return parts.map(p => {
+    const marker = p.match(/^[①②③]/)?.[0] || "";
+    const body = p.slice(marker.length).trim();
+    const markerColor = marker === "①" ? "#60a5fa" : marker === "②" ? "#a78bfa" : "#f9a8d4";
+    return `<div style="margin-bottom:4px"><span style="color:${markerColor};font-weight:600">${marker}</span> ${highlightNums(body)}</div>`;
+  }).join("");
+}
+
+function highlightNums(text) {
+  return text
+    .replace(/(成交量[^\s，。]{0,20}倍)/g, '<span style="color:#fbbf24;font-weight:600">$1</span>')
+    .replace(/(RSI[^\s，。]{0,15}(?:動能|超買|超賣|區間|偏高|偏低|下降|上升)?)/g, '<span style="color:#fbbf24;font-weight:600">$1</span>')
+    .replace(/(股價[^\s，。]{0,20}均線[^\s，。]{0,10})/g, '<span style="color:#fbbf24;font-weight:600">$1</span>')
+    .replace(/([\d.]+%(?:止盈|停損|上行|下行|空間)[^\s，。]{0,15}|(?:止盈|停損)[^\s，。]{0,15}[\d.]+%)/g, '<span style="color:#fbbf24;font-weight:600">$1</span>');
+}
+
+// ── Claude Analysis table renderer ──
+let _claudeSortCol = null, _claudeSortDir = -1;
+function renderClaudeTable(rows, latestTs) {
+  const claudeBody = document.getElementById("claudeBody");
+  if (!rows || rows.length === 0) {
+    claudeBody.innerHTML = '<tr><td colspan="7" class="empty-state">No Claude analyses yet — will appear here after the first market scan</td></tr>';
+    return;
+  }
+  let sorted = [...rows];
+  if (_claudeSortCol !== null) {
+    sorted.sort((a, b) => {
+      const vals = { 2: ["score","num"], 3: ["rsi","num"], 4: ["volume_ratio","num"], 5: ["confidence","num"] };
+      const [key, type] = vals[_claudeSortCol] || ["timestamp","str"];
+      const av = a[key] ?? 0, bv = b[key] ?? 0;
+      return type === "num" ? (av - bv) * _claudeSortDir : String(av).localeCompare(String(bv)) * _claudeSortDir;
+    });
+  }
+  claudeBody.innerHTML = sorted.map(s => {
+    const approved = s.claude_approved;
+    const volColor = s.volume_ratio >= 1.5 ? "#16a34a" : "#dc2626";
+    const decisionCell = approved
+      ? `<span style="color:#16a34a;font-weight:600">✅ Buy</span> <span style="color:#7c3aed;font-size:0.75rem">${s.confidence}/10</span>`
+      : `<span style="color:#dc2626;font-weight:600">❌ Skip</span> <span style="color:#7c3aed;font-size:0.75rem">${s.confidence}/10</span>`;
+    return `
+      <tr class="row-claude">
+        <td style="color:#94a3b8;white-space:nowrap;vertical-align:top">${s.timestamp}</td>
+        <td style="vertical-align:top"><strong>${s.symbol}</strong> <span class="claude-badge">🧠</span></td>
+        <td style="vertical-align:top;cursor:pointer" data-col="2">${scoreChip(s.score)}</td>
+        <td style="color:#475569;vertical-align:top;cursor:pointer" data-col="3">${s.rsi}</td>
+        <td style="color:${volColor};vertical-align:top;cursor:pointer" data-col="4">${s.volume_ratio}x</td>
+        <td style="vertical-align:top;cursor:pointer" data-col="5">${decisionCell}</td>
+        <td style="font-size:0.82rem;vertical-align:top;line-height:1.5;max-width:300px">${formatClaudeAnalysis(s.claude_reason)}</td>
+      </tr>`;
+  }).join("");
+  const existingLabel = document.getElementById("claudeScanLabel");
+  if (existingLabel) existingLabel.textContent = latestTs ? `Last scan: ${latestTs}` : "";
+}
+
+// ── "Why Not Bought" column for technical scan rows ──
+// Uses the pre-computed skip_reason from Python when available.
+// Falls back to deriving from RSI/volume fields for older log entries.
+function buildWhySkipped(s) {
+  // Use Python's pre-computed reason when present (new entries)
+  if (s.skip_reason) {
+    // Colour-code: green for good parts, grey for bad parts
+    const parts = s.skip_reason.split(" — ");
+    const scorePart = parts[0] || "";
+    const reasonPart = parts.slice(1).join(" — ");
+    if (reasonPart) {
+      return `<span style="color:#64748b;font-size:0.78rem;font-weight:600">${scorePart}</span><br>` +
+             `<span style="color:#94a3b8;font-size:0.78rem">${reasonPart}</span>`;
+    }
+    return `<span style="color:#64748b;font-size:0.78rem">${s.skip_reason}</span>`;
+  }
+
+  // Legacy fallback: derive from raw indicator values
+  const RSI_LOW = 55, RSI_HIGH = 75, VOL_MIN = 1.5;
+  const good = [], bad = [];
+  if (s.rsi >= RSI_LOW && s.rsi <= RSI_HIGH) good.push(`RSI ${s.rsi} ✓ momentum zone`);
+  if (s.volume_ratio >= VOL_MIN) good.push(`Volume ${s.volume_ratio}x ✓ strong`);
+  if (s.momentum_5d_pct > 0) good.push(`+${s.momentum_5d_pct}% 5d`);
+  if (s.rsi < RSI_LOW) bad.push(`RSI ${s.rsi} — too quiet (needs >${RSI_LOW})`);
+  else if (s.rsi > RSI_HIGH) bad.push(`RSI ${s.rsi} — overbought (above ${RSI_HIGH})`);
+  if (s.volume_ratio < VOL_MIN) bad.push(`Volume ${s.volume_ratio}x — weak (needs ${VOL_MIN}x)`);
+  if (s.momentum_5d_pct < 0) bad.push(`${s.momentum_5d_pct}% 5d — fading`);
+
+  const lines = [];
+  if (good.length) lines.push(`<span style="color:#4ade80;font-size:0.78rem">▲ ${good.join(" · ")}</span>`);
+  if (bad.length)  lines.push(`<span style="color:#94a3b8;font-size:0.78rem">▼ ${bad.join(" · ")}</span>`);
+  if (!lines.length) lines.push(`<span style="color:#475569;font-size:0.78rem">Score ${s.score}/100</span>`);
+  return lines.join("<br>");
+}
+
+// ── Technical Scan table renderer ──
+function renderTechTable(rows) {
+  const techBody = document.getElementById("techBody");
+  if (!rows || rows.length === 0) {
+    techBody.innerHTML = '<tr><td colspan="6" class="empty-state">No scan data yet</td></tr>';
+    return;
+  }
+  techBody.innerHTML = rows.map(s => {
+    const volColor = s.volume_ratio >= 1.5 ? "#16a34a" : "#dc2626";
+    return `
+      <tr>
+        <td style="color:#94a3b8;white-space:nowrap;vertical-align:top">${s.timestamp}</td>
+        <td style="vertical-align:top"><strong>${s.symbol}</strong></td>
+        <td style="vertical-align:top">${scoreChip(s.score)}</td>
+        <td style="color:#475569;vertical-align:top">${s.rsi}</td>
+        <td style="color:${volColor};vertical-align:top">${s.volume_ratio}x</td>
+        <td style="vertical-align:top">${buildWhySkipped(s)}</td>
+      </tr>`;
+  }).join("");
+}
+
+// ── Sortable column headers (Tech Scan table) ──
+let _sortCol = null;
+let _sortDir = 1;
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll("#techTable th.sortable").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = parseInt(th.dataset.col);
+      const type = th.dataset.type;
+      if (_sortCol === col) {
+        _sortDir *= -1;
+      } else {
+        _sortCol = col;
+        _sortDir = type === "num" ? -1 : 1;
+      }
+      document.querySelectorAll("#techTable th.sortable").forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+      th.classList.add(_sortDir === 1 ? "sort-asc" : "sort-desc");
+      if (!window._techLog) return;
+      const colKeys = ["timestamp", "symbol", "score", "rsi", "volume_ratio"];
+      const key = colKeys[col];
+      const sorted = [...window._techLog].sort((a, b) => {
+        let av = a[key], bv = b[key];
+        if (type === "num") { av = parseFloat(av) || 0; bv = parseFloat(bv) || 0; }
+        else { av = String(av); bv = String(bv); }
+        return av < bv ? -_sortDir : av > bv ? _sortDir : 0;
+      });
+      renderTechTable(sorted);
+    });
+  });
+
+  // ── Sortable Claude Analysis table headers ──
+  document.querySelectorAll("#claudeTable th.sortable").forEach(th => {
+    th.addEventListener("click", () => {
+      const col = parseInt(th.dataset.col);
+      const type = th.dataset.type;
+      if (_claudeSortCol === col) {
+        _claudeSortDir *= -1;
+      } else {
+        _claudeSortCol = col;
+        _claudeSortDir = type === "num" ? -1 : 1;
+      }
+      document.querySelectorAll("#claudeTable th.sortable").forEach(h => h.classList.remove("sort-asc", "sort-desc"));
+      th.classList.add(_claudeSortDir === 1 ? "sort-asc" : "sort-desc");
+      renderClaudeTable(window._claudeLog || [], "");
+    });
+  });
+});
+
+// ── Collapsible sections ──
+function toggleSection(id) {
+  const body = document.getElementById(id);
+  const title = body.previousElementSibling;
+  const isHidden = body.style.display === "none";
+  body.style.display = isHidden ? "" : "none";
+  title.classList.toggle("collapsed", !isHidden);
+}
+
+// Load on open
+loadData();
+</script>
+</body>
+</html>
