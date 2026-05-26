@@ -1,25 +1,29 @@
 name: Run Amara Trading Bot
 
 on:
-  schedule:
-    # This runs automatically at 13:45 UTC (9:45 PM Shanghai/Taipei Time) Monday through Friday
-    - cron: '45 13 * * 1-5'
-  
-  # This enables the manual "Run workflow" button in your GitHub interface
   workflow_dispatch:
+  schedule:
+    # Runs automatically every weekday (Monday to Friday) at 14:05 UTC (22:05 Shanghai/Taipei time)
+    - cron: '5 14 * * 1-5'
 
 jobs:
   trade:
     runs-on: ubuntu-latest
     
+    # CRITICAL: This gives GitHub Actions permission to commit and push files back to your repo
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout Repository Code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set Up Python Environment
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          # Optional: caches your pip dependencies so future runs take less than 15 seconds
+          cache: 'pip' 
 
       - name: Install Project Dependencies
         run: |
@@ -27,16 +31,26 @@ jobs:
           pip install alpaca-py anthropic pandas ta requests python-dotenv pytz
 
       - name: Execute Amara Trading Script
+        # Pass your API keys from GitHub Secrets into environmental variables
         env:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python amara.py
+          # Add any other secrets your amara.py reads via os.environ here
+        run: |
+          python amara.py
 
       - name: Automatically Commit and Push Updated Dashboard
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git config --local user.name "github-actions[bot]"
-          git add amara_dashboard.md || echo "No dashboard file found to add"
-          git commit -m "Automated Dashboard Update [skip ci]" || echo "No changes to commit"
-          git push
+          # Check if the dashboard file was actually created or modified
+          if [ -f "amara_dashboard.md" ]; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add amara_dashboard.md
+            
+            # Only commit if there are actual changes to avoid empty commit errors
+            git diff-index --quiet HEAD || git commit -m "Automated Dashboard Update [skip ci]"
+            git push
+          else
+            echo "amara_dashboard.md not found. Skipping commit."
+          fi
