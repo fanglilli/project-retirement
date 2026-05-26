@@ -22,8 +22,7 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          # Optional: caches your pip dependencies so future runs take less than 15 seconds
-          cache: 'pip' 
+          # Removed the 'cache' option to stop it from looking for a requirements.txt file
 
       - name: Install Project Dependencies
         run: |
@@ -36,13 +35,11 @@ jobs:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Add any other secrets your amara.py reads via os.environ here
         run: |
           python amara.py
 
       - name: Automatically Commit and Push Updated Dashboard
         run: |
-          # Check if the dashboard file was actually created or modified
           if [ -f "amara_dashboard.md" ]; then
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
