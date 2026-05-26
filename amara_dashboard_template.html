@@ -270,7 +270,7 @@
 <!-- Technical Scan Log (top 20, non-Claude stocks, latest scan) -->
 <div class="section-title" onclick="toggleSection('techSection')">📊 Latest Scan — Top 20 scored stocks &amp; why they weren't bought <span class="toggle-icon">▼</span></div>
 <div id="techSection" class="section-body">
-<div style="margin-bottom:10px; font-size:0.8rem; color:#94a3b8;">Top 20 stocks from the most recent scan (score ≥50), excluding Claude's top-5 picks and currently held stocks. "Why Not Bought" shows exactly what was missing.</div>
+<div style="margin-bottom:10px; font-size:0.8rem; color:#94a3b8;">Top 20 stocks by momentum score from the most recent scan, excluding Claude's top-5 picks and currently held stocks. "Why Not Bought" shows exactly what was missing.</div>
 <table id="techTable">
   <thead>
     <tr>
@@ -524,8 +524,7 @@ function renderData(data) {
   const techAll = scanLog.filter(s =>
     s.sent_to_claude !== true &&
     !s.hold_review &&
-    !openSymbols.has(s.symbol) &&
-    (s.score || 0) >= 50
+    !openSymbols.has(s.symbol)
   );
   let latestTechTs = "";
   techAll.forEach(s => { if ((s.timestamp || "") > latestTechTs) latestTechTs = s.timestamp || ""; });
