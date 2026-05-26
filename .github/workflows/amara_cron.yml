@@ -9,7 +9,7 @@ on:
 jobs:
   trade:
     runs-on: ubuntu-latest
-    
+
     # CRITICAL: Gives GitHub Actions permission to commit and push files back to your repo
     permissions:
       contents: write
@@ -36,19 +36,77 @@ jobs:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_USER_IDS: ${{ secrets.LINE_USER_IDS }}
+          # Paste your Google Drive shareable link here after first deploy:
+          #   Settings → Secrets → New secret → Name: DASHBOARD_URL
+          # e.g. https://drive.google.com/file/d/XXXX/view?usp=sharing
+          DASHBOARD_URL: ${{ secrets.DASHBOARD_URL }}
         run: |
           python amara.py
 
-      - name: Automatically Commit and Push Updated Dashboard
+      - name: Commit and Push Updated Dashboard
         run: |
-          if [ -f "amara_dashboard.md" ]; then
+          if [ -f "amara_dashboard.html" ]; then
             git config --local user.email "github-actions[bot]@users.noreply.github.com"
             git config --local user.name "github-actions[bot]"
-            git add amara_dashboard.md
-            
+            git add amara_dashboard.html
+
             # Only commit if there are actual changes to avoid empty commit errors
             git diff-index --quiet HEAD || git commit -m "Automated Dashboard Update [skip ci]"
             git push
           else
-            echo "amara_dashboard.md not found. Skipping commit."
+            echo "amara_dashboard.html not found. Skipping commit."
           fi
+
+      # ── Upload dashboard to Google Drive via rclone ──────────────────────
+      # One-time setup (do this once; then it runs automatically every night):
+      #
+      #   STEP 1 — Create a Google service account
+      #     a. Go to https://console.cloud.google.com → new project (e.g. "AmaraBot")
+      #     b. APIs & Services → Enable "Google Drive API"
+      #     c. IAM → Service Accounts → Create → download the JSON key file
+      #
+      #   STEP 2 — Share a Drive folder with the service account
+      #     a. Create a folder in your Google Drive (e.g. "Amara Dashboard")
+      #     b. Share it with the service account email (looks like xxx@yyy.iam.gserviceaccount.com)
+      #        with "Editor" access
+      #     c. Copy the folder ID from the URL:
+      #        https://drive.google.com/drive/folders/THIS_IS_THE_FOLDER_ID
+      #
+      #   STEP 3 — Add GitHub Secrets (Settings → Secrets → Actions → New secret)
+      #     • GDRIVE_SERVICE_ACCOUNT  →  paste the entire contents of the JSON key file
+      #     • GDRIVE_FOLDER_ID        →  the folder ID from step 2c
+      #
+      #   STEP 4 — Get the shareable link (after first successful run)
+      #     a. Open your Drive folder → right-click amara_dashboard.html
+      #     b. Share → "Anyone with the link" → Copy link
+      #     c. Add as GitHub Secret: DASHBOARD_URL → paste the link
+      #        (Amara will include this link in the nightly LINE message)
+      #
+      - name: Upload Dashboard to Google Drive
+        if: ${{ secrets.GDRIVE_SERVICE_ACCOUNT != '' }}
+        env:
+          GDRIVE_SERVICE_ACCOUNT: ${{ secrets.GDRIVE_SERVICE_ACCOUNT }}
+          GDRIVE_FOLDER_ID: ${{ secrets.GDRIVE_FOLDER_ID }}
+        run: |
+          # Install rclone (fast, ~30s)
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+
+          # Write service account JSON to a temp file
+          echo "$GDRIVE_SERVICE_ACCOUNT" > /tmp/gdrive_sa.json
+
+          if [ -f "amara_dashboard.html" ]; then
+            # Use rclone "backend" syntax — no rclone.conf file required.
+            # :drive,service_account_file=...,root_folder_id=...: is a connection string.
+            rclone copy amara_dashboard.html \
+              ":drive,service_account_file=/tmp/gdrive_sa.json,root_folder_id=${GDRIVE_FOLDER_ID}:" \
+              --no-traverse \
+              --verbose
+            echo "✅ amara_dashboard.html uploaded to Google Drive folder ${GDRIVE_FOLDER_ID}"
+          else
+            echo "amara_dashboard.html not found — skipping Drive upload"
+          fi
+
+          # Clean up key file
+          rm -f /tmp/gdrive_sa.json
