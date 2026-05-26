@@ -32,7 +32,7 @@ _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Dashboard is written to Google Drive so the household can view it via a
 # shared static link without exposing secrets.env or the script directory.
 # The local Google Drive sync client keeps this path always up-to-date.
-DASHBOARD_PATH = dashboard_path = "amara_dashboard.md"
+DASHBOARD_PATH = "amara_dashboard.md"
 
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
@@ -454,13 +454,14 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     lines.append("---")
     lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
 
-    dashboard_path = "amara_dashboard.md"
-    # Ensure the folder exists (safely bypassed for local root workspace)
-with open(dashboard_path, "w", encoding="utf-8") as f:
-    f.write("\n".join(lines))
+    # 請確保下面這 4 行有正確的 4 個空格縮排（Indentation）
+    dashboard_path = DASHBOARD_PATH
+    if os.path.dirname(dashboard_path):
+        os.makedirs(os.path.dirname(dashboard_path), exist_ok=True)
+    with open(dashboard_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
 
     log.info(f"📊 amara_dashboard.md written → {dashboard_path} ({len(lines)} lines)")
-
 
 # ─────────────────────────────────────────────
 # Trade Logger — save() no longer rewrites an HTML file
