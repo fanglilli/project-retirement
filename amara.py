@@ -454,7 +454,7 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     lines.append("---")
     lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
 
-    dashboard_path = DASHBOARD_PATH
+    dashboard_path = "amara_dashboard.md"
     # Ensure the Google Drive folder exists (it should, but guard for first run)
     os.makedirs(os.path.dirname(dashboard_path), exist_ok=True)
     with open(dashboard_path, "w", encoding="utf-8") as f:
