@@ -10,19 +10,18 @@ jobs:
   trade:
     runs-on: ubuntu-latest
     
-    # CRITICAL: This gives GitHub Actions permission to commit and push files back to your repo
+    # CRITICAL: Gives GitHub Actions permission to commit and push files back to your repo
     permissions:
       contents: write
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.10'
-          # Removed the 'cache' option to stop it from looking for a requirements.txt file
 
       - name: Install Project Dependencies
         run: |
@@ -30,7 +29,7 @@ jobs:
           pip install alpaca-py anthropic pandas ta requests python-dotenv pytz
 
       - name: Execute Amara Trading Script
-        # Pass your API keys from GitHub Secrets into environmental variables
+        # Safely passes your API keys from GitHub Secrets into environmental variables
         env:
           ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
           ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
