@@ -1125,13 +1125,13 @@ class AmaraBot:
         # stocks.  These populate the "Technical Scan" table in the HTML dashboard
         # so the broader scan landscape and skip reasons are visible each run.
         top20_df = (
-            score_all[valid & (score_all >= 50)]
+            score_all[valid]
             .sort_values(ascending=False)
             .drop(index=[s for s in list(open_symbols) + top_symbols
                          if s in score_all.index], errors="ignore")
             .head(20)
         )
-        log.info(f"   Top-20 scan log: {len(top20_df)} non-Claude entries (score≥50)")
+        log.info(f"   Top-20 scan log: {len(top20_df)} non-Claude entries (all scores)")
 
         for sym in top20_df.index:
             if sym not in close_all.columns:
