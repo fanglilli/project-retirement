@@ -74,6 +74,11 @@ CONFIG = {
     "MID_CAP_TRAILING_PCT":     0.110,  # Trailing trigger +11.0%
     "MID_CAP_POSITION_PCT":     0.06,   # 6% of capital per position
 
+    # ── 4-criterion scoring thresholds ──────────────────────────────────
+    "RSI_BUY_THRESHOLD":    55,     # RSI must be above this (momentum building)
+    "RSI_OVERBOUGHT":       75,     # RSI must be below this (not extended)
+    "VOLUME_SURGE_FACTOR":  1.5,    # Volume must be >= 1.5× 20-day average
+
     # Scanning
     "TOP_CANDIDATES": 5,           # only top-N momentum stocks go to Claude
     "LOG_FILE": os.path.join(_SCRIPT_DIR, "amara.log"),
@@ -255,6 +260,10 @@ class PaperPosition:
     # subsequent hourly runs and suppresses the hard-stop check (Alpaca owns
     # the exit from this point forward).
     trailing_stop_active: bool = False
+    # Alpaca order ID of the native GTC hard stop placed at entry.
+    # Cleared (set to "") once the trailing stop replaces it.
+    # Empty string means no native stop was placed (Python fallback active).
+    stop_order_id: str = ""
 
 @dataclass
 class DailyStats:
@@ -961,13 +970,32 @@ class AmaraBot:
                 continue
 
             # ── Fixed-floor phase (trailing not yet active) ───────────────
+            # Native GTC stop order on Alpaca handles this automatically.
+            # Python check is a fallback only — fires if stop_order_id is empty,
+            # meaning the native stop failed to place at entry.
             if current_price <= pos["stop_loss_price"]:
-                params = get_symbol_params(symbol)
-                tier   = ASSET_TYPE.get(symbol, "large").upper()
-                self._close_position(
-                    pos, current_price,
-                    f"Hard stop-loss -{params['stop_loss_pct']*100:.1f}% [{tier}]"
-                )
+                if pos.get("stop_order_id"):
+                    # Native stop is live — Alpaca will execute it.
+                    # _sync_with_alpaca() reconciles the closure locally on next run.
+                    params = get_symbol_params(symbol)
+                    log.info(
+                        f"  {symbol}: ⚠️ price ${current_price:.2f} at/below "
+                        f"stop ${pos['stop_loss_price']:.2f} — "
+                        f"native Alpaca stop active, awaiting fill"
+                    )
+                else:
+                    # No native stop was placed — Python fallback
+                    params = get_symbol_params(symbol)
+                    tier   = ASSET_TYPE.get(symbol, "large").upper()
+                    log.warning(
+                        f"  {symbol}: ⚠️ no native stop order found — "
+                        f"executing Python fallback stop-loss"
+                    )
+                    self._close_position(
+                        pos, current_price,
+                        f"Hard stop-loss -{params['stop_loss_pct']*100:.1f}% [{tier}] "
+                        f"(Python fallback — no native stop)"
+                    )
                 continue
 
             if current_price >= pos["take_profit_price"]:
@@ -989,6 +1017,23 @@ class AmaraBot:
     def _close_position(self, pos: dict, exit_price: float, reason: str):
         """Submit SELL order to Alpaca, record locally, append to run decisions."""
         fill_price = exit_price
+
+        # ── Cancel native hard stop before submitting market sell ─────────
+        # Prevents an orphan GTC stop order from triggering a short sale
+        # after the position is already closed.
+        # Skip if trailing is active — that order is the exit, not the hard stop.
+        stop_order_id   = pos.get("stop_order_id", "")
+        trailing_active = pos.get("trailing_stop_active", False)
+        if stop_order_id and not trailing_active and self.trading:
+            try:
+                self.trading.cancel_order_by_id(stop_order_id)
+                log.info(f"🗑️  Cancelled native stop order {stop_order_id} for {pos['symbol']}")
+            except Exception as e:
+                # Already filled or cancelled — safe to proceed
+                log.warning(
+                    f"⚠️ Could not cancel stop order for {pos['symbol']} "
+                    f"(may already be processed): {e}"
+                )
 
         if self.trading:
             try:
@@ -1038,15 +1083,20 @@ class AmaraBot:
     # ── Opportunity scanner — vectorized batch pipeline ───────────────────
     def scan_for_opportunities(self):
         """
-        Dual-tier scan across 150 symbols (50 large-cap + 100 mid-cap).
+        Hybrid dual-tier scan across 150 symbols (50 large-cap + 100 mid-cap).
 
         Pipeline:
           1. Single batch Alpaca request → MultiIndex DataFrame (symbol × timestamp)
-          2. Vectorized 20-MA and 200-MA across all symbols simultaneously
-          3. Filter: Price > 20-MA > 200-MA (trend structure confirmed)
-          4. Momentum score: ((Close − 20-MA) / 20-MA) × 100  → rank descending
-          5. Top 5 fresh candidates → news fetch → Claude.analyze()
-          6. Hold reviews for open positions using the same batch data
+          2. Vectorised MA5, MA20, MA200, RSI(14), volume ratio across all symbols
+          3. 4-criterion composite score (max 100):
+               RSI 55–75  → +30 pts  (momentum zone, not overbought)
+               Price > 20-MA → +25 pts  (trend confirmation)
+               5-MA > 20-MA  → +20 pts  (short-term golden cross)
+               Volume ≥ 1.5×  → +25 pts  (institutional conviction)
+          4. Hard filter: score ≥ 60 AND Price > 20-MA > 200-MA
+          5. Rank by score desc; tiebreak by % above 20-MA desc
+          6. Top 5 fresh candidates → news fetch → Claude.analyze()
+          7. Hold reviews for open positions using the same batch data
         """
         if self.daily_stopped:
             log.info("⏸️ Daily loss limit active — skipping new trade scan")
@@ -1064,99 +1114,136 @@ class AmaraBot:
             log.info(f"📊 Positions: {current_count}/{max_positions} — {slots} slot(s) free")
 
         # ── Step 1: Single batch fetch for all 150 symbols ────────────────
-        log.info(f"🔍 Batch-fetching bars for {len(WATCHLIST)} symbols (220-day window for 20-MA / 200-MA)...")
+        log.info(f"🔍 Batch-fetching bars for {len(WATCHLIST)} symbols (220-day window)...")
         raw = self.market.get_bars_batch(WATCHLIST, days=220)
         if raw is None or raw.empty:
             log.warning("⚠️ Batch bar fetch returned no data — skipping scan this run")
             return
 
-        # ── Step 2: Vectorised MA calculation ────────────────────────────
+        # ── Step 2: Vectorised indicator calculation ──────────────────────
         # raw MultiIndex is (symbol, timestamp); unstack symbol → columns
         # Result: rows=timestamps, columns=symbols
         close_all  = raw["close"].unstack(level=0)
         volume_all = raw["volume"].unstack(level=0)
 
+        # Moving averages
+        ma5_all   = close_all.rolling(5).mean()
         ma20_all  = close_all.rolling(20).mean()
         ma200_all = close_all.rolling(200).mean()
 
+        # Vectorised RSI(14) across all symbols simultaneously
+        _delta     = close_all.diff()
+        _gain      = _delta.clip(lower=0).rolling(14).mean()
+        _loss      = (-_delta.clip(upper=0)).rolling(14).mean()
+        rsi_all    = 100 - (100 / (1 + _gain / _loss))
+
+        # Vectorised volume ratio: today's volume vs 20-day average
+        vol_ratio_all = volume_all / volume_all.rolling(20).mean()
+
         # Latest values (most recent trading day)
-        last_close  = close_all.iloc[-1]
-        last_ma20   = ma20_all.iloc[-1]
-        last_ma200  = ma200_all.iloc[-1]
+        last_close     = close_all.iloc[-1]
+        last_ma5       = ma5_all.iloc[-1]
+        last_ma20      = ma20_all.iloc[-1]
+        last_ma200     = ma200_all.iloc[-1]
+        last_rsi       = rsi_all.iloc[-1]
+        last_vol_ratio = vol_ratio_all.iloc[-1]
 
-        # ── Step 3: Price > 20-MA > 200-MA filter ────────────────────────
-        # Drop any symbol where MAs couldn't be computed (insufficient history)
-        valid = last_close.notna() & last_ma20.notna() & last_ma200.notna()
-        mask  = valid & (last_close > last_ma20) & (last_ma20 > last_ma200)
-        passing = mask[mask].index.tolist()
-        log.info(f"   Filter passed: {len(passing)}/{len(WATCHLIST)} symbols satisfy Price > 20-MA > 200-MA")
+        # ── Step 3: 4-criterion composite score ──────────────────────────
+        valid = (last_close.notna() & last_ma5.notna() &
+                 last_ma20.notna() & last_ma200.notna() &
+                 last_rsi.notna() & last_vol_ratio.notna())
 
-        # ── Step 4: Momentum score & ranking ─────────────────────────────
-        # Score = % price is above its 20-MA  (higher → stronger near-term momentum)
-        raw_scores     = ((last_close - last_ma20) / last_ma20 * 100)[passing]
-        ranked_scores  = raw_scores.sort_values(ascending=False)
+        rsi_ok       = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
+        price_vs_ma  = last_close > last_ma20
+        golden_cross = last_ma5 > last_ma20
+        vol_surge    = last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]
 
-        # Exclude symbols already in open positions from new-entry candidates
-        fresh_ranked = ranked_scores.drop(
-            index=[s for s in open_symbols if s in ranked_scores.index],
+        score_all = (
+            (rsi_ok.astype(int)       * 30) +
+            (price_vs_ma.astype(int)  * 25) +
+            (golden_cross.astype(int) * 20) +
+            (vol_surge.astype(int)    * 25)
+        ).where(valid, other=0)
+
+        # ── Step 4: Hard filter — score ≥ 60 AND Price > 20-MA > 200-MA ──
+        trend_ok   = valid & (last_close > last_ma20) & (last_ma20 > last_ma200)
+        qualifying = trend_ok & (score_all >= 60)
+
+        pct_above_ma20 = ((last_close - last_ma20) / last_ma20 * 100).where(qualifying)
+
+        log.info(f"   Qualifying (score≥60 + trend filter): "
+                 f"{qualifying.sum()}/{len(WATCHLIST)} symbols")
+
+        # ── Step 5: Rank by score desc, tiebreak by % above 20-MA desc ───
+        ranking_df = pd.DataFrame({
+            "score":         score_all[qualifying],
+            "pct_above_ma20": pct_above_ma20[qualifying],
+        }).sort_values(["score", "pct_above_ma20"], ascending=[False, False])
+
+        # Exclude symbols already held
+        fresh_df = ranking_df.drop(
+            index=[s for s in open_symbols if s in ranking_df.index],
             errors="ignore"
         )
-        top_n  = CONFIG.get("TOP_CANDIDATES", 5)
-        top5   = fresh_ranked.head(top_n).index.tolist()
+        top_n      = CONFIG.get("TOP_CANDIDATES", 5)
+        top_symbols = fresh_df.head(top_n).index.tolist()
 
-        log.info(f"   Top {top_n} momentum candidates → Claude: {', '.join(top5) if top5 else 'none'}")
+        log.info(f"   Top {top_n} candidates → Claude: "
+                 f"{', '.join(top_symbols) if top_symbols else 'none'}")
 
-        # ── Step 5: Claude analysis for top 5 only ───────────────────────
+        # ── Step 6: Claude analysis for top N only ────────────────────────
         bought_this_scan = 0
-        for symbol in top5:
-            raw_score  = float(ranked_scores[symbol])
-            # Normalise to 0-100 for the Claude prompt (12.5% above MA → 100)
-            norm_score = int(min(100, raw_score * 8))
-
-            # --- Safe MultiIndex cross-section slicing ---
-            # top5 comes from ranked_scores which was built from last_close, so the
-            # symbol should always be present — but a delayed/partial batch response
-            # could drop it, so guard explicitly to avoid KeyError.
-            if symbol in close_all.columns:
-                close_ser = close_all[symbol].dropna()
-            else:
+        for symbol in top_symbols:
+            if symbol not in close_all.columns:
                 log.warning(f"⚠️ {symbol} missing from batch close data — skipping")
                 continue
 
-            vol_ser = (volume_all[symbol].dropna()
-                       if symbol in volume_all.columns else pd.Series(dtype=float))
-            # ----------------------------------------------
+            close_ser = close_all[symbol].dropna()
+            if close_ser.empty:
+                continue
 
             current_price = float(close_ser.iloc[-1])
+            sma_5         = float(last_ma5[symbol])
             sma_20        = float(last_ma20[symbol])
             sma_200       = float(last_ma200[symbol])
-            rsi           = TechnicalAnalysis.calculate_rsi(close_ser)
-            vol_ratio     = (TechnicalAnalysis.volume_surge(vol_ser)
-                             if not vol_ser.empty else 0.0)
+            rsi           = float(last_rsi[symbol])
+            vol_ratio     = float(last_vol_ratio[symbol]) if not pd.isna(last_vol_ratio[symbol]) else 0.0
+            score         = int(score_all[symbol])
+            pct_above     = float(pct_above_ma20[symbol])
 
             # 5-day momentum and daily change
-            p5ago     = float(close_ser.iloc[-6]) if len(close_ser) > 5 else current_price
-            mom5      = (current_price - p5ago) / p5ago * 100
+            p5ago      = float(close_ser.iloc[-6]) if len(close_ser) > 5 else current_price
+            mom5       = (current_price - p5ago) / p5ago * 100
             prev_close = float(close_ser.iloc[-2]) if len(close_ser) > 1 else current_price
             daily_pct  = (current_price - prev_close) / prev_close * 100
 
             asset_type = ASSET_TYPE.get(symbol, "large")
             tier_label = "[LARGE]" if asset_type == "large" else "[MID]"
 
+            # Build human-readable score breakdown for Claude
+            reasons = []
+            if CONFIG["RSI_BUY_THRESHOLD"] <= rsi <= CONFIG["RSI_OVERBOUGHT"]:
+                reasons.append(f"RSI {rsi:.1f} in momentum zone ({CONFIG['RSI_BUY_THRESHOLD']}–{CONFIG['RSI_OVERBOUGHT']}) +30pts")
+            if current_price > sma_20:
+                reasons.append(f"Price above 20-MA (${sma_20:.2f}) +25pts")
+            if sma_5 > sma_20:
+                reasons.append(f"Golden cross: 5-MA (${sma_5:.2f}) > 20-MA (${sma_20:.2f}) +20pts")
+            if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
+                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg +25pts")
+            reasons.append(f"Trend confirmed: 20-MA > 200-MA (${sma_200:.2f})")
+            reasons.append(f"Momentum: {pct_above:.1f}% above 20-MA")
+
             candidate = {
                 "symbol":          symbol,
-                "score":           norm_score,
+                "score":           score,
                 "rsi":             rsi,
                 "current_price":   current_price,
                 "sma_20":          sma_20,
                 "volume_ratio":    vol_ratio,
                 "momentum_5d_pct": mom5,
                 "daily_pct":       round(daily_pct, 2),
-                "reasons": [
-                    f"Momentum {raw_score:.1f}% above 20-MA",
-                    f"Trend confirmed: 20-MA (${sma_20:.2f}) > 200-MA (${sma_200:.2f})",
-                ],
-                "buy_signal": True,
+                "reasons":         reasons,
+                "buy_signal":      True,
             }
 
             news_hours = 48 if asset_type == "large" else 72
@@ -1171,14 +1258,14 @@ class AmaraBot:
             can_buy  = (current_count + bought_this_scan) < max_positions
 
             self.logger.log_scan_result(
-                symbol=symbol, score=norm_score, rsi=rsi,
+                symbol=symbol, score=score, rsi=rsi,
                 volume_ratio=vol_ratio, tech_signal=True,
                 sent_to_claude=True, claude_approved=approved,
                 claude_reason=analysis.get("analysis", "—") + (
                     "" if can_buy else "\n[Positions full — analysis only, no trade opened]"
                 ),
                 confidence=analysis.get("confidence", 0), risk="", key_signal="",
-                reasons=candidate["reasons"], momentum_5d_pct=mom5,
+                reasons=reasons, momentum_5d_pct=mom5,
                 current_price=current_price
             )
 
@@ -1196,7 +1283,7 @@ class AmaraBot:
                 self._open_position(symbol, current_price, analysis, daily_pct=daily_pct)
                 bought_this_scan += 1
 
-        # ── Step 6: Hold reviews for open positions ───────────────────────
+        # ── Step 7: Hold reviews for open positions ───────────────────────
         # Reuse batch data — no extra API call needed
         pos_map = {p["symbol"]: p for p in open_positions}
         for symbol in open_symbols:
@@ -1207,25 +1294,29 @@ class AmaraBot:
             if not pos_data:
                 continue
 
-            close_ser  = close_all[symbol].dropna()
-            vol_ser    = (volume_all[symbol].dropna()
-                          if symbol in volume_all.columns else pd.Series(dtype=float))
+            close_ser = close_all[symbol].dropna()
+            if close_ser.empty:
+                continue
 
-            current_price  = float(close_ser.iloc[-1])
-            rsi            = TechnicalAnalysis.calculate_rsi(close_ser)
-            vol_ratio      = (TechnicalAnalysis.volume_surge(vol_ser)
-                              if not vol_ser.empty else 0.0)
-            p5ago          = float(close_ser.iloc[-6]) if len(close_ser) > 5 else current_price
-            mom5           = (current_price - p5ago) / p5ago * 100
-            sma20_val      = float(close_ser.rolling(20).mean().iloc[-1]) if len(close_ser) >= 20 else current_price
+            current_price = float(close_ser.iloc[-1])
+            rsi_hold      = (float(last_rsi[symbol])
+                             if symbol in last_rsi.index and not pd.isna(last_rsi[symbol])
+                             else TechnicalAnalysis.calculate_rsi(close_ser))
+            vol_hold      = (float(last_vol_ratio[symbol])
+                             if symbol in last_vol_ratio.index and not pd.isna(last_vol_ratio[symbol])
+                             else 0.0)
+            p5ago         = float(close_ser.iloc[-6]) if len(close_ser) > 5 else current_price
+            mom5          = (current_price - p5ago) / p5ago * 100
+            sma20_val     = float(last_ma20[symbol]) if not pd.isna(last_ma20[symbol]) else current_price
+            score_hold    = int(score_all[symbol]) if symbol in score_all.index else 0
 
             tech_for_hold = {
                 "symbol":          symbol,
-                "score":           0,
-                "rsi":             rsi,
+                "score":           score_hold,
+                "rsi":             rsi_hold,
                 "current_price":   current_price,
                 "sma_20":          sma20_val,
-                "volume_ratio":    vol_ratio,
+                "volume_ratio":    vol_hold,
                 "momentum_5d_pct": mom5,
                 "reasons":         [],
                 "buy_signal":      False,
@@ -1240,8 +1331,8 @@ class AmaraBot:
                 previous_context=self.previous_context
             )
             self.logger.log_scan_result(
-                symbol=symbol, score=0, rsi=rsi,
-                volume_ratio=vol_ratio, tech_signal=False,
+                symbol=symbol, score=score_hold, rsi=rsi_hold,
+                volume_ratio=vol_hold, tech_signal=False,
                 sent_to_claude=True, hold_review=True,
                 claude_approved=hold_result.get("hold", True),
                 claude_reason=hold_result.get("analysis", "—"),
@@ -1276,6 +1367,24 @@ class AmaraBot:
             f"submitting Alpaca {trail_pct:.1f}% trailing stop"
         )
 
+        # ── Step 1: Cancel the native hard stop before replacing ─────────
+        # Hard stop and trailing stop cannot both be live simultaneously.
+        stop_order_id = pos.get("stop_order_id", "")
+        if stop_order_id and self.trading:
+            try:
+                self.trading.cancel_order_by_id(stop_order_id)
+                log.info(
+                    f"🗑️  Cancelled native hard stop (order {stop_order_id}) "
+                    f"for {symbol} — replacing with trailing stop"
+                )
+            except Exception as e:
+                # May already be filled or cancelled — log and continue
+                log.warning(
+                    f"⚠️ Could not cancel hard stop for {symbol} "
+                    f"(may already be processed): {e}"
+                )
+
+        # ── Step 2: Submit native GTC trailing stop ───────────────────────
         order_ok = False
         if self.trading and shares > 0:
             try:
@@ -1307,8 +1416,10 @@ class AmaraBot:
             return
 
         # Mark position as Alpaca-managed; persist activation metadata
+        # Clear stop_order_id — the hard stop is cancelled, trailing stop now owns the exit
         self.logger.update_position(symbol, {
             "trailing_stop_active":      True,
+            "stop_order_id":             "",
             "trailing_activated_price":  round(current_price, 2),
             "trailing_activated_date":   datetime.now().strftime("%Y-%m-%d %H:%M"),
         })
@@ -1373,8 +1484,34 @@ class AmaraBot:
         log.info(f"🛒 [{mode}] Bought {symbol} x{shares:.4f} @ ${fill_price:.2f} | SL ${stop_loss:.2f} | TP ${take_profit:.2f}")
         log.info(f"   Claude: {analysis.get('analysis', '')[:120]}")
 
-        # Record decision for dashboard (update the entry already added in scan_for_opportunities)
-        # (The scan loop already added an entry; this is a no-op since we don't double-append)
+        # ── Submit native GTC hard stop order to Alpaca ───────────────────
+        # This order lives on Alpaca's servers independently of the bot.
+        # If the bot is offline and price drops to stop_loss_price, Alpaca
+        # executes the sell automatically — no bot run required.
+        if self.trading and shares > 0:
+            try:
+                from alpaca.trading.requests import StopOrderRequest
+                from alpaca.trading.enums   import OrderSide, TimeInForce
+                stop_order = self.trading.submit_order(
+                    StopOrderRequest(
+                        symbol=symbol,
+                        qty=round(float(shares), 4),
+                        side=OrderSide.SELL,
+                        time_in_force=TimeInForce.GTC,
+                        stop_price=round(stop_loss, 2),
+                    )
+                )
+                stop_order_id = str(stop_order.id)
+                self.logger.update_position(symbol, {"stop_order_id": stop_order_id})
+                log.info(
+                    f"🛡️ Native GTC stop placed: {symbol} @ ${stop_loss:.2f} "
+                    f"(order {stop_order_id})"
+                )
+            except Exception as e:
+                log.warning(
+                    f"⚠️ Native stop order failed for {symbol}: {e} — "
+                    f"Python fallback active (bot must be running to enforce stop)"
+                )
 
     def _wait_for_fill(self, order_id: str, timeout: int = 60):
         """Poll Alpaca until filled, cancelled, expired, or rejected."""
@@ -1415,18 +1552,45 @@ class AmaraBot:
                 entry_price = float(ap.avg_entry_price)
                 shares      = float(ap.qty)
                 sym_params  = get_symbol_params(symbol)
+                stop_price  = round(entry_price * (1 - sym_params["stop_loss_pct"]), 2)
                 pos = PaperPosition(
                     symbol=symbol,
                     entry_price=entry_price,
                     entry_date=datetime.now().strftime("%Y-%m-%d"),
                     shares=shares,
                     cost_usd=entry_price * shares,
-                    stop_loss_price=round(entry_price * (1 - sym_params["stop_loss_pct"]), 2),
+                    stop_loss_price=stop_price,
                     take_profit_price=round(entry_price * (1 + sym_params["take_profit_pct"]), 2),
                 )
                 self.logger.add_position(pos)
                 log.info(f"🔄 Sync [added]   {symbol} x{shares} @ ${entry_price:.2f}")
                 added += 1
+
+                # Bot may have crashed after BUY but before placing the stop order.
+                # Submit a native stop now so this position is protected immediately.
+                try:
+                    from alpaca.trading.requests import StopOrderRequest
+                    from alpaca.trading.enums   import OrderSide, TimeInForce
+                    stop_ord = self.trading.submit_order(
+                        StopOrderRequest(
+                            symbol=symbol,
+                            qty=round(shares, 4),
+                            side=OrderSide.SELL,
+                            time_in_force=TimeInForce.GTC,
+                            stop_price=stop_price,
+                        )
+                    )
+                    orphan_stop_id = str(stop_ord.id)
+                    self.logger.update_position(symbol, {"stop_order_id": orphan_stop_id})
+                    log.info(
+                        f"🛡️ Sync: native stop placed for {symbol} @ "
+                        f"${stop_price:.2f} (order {orphan_stop_id})"
+                    )
+                except Exception as e:
+                    log.warning(
+                        f"⚠️ Sync: could not place stop for {symbol}: {e} — "
+                        f"Python fallback active"
+                    )
 
         # Case 2: in local JSON but gone from Alpaca
         for symbol, lp in local_map.items():
