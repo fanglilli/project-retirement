@@ -4,7 +4,7 @@
 
 | Field | Value |
 |:------|:------|
-| **Last Run** | `2026-05-26 14:37:27` |
+| **Last Run** | `2026-05-26 16:22:08` |
 | **Mode** | 🧪 PAPER |
 | **Cash Available** | `$100,000.00` |
 | **Portfolio Value** | `$100,000.00` |
@@ -35,10 +35,10 @@
 
 | Metric | Value |
 |:-------|:------|
-| SPY Start | `$751.94` on 2026-05-26 |
-| SPY Now | `$751.94` (+0.00%) |
+| SPY Start | `$749.27` on 2026-05-26 |
+| SPY Now | `$749.27` (+0.00%) |
 | Our Return | `+0.00%` |
 | Challenge Status | ❌ Trailing S&P — Day 1 / 14 |
 
 ---
-*Amara · single-run serverless mode · generated 2026-05-26 14:37:27*
+*Amara · single-run serverless mode · generated 2026-05-26 16:22:08*
