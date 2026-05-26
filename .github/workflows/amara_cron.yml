@@ -30,3 +30,11 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
         run: python amara.py
+
+      - name: Save Updated Dashboard to Repository
+        run: |
+          git config --global user.name "Amara Bot"
+          git config --global user.email "amara-bot@users.noreply.github.com"
+          git add amara_dashboard.md amara_trades.json amara.log || true
+          git commit -m "📊 Auto-updated trading dashboard [Skip CI]" || true
+          git push || true
