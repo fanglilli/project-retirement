@@ -3,8 +3,10 @@ name: Run Amara Trading Bot
 on:
   workflow_dispatch:
   schedule:
-    # Runs automatically every weekday (Monday to Friday) at 14:05 UTC (22:05 Shanghai/Taipei time)
-    - cron: '5 14 * * 1-5'
+    # Run 1 — Market open (9:35 AM ET = 21:35 Taiwan): entry scan + new buys
+    - cron: '35 13 * * 1-5'
+    # Run 2 — Pre-close (3:50 PM ET = 03:50 Taiwan next day): trailing stop check + LINE message
+    - cron: '50 19 * * 1-5'
 
 jobs:
   trade:
