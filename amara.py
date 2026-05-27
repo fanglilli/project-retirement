@@ -479,7 +479,7 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
 
 def write_dashboard_html(bot: "AmaraBot") -> None:
     """
-    Write index.html — a mobile-friendly HTML dashboard for GitHub Pages.
+    Write index.html — a mobile-friendly light-theme HTML dashboard for GitHub Pages.
     Accessible at https://fanglilli.github.io/project-retirement/
     """
     now = datetime.now()
@@ -496,7 +496,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
     pnl_pct    = total_pnl / capital * 100 if capital else 0
     mode       = "PAPER" if CONFIG.get("PAPER_TRADING", True) else "LIVE"
-    pnl_color  = "#00c853" if total_pnl >= 0 else "#ff1744"
+    pnl_color  = "#16a34a" if total_pnl >= 0 else "#dc2626"
     pnl_sign   = "+" if total_pnl >= 0 else ""
 
     # ── Open positions rows ───────────────────────────────────────────────────
@@ -510,7 +510,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">{pos['symbol']}</span>
-                <span class="pnl" style="color:{'#00c853' if pct>=0 else '#ff1744'}">{dot} {pct:+.1f}%</span>
+                <span class="pnl" style="color:{'#16a34a' if pct>=0 else '#dc2626'}">{dot} {pct:+.1f}%</span>
               </div>
               <div class="pos-grid">
                 <div><label>Entry</label><val>${pos['entry_price']:.2f}</val></div>
@@ -530,8 +530,8 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     if decisions:
         dec_rows = ""
         for d in decisions:
-            reason = (d.get("reason") or "—")[:160]
-            action_color = "#00c853" if "BUY" in str(d.get("action","")).upper() else "#ff1744" if "SELL" in str(d.get("action","")).upper() else "#888"
+            reason = (d.get("reason") or "—")[:200]
+            action_color = "#16a34a" if "BUY" in str(d.get("action","")).upper() else "#dc2626" if "SELL" in str(d.get("action","")).upper() else "#6b7280"
             dec_rows += f"""
             <div class="card dec-card">
               <div class="dec-header">
@@ -545,6 +545,51 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     else:
         dec_section = '<p class="empty">No buy/sell decisions this run — market closed or no signals met the threshold.</p>'
 
+    # ── Scan results rows (top 20 qualifying stocks, with why not sent to Claude) ──
+    today_str    = now.strftime("%Y-%m-%d")
+    scan_log     = data.get("scan_log", [])
+    today_scans  = [s for s in scan_log if s.get("date") == today_str]
+    display_scans = sorted(today_scans, key=lambda x: x.get("score", 0), reverse=True)[:20] \
+                    if today_scans else sorted(scan_log, key=lambda x: x.get("score", 0), reverse=True)[:20]
+
+    if display_scans:
+        scan_rows = ""
+        for s in display_scans:
+            sent = s.get("sent_to_claude", False)
+            approved = s.get("claude_approved", False)
+            hold = s.get("hold_review", False)
+
+            if hold:
+                status_badge = '<span class="sbadge review">Hold Review</span>'
+                status_reason = s.get("claude_reason") or "Position under review"
+            elif sent and approved:
+                status_badge = '<span class="sbadge bought">✅ Bought</span>'
+                status_reason = s.get("claude_reason") or "—"
+            elif sent and not approved:
+                status_badge = '<span class="sbadge skipped">❌ Claude Skip</span>'
+                status_reason = s.get("claude_reason") or "Claude rejected"
+            else:
+                status_badge = '<span class="sbadge notsent">Not top 5</span>'
+                status_reason = f"Score {s.get('score',0)}/115 — qualified but ranked outside top {CONFIG['TOP_CANDIDATES']}"
+
+            scan_rows += f"""
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">{s['symbol']}</span>
+                <span class="score">Score: {s.get('score',0)}/115</span>
+                {status_badge}
+              </div>
+              <div class="scan-stats">
+                <span>RSI {s.get('rsi',0):.1f}</span>
+                <span>Vol {s.get('volume_ratio',0):.1f}x</span>
+                <span>{s.get('timestamp','—')}</span>
+              </div>
+              <p class="reason">{status_reason[:200]}</p>
+            </div>"""
+        scan_section = f'<div class="scan-list">{scan_rows}</div>'
+    else:
+        scan_section = '<p class="empty">No scan data yet — runs during market hours only.</p>'
+
     # ── Trade history rows ────────────────────────────────────────────────────
     recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
     if recent_closed:
@@ -552,15 +597,15 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
         for p in reversed(recent_closed):
             win    = p.get("pnl_usd", 0) > 0
             badge  = '<span class="badge win">Win</span>' if win else '<span class="badge loss">Loss</span>'
-            reason = (p.get("exit_reason") or "—")[:80]
+            reason = (p.get("exit_reason") or "—")[:100]
             hist_rows += f"""
             <div class="card hist-card">
               <div class="hist-header">
                 <span class="symbol">{p['symbol']}</span>
                 {badge}
-                <span class="hist-pnl" style="color:{'#00c853' if win else '#ff1744'}">${p.get('pnl_usd',0):+,.2f}</span>
+                <span class="hist-pnl" style="color:{'#16a34a' if win else '#dc2626'}">${p.get('pnl_usd',0):+,.2f}</span>
               </div>
-              <div class="hist-detail">{p['entry_price']:.2f} → {p.get('exit_price',0):.2f} &nbsp;·&nbsp; {(p.get('exit_date') or '—')[:10]}</div>
+              <div class="hist-detail">${p['entry_price']:.2f} → ${p.get('exit_price',0):.2f} &nbsp;·&nbsp; {(p.get('exit_date') or '—')[:10]}</div>
               <div class="reason">{reason}</div>
             </div>"""
         hist_section = f'<div class="hist-list">{hist_rows}</div>'
@@ -580,7 +625,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
             <div class="stat-grid">
               <div><label>SPY Start</label><val>${bm['start_price']:.2f} on {bm['start_date']}</val></div>
               <div><label>SPY Now</label><val>${bm['current_price']:.2f} ({spy_ret:+.2f}%)</val></div>
-              <div><label>Our Return</label><val style="color:{'#00c853' if pnl_pct>=0 else '#ff1744'}">{pnl_pct:+.2f}%</val></div>
+              <div><label>Our Return</label><val style="color:{'#16a34a' if pnl_pct>=0 else '#dc2626'}">{pnl_pct:+.2f}%</val></div>
               <div><label>Status</label><val>{'✅ Beating S&P' if beating else '❌ Trailing S&P'} — Day {days_in}/14</val></div>
             </div>
           </div>
@@ -597,33 +642,41 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
   <title>Amara Trading Dashboard</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }}
-    h1 {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }}
-    h2 {{ font-size: 1rem; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: .05em; margin: 24px 0 10px; }}
-    .meta {{ font-size: 0.75rem; color: #8b949e; margin-bottom: 20px; }}
-    .badge-mode {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#1f3a5f; color:#58a6ff; margin-left:8px; vertical-align:middle; }}
-    .hero {{ background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; margin-bottom:8px; text-align:center; }}
-    .hero .big {{ font-size:2.6rem; font-weight:800; color:{pnl_color}; line-height:1; }}
-    .hero .sub {{ font-size:.85rem; color:#8b949e; margin-top:6px; }}
-    .card {{ background:#161b22; border:1px solid #30363d; border-radius:10px; padding:14px; margin-bottom:10px; }}
-    .stat-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
-    label {{ display:block; font-size:.7rem; color:#8b949e; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }}
-    val {{ display:block; font-size:.9rem; font-weight:600; }}
-    .symbol {{ font-size:1rem; font-weight:700; }}
+    body {{ background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }}
+    h1 {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; color: #111827; }}
+    h2 {{ font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .06em; margin: 24px 0 8px; }}
+    .meta {{ font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }}
+    .badge-mode {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }}
+    .hero {{ background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }}
+    .hero .big {{ font-size:2.8rem; font-weight:800; color:{pnl_color}; line-height:1; }}
+    .hero .sub {{ font-size:.82rem; color:#6b7280; margin-top:6px; }}
+    .card {{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
+    .stat-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }}
+    label {{ display:block; font-size:.68rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }}
+    val {{ display:block; font-size:.92rem; font-weight:600; color:#111827; }}
+    .symbol {{ font-size:1rem; font-weight:700; color:#111827; }}
     .pnl {{ font-size:.95rem; font-weight:700; }}
     .pos-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }}
     .pos-grid {{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }}
-    .dec-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; }}
-    .conf {{ font-size:.75rem; color:#8b949e; }}
-    .reason {{ font-size:.78rem; color:#8b949e; line-height:1.4; margin-top:4px; }}
+    .dec-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap; }}
+    .conf {{ font-size:.72rem; color:#9ca3af; }}
+    .reason {{ font-size:.78rem; color:#6b7280; line-height:1.5; margin-top:5px; }}
+    .scan-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }}
+    .score {{ font-size:.78rem; color:#6b7280; font-weight:600; }}
+    .scan-stats {{ display:flex; gap:14px; font-size:.72rem; color:#9ca3af; margin-bottom:4px; }}
     .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }}
     .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.9rem; }}
-    .hist-detail {{ font-size:.75rem; color:#8b949e; margin-bottom:2px; }}
-    .badge {{ display:inline-block; padding:1px 7px; border-radius:4px; font-size:.7rem; font-weight:700; }}
-    .badge.win {{ background:#0d2818; color:#00c853; }}
-    .badge.loss {{ background:#2d0d0d; color:#ff1744; }}
-    .empty {{ color:#8b949e; font-size:.85rem; padding:8px 0; }}
-    .footer {{ font-size:.7rem; color:#484f58; text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid #21262d; }}
+    .hist-detail {{ font-size:.72rem; color:#9ca3af; margin-bottom:3px; }}
+    .badge {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.68rem; font-weight:700; }}
+    .badge.win {{ background:#dcfce7; color:#16a34a; }}
+    .badge.loss {{ background:#fee2e2; color:#dc2626; }}
+    .sbadge {{ display:inline-block; padding:2px 7px; border-radius:4px; font-size:.66rem; font-weight:700; }}
+    .sbadge.bought {{ background:#dcfce7; color:#16a34a; }}
+    .sbadge.skipped {{ background:#fee2e2; color:#dc2626; }}
+    .sbadge.notsent {{ background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }}
+    .sbadge.review {{ background:#fef9c3; color:#854d0e; }}
+    .empty {{ color:#9ca3af; font-size:.85rem; padding:6px 0; }}
+    .footer {{ font-size:.68rem; color:#d1d5db; text-align:center; margin-top:28px; padding-top:16px; border-top:1px solid #e5e7eb; }}
   </style>
 </head>
 <body>
@@ -641,7 +694,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
       <div class="stat-grid">
         <div><label>Cash</label><val>${cash:,.2f}</val></div>
         <div><label>Portfolio Value</label><val>${port_val:,.2f}</val></div>
-        <div><label>Today's P&amp;L</label><val style="color:{'#00c853' if today_pnl>=0 else '#ff1744'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
+        <div><label>Today's P&amp;L</label><val style="color:{'#16a34a' if today_pnl>=0 else '#dc2626'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
         <div><label>Win Rate</label><val>{win_rate_str}</val></div>
         <div><label>Open Positions</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
         <div><label>Watchlist</label><val>{len(WATCHLIST)} stocks</val></div>
@@ -657,6 +710,11 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
   <section>
     <h2>This Run's Decisions</h2>
     {dec_section}
+  </section>
+
+  <section>
+    <h2>Top Scan Results — Why Each Stock Did or Didn't Proceed</h2>
+    {scan_section}
   </section>
 
   <section>
