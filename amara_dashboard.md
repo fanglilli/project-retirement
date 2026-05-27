@@ -4,11 +4,11 @@
 
 | Field | Value |
 |:------|:------|
-| **Last Run** | `2026-05-27 05:32:59` |
+| **Last Run** | `2026-05-27 06:10:35` |
 | **Mode** | 🧪 PAPER |
-| **Cash Available** | `$0.00` |
-| **Portfolio Value** | `$0.00` |
-| **Buying Power** | `$0.00` |
+| **Cash Available** | `$100,000.00` |
+| **Portfolio Value** | `$100,000.00` |
+| **Buying Power** | `$200,000.00` |
 | **Total P&L** | `$+0.00` (▲ 0.00%) |
 | **Today's P&L** | `$+0.00` |
 | **Win Rate** | No closed trades yet |
@@ -31,5 +31,14 @@
 
 *No closed trades yet.*
 
+## 🏁 S&P 500 Benchmark
+
+| Metric | Value |
+|:-------|:------|
+| SPY Start | `$750.46` on 2026-05-27 |
+| SPY Now | `$750.46` (+0.00%) |
+| Our Return | `+0.00%` |
+| Challenge Status | ❌ Trailing S&P — Day 1 / 14 |
+
 ---
-*Amara · single-run serverless mode · generated 2026-05-27 05:32:59*
+*Amara · single-run serverless mode · generated 2026-05-27 06:10:35*
