@@ -18,7 +18,7 @@
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
       "last_price": 30.95,
-      "last_checked": "2026-05-27 14:50"
+      "last_checked": "2026-05-27 15:05"
     }
   ],
   "daily_stats": [],
@@ -641,17 +641,156 @@
       "reasons": [],
       "momentum_5d_pct": 11.45,
       "current_price": 30.95
+    },
+    {
+      "timestamp": "2026-05-27 15:05",
+      "date": "2026-05-27",
+      "symbol": "RXO",
+      "score": 65,
+      "rsi": 69.2,
+      "volume_ratio": 0.08,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "RXO shows strong price momentum with an 18.5% 5-day move and RSI at 69.2, sitting nearly 20% above its 20-day SMA — but these are lagging confirmations of a move that has already largely played out. The critical red flag is volume at only 0.1x the 20-day average, indicating near-zero institutional participation and no conviction behind the price action, which is highly abnormal and suspicious for a stock up this much. With no news catalyst to explain the surge, the risk of a sharp mean-reversion is elevated — buying here means chasing extended price at low volume with no fundamental anchor. Primary downside risk is a rapid snapback toward the 20-SMA given the lack of volume support, which could trigger the hard stop quickly and result in a maximum loss on the position.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.1× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 69.2 in momentum zone (55–75) +30pts",
+        "Price $25.06 above 20-MA ($20.94) +25pts",
+        "5-day momentum +18.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 18.54,
+      "current_price": 25.06
+    },
+    {
+      "timestamp": "2026-05-27 15:05",
+      "date": "2026-05-27",
+      "symbol": "AAON",
+      "score": 65,
+      "rsi": 71.3,
+      "volume_ratio": 0.34,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "AAON shows strong price momentum with a 10.4% 5-day move and RSI at 71.3, but the critical red flag is extremely low volume at only 0.3x the 20-day average — this is a severe conviction killer indicating the move lacks institutional participation and broad market support. Price is already stretched 16.6% above the 20-day SMA, meaning the stock is significantly extended and the risk of a mean-reversion pullback is elevated. With no news catalyst to explain or sustain the move, buying into a low-volume breakout this extended from its moving average carries asymmetric downside risk relative to remaining upside. The primary downside risk is a sharp snap-back toward the 20-day SMA given the thin-volume nature of the rally and overbought conditions.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.3× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 71.3 in momentum zone (55–75) +30pts",
+        "Price $143.44 above 20-MA ($123.06) +25pts",
+        "5-day momentum +10.4% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 10.37,
+      "current_price": 143.44
+    },
+    {
+      "timestamp": "2026-05-27 15:05",
+      "date": "2026-05-27",
+      "symbol": "AMD",
+      "score": 65,
+      "rsi": 72.0,
+      "volume_ratio": 0.3,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "AMD has posted a strong 5-day momentum of +18.3% and RSI of 72.0 sits at the upper edge of the momentum zone, but the critical red flag is volume at only 0.3x the 20-day average — far below the 1.5x surge threshold needed to confirm institutional conviction behind this move. Price is already extended 15.9% above the 20-day SMA, indicating a likely overbought condition without the volume to sustain further upside. With no news catalyst to explain or justify the move, this looks like a low-liquidity drift higher rather than a momentum breakout with real follow-through potential. The primary downside risk is a sharp mean-reversion snap-back toward the 20-SMA (~$423), which would far exceed the hard stop at -3.5% and suggests the risk/reward at current levels is unfavorable for a new entry.",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.3× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 72.0 in momentum zone (55–75) +30pts",
+        "Price $489.97 above 20-MA ($422.66) +25pts",
+        "5-day momentum +18.2% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 18.3,
+      "current_price": 489.97
+    },
+    {
+      "timestamp": "2026-05-27 15:06",
+      "date": "2026-05-27",
+      "symbol": "POWI",
+      "score": 65,
+      "rsi": 71.3,
+      "volume_ratio": 0.7,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "POWI has posted a strong 5-day momentum of +23.7% and RSI of 71.3 sits in the momentum zone, but the price is already 15.2% above its 20-day SMA, indicating the stock is significantly extended and a late-entry risk is high. Volume at only 0.7x the 20-day average is the critical red flag — there is no institutional conviction behind this move, suggesting the surge may be thinly traded and fragile. With no news catalyst to explain or sustain the move, this looks like a momentum overshoot rather than a breakout with follow-through. The primary downside risk is a sharp mean-reversion toward the 20-day SMA ($73.25), which sits ~13% below current price — well beyond the hard stop floor and trailing stop parameters.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.7× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 71.3 in momentum zone (55–75) +30pts",
+        "Price $84.42 above 20-MA ($73.25) +25pts",
+        "5-day momentum +23.7% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 23.66,
+      "current_price": 84.42
+    },
+    {
+      "timestamp": "2026-05-27 15:06",
+      "date": "2026-05-27",
+      "symbol": "YETI",
+      "score": 65,
+      "rsi": 69.7,
+      "volume_ratio": 0.21,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "YETI shows strong price momentum with a 14.3% 5-day move and RSI at 69.7, sitting 14.5% above its 20-day SMA — but these signals indicate the bulk of the move has already occurred rather than signaling a fresh entry. The critical red flag is volume at only 0.2x the 20-day average, meaning this rally lacks institutional participation and conviction, raising the risk of a sharp reversal on any selling pressure. With no news catalyst to justify the extended move, this looks like a low-liquidity drift higher rather than a momentum breakout worth chasing. The primary downside risk is a mean-reversion snap back toward the 20-SMA (~$41.81), which would represent an ~13% loss far exceeding the hard stop, combined with thin volume making the stop harder to execute cleanly.",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.2× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 69.7 in momentum zone (55–75) +30pts",
+        "Price $47.89 above 20-MA ($41.81) +25pts",
+        "5-day momentum +14.3% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 14.27,
+      "current_price": 47.89
+    },
+    {
+      "timestamp": "2026-05-27 15:06",
+      "date": "2026-05-27",
+      "symbol": "AXTA",
+      "score": 100,
+      "rsi": 64.5,
+      "volume_ratio": 2.77,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① AXTA's original buy thesis remains intact — RSI at 64.5 is bullish without being overbought, volume at 2.8x confirms institutional interest, and the 11.5% 5-day momentum is strong; the -0.1% slip from entry is negligible noise on day 0. ② No early warning signals or negative news are present; the perfect technical score of 100/100 supports continuation, though the lack of further upside since entry warrants monitoring for stalling momentum. ③ Watch for a sustained move above $31.20 to confirm breakout continuation, and monitor whether volume sustains above 2x average over the next session — a volume fade combined with RSI rolling below 60 would be the earliest reason to reconsider the position.",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 11.45,
+      "current_price": 30.95
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 94000.0,
-  "portfolio_value": 99991.29,
-  "buying_power": 193991.29,
+  "portfolio_value": 99993.22,
+  "buying_power": 193993.22,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 750.195,
+    "current_price": 749.71,
     "goal_days": 14
   }
 }
