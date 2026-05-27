@@ -485,6 +485,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     """
     Write index.html — a mobile-friendly light-theme HTML dashboard for GitHub Pages.
     Accessible at https://fanglilli.github.io/project-retirement/
+    UI language: Traditional Chinese.
     """
     import pytz
     tw_tz = pytz.timezone("Asia/Taipei")
@@ -499,9 +500,9 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     open_pos   = bot.logger.get_open_positions()
     all_closed = [p for p in data["positions"] if p["status"] == "closed"]
     winners    = len([p for p in all_closed if p["pnl_usd"] > 0])
-    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "尚無已平倉交易"
     pnl_pct    = total_pnl / capital * 100 if capital else 0
-    mode       = "PAPER" if CONFIG.get("PAPER_TRADING", True) else "LIVE"
+    mode       = "模擬" if CONFIG.get("PAPER_TRADING", True) else "實盤"
     pnl_color  = "#16a34a" if total_pnl >= 0 else "#dc2626"
     pnl_sign   = "+" if total_pnl >= 0 else ""
 
@@ -522,40 +523,44 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
                 <span class="pnl" style="color:{'#16a34a' if pct>=0 else '#dc2626'}">{dot} {pct:+.1f}%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>${pos['entry_price']:.2f}</val></div>
-                <div><label>Last</label><val>${last:.2f}</val></div>
-                <div><label>Peak</label><val>${peak:.2f}</val></div>
-                <div><label>Hard Stop</label><val>${pos['stop_loss_price']:.2f}</val></div>
-                <div><label>Trail Stop ({trail_pct_disp:.1f}%)</label><val>${trail_stop:.2f}</val></div>
-                <div><label>Cost</label><val>${pos['cost_usd']:,.0f}</val></div>
-                <div><label>Since</label><val>{pos['entry_date']}</val></div>
+                <div><label>進場價</label><val>${pos['entry_price']:.2f}</val></div>
+                <div><label>現價</label><val>${last:.2f}</val></div>
+                <div><label>最高價</label><val>${peak:.2f}</val></div>
+                <div><label>硬停損</label><val>${pos['stop_loss_price']:.2f}</val></div>
+                <div><label>移動停損 ({trail_pct_disp:.1f}%)</label><val>${trail_stop:.2f}</val></div>
+                <div><label>成本</label><val>${pos['cost_usd']:,.0f}</val></div>
+                <div><label>進場日</label><val>{pos['entry_date']}</val></div>
               </div>
             </div>"""
         open_section = f'<div class="pos-list">{pos_rows}</div>'
     else:
-        open_section = '<p class="empty">No open positions.</p>'
+        open_section = '<p class="empty">目前無持倉。</p>'
 
-    # ── Decisions rows ────────────────────────────────────────────────────────
+    # ── Decisions rows — flat layout, full text, no card box ─────────────────
     decisions = getattr(bot, "_run_decisions", [])
     if decisions:
         dec_rows = ""
         for d in decisions:
-            reason = (d.get("reason") or "—")[:200]
-            action_color = "#16a34a" if "BUY" in str(d.get("action","")).upper() else "#dc2626" if "SELL" in str(d.get("action","")).upper() else "#6b7280"
+            reason = d.get("reason") or "—"   # no truncation
+            action_color = (
+                "#16a34a" if "BUY"  in str(d.get("action", "")).upper() else
+                "#dc2626" if "SELL" in str(d.get("action", "")).upper() else
+                "#6b7280"
+            )
             dec_rows += f"""
-            <div class="card dec-card">
-              <div class="dec-header">
+            <div class="flat-item">
+              <div class="flat-header">
                 <span class="symbol">{d['symbol']}</span>
                 <span style="color:{action_color};font-weight:700">{d.get('action','—')}</span>
-                <span class="conf">{d.get('confidence','—')}</span>
+                <span class="conf">信心 {d.get('confidence','—')}</span>
               </div>
-              <p class="reason">{reason}</p>
+              <p class="full-reason">{reason}</p>
             </div>"""
-        dec_section = f'<div class="dec-list">{dec_rows}</div>'
+        dec_section = f'<div class="flat-list">{dec_rows}</div>'
     else:
-        dec_section = '<p class="empty">No buy/sell decisions this run — market closed or no signals met the threshold.</p>'
+        dec_section = '<p class="empty">本次無買賣決策 — 市場已收盤或無股票達到門檻。</p>'
 
-    # ── Scan results rows (top 20 qualifying stocks, with why not sent to Claude) ──
+    # ── Scan results rows — flat layout, full text, no card box ──────────────
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
     today_scans  = [s for s in scan_log if s.get("date") == today_str]
@@ -565,40 +570,40 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     if display_scans:
         scan_rows = ""
         for s in display_scans:
-            sent = s.get("sent_to_claude", False)
+            sent     = s.get("sent_to_claude", False)
             approved = s.get("claude_approved", False)
-            hold = s.get("hold_review", False)
+            hold     = s.get("hold_review", False)
 
             if hold:
-                status_badge = '<span class="sbadge review">Hold Review</span>'
-                status_reason = s.get("claude_reason") or "Position under review"
+                status_badge  = '<span class="sbadge review">持倉審查</span>'
+                status_reason = s.get("claude_reason") or "持倉審查中"
             elif sent and approved:
-                status_badge = '<span class="sbadge bought">✅ Bought</span>'
+                status_badge  = '<span class="sbadge bought">✅ 已買入</span>'
                 status_reason = s.get("claude_reason") or "—"
             elif sent and not approved:
-                status_badge = '<span class="sbadge skipped">❌ Claude Skip</span>'
-                status_reason = s.get("claude_reason") or "Claude rejected"
+                status_badge  = '<span class="sbadge skipped">❌ AI 跳過</span>'
+                status_reason = s.get("claude_reason") or "Claude 拒絕"
             else:
-                status_badge = '<span class="sbadge notsent">Not top 5</span>'
-                status_reason = f"Score {s.get('score',0)}/100 — qualified but ranked outside top {CONFIG['TOP_CANDIDATES']}"
+                status_badge  = '<span class="sbadge notsent">未入前5名</span>'
+                status_reason = f"分數 {s.get('score',0)}/100 — 符合條件但排名在前 {CONFIG['TOP_CANDIDATES']} 名之外"
 
             scan_rows += f"""
-            <div class="card scan-card">
-              <div class="scan-header">
+            <div class="flat-item">
+              <div class="flat-header">
                 <span class="symbol">{s['symbol']}</span>
-                <span class="score">Score: {s.get('score',0)}/100</span>
+                <span class="score">分數：{s.get('score',0)}/100</span>
                 {status_badge}
               </div>
               <div class="scan-stats">
                 <span>RSI {s.get('rsi',0):.1f}</span>
-                <span>Vol {s.get('volume_ratio',0):.1f}x</span>
+                <span>量比 {s.get('volume_ratio',0):.1f}x</span>
                 <span>{s.get('timestamp','—')}</span>
               </div>
-              <p class="reason">{status_reason[:200]}</p>
+              <p class="full-reason">{status_reason}</p>
             </div>"""
-        scan_section = f'<div class="scan-list">{scan_rows}</div>'
+        scan_section = f'<div class="flat-list">{scan_rows}</div>'
     else:
-        scan_section = '<p class="empty">No scan data yet — runs during market hours only.</p>'
+        scan_section = '<p class="empty">尚無掃描資料 — 僅在交易時段執行。</p>'
 
     # ── Trade history rows ────────────────────────────────────────────────────
     recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
@@ -606,8 +611,8 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
         hist_rows = ""
         for p in reversed(recent_closed):
             win    = p.get("pnl_usd", 0) > 0
-            badge  = '<span class="badge win">Win</span>' if win else '<span class="badge loss">Loss</span>'
-            reason = (p.get("exit_reason") or "—")[:100]
+            badge  = '<span class="badge win">獲利</span>' if win else '<span class="badge loss">虧損</span>'
+            reason = p.get("exit_reason") or "—"   # no truncation
             hist_rows += f"""
             <div class="card hist-card">
               <div class="hist-header">
@@ -620,23 +625,23 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
             </div>"""
         hist_section = f'<div class="hist-list">{hist_rows}</div>'
     else:
-        hist_section = '<p class="empty">No closed trades yet.</p>'
+        hist_section = '<p class="empty">尚無已平倉交易。</p>'
 
     # ── SPY benchmark ─────────────────────────────────────────────────────────
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
-        spy_ret   = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in   = (now.date() - datetime.strptime(bm["start_date"], "%Y-%m-%d").date()).days + 1
-        beating   = pnl_pct > spy_ret
+        spy_ret  = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
+        days_in  = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
+        beating  = pnl_pct > spy_ret
         bm_section = f"""
         <section>
-          <h2>S&P 500 Benchmark</h2>
+          <h2>🏁 S&P 500 基準比較</h2>
           <div class="card">
             <div class="stat-grid">
-              <div><label>SPY Start</label><val>${bm['start_price']:.2f} on {bm['start_date']}</val></div>
-              <div><label>SPY Now</label><val>${bm['current_price']:.2f} ({spy_ret:+.2f}%)</val></div>
-              <div><label>Our Return</label><val style="color:{'#16a34a' if pnl_pct>=0 else '#dc2626'}">{pnl_pct:+.2f}%</val></div>
-              <div><label>Status</label><val>{'✅ Beating S&P' if beating else '❌ Trailing S&P'} — Day {days_in}/14</val></div>
+              <div><label>SPY 基準開始</label><val>${bm['start_price']:.2f}（{bm['start_date']}）</val></div>
+              <div><label>SPY 現值</label><val>${bm['current_price']:.2f}（{spy_ret:+.2f}%）</val></div>
+              <div><label>我們的報酬</label><val style="color:{'#16a34a' if pnl_pct>=0 else '#dc2626'}">{pnl_pct:+.2f}%</val></div>
+              <div><label>狀態</label><val>{'✅ 超越 S&P' if beating else '❌ 落後 S&P'} — 第 {days_in}/14 天</val></div>
             </div>
           </div>
         </section>"""
@@ -644,97 +649,101 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
         bm_section = ""
 
     html = f"""<!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
-  <title>Amara Trading Dashboard</title>
+  <title>Amara 交易儀表板</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }}
-    h1 {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; color: #111827; }}
-    h2 {{ font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .06em; margin: 24px 0 8px; }}
-    .meta {{ font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }}
-    .badge-mode {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }}
-    .hero {{ background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }}
+    body {{ background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', sans-serif; padding: 16px; max-width: 680px; margin: 0 auto; }}
+    h1 {{ font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; color: #111827; }}
+    h2 {{ font-size: 1.3rem; font-weight: 700; color: #111827; margin: 28px 0 10px; }}
+    .meta {{ font-size: 0.75rem; color: #9ca3af; margin-bottom: 16px; }}
+    .badge-mode {{ display:inline-block; padding:3px 10px; border-radius:5px; font-size:.75rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }}
+    .hero {{ background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:8px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }}
     .hero .big {{ font-size:2.8rem; font-weight:800; color:{pnl_color}; line-height:1; }}
-    .hero .sub {{ font-size:.82rem; color:#6b7280; margin-top:6px; }}
-    .card {{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
+    .hero .sub {{ font-size:.85rem; color:#6b7280; margin-top:6px; }}
+    .card {{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
     .stat-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }}
-    label {{ display:block; font-size:.68rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }}
-    val {{ display:block; font-size:.92rem; font-weight:600; color:#111827; }}
-    .symbol {{ font-size:1rem; font-weight:700; color:#111827; }}
+    label {{ display:block; font-size:.7rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }}
+    val {{ display:block; font-size:.95rem; font-weight:600; color:#111827; }}
+    .symbol {{ font-size:1.05rem; font-weight:700; color:#111827; }}
     .pnl {{ font-size:.95rem; font-weight:700; }}
     .pos-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }}
     .pos-grid {{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }}
-    .dec-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap; }}
-    .conf {{ font-size:.72rem; color:#9ca3af; }}
-    .reason {{ font-size:.78rem; color:#6b7280; line-height:1.5; margin-top:5px; }}
-    .scan-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }}
-    .score {{ font-size:.78rem; color:#6b7280; font-weight:600; }}
-    .scan-stats {{ display:flex; gap:14px; font-size:.72rem; color:#9ca3af; margin-bottom:4px; }}
-    .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }}
-    .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.9rem; }}
-    .hist-detail {{ font-size:.72rem; color:#9ca3af; margin-bottom:3px; }}
-    .badge {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.68rem; font-weight:700; }}
+    /* ── Flat item: no box, just a top border separator ── */
+    .flat-list {{ margin-top:4px; }}
+    .flat-item {{ border-top:1px solid #e5e7eb; padding:14px 0; }}
+    .flat-item:first-child {{ border-top:none; padding-top:0; }}
+    .flat-header {{ display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }}
+    .conf {{ font-size:.78rem; color:#9ca3af; margin-left:auto; }}
+    .full-reason {{ font-size:.85rem; color:#374151; line-height:1.6; margin-top:4px; white-space:pre-wrap; }}
+    .scan-stats {{ display:flex; gap:14px; font-size:.75rem; color:#9ca3af; margin:4px 0; }}
+    .score {{ font-size:.8rem; color:#6b7280; font-weight:600; }}
+    .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }}
+    .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.92rem; }}
+    .hist-detail {{ font-size:.75rem; color:#9ca3af; margin-bottom:4px; }}
+    .reason {{ font-size:.82rem; color:#6b7280; line-height:1.5; }}
+    .badge {{ display:inline-block; padding:2px 9px; border-radius:4px; font-size:.72rem; font-weight:700; }}
     .badge.win {{ background:#dcfce7; color:#16a34a; }}
     .badge.loss {{ background:#fee2e2; color:#dc2626; }}
-    .sbadge {{ display:inline-block; padding:2px 7px; border-radius:4px; font-size:.66rem; font-weight:700; }}
+    .sbadge {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; white-space:nowrap; }}
     .sbadge.bought {{ background:#dcfce7; color:#16a34a; }}
     .sbadge.skipped {{ background:#fee2e2; color:#dc2626; }}
     .sbadge.notsent {{ background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }}
     .sbadge.review {{ background:#fef9c3; color:#854d0e; }}
-    .empty {{ color:#9ca3af; font-size:.85rem; padding:6px 0; }}
-    .footer {{ font-size:.68rem; color:#d1d5db; text-align:center; margin-top:28px; padding-top:16px; border-top:1px solid #e5e7eb; }}
+    .empty {{ color:#9ca3af; font-size:.88rem; padding:8px 0; }}
+    .footer {{ font-size:.7rem; color:#d1d5db; text-align:center; margin-top:32px; padding-top:16px; border-top:1px solid #e5e7eb; }}
   </style>
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">{mode}</span></h1>
-  <p class="meta">Last updated: {now.strftime('%Y-%m-%d %H:%M:%S')} TWN · auto-refreshes every 5 min</p>
+  <p class="meta">最後更新：{now.strftime('%Y-%m-%d %H:%M:%S')} 台灣時間 · 每5分鐘自動更新</p>
 
   <div class="hero">
     <div class="big">{pnl_sign}${abs(total_pnl):,.2f}</div>
-    <div class="sub">Total P&amp;L &nbsp;·&nbsp; {pnl_sign}{abs(pnl_pct):.2f}%</div>
+    <div class="sub">總損益 &nbsp;·&nbsp; {pnl_sign}{abs(pnl_pct):.2f}%</div>
   </div>
 
   <section>
-    <h2>Portfolio</h2>
+    <h2>💰 投資組合</h2>
     <div class="card">
       <div class="stat-grid">
-        <div><label>Cash</label><val>${cash:,.2f}</val></div>
-        <div><label>Portfolio Value</label><val>${port_val:,.2f}</val></div>
-        <div><label>Today's P&amp;L</label><val style="color:{'#16a34a' if today_pnl>=0 else '#dc2626'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
-        <div><label>Win Rate</label><val>{win_rate_str}</val></div>
-        <div><label>Open Positions</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
-        <div><label>Watchlist</label><val>{len(WATCHLIST)} stocks</val></div>
+        <div><label>現金</label><val>${cash:,.2f}</val></div>
+        <div><label>投資組合市值</label><val>${port_val:,.2f}</val></div>
+        <div><label>今日損益</label><val style="color:{'#16a34a' if today_pnl>=0 else '#dc2626'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
+        <div><label>勝率</label><val>{win_rate_str}</val></div>
+        <div><label>持倉數量</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
+        <div><label>觀察清單</label><val>{len(WATCHLIST)} 支股票</val></div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>Open Positions ({len(open_pos)})</h2>
+    <h2>📋 持倉股票（{len(open_pos)}）</h2>
     {open_section}
   </section>
 
   <section>
-    <h2>This Run's Decisions</h2>
+    <h2>🧠 本次決策</h2>
     {dec_section}
   </section>
 
   <section>
-    <h2>Top Scan Results — Why Each Stock Did or Didn't Proceed</h2>
+    <h2>🔍 掃描結果 — 各股決策原因</h2>
     {scan_section}
   </section>
 
   <section>
-    <h2>Recent Trade History</h2>
+    <h2>📒 近期交易記錄</h2>
     {hist_section}
   </section>
 
   {bm_section}
 
-  <p class="footer">Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}</p>
+  <p class="footer">Amara · 單次執行模式 · 生成時間 {now.strftime('%Y-%m-%d %H:%M:%S')}</p>
 </body>
 </html>"""
 
