@@ -17,8 +17,8 @@
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.97,
-      "last_checked": "2026-05-27 15:04"
+      "last_price": 30.55,
+      "last_checked": "2026-05-27 15:40"
     }
   ],
   "daily_stats": [],
@@ -784,13 +784,13 @@
   ],
   "total_capital_usd": 100000,
   "cash_available": 94000.0,
-  "portfolio_value": 99994.19,
-  "buying_power": 193994.19,
+  "portfolio_value": 99914.81,
+  "buying_power": 193914.81,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 749.85,
+    "current_price": 749.14,
     "goal_days": 14
   }
 }
