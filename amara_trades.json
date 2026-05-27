@@ -1,7 +1,128 @@
 {
   "positions": [],
   "daily_stats": [],
-  "scan_log": [],
+  "scan_log": [
+    {
+      "timestamp": "2026-05-27 13:37",
+      "date": "2026-05-27",
+      "symbol": "RXO",
+      "score": 65,
+      "rsi": 70.1,
+      "volume_ratio": 0.01,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "RXO shows strong momentum signals on paper — RSI at 70.1, price 21.3% above the 20-day SMA, and 5-day momentum of +20.2% — but the critical red flag is a volume multiple of 0.0x, meaning effectively zero volume data is available or volume is absent, which completely undermines any conviction in the move. Without volume confirmation, a 20%+ price surge in 5 days is more likely a data anomaly, thin-float manipulation, or illiquid spike rather than genuine institutional momentum. There is no news catalyst to explain or support the price action, leaving the move entirely unvalidated. The primary downside risk is that this is a false signal driven by data error or extremely low liquidity — entering a position without volume confirmation on an already extended price (21% above SMA) creates significant mean-reversion risk right into the hard stop.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.0× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 70.1 in momentum zone (55–75) +30pts",
+        "Price $25.41 above 20-MA ($20.95) +25pts",
+        "5-day momentum +20.2% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 20.2,
+      "current_price": 25.41
+    },
+    {
+      "timestamp": "2026-05-27 13:37",
+      "date": "2026-05-27",
+      "symbol": "QCOM",
+      "score": 65,
+      "rsi": 71.1,
+      "volume_ratio": 0.04,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "QCOM shows strong technical momentum with a 24.5% 5-day surge, RSI of 71.1 in the momentum zone, and price sitting 19.2% above its 20-day SMA — all suggesting a powerful recent move. However, the critical red flag is the volume multiple of 0.0x, meaning no meaningful volume data is available or volume is essentially absent, which completely undermines conviction in the breakout and suggests the move may lack institutional participation or liquidity support. With no news catalyst to explain the sharp 5-day move, chasing a 24.5% gain into an extended, potentially exhausted position without volume confirmation is a low-probability setup. Primary downside risk is a sharp mean-reversion back toward the 20-day SMA ($204.55), representing a potential ~16% drawdown that far exceeds the 3.5% hard stop, making risk/reward unfavorable at current levels.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.0× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 71.1 in momentum zone (55–75) +30pts",
+        "Price $243.80 above 20-MA ($204.55) +25pts",
+        "5-day momentum +24.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 24.54,
+      "current_price": 243.8
+    },
+    {
+      "timestamp": "2026-05-27 13:37",
+      "date": "2026-05-27",
+      "symbol": "AAON",
+      "score": 65,
+      "rsi": 70.5,
+      "volume_ratio": 0.01,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "AAON shows strong price momentum with a 9.2% 5-day gain and trades 15.4% above its 20-day SMA, but these extended levels suggest the move is already mature rather than nascent. The critical red flag is a volume multiple of 0.0x, meaning today's price action lacks any volume confirmation whatsoever — momentum without volume is a hallmark of exhaustion or illiquidity, not a sustainable breakout. RSI at 70.5 sits at the upper edge of the 'momentum zone' and is approaching overbought territory, compounding the risk of a sharp mean-reversion toward the $122-$123 SMA support. With no news catalyst to justify or sustain the move and price this extended from its mean, the risk/reward for a new entry is unfavorable — chasing here risks a painful pullback with limited upside remaining.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.0× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 70.5 in momentum zone (55–75) +30pts",
+        "Price $141.93 above 20-MA ($122.98) +25pts",
+        "5-day momentum +9.2% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 9.21,
+      "current_price": 141.93
+    },
+    {
+      "timestamp": "2026-05-27 13:37",
+      "date": "2026-05-27",
+      "symbol": "MOD",
+      "score": 65,
+      "rsi": 64.8,
+      "volume_ratio": 0.11,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "MOD shows strong momentum signals with RSI at 64.8 (momentum zone), price 13.6% above the 20-day SMA, and an impressive 5-day momentum of +24.8%, yielding a technical score of 65/100. However, the critical red flag is volume at only 0.1x the 20-day average — an extreme absence of participation that suggests this price move lacks institutional conviction and may be driven by thin, illiquid conditions rather than genuine demand. With no news catalyst to explain the sharp 5-day surge, the move is unconfirmed and highly suspect, raising the risk of a snap reversal. The primary downside risk is chasing an extended, low-volume spike with no catalyst and a 13.6% extension above the mean — the setup carries significant reversion risk that the trailing stop alone may not adequately protect against given the potential for gap-downs.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.1× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 64.8 in momentum zone (55–75) +30pts",
+        "Price $304.94 above 20-MA ($268.36) +25pts",
+        "5-day momentum +24.8% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 24.84,
+      "current_price": 304.94
+    },
+    {
+      "timestamp": "2026-05-27 13:37",
+      "date": "2026-05-27",
+      "symbol": "POWI",
+      "score": 65,
+      "rsi": 68.7,
+      "volume_ratio": 0.12,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "POWI shows strong price momentum with a 5-day gain of +21.4% and RSI at 68.7 sitting in the momentum zone, but the critical red flag is volume at only 0.1x the 20-day average — this is extremely thin participation, suggesting the move lacks institutional conviction and may be illiquid or stale. Price is already 13.2% extended above its 20-day SMA, meaning the risk/reward for a new entry is poor as much of the move has already been captured and mean-reversion risk is elevated. There is no news catalyst to explain or sustain the price surge, leaving the move unexplained and potentially fragile. The primary downside risk is a sharp reversal on low-volume exhaustion, with the hard stop at -5.0% ($78.73) offering limited cushion given the overextended entry point.",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 0.1× avg — below 1.5× surge threshold, no conviction pts",
+        "RSI 68.7 in momentum zone (55–75) +30pts",
+        "Price $82.87 above 20-MA ($73.18) +25pts",
+        "5-day momentum +21.4% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 21.39,
+      "current_price": 82.87
+    }
+  ],
   "total_capital_usd": 100000,
   "cash_available": 100000.0,
   "portfolio_value": 100000.0,
@@ -10,7 +131,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 751.26,
+    "current_price": 750.71,
     "goal_days": 14
   }
 }
