@@ -476,6 +476,205 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
 
     log.info(f"📊 amara_dashboard.md written → {dashboard_path} ({len(lines)} lines)")
 
+
+def write_dashboard_html(bot: "AmaraBot") -> None:
+    """
+    Write index.html — a mobile-friendly HTML dashboard for GitHub Pages.
+    Accessible at https://fanglilli.github.io/project-retirement/
+    """
+    now = datetime.now()
+    data = bot.logger.data
+    capital = CONFIG["TOTAL_CAPITAL"]
+
+    cash       = data.get("cash_available", 0)
+    port_val   = data.get("portfolio_value", 0)
+    total_pnl  = bot.logger.get_total_pnl()
+    today_pnl  = bot.logger.get_today_pnl()
+    open_pos   = bot.logger.get_open_positions()
+    all_closed = [p for p in data["positions"] if p["status"] == "closed"]
+    winners    = len([p for p in all_closed if p["pnl_usd"] > 0])
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
+    pnl_pct    = total_pnl / capital * 100 if capital else 0
+    mode       = "PAPER" if CONFIG.get("PAPER_TRADING", True) else "LIVE"
+    pnl_color  = "#00c853" if total_pnl >= 0 else "#ff1744"
+    pnl_sign   = "+" if total_pnl >= 0 else ""
+
+    # ── Open positions rows ───────────────────────────────────────────────────
+    if open_pos:
+        pos_rows = ""
+        for pos in open_pos:
+            last = pos.get("last_price") or pos["entry_price"]
+            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            dot  = "🟢" if pct >= 0 else "🔴"
+            pos_rows += f"""
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">{pos['symbol']}</span>
+                <span class="pnl" style="color:{'#00c853' if pct>=0 else '#ff1744'}">{dot} {pct:+.1f}%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>Entry</label><val>${pos['entry_price']:.2f}</val></div>
+                <div><label>Last</label><val>${last:.2f}</val></div>
+                <div><label>Stop</label><val>${pos['stop_loss_price']:.2f}</val></div>
+                <div><label>Target</label><val>${pos['take_profit_price']:.2f}</val></div>
+                <div><label>Cost</label><val>${pos['cost_usd']:,.0f}</val></div>
+                <div><label>Since</label><val>{pos['entry_date']}</val></div>
+              </div>
+            </div>"""
+        open_section = f'<div class="pos-list">{pos_rows}</div>'
+    else:
+        open_section = '<p class="empty">No open positions.</p>'
+
+    # ── Decisions rows ────────────────────────────────────────────────────────
+    decisions = getattr(bot, "_run_decisions", [])
+    if decisions:
+        dec_rows = ""
+        for d in decisions:
+            reason = (d.get("reason") or "—")[:160]
+            action_color = "#00c853" if "BUY" in str(d.get("action","")).upper() else "#ff1744" if "SELL" in str(d.get("action","")).upper() else "#888"
+            dec_rows += f"""
+            <div class="card dec-card">
+              <div class="dec-header">
+                <span class="symbol">{d['symbol']}</span>
+                <span style="color:{action_color};font-weight:700">{d.get('action','—')}</span>
+                <span class="conf">{d.get('confidence','—')}</span>
+              </div>
+              <p class="reason">{reason}</p>
+            </div>"""
+        dec_section = f'<div class="dec-list">{dec_rows}</div>'
+    else:
+        dec_section = '<p class="empty">No buy/sell decisions this run — market closed or no signals met the threshold.</p>'
+
+    # ── Trade history rows ────────────────────────────────────────────────────
+    recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
+    if recent_closed:
+        hist_rows = ""
+        for p in reversed(recent_closed):
+            win    = p.get("pnl_usd", 0) > 0
+            badge  = '<span class="badge win">Win</span>' if win else '<span class="badge loss">Loss</span>'
+            reason = (p.get("exit_reason") or "—")[:80]
+            hist_rows += f"""
+            <div class="card hist-card">
+              <div class="hist-header">
+                <span class="symbol">{p['symbol']}</span>
+                {badge}
+                <span class="hist-pnl" style="color:{'#00c853' if win else '#ff1744'}">${p.get('pnl_usd',0):+,.2f}</span>
+              </div>
+              <div class="hist-detail">{p['entry_price']:.2f} → {p.get('exit_price',0):.2f} &nbsp;·&nbsp; {(p.get('exit_date') or '—')[:10]}</div>
+              <div class="reason">{reason}</div>
+            </div>"""
+        hist_section = f'<div class="hist-list">{hist_rows}</div>'
+    else:
+        hist_section = '<p class="empty">No closed trades yet.</p>'
+
+    # ── SPY benchmark ─────────────────────────────────────────────────────────
+    bm = data.get("benchmark", {})
+    if bm and bm.get("start_price"):
+        spy_ret   = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
+        days_in   = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
+        beating   = pnl_pct > spy_ret
+        bm_section = f"""
+        <section>
+          <h2>S&P 500 Benchmark</h2>
+          <div class="card">
+            <div class="stat-grid">
+              <div><label>SPY Start</label><val>${bm['start_price']:.2f} on {bm['start_date']}</val></div>
+              <div><label>SPY Now</label><val>${bm['current_price']:.2f} ({spy_ret:+.2f}%)</val></div>
+              <div><label>Our Return</label><val style="color:{'#00c853' if pnl_pct>=0 else '#ff1744'}">{pnl_pct:+.2f}%</val></div>
+              <div><label>Status</label><val>{'✅ Beating S&P' if beating else '❌ Trailing S&P'} — Day {days_in}/14</val></div>
+            </div>
+          </div>
+        </section>"""
+    else:
+        bm_section = ""
+
+    html = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="refresh" content="300">
+  <title>Amara Trading Dashboard</title>
+  <style>
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{ background: #0d1117; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }}
+    h1 {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; }}
+    h2 {{ font-size: 1rem; font-weight: 600; color: #8b949e; text-transform: uppercase; letter-spacing: .05em; margin: 24px 0 10px; }}
+    .meta {{ font-size: 0.75rem; color: #8b949e; margin-bottom: 20px; }}
+    .badge-mode {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#1f3a5f; color:#58a6ff; margin-left:8px; vertical-align:middle; }}
+    .hero {{ background:#161b22; border:1px solid #30363d; border-radius:12px; padding:20px; margin-bottom:8px; text-align:center; }}
+    .hero .big {{ font-size:2.6rem; font-weight:800; color:{pnl_color}; line-height:1; }}
+    .hero .sub {{ font-size:.85rem; color:#8b949e; margin-top:6px; }}
+    .card {{ background:#161b22; border:1px solid #30363d; border-radius:10px; padding:14px; margin-bottom:10px; }}
+    .stat-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }}
+    label {{ display:block; font-size:.7rem; color:#8b949e; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }}
+    val {{ display:block; font-size:.9rem; font-weight:600; }}
+    .symbol {{ font-size:1rem; font-weight:700; }}
+    .pnl {{ font-size:.95rem; font-weight:700; }}
+    .pos-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }}
+    .pos-grid {{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }}
+    .dec-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; }}
+    .conf {{ font-size:.75rem; color:#8b949e; }}
+    .reason {{ font-size:.78rem; color:#8b949e; line-height:1.4; margin-top:4px; }}
+    .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }}
+    .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.9rem; }}
+    .hist-detail {{ font-size:.75rem; color:#8b949e; margin-bottom:2px; }}
+    .badge {{ display:inline-block; padding:1px 7px; border-radius:4px; font-size:.7rem; font-weight:700; }}
+    .badge.win {{ background:#0d2818; color:#00c853; }}
+    .badge.loss {{ background:#2d0d0d; color:#ff1744; }}
+    .empty {{ color:#8b949e; font-size:.85rem; padding:8px 0; }}
+    .footer {{ font-size:.7rem; color:#484f58; text-align:center; margin-top:24px; padding-top:16px; border-top:1px solid #21262d; }}
+  </style>
+</head>
+<body>
+  <h1>🤖 Amara <span class="badge-mode">{mode}</span></h1>
+  <p class="meta">Last updated: {now.strftime('%Y-%m-%d %H:%M:%S UTC')} · auto-refreshes every 5 min</p>
+
+  <div class="hero">
+    <div class="big">{pnl_sign}${abs(total_pnl):,.2f}</div>
+    <div class="sub">Total P&amp;L &nbsp;·&nbsp; {pnl_sign}{abs(pnl_pct):.2f}%</div>
+  </div>
+
+  <section>
+    <h2>Portfolio</h2>
+    <div class="card">
+      <div class="stat-grid">
+        <div><label>Cash</label><val>${cash:,.2f}</val></div>
+        <div><label>Portfolio Value</label><val>${port_val:,.2f}</val></div>
+        <div><label>Today's P&amp;L</label><val style="color:{'#00c853' if today_pnl>=0 else '#ff1744'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
+        <div><label>Win Rate</label><val>{win_rate_str}</val></div>
+        <div><label>Open Positions</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
+        <div><label>Watchlist</label><val>{len(WATCHLIST)} stocks</val></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Open Positions ({len(open_pos)})</h2>
+    {open_section}
+  </section>
+
+  <section>
+    <h2>This Run's Decisions</h2>
+    {dec_section}
+  </section>
+
+  <section>
+    <h2>Recent Trade History</h2>
+    {hist_section}
+  </section>
+
+  {bm_section}
+
+  <p class="footer">Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}</p>
+</body>
+</html>"""
+
+    html_path = os.path.join(_SCRIPT_DIR, "index.html")
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(html)
+    log.info(f"🌐 index.html written → {html_path}")
+
 # ─────────────────────────────────────────────
 # Trade Logger — save() no longer rewrites an HTML file
 # ─────────────────────────────────────────────
@@ -1795,8 +1994,9 @@ if __name__ == "__main__":
     # ── Step 3: Execute one complete scan cycle ──────────────────────────────
     ok = bot.run_once()
 
-    # ── Step 4: Write updated Markdown dashboard ─────────────────────────────
+    # ── Step 4: Write updated dashboards ─────────────────────────────────────
     write_amara_dashboard(bot)
+    write_dashboard_html(bot)
 
     # ── Step 5: Send LINE summary ─────────────────────────────────────────────
     bot.send_run_summary()
