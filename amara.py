@@ -482,7 +482,9 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     Write index.html — a mobile-friendly light-theme HTML dashboard for GitHub Pages.
     Accessible at https://fanglilli.github.io/project-retirement/
     """
-    now = datetime.now()
+    import pytz
+    tw_tz = pytz.timezone("Asia/Taipei")
+    now = datetime.now(tw_tz)
     data = bot.logger.data
     capital = CONFIG["TOTAL_CAPITAL"]
 
@@ -681,7 +683,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">{mode}</span></h1>
-  <p class="meta">Last updated: {now.strftime('%Y-%m-%d %H:%M:%S UTC')} · auto-refreshes every 5 min</p>
+  <p class="meta">Last updated: {now.strftime('%Y-%m-%d %H:%M:%S')} TWN · auto-refreshes every 5 min</p>
 
   <div class="hero">
     <div class="big">{pnl_sign}${abs(total_pnl):,.2f}</div>
