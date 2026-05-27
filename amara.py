@@ -29,16 +29,10 @@ import logging
 # Absolute path to the directory containing this script file.
 _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Dashboard is written as a self-contained HTML file.  rclone (in the GitHub
-# Actions workflow) uploads it to Google Drive after each run, producing a
-# permanent shareable link the household can open without any login.
-DASHBOARD_PATH = "amara_dashboard.html"
-
-# Template file used to generate the dashboard.  Must live in the same
-# directory as this script (i.e. committed to your repo).
-DASHBOARD_TEMPLATE_PATH = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)), "amara_dashboard_template.html"
-)
+# Dashboard is written to Google Drive so the household can view it via a
+# shared static link without exposing secrets.env or the script directory.
+# The local Google Drive sync client keeps this path always up-to-date.
+DASHBOARD_PATH = "amara_dashboard.md"
 
 from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
@@ -47,8 +41,12 @@ from typing import Optional
 import pandas as pd
 from dotenv import load_dotenv
 
-# Load secrets from secrets.env (must be in the same folder as this script)
-load_dotenv(os.path.join(_SCRIPT_DIR, "secrets.env"))
+# Load secrets from secrets.env if present (local dev only).
+# Claude Code routines inject API keys as environment variables directly —
+# secrets.env is not committed to the repo, so this is skipped in remote runs.
+_dotenv_path = os.path.join(_SCRIPT_DIR, "secrets.env")
+if os.path.exists(_dotenv_path):
+    load_dotenv(_dotenv_path)
 
 # ─────────────────────────────────────────────
 # CONFIG — non-sensitive settings here; API keys in secrets.env
@@ -89,10 +87,6 @@ CONFIG = {
     "TOP_CANDIDATES": 5,           # only top-N momentum stocks go to Claude
     "LOG_FILE": os.path.join(_SCRIPT_DIR, "amara.log"),
     "TRADES_FILE": os.path.join(_SCRIPT_DIR, "amara_trades.json"),
-
-    # Dashboard — shareable Google Drive link (paste after first rclone deploy)
-    # Add DASHBOARD_URL=https://drive.google.com/... to secrets.env
-    "DASHBOARD_URL": os.getenv("DASHBOARD_URL", ""),
 
     # LINE Messaging API — read from secrets.env
     "LINE_CHANNEL_ACCESS_TOKEN": os.getenv("LINE_CHANNEL_ACCESS_TOKEN"),
@@ -291,107 +285,196 @@ class DailyStats:
 
 def read_previous_dashboard() -> str:
     """
-    Load a brief plain-text context summary from amara_trades.json.
-
-    This replaces the old approach of reading amara_dashboard.md, which broke
-    once the dashboard switched to HTML.  The JSON file is always current,
-    machine-readable, and compact — far better as a context source.
-
-    Returns a short string that Claude can use for prior-run awareness.
+    Read amara_dashboard.md from the last run (if it exists).
+    Returns the raw markdown string so Amara has context on her previous
+    decisions and positions before running the new market scan.
     Returns empty string on first ever run.
+    Reads from DASHBOARD_PATH (Google Drive sync folder).
     """
-    path = CONFIG["TRADES_FILE"]
-    if not os.path.exists(path):
-        log.info("📖 No previous trade data found — this appears to be Amara's first run")
-        return ""
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        open_pos  = [p for p in data.get("positions", []) if p["status"] == "open"]
-        closed    = [p for p in data.get("positions", []) if p["status"] == "closed"]
-        total_pnl = sum(p.get("pnl_usd", 0) for p in closed)
-        cash      = data.get("cash_available", CONFIG["TOTAL_CAPITAL"])
-        summary   = (
-            f"Prior-run context: "
-            f"open positions={len(open_pos)}, "
-            f"closed trades={len(closed)}, "
-            f"total realized P&L=${total_pnl:+,.2f}, "
-            f"cash=${cash:,.0f}."
-        )
-        if open_pos:
-            held_syms = ", ".join(p["symbol"] for p in open_pos)
-            summary += f"  Currently held: {held_syms}."
-        log.info(f"📖 Prior-run context loaded — {len(open_pos)} open, {len(closed)} closed")
-        return summary
-    except Exception as e:
-        log.warning(f"⚠️ Could not load prior context from trades file: {e}")
-        return ""
+    path = DASHBOARD_PATH
+    if os.path.exists(path):
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+            log.info(f"📖 Previous dashboard loaded ({len(content):,} chars) — Amara has prior-run context")
+            return content
+        except Exception as e:
+            log.warning(f"⚠️ Could not read previous dashboard: {e}")
+    else:
+        log.info("📖 No previous dashboard found — this appears to be Amara's first run")
+    return ""
 
 
 def write_amara_dashboard(bot: "AmaraBot") -> None:
     """
-    Write (overwrite) amara_dashboard.html by injecting live trade data into
-    amara_dashboard_template.html.
-
-    The template is a self-contained HTML file with a placeholder:
-        <script id="embedded-data">var EMBEDDED_DATA = {...};</script>
-    This function replaces the {...} with bot.logger.data serialised as JSON,
-    producing a fully populated HTML dashboard that can be opened offline or
-    shared via a Google Drive link.
-
-    Falls back to a plain-text warning file if the template is missing.
+    Write (overwrite) amara_dashboard.md with a full Markdown run report.
+    Sections:
+      1. Run summary table (timestamp, cash, P&L, positions, win rate)
+      2. Open positions table
+      3. This run's decisions (buys / sells / skips)
+      4. Latest scan results (up to 20 rows)
+      5. Recent trade history (last 10 closed)
+      6. SPY benchmark (if active)
     """
-    import re
-
+    now = datetime.now()
     data = bot.logger.data
+    capital = CONFIG["TOTAL_CAPITAL"]
 
-    # ── Load template ─────────────────────────────────────────────────────────
-    if not os.path.exists(DASHBOARD_TEMPLATE_PATH):
-        log.error(
-            f"❌ Dashboard template not found at {DASHBOARD_TEMPLATE_PATH} — "
-            f"commit amara_dashboard_template.html to your repo."
-        )
-        # Write a minimal fallback so the GitHub Actions commit step still works
-        fallback = (
-            f"<html><body><pre>amara_dashboard_template.html missing.\n"
-            f"Commit it to your repo root.\n\n"
-            f"Last run: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n"
-            f"Open positions: {len(bot.logger.get_open_positions())}\n"
-            f"Total P&L: ${bot.logger.get_total_pnl():+,.2f}"
-            f"</pre></body></html>"
-        )
-        with open(DASHBOARD_PATH, "w", encoding="utf-8") as f:
-            f.write(fallback)
-        return
+    cash        = data.get("cash_available", 0)
+    port_val    = data.get("portfolio_value", 0)
+    buy_power   = data.get("buying_power", 0)
+    total_pnl   = bot.logger.get_total_pnl()
+    today_pnl   = bot.logger.get_today_pnl()
+    open_pos    = bot.logger.get_open_positions()
+    all_closed  = [p for p in data["positions"] if p["status"] == "closed"]
+    winners     = len([p for p in all_closed if p["pnl_usd"] > 0])
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
 
-    with open(DASHBOARD_TEMPLATE_PATH, "r", encoding="utf-8") as f:
-        template_html = f.read()
+    mode = "🧪 PAPER" if CONFIG.get("PAPER_TRADING", True) else "💰 LIVE"
+    pnl_pct = total_pnl / capital * 100 if capital else 0
+    pnl_arrow = "▲" if total_pnl >= 0 else "▼"
 
-    # ── Inject live data into the embedded-data script tag ────────────────────
-    # Compact JSON (no indent) keeps the file small for Drive upload
-    json_payload = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
-    html = re.sub(
-        r'(<script id="embedded-data">var EMBEDDED_DATA = )(\{.*?\})(;</script>)',
-        rf'\g<1>{json_payload}\3',
-        template_html,
-        flags=re.DOTALL
-    )
+    lines = []
 
-    if html == template_html:
-        log.warning(
-            "⚠️ EMBEDDED_DATA placeholder not found in template — "
-            "dashboard data was NOT injected.  Check amara_dashboard_template.html."
-        )
+    # ── Header ───────────────────────────────────────────────────────────────
+    lines.append("# 🤖 Amara — Trading Dashboard")
+    lines.append("")
 
-    with open(DASHBOARD_PATH, "w", encoding="utf-8") as f:
-        f.write(html)
+    # ── Run Summary Table ─────────────────────────────────────────────────────
+    lines.append("## 📊 Run Summary")
+    lines.append("")
+    lines.append("| Field | Value |")
+    lines.append("|:------|:------|")
+    lines.append(f"| **Last Run** | `{now.strftime('%Y-%m-%d %H:%M:%S')}` |")
+    lines.append(f"| **Mode** | {mode} |")
+    lines.append(f"| **Cash Available** | `${cash:,.2f}` |")
+    lines.append(f"| **Portfolio Value** | `${port_val:,.2f}` |")
+    lines.append(f"| **Buying Power** | `${buy_power:,.2f}` |")
+    lines.append(f"| **Total P&L** | `${total_pnl:+,.2f}` ({pnl_arrow} {abs(pnl_pct):.2f}%) |")
+    lines.append(f"| **Today's P&L** | `${today_pnl:+,.2f}` |")
+    lines.append(f"| **Win Rate** | {win_rate_str} |")
+    lines.append(f"| **Open Positions** | {len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])} |")
+    lines.append(f"| **Stocks Watched** | {len(WATCHLIST)} |")
+    lines.append("")
 
-    open_count = len(bot.logger.get_open_positions())
-    pnl        = bot.logger.get_total_pnl()
-    log.info(
-        f"📊 HTML dashboard written → {DASHBOARD_PATH} "
-        f"(positions: {open_count}, P&L: ${pnl:+,.2f})"
-    )
+    # ── Open Positions ────────────────────────────────────────────────────────
+    lines.append("## 📋 Open Positions")
+    lines.append("")
+    if open_pos:
+        lines.append("| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Stop Loss | Take Profit | Cost (USD) |")
+        lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|------------:|-----------:|")
+        for pos in open_pos:
+            last = pos.get("last_price") or pos["entry_price"]
+            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            sign = "🟢" if pct >= 0 else "🔴"
+            lines.append(
+                f"| **{pos['symbol']}** | ${pos['entry_price']:.2f} | ${last:.2f} | "
+                f"{sign} {pct:+.1f}% | {pos['entry_date']} | "
+                f"${pos['stop_loss_price']:.2f} | ${pos['take_profit_price']:.2f} | "
+                f"${pos['cost_usd']:,.0f} |"
+            )
+    else:
+        lines.append("*No open positions at time of this run.*")
+    lines.append("")
+
+    # ── This Run's Decisions ──────────────────────────────────────────────────
+    lines.append("## 🧠 This Run's Decisions")
+    lines.append("")
+    decisions = getattr(bot, "_run_decisions", [])
+    if decisions:
+        lines.append("| Time | Symbol | Action | Confidence | Reason |")
+        lines.append("|:----:|:------:|:------:|:----------:|:-------|")
+        for d in decisions:
+            reason = (d.get("reason") or "—").replace("|", "\\|").replace("\n", " ")
+            reason = reason[:140] + ("…" if len(reason) > 140 else "")
+            conf   = d.get("confidence", "—")
+            lines.append(
+                f"| {d.get('time', '—')} | **{d['symbol']}** | {d['action']} | "
+                f"{conf} | {reason} |"
+            )
+    else:
+        lines.append("*No buy/sell decisions this run — market was closed or no signals met the threshold.*")
+    lines.append("")
+
+    # ── Latest Scan Results (today, up to 20) ────────────────────────────────
+    lines.append("## 🔍 Latest Scan Results")
+    lines.append("")
+    today_str    = now.strftime("%Y-%m-%d")
+    scan_log     = data.get("scan_log", [])
+    today_scans  = [s for s in scan_log if s.get("date") == today_str]
+    display_scans = today_scans[-20:] if today_scans else scan_log[-20:]
+
+    if display_scans:
+        lines.append("| Time | Symbol | Score | RSI | Vol× | Sent to AI | Decision | AI Reason |")
+        lines.append("|:----:|:------:|------:|----:|-----:|:----------:|:--------:|:----------|")
+        for s in display_scans:
+            sent    = "🧠 Yes" if s.get("sent_to_claude") else "—"
+            if s.get("hold_review"):
+                decision = "🔍 Hold Review"
+            elif s.get("sent_to_claude"):
+                decision = "✅ BUY" if s.get("claude_approved") else "❌ SKIP"
+            else:
+                decision = "—"
+            reason = (s.get("claude_reason") or "—").replace("|", "\\|").replace("\n", " ")
+            reason = reason[:100] + ("…" if len(reason) > 100 else "")
+            lines.append(
+                f"| {s.get('timestamp', '—')} | **{s['symbol']}** | {s.get('score', 0)} | "
+                f"{s.get('rsi', 0):.1f} | {s.get('volume_ratio', 0):.1f}x | "
+                f"{sent} | {decision} | {reason} |"
+            )
+    else:
+        lines.append("*No scan data recorded yet.*")
+    lines.append("")
+
+    # ── Recent Trade History (last 10 closed) ─────────────────────────────────
+    lines.append("## 📒 Recent Trade History")
+    lines.append("")
+    recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
+    if recent_closed:
+        lines.append("| Symbol | Entry | Exit | P&L (USD) | Result | Reason | Closed |")
+        lines.append("|:------:|------:|-----:|----------:|:------:|:-------|:------:|")
+        for p in reversed(recent_closed):
+            result = "✅ Win" if p.get("pnl_usd", 0) > 0 else "❌ Loss"
+            reason = (p.get("exit_reason") or "—").replace("|", "\\|")
+            lines.append(
+                f"| **{p['symbol']}** | ${p['entry_price']:.2f} | "
+                f"${p.get('exit_price', 0):.2f} | "
+                f"`${p.get('pnl_usd', 0):+,.2f}` | {result} | {reason} | "
+                f"{(p.get('exit_date') or '—')[:10]} |"
+            )
+    else:
+        lines.append("*No closed trades yet.*")
+    lines.append("")
+
+    # ── SPY Benchmark ─────────────────────────────────────────────────────────
+    bm = data.get("benchmark", {})
+    if bm and bm.get("start_price"):
+        spy_ret = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
+        our_ret = pnl_pct
+        days_in = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
+        beating = "✅ Beating S&P" if our_ret > spy_ret else "❌ Trailing S&P"
+        lines.append("## 🏁 S&P 500 Benchmark")
+        lines.append("")
+        lines.append("| Metric | Value |")
+        lines.append("|:-------|:------|")
+        lines.append(f"| SPY Start | `${bm['start_price']:.2f}` on {bm['start_date']} |")
+        lines.append(f"| SPY Now | `${bm['current_price']:.2f}` ({spy_ret:+.2f}%) |")
+        lines.append(f"| Our Return | `{our_ret:+.2f}%` |")
+        lines.append(f"| Challenge Status | {beating} — Day {days_in} / 14 |")
+        lines.append("")
+
+    # ── Footer ────────────────────────────────────────────────────────────────
+    lines.append("---")
+    lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
+
+    # 請確保下面這 4 行有正確的 4 個空格縮排（Indentation）
+    dashboard_path = DASHBOARD_PATH
+    if os.path.dirname(dashboard_path):
+        os.makedirs(os.path.dirname(dashboard_path), exist_ok=True)
+    with open(dashboard_path, "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+
+    log.info(f"📊 amara_dashboard.md written → {dashboard_path} ({len(lines)} lines)")
 
 # ─────────────────────────────────────────────
 # Trade Logger — save() no longer rewrites an HTML file
@@ -421,14 +504,7 @@ class TradeLogger:
                         tech_signal: bool, claude_approved: bool, claude_reason: str,
                         sent_to_claude: bool = False, confidence: int = 0, risk: str = "",
                         key_signal: str = "", reasons: list = None, momentum_5d_pct: float = 0.0,
-                        current_price: float = 0.0, hold_review: bool = False,
-                        skip_reason: str = ""):
-        """
-        skip_reason  — pre-computed plain-English explanation of why this stock
-                       was not bought (e.g. "RSI 48 too low; volume 0.8x weak").
-                       Shown in the dashboard tech-scan table's "Why Skipped" column.
-                       Only meaningful when sent_to_claude=False.
-        """
+                        current_price: float = 0.0, hold_review: bool = False):
         if "scan_log" not in self.data:
             self.data["scan_log"] = []
         entry = {
@@ -448,8 +524,7 @@ class TradeLogger:
             "key_signal": key_signal,
             "reasons": reasons or [],
             "momentum_5d_pct": round(momentum_5d_pct, 2),
-            "current_price": round(current_price, 2),
-            "skip_reason": skip_reason,
+            "current_price": round(current_price, 2)
         }
         self.data["scan_log"].append(entry)
         self.data["scan_log"] = self.data["scan_log"][-200:]
@@ -540,12 +615,14 @@ class MarketData:
             log.warning(f"⚠️ Cannot fetch price for {symbol}: {e}")
             return None
 
-    def get_bars_batch(self, symbols: list, days: int = 220) -> Optional[pd.DataFrame]:
+    def get_bars_batch(self, symbols: list, days: int = 300) -> Optional[pd.DataFrame]:
         """
         Fetch daily OHLCV bars for ALL symbols in a single Alpaca API call.
 
         Returns a MultiIndex DataFrame with (symbol, timestamp) as the index,
-        or None on failure.  days=220 ensures enough history for the 200-day MA.
+        or None on failure.  days=300 (≈214 trading days) ensures enough history
+        for the 200-day MA. Do NOT reduce below 290 — rolling(200) needs 200
+        trading day rows minimum, which requires ~285 calendar days.
         """
         if not self.client or not symbols:
             return None
@@ -680,7 +757,7 @@ RSI (14-day): {tech_data['rsi']:.1f}
 20-day SMA: ${tech_data['sma_20']:.2f} (price is {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}% above)
 Volume multiple: {tech_data['volume_ratio']:.1f}x (vs 20-day avg)
 5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
-Technical score: {tech_data['score']}/100
+Technical score: {tech_data['score']}/115
 Score breakdown: {', '.join(tech_data['reasons'])}
 
 {news_section}
@@ -1043,8 +1120,8 @@ class AmaraBot:
             log.info(f"📊 Positions: {current_count}/{max_positions} — {slots} slot(s) free")
 
         # ── Step 1: Single batch fetch for all 150 symbols ────────────────
-        log.info(f"🔍 Batch-fetching bars for {len(WATCHLIST)} symbols (220-day window)...")
-        raw = self.market.get_bars_batch(WATCHLIST, days=220)
+        log.info(f"🔍 Batch-fetching bars for {len(WATCHLIST)} symbols (300-day window)...")
+        raw = self.market.get_bars_batch(WATCHLIST, days=300)
         if raw is None or raw.empty:
             log.warning("⚠️ Batch bar fetch returned no data — skipping scan this run")
             return
@@ -1053,6 +1130,7 @@ class AmaraBot:
         # raw MultiIndex is (symbol, timestamp); unstack symbol → columns
         # Result: rows=timestamps, columns=symbols
         close_all  = raw["close"].unstack(level=0)
+        open_all   = raw["open"].unstack(level=0)
         volume_all = raw["volume"].unstack(level=0)
 
         # Moving averages
@@ -1071,36 +1149,45 @@ class AmaraBot:
 
         # Latest values (most recent trading day)
         last_close     = close_all.iloc[-1]
+        last_open      = open_all.iloc[-1]
         last_ma5       = ma5_all.iloc[-1]
         last_ma20      = ma20_all.iloc[-1]
         last_ma200     = ma200_all.iloc[-1]
         last_rsi       = rsi_all.iloc[-1]
         last_vol_ratio = vol_ratio_all.iloc[-1]
 
-        # ── Step 3: 4-criterion composite score ──────────────────────────
+        # ── Step 3: 5-criterion composite score (max 115) ────────────────
+        # MA200 is a +15 bonus, not a hard gate — stocks in recovery can still
+        # qualify on strong momentum. Prevents eliminating whole market segments
+        # during broad corrections when many MA20s temporarily dip below MA200.
+        # MA200 NaN-safe: False if data unavailable, bonus simply doesn't fire.
         valid = (last_close.notna() & last_ma5.notna() &
-                 last_ma20.notna() & last_ma200.notna() &
+                 last_ma20.notna() &
                  last_rsi.notna() & last_vol_ratio.notna())
 
-        rsi_ok       = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
-        price_vs_ma  = last_close > last_ma20
-        golden_cross = last_ma5 > last_ma20
-        vol_surge    = last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]
+        rsi_ok            = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
+        price_vs_ma       = last_close > last_ma20
+        golden_cross      = last_ma5 > last_ma20
+        bullish_candle    = last_close > last_open          # volume must be on a green day
+        vol_surge         = (last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]) & bullish_candle
+        long_term_uptrend = last_ma20 > last_ma200          # bonus: NaN comparison = False (no bonus)
 
         score_all = (
-            (rsi_ok.astype(int)       * 30) +
-            (price_vs_ma.astype(int)  * 25) +
-            (golden_cross.astype(int) * 20) +
-            (vol_surge.astype(int)    * 25)
+            (rsi_ok.astype(int)              * 30) +   # RSI in momentum zone
+            (price_vs_ma.astype(int)         * 25) +   # price above 20-MA
+            (golden_cross.astype(int)        * 20) +   # 5-MA above 20-MA
+            (vol_surge.astype(int)           * 25) +   # buying volume surge (green day)
+            (long_term_uptrend.astype(int)   * 15)     # bonus: MA20 > MA200 uptrend
         ).where(valid, other=0)
 
-        # ── Step 4: Hard filter — score ≥ 60 AND Price > 20-MA > 200-MA ──
-        trend_ok   = valid & (last_close > last_ma20) & (last_ma20 > last_ma200)
-        qualifying = trend_ok & (score_all >= 60)
+        # ── Step 4: Filter — score ≥ 60 AND price above 20-MA ────────────
+        # MA200 no longer a hard gate — contributes +15 to score instead.
+        # Stocks below MA200 can still qualify if momentum signals are strong.
+        qualifying = valid & price_vs_ma & (score_all >= 60)
 
         pct_above_ma20 = ((last_close - last_ma20) / last_ma20 * 100).where(qualifying)
 
-        log.info(f"   Qualifying (score≥60 + trend filter): "
+        log.info(f"   Qualifying (score≥60, price>MA20, buying volume): "
                  f"{qualifying.sum()}/{len(WATCHLIST)} symbols")
 
         # ── Step 5: Rank by score desc, tiebreak by % above 20-MA desc ───
@@ -1119,79 +1206,6 @@ class AmaraBot:
 
         log.info(f"   Top {top_n} candidates → Claude: "
                  f"{', '.join(top_symbols) if top_symbols else 'none'}")
-
-        # ── Step 5b: Log top-20 scan results for dashboard ──────────────────
-        # All valid symbols with score ≥ 50, excluding Claude candidates and held
-        # stocks.  These populate the "Technical Scan" table in the HTML dashboard
-        # so the broader scan landscape and skip reasons are visible each run.
-        top20_df = (
-            score_all[valid]
-            .sort_values(ascending=False)
-            .drop(index=[s for s in list(open_symbols) + top_symbols
-                         if s in score_all.index], errors="ignore")
-            .head(20)
-        )
-        log.info(f"   Top-20 scan log: {len(top20_df)} non-Claude entries (all scores)")
-
-        for sym in top20_df.index:
-            if sym not in close_all.columns:
-                continue
-            close_ser = close_all[sym].dropna()
-            if close_ser.empty:
-                continue
-
-            cur_price = float(close_ser.iloc[-1])
-            sc        = int(top20_df[sym])
-            rsi_v     = float(last_rsi[sym])       if sym in last_rsi.index       and not pd.isna(last_rsi[sym])       else 0.0
-            vol_v     = float(last_vol_ratio[sym])  if sym in last_vol_ratio.index  and not pd.isna(last_vol_ratio[sym])  else 0.0
-            ma5_v     = float(last_ma5[sym])        if sym in last_ma5.index        and not pd.isna(last_ma5[sym])        else 0.0
-            ma20_v    = float(last_ma20[sym])       if sym in last_ma20.index       and not pd.isna(last_ma20[sym])       else 0.0
-            ma200_v   = float(last_ma200[sym])      if sym in last_ma200.index      and not pd.isna(last_ma200[sym])      else 0.0
-            p5ago     = float(close_ser.iloc[-6])   if len(close_ser) > 5 else cur_price
-            mom5      = (cur_price - p5ago) / p5ago * 100
-
-            # Build human-readable skip reason ──────────────────────────────
-            rsi_good    = CONFIG["RSI_BUY_THRESHOLD"] <= rsi_v <= CONFIG["RSI_OVERBOUGHT"]
-            vol_good    = vol_v >= CONFIG["VOLUME_SURGE_FACTOR"]
-            price_above = cur_price > ma20_v
-            golden      = ma5_v > ma20_v
-            trend_ok_s  = price_above and (ma20_v > ma200_v)
-
-            parts = []
-            if sc < 60:
-                if not rsi_good:
-                    if rsi_v < CONFIG["RSI_BUY_THRESHOLD"]:
-                        parts.append(f"RSI {rsi_v:.0f} too low (needs >{CONFIG['RSI_BUY_THRESHOLD']})")
-                    else:
-                        parts.append(f"RSI {rsi_v:.0f} overbought (above {CONFIG['RSI_OVERBOUGHT']})")
-                if not vol_good:
-                    parts.append(f"volume {vol_v:.1f}x weak (needs ≥{CONFIG['VOLUME_SURGE_FACTOR']}x)")
-                if not price_above:
-                    parts.append("price below 20-MA")
-                if not golden:
-                    parts.append("5-MA below 20-MA (no golden cross)")
-                reason_str = f"Score {sc}/100 — " + ("; ".join(parts) if parts else "multiple criteria weak")
-            elif not trend_ok_s:
-                if not price_above:
-                    reason_str = f"Score {sc}/100 — price below 20-MA (downtrend)"
-                elif ma20_v <= ma200_v:
-                    reason_str = f"Score {sc}/100 — 20-MA below 200-MA (long-term downtrend)"
-                else:
-                    reason_str = f"Score {sc}/100 — failed trend filter"
-            else:
-                reason_str = (
-                    f"Score {sc}/100 — qualified but ranked outside top {top_n} "
-                    f"(better candidates sent to Claude this run)"
-                )
-
-            self.logger.log_scan_result(
-                symbol=sym, score=sc,
-                rsi=rsi_v, volume_ratio=vol_v,
-                tech_signal=price_above,
-                sent_to_claude=False, claude_approved=False, claude_reason="",
-                momentum_5d_pct=mom5, current_price=cur_price,
-                skip_reason=reason_str,
-            )
 
         # ── Step 6: Claude analysis for top N only ────────────────────────
         bought_this_scan = 0
@@ -1231,8 +1245,11 @@ class AmaraBot:
             if sma_5 > sma_20:
                 reasons.append(f"Golden cross: 5-MA (${sma_5:.2f}) > 20-MA (${sma_20:.2f}) +20pts")
             if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
-                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg +25pts")
-            reasons.append(f"Trend confirmed: 20-MA > 200-MA (${sma_200:.2f})")
+                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg (buying day, close>open) +25pts")
+            if sma_20 > sma_200:
+                reasons.append(f"Long-term uptrend bonus: 20-MA > 200-MA (${sma_200:.2f}) +15pts")
+            else:
+                reasons.append(f"Below 200-MA (${sma_200:.2f}) — qualified on momentum, no uptrend bonus")
             reasons.append(f"Momentum: {pct_above:.1f}% above 20-MA")
 
             candidate = {
@@ -1706,9 +1723,6 @@ class AmaraBot:
         else:
             sell_lines = "\n📤 Sold: none"
 
-        dashboard_url = CONFIG.get("DASHBOARD_URL", "").strip()
-        dashboard_line = f"\n\n📊 Dashboard: {dashboard_url}" if dashboard_url else ""
-
         message = (
             f"🤖 Amara — Run Complete\n"
             f"🕐 {datetime.now().strftime('%Y-%m-%d %H:%M')}\n"
@@ -1716,7 +1730,6 @@ class AmaraBot:
             f"\n📈 Total P&L:   ${total_pnl:+,.2f} ({total_pnl/capital*100:+.2f}%)"
             f"\n📋 Positions:   {len(open_pos)}/{int(1/CONFIG['MAX_POSITION_PCT'])}"
             f"{buy_lines}{sell_lines}"
-            f"{dashboard_line}"
         )
         send_line_message(message)
 
@@ -1773,7 +1786,7 @@ if __name__ == "__main__":
     log.info("🤖  AMARA — serverless single-run mode")
     log.info("=" * 55)
 
-    # ── Step 1: Load prior-run context from amara_trades.json ──────────────
+    # ── Step 1: Load prior-run context from amara_dashboard.md ──────────────
     previous_context = read_previous_dashboard()
 
     # ── Step 2: Initialise bot (Alpaca sync, Claude connect) ────────────────
@@ -1782,7 +1795,7 @@ if __name__ == "__main__":
     # ── Step 3: Execute one complete scan cycle ──────────────────────────────
     ok = bot.run_once()
 
-    # ── Step 4: Write HTML dashboard (amara_dashboard.html) ──────────────────
+    # ── Step 4: Write updated Markdown dashboard ─────────────────────────────
     write_amara_dashboard(bot)
 
     # ── Step 5: Send LINE summary ─────────────────────────────────────────────
