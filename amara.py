@@ -570,13 +570,13 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
                 status_reason = s.get("claude_reason") or "Claude rejected"
             else:
                 status_badge = '<span class="sbadge notsent">Not top 5</span>'
-                status_reason = f"Score {s.get('score',0)}/115 — qualified but ranked outside top {CONFIG['TOP_CANDIDATES']}"
+                status_reason = f"Score {s.get('score',0)}/100 — qualified but ranked outside top {CONFIG['TOP_CANDIDATES']}"
 
             scan_rows += f"""
             <div class="card scan-card">
               <div class="scan-header">
                 <span class="symbol">{s['symbol']}</span>
-                <span class="score">Score: {s.get('score',0)}/115</span>
+                <span class="score">Score: {s.get('score',0)}/100</span>
                 {status_badge}
               </div>
               <div class="scan-stats">
@@ -1014,7 +1014,7 @@ RSI (14-day): {tech_data['rsi']:.1f}
 20-day SMA: ${tech_data['sma_20']:.2f} (price is {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}% above)
 Volume multiple: {tech_data['volume_ratio']:.1f}x (vs 20-day avg)
 5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
-Technical score: {tech_data['score']}/115
+Technical score: {tech_data['score']}/100
 Score breakdown: {', '.join(tech_data['reasons'])}
 
 {news_section}
@@ -1423,28 +1423,27 @@ class AmaraBot:
                  last_rsi.notna() & last_vol_ratio.notna())
 
         rsi_ok            = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
-        price_vs_ma       = last_close > last_ma20
-        golden_cross      = last_ma5 > last_ma20
-        bullish_candle    = last_close > last_open          # volume must be on a green day
+        price_vs_ma       = last_close > last_ma20          # direction: price above 20-day average
+        bullish_candle    = last_close > last_open          # green day: close higher than open
         vol_surge         = (last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]) & bullish_candle
-        long_term_uptrend = last_ma20 > last_ma200          # bonus: NaN comparison = False (no bonus)
+        long_term_uptrend = last_ma20 > last_ma200          # bonus: NaN-safe, False if unavailable
 
+        # ── Scoring (max 100 pts) ─────────────────────────────────────────
+        # Four dimensions of short-term stock strength — no single criterion
+        # can carry a stock alone; at least two strong signals required.
         score_all = (
-            (rsi_ok.astype(int)              * 30) +   # RSI in momentum zone
-            (price_vs_ma.astype(int)         * 25) +   # price above 20-MA
-            (golden_cross.astype(int)        * 20) +   # 5-MA above 20-MA
-            (vol_surge.astype(int)           * 25) +   # buying volume surge (green day)
-            (long_term_uptrend.astype(int)   * 15)     # bonus: MA20 > MA200 uptrend
+            (vol_surge.astype(int)           * 35) +   # conviction: unusual buying volume (35 pts)
+            (rsi_ok.astype(int)              * 30) +   # momentum quality: RSI in sweet spot (30 pts)
+            (price_vs_ma.astype(int)         * 25) +   # direction: price above 20-MA       (25 pts)
+            (long_term_uptrend.astype(int)   * 10)     # context: MA20 > MA200 bonus         (10 pts)
         ).where(valid, other=0)
 
-        # ── Step 4: Filter — score ≥ 60 AND price above 20-MA ────────────
-        # MA200 no longer a hard gate — contributes +15 to score instead.
-        # Stocks below MA200 can still qualify if momentum signals are strong.
-        qualifying = valid & price_vs_ma & (score_all >= 60)
+        # ── Step 4: Filter — score ≥ 60 ──────────────────────────────────
+        qualifying = valid & (score_all >= 60)
 
         pct_above_ma20 = ((last_close - last_ma20) / last_ma20 * 100).where(qualifying)
 
-        log.info(f"   Qualifying (score≥60, price>MA20, buying volume): "
+        log.info(f"   Qualifying (score≥60, vol+RSI+MA20 signals): "
                  f"{qualifying.sum()}/{len(WATCHLIST)} symbols")
 
         # ── Step 5: Rank by score desc, tiebreak by % above 20-MA desc ───
@@ -1495,19 +1494,22 @@ class AmaraBot:
 
             # Build human-readable score breakdown for Claude
             reasons = []
+            if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
+                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg (bullish candle, close>open) +35pts")
+            else:
+                reasons.append(f"Volume {vol_ratio:.1f}× avg — below 1.5× surge threshold, no conviction pts")
             if CONFIG["RSI_BUY_THRESHOLD"] <= rsi <= CONFIG["RSI_OVERBOUGHT"]:
                 reasons.append(f"RSI {rsi:.1f} in momentum zone ({CONFIG['RSI_BUY_THRESHOLD']}–{CONFIG['RSI_OVERBOUGHT']}) +30pts")
-            if current_price > sma_20:
-                reasons.append(f"Price above 20-MA (${sma_20:.2f}) +25pts")
-            if sma_5 > sma_20:
-                reasons.append(f"Golden cross: 5-MA (${sma_5:.2f}) > 20-MA (${sma_20:.2f}) +20pts")
-            if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
-                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg (buying day, close>open) +25pts")
-            if sma_20 > sma_200:
-                reasons.append(f"Long-term uptrend bonus: 20-MA > 200-MA (${sma_200:.2f}) +15pts")
             else:
-                reasons.append(f"Below 200-MA (${sma_200:.2f}) — qualified on momentum, no uptrend bonus")
-            reasons.append(f"Momentum: {pct_above:.1f}% above 20-MA")
+                reasons.append(f"RSI {rsi:.1f} outside momentum zone ({CONFIG['RSI_BUY_THRESHOLD']}–{CONFIG['RSI_OVERBOUGHT']}) — no RSI pts")
+            if current_price > sma_20:
+                reasons.append(f"Price ${current_price:.2f} above 20-MA (${sma_20:.2f}) +25pts")
+            else:
+                reasons.append(f"Price ${current_price:.2f} below 20-MA (${sma_20:.2f}) — no direction pts")
+            if sma_20 > sma_200:
+                reasons.append(f"Long-term uptrend: 20-MA > 200-MA (${sma_200:.2f}) +10pts")
+            else:
+                reasons.append(f"Below 200-MA (${sma_200:.2f}) — no context bonus")
 
             candidate = {
                 "symbol":          symbol,
