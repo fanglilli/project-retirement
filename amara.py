@@ -32,9 +32,9 @@ _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # Dashboard is written to Google Drive so the household can view it via a
 # shared static link without exposing secrets.env or the script directory.
 # The local Google Drive sync client keeps this path always up-to-date.
-DASHBOARD_PATH = "amara_dashboard.md"
+DASHBOARD_PATH = os.path.join(_SCRIPT_DIR, "amara_dashboard.md")
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, asdict
 from typing import Optional
 
@@ -63,20 +63,24 @@ CONFIG = {
     # Portfolio limits
     "TOTAL_CAPITAL": 100000,
     "MAX_POSITION_PCT": 0.10,       # used to calculate max simultaneous positions (10 slots)
-    "MAX_HOLD_DAYS": 5,
     "DAILY_LOSS_LIMIT_PCT": 0.05,
     "TOTAL_LOSS_LIMIT_PCT": 0.30,
 
     # ── Dual-tier risk profiles ──────────────────────────────────────────
-    # Large-caps: tighter stop, earlier exit — lower volatility tolerance
-    "LARGE_CAP_STOP_LOSS_PCT":  0.035,  # Hard stop-loss  -3.5%
-    "LARGE_CAP_TRAILING_PCT":   0.080,  # Trailing trigger +8.0%
-    "LARGE_CAP_POSITION_PCT":   0.10,   # 10% of capital per position
+    # Exit architecture: hard stop-loss (floor) + trailing stop (ratchets up with peak price).
+    # No fixed take-profit — trailing stop lets winners run while locking in gains.
+    #
+    # Large-caps: tighter stop, tighter trail, 3-day hold limit
+    "LARGE_CAP_STOP_LOSS_PCT":    0.035,  # Hard floor stop-loss      -3.5%
+    "LARGE_CAP_TRAIL_PCT":        0.025,  # Trailing stop from peak   -2.5%
+    "LARGE_CAP_MAX_HOLD_DAYS":    3,      # Exit at market after 3 trading sessions
+    "LARGE_CAP_POSITION_PCT":     0.10,   # 10% of equity per position
 
-    # Mid-caps: wider stop, higher target — accommodates larger swings
-    "MID_CAP_STOP_LOSS_PCT":    0.050,  # Hard stop-loss  -5.0%
-    "MID_CAP_TRAILING_PCT":     0.110,  # Trailing trigger +11.0%
-    "MID_CAP_POSITION_PCT":     0.06,   # 6% of capital per position
+    # Mid-caps: wider stop, wider trail to absorb volatility, 4-day hold limit
+    "MID_CAP_STOP_LOSS_PCT":      0.050,  # Hard floor stop-loss      -5.0%
+    "MID_CAP_TRAIL_PCT":          0.035,  # Trailing stop from peak   -3.5%
+    "MID_CAP_MAX_HOLD_DAYS":      4,      # Exit at market after 4 trading sessions
+    "MID_CAP_POSITION_PCT":       0.06,   # 6% of equity per position
 
     # ── 4-criterion scoring thresholds ──────────────────────────────────
     "RSI_BUY_THRESHOLD":    55,     # RSI must be above this (momentum building)
@@ -227,18 +231,20 @@ ASSET_TYPE: dict = {s: "large" for s in LARGE_CAPS} | {s: "mid" for s in MID_CAP
 
 
 def get_symbol_params(symbol: str) -> dict:
-    """Return stop-loss, trailing trigger, and position-size parameters for a symbol's tier."""
+    """Return stop-loss, trailing stop, max hold days, and position-size parameters for a symbol's tier."""
     if ASSET_TYPE.get(symbol) == "mid":
         return {
-            "stop_loss_pct":   CONFIG["MID_CAP_STOP_LOSS_PCT"],   # -5.0%
-            "take_profit_pct": CONFIG["MID_CAP_TRAILING_PCT"],    # +11.0% trailing trigger
-            "position_pct":    CONFIG["MID_CAP_POSITION_PCT"],    # 6% of capital
+            "stop_loss_pct":   CONFIG["MID_CAP_STOP_LOSS_PCT"],   # -5.0%  hard floor
+            "trail_pct":       CONFIG["MID_CAP_TRAIL_PCT"],        # -3.5%  trail from peak
+            "max_hold_days":   CONFIG["MID_CAP_MAX_HOLD_DAYS"],    # 4 trading sessions
+            "position_pct":    CONFIG["MID_CAP_POSITION_PCT"],     # 6% of equity
         }
     # Default to large-cap profile (also covers any unlisted symbol)
     return {
-        "stop_loss_pct":   CONFIG["LARGE_CAP_STOP_LOSS_PCT"],     # -3.5%
-        "take_profit_pct": CONFIG["LARGE_CAP_TRAILING_PCT"],      # +8.0% trailing trigger
-        "position_pct":    CONFIG["LARGE_CAP_POSITION_PCT"],      # 10% of capital
+        "stop_loss_pct":   CONFIG["LARGE_CAP_STOP_LOSS_PCT"],      # -3.5%  hard floor
+        "trail_pct":       CONFIG["LARGE_CAP_TRAIL_PCT"],           # -2.5%  trail from peak
+        "max_hold_days":   CONFIG["LARGE_CAP_MAX_HOLD_DAYS"],       # 3 trading sessions
+        "position_pct":    CONFIG["LARGE_CAP_POSITION_PCT"],        # 10% of equity
     }
 
 # ─────────────────────────────────────────────
@@ -251,21 +257,17 @@ class PaperPosition:
     entry_date: str
     shares: float
     cost_usd: float
-    stop_loss_price: float
-    take_profit_price: float
+    stop_loss_price: float    # Hard floor — never moves down
+    trail_stop_price: float   # Trailing stop — ratchets up as peak_price rises
+    trail_pct: float          # Trail percentage used for this position (e.g. 0.025 = 2.5%)
+    peak_price: float         # Highest price seen since entry — drives trail stop updates
     status: str = "open"
     exit_price: float = 0.0
     exit_date: str = ""
     exit_reason: str = ""
     pnl_usd: float = 0.0
     daily_pct_at_entry: float = 0.0
-    # Set to True once the +N% trailing trigger has fired and a GTC trailing
-    # stop order has been submitted to Alpaca.  Prevents re-submission on
-    # subsequent hourly runs and suppresses the hard-stop check (Alpaca owns
-    # the exit from this point forward).
-    trailing_stop_active: bool = False
     # Alpaca order ID of the native GTC hard stop placed at entry.
-    # Cleared (set to "") once the trailing stop replaces it.
     # Empty string means no native stop was placed (Python fallback active).
     stop_order_id: str = ""
 
@@ -361,16 +363,18 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     lines.append("## 📋 Open Positions")
     lines.append("")
     if open_pos:
-        lines.append("| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Stop Loss | Take Profit | Cost (USD) |")
-        lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|------------:|-----------:|")
+        lines.append("| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Hard Stop | Trail Stop | Peak | Cost (USD) |")
+        lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|-----------:|-----:|-----------:|")
         for pos in open_pos:
-            last = pos.get("last_price") or pos["entry_price"]
-            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
-            sign = "🟢" if pct >= 0 else "🔴"
+            last       = pos.get("last_price") or pos["entry_price"]
+            peak       = pos.get("peak_price") or pos["entry_price"]
+            trail_stop = pos.get("trail_stop_price") or pos["stop_loss_price"]
+            pct        = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            sign       = "🟢" if pct >= 0 else "🔴"
             lines.append(
                 f"| **{pos['symbol']}** | ${pos['entry_price']:.2f} | ${last:.2f} | "
                 f"{sign} {pct:+.1f}% | {pos['entry_date']} | "
-                f"${pos['stop_loss_price']:.2f} | ${pos['take_profit_price']:.2f} | "
+                f"${pos['stop_loss_price']:.2f} | ${trail_stop:.2f} | ${peak:.2f} | "
                 f"${pos['cost_usd']:,.0f} |"
             )
     else:
@@ -451,7 +455,7 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     if bm and bm.get("start_price"):
         spy_ret = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
         our_ret = pnl_pct
-        days_in = (now.date() - datetime.strptime(bm["start_date"], "%Y-%m-%d").date()).days + 1
+        days_in = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
         beating = "✅ Beating S&P" if our_ret > spy_ret else "❌ Trailing S&P"
         lines.append("## 🏁 S&P 500 Benchmark")
         lines.append("")
@@ -467,10 +471,10 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     lines.append("---")
     lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
 
-    # 請確保下面這 4 行有正確的 4 個空格縮排（Indentation）
     dashboard_path = DASHBOARD_PATH
-    if os.path.dirname(dashboard_path):
-        os.makedirs(os.path.dirname(dashboard_path), exist_ok=True)
+    dashboard_dir  = os.path.dirname(dashboard_path)
+    if dashboard_dir:
+        os.makedirs(dashboard_dir, exist_ok=True)
     with open(dashboard_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
 
@@ -505,9 +509,12 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     if open_pos:
         pos_rows = ""
         for pos in open_pos:
-            last = pos.get("last_price") or pos["entry_price"]
-            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
-            dot  = "🟢" if pct >= 0 else "🔴"
+            last       = pos.get("last_price") or pos["entry_price"]
+            peak       = pos.get("peak_price") or pos["entry_price"]
+            trail_stop = pos.get("trail_stop_price") or pos["stop_loss_price"]
+            pct        = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            dot        = "🟢" if pct >= 0 else "🔴"
+            trail_pct_disp = pos.get("trail_pct", 0.025) * 100
             pos_rows += f"""
             <div class="card pos-card">
               <div class="pos-header">
@@ -517,8 +524,9 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
               <div class="pos-grid">
                 <div><label>Entry</label><val>${pos['entry_price']:.2f}</val></div>
                 <div><label>Last</label><val>${last:.2f}</val></div>
-                <div><label>Stop</label><val>${pos['stop_loss_price']:.2f}</val></div>
-                <div><label>Target</label><val>${pos['take_profit_price']:.2f}</val></div>
+                <div><label>Peak</label><val>${peak:.2f}</val></div>
+                <div><label>Hard Stop</label><val>${pos['stop_loss_price']:.2f}</val></div>
+                <div><label>Trail Stop ({trail_pct_disp:.1f}%)</label><val>${trail_stop:.2f}</val></div>
                 <div><label>Cost</label><val>${pos['cost_usd']:,.0f}</val></div>
                 <div><label>Since</label><val>{pos['entry_date']}</val></div>
               </div>
@@ -618,7 +626,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
         spy_ret   = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in   = (now.date() - datetime.strptime(bm["start_date"], "%Y-%m-%d").date()).days + 1
+        days_in   = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
         beating   = pnl_pct > spy_ret
         bm_section = f"""
         <section>
@@ -817,6 +825,15 @@ class TradeLogger:
     def get_total_pnl(self) -> float:
         return sum(p["pnl_usd"] for p in self.data["positions"] if p["status"] == "closed")
 
+    def get_unrealized_pnl(self) -> float:
+        """Sum unrealized P&L across all open positions using last known price."""
+        total = 0.0
+        for p in self.get_open_positions():
+            last = p.get("last_price") or p["entry_price"]
+            pnl_pct = (last - p["entry_price"]) / p["entry_price"]
+            total += pnl_pct * p["cost_usd"]
+        return total
+
     def log_daily_stats(self, stats: DailyStats):
         self.data["daily_stats"].append(asdict(stats))
         self.save()
@@ -940,11 +957,15 @@ class MarketData:
 class TechnicalAnalysis:
     @staticmethod
     def calculate_rsi(prices: pd.Series, period: int = 14) -> float:
-        delta = prices.diff()
-        gain  = delta.where(delta > 0, 0).rolling(period).mean()
-        loss  = (-delta.where(delta < 0, 0)).rolling(period).mean()
-        rs    = gain / loss
-        rsi   = 100 - (100 / (1 + rs))
+        # Wilder's smoothed RSI (EMA-based) — matches TradingView / Bloomberg standard.
+        # Uses adjust=False so it replicates Wilder's recursive formula exactly.
+        delta  = prices.diff()
+        gain   = delta.clip(lower=0)
+        loss   = (-delta).clip(lower=0)
+        avg_gain = gain.ewm(com=period - 1, min_periods=period, adjust=False).mean()
+        avg_loss = loss.ewm(com=period - 1, min_periods=period, adjust=False).mean()
+        rs  = avg_gain / avg_loss
+        rsi = 100 - (100 / (1 + rs))
         return float(rsi.iloc[-1])
 
     @staticmethod
@@ -987,7 +1008,6 @@ class ClaudeAnalyst:
         if sym_params is None:
             sym_params = get_symbol_params(symbol)
         sl_pct = sym_params["stop_loss_pct"]
-        tp_pct = sym_params["take_profit_pct"]
 
         news_section = (
             "Recent news (Benzinga):\n" + "\n".join(news)
@@ -1006,9 +1026,11 @@ Prior run context (for awareness only — do not let it override current signals
 ...
 """
 
+        trail_pct = sym_params["trail_pct"]
+        max_hold  = sym_params["max_hold_days"]
         prompt = f"""
 You are a disciplined short-term trading analyst. Based on the technical indicators and
-recent news below, decide whether to BUY this stock for a 3-5 day momentum trade.
+recent news below, decide whether to BUY this stock for a momentum trade.
 {prior_block}
 Stock: {symbol}
 Current price: ${tech_data['current_price']:.2f}
@@ -1021,10 +1043,10 @@ Score breakdown: {', '.join(tech_data['reasons'])}
 
 {news_section}
 
-Trade parameters:
-- Stop loss: -{sl_pct*100:.0f}% (→ ${tech_data['current_price'] * (1 - sl_pct):.2f})
-- Take profit: +{tp_pct*100:.0f}% (→ ${tech_data['current_price'] * (1 + tp_pct):.2f})
-- Max hold: {CONFIG['MAX_HOLD_DAYS']} days
+Exit architecture (trailing stop — no fixed take-profit):
+- Hard stop floor: -{sl_pct*100:.1f}% (→ ${tech_data['current_price'] * (1 - sl_pct):.2f}) — unconditional
+- Trailing stop:   -{trail_pct*100:.1f}% from peak — ratchets up as price rises, locks in gains
+- Max hold:        {max_hold} days — time-based backstop
 
 News scoring guide:
 - Positive catalyst (earnings beat, analyst upgrade, contract win) → increases conviction
@@ -1063,13 +1085,18 @@ Reply ONLY with JSON (no other text):
         if not self.client:
             return {"hold": True, "confidence": 5, "analysis": "Claude offline — cannot review hold"}
 
-        entry_date     = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
-        hold_days      = (datetime.now() - entry_date).days
-        current_price  = tech_data["current_price"]
-        entry_price    = pos["entry_price"]
-        pnl_pct        = (current_price - entry_price) / entry_price * 100
-        stop_distance  = (current_price - pos["stop_loss_price"]) / current_price * 100
-        tp_distance    = (pos["take_profit_price"] - current_price) / current_price * 100
+        sym_params      = get_symbol_params(symbol)
+        entry_date      = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
+        hold_days       = (datetime.now() - entry_date).days
+        max_hold        = sym_params["max_hold_days"]
+        current_price   = tech_data["current_price"]
+        entry_price     = pos["entry_price"]
+        pnl_pct         = (current_price - entry_price) / entry_price * 100
+        peak_price      = pos.get("peak_price") or entry_price
+        trail_stop      = pos.get("trail_stop_price") or pos["stop_loss_price"]
+        trail_pct       = pos.get("trail_pct") or sym_params["trail_pct"]
+        stop_distance   = (current_price - pos["stop_loss_price"]) / current_price * 100
+        trail_distance  = (current_price - trail_stop) / current_price * 100
 
         news_section = (
             "Recent news (Benzinga):\n" + "\n".join(news)
@@ -1089,15 +1116,16 @@ Prior run context (for awareness only — do not let it override current signals
 
         prompt = f"""
 You are a disciplined short-term trading analyst reviewing an existing position.
-This is informational only — it does NOT trigger any stop-loss or take-profit rules.
+This is informational only — it does NOT trigger any stop-loss or trailing stop rules.
 {prior_block}
 
 Stock: {symbol}
 Entry price: ${entry_price:.2f}
 Current price: ${current_price:.2f} ({pnl_pct:+.1f}%)
-Days held: {hold_days} (max {CONFIG['MAX_HOLD_DAYS']} days)
-Stop loss: ${pos['stop_loss_price']:.2f} ({stop_distance:.1f}% away)
-Take profit: ${pos['take_profit_price']:.2f} ({tp_distance:.1f}% away)
+Peak price since entry: ${peak_price:.2f}
+Days held: {hold_days} (max {max_hold} days)
+Hard stop floor: ${pos['stop_loss_price']:.2f} ({stop_distance:.1f}% below current)
+Trailing stop: ${trail_stop:.2f} (-{trail_pct*100:.1f}% from peak, {trail_distance:.1f}% below current)
 
 Latest technical indicators:
 RSI (14-day): {tech_data['rsi']:.1f}
@@ -1178,83 +1206,84 @@ class AmaraBot:
             return False
         market_open  = now_et.replace(hour=9, minute=30, second=0)
         market_close = now_et.replace(hour=16, minute=0, second=0)
-        return market_open <= now_et <= market_close
+        return market_open <= now_et < market_close
 
     # ── Risk limits ────────────────────────────────────────────────────────
     def check_daily_limits(self) -> bool:
-        today_pnl   = self.logger.get_today_pnl()
-        daily_limit = -CONFIG["TOTAL_CAPITAL"] * CONFIG["DAILY_LOSS_LIMIT_PCT"]
-        if today_pnl <= daily_limit:
-            log.warning(f"🚨 Daily loss limit hit — ${abs(today_pnl):,.2f} USD lost today. No new trades.")
+        # Include unrealized losses — open positions bleeding money count against the limit
+        today_pnl    = self.logger.get_today_pnl()
+        unrealized   = self.logger.get_unrealized_pnl()
+        combined     = today_pnl + unrealized
+        daily_limit  = -CONFIG["TOTAL_CAPITAL"] * CONFIG["DAILY_LOSS_LIMIT_PCT"]
+        if combined <= daily_limit:
+            log.warning(
+                f"🚨 Daily loss limit hit — realized ${today_pnl:+,.2f} + "
+                f"unrealized ${unrealized:+,.2f} = ${combined:+,.2f} USD. No new trades."
+            )
             self.daily_stopped = True
             return False
         return True
 
     def check_total_limits(self) -> bool:
+        # Include unrealized losses — total drawdown includes open positions
         total_pnl   = self.logger.get_total_pnl()
+        unrealized  = self.logger.get_unrealized_pnl()
+        combined    = total_pnl + unrealized
         total_limit = -CONFIG["TOTAL_CAPITAL"] * CONFIG["TOTAL_LOSS_LIMIT_PCT"]
-        if total_pnl <= total_limit:
-            log.critical(f"🚨🚨 Total loss limit hit — ${abs(total_pnl):,.2f} USD. Bot halted.")
+        if combined <= total_limit:
+            log.critical(
+                f"🚨🚨 Total loss limit hit — realized ${total_pnl:+,.2f} + "
+                f"unrealized ${unrealized:+,.2f} = ${combined:+,.2f} USD. Bot halted."
+            )
             return False
         return True
 
     # ── Position monitoring ────────────────────────────────────────────────
     def check_existing_positions(self):
+        """
+        Check every open position and apply three exit rules in priority order:
+
+          1. Hard stop-loss floor  — native Alpaca GTC stop (or Python fallback)
+          2. Trailing stop         — Python-managed: trail_stop_price ratchets up
+                                     whenever current_price exceeds peak_price
+          3. Max hold days         — time-based exit after N trading sessions
+                                     (per-tier: 3d large-cap, 4d mid-cap)
+
+        The native GTC hard stop on Alpaca protects the position between runs.
+        The trailing stop is enforced here in Python on every run.
+        """
         positions = self.logger.get_open_positions()
         if not positions:
             return
         log.info(f"📋 Checking {len(positions)} open position(s)...")
         for pos in positions:
-            symbol           = pos["symbol"]
-            current_price    = self.market.get_current_price(symbol)
+            symbol        = pos["symbol"]
+            current_price = self.market.get_current_price(symbol)
             if not current_price:
                 continue
 
-            entry_price      = pos["entry_price"]
-            pnl_pct          = (current_price - entry_price) / entry_price
-            trailing_active  = pos.get("trailing_stop_active", False)
+            params      = get_symbol_params(symbol)
+            tier        = ASSET_TYPE.get(symbol, "large").upper()
+            entry_price = pos["entry_price"]
+            pnl_pct     = (current_price - entry_price) / entry_price
+            trail_pct   = pos.get("trail_pct") or params["trail_pct"]
+            max_hold    = params["max_hold_days"]
 
             entry_date = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
             hold_days  = (datetime.now() - entry_date).days
 
-            if trailing_active:
-                # Alpaca owns the exit via a live GTC trailing-stop order.
-                # We monitor-only: log the current state and respect max hold days,
-                # but do NOT re-submit stop orders or check the original fixed floor.
-                log.info(
-                    f"  {symbol} 🎯 trailing: ${current_price:.2f} | "
-                    f"{pnl_pct*100:+.1f}% | {hold_days}d held | Alpaca managing exit"
-                )
-                if hold_days >= CONFIG["MAX_HOLD_DAYS"]:
-                    self._close_position(pos, current_price, f"Max hold days ({hold_days}d) — overriding trailing stop")
-                    continue
-                self.logger.update_position(symbol, {
-                    "last_price":   round(current_price, 2),
-                    "last_checked": datetime.now().strftime("%Y-%m-%d %H:%M"),
-                })
-                continue
-
-            # ── Fixed-floor phase (trailing not yet active) ───────────────
-            # Native GTC stop order on Alpaca handles this automatically.
-            # Python check is a fallback only — fires if stop_order_id is empty,
-            # meaning the native stop failed to place at entry.
+            # ── 1. Hard stop-loss floor ───────────────────────────────────
             if current_price <= pos["stop_loss_price"]:
                 if pos.get("stop_order_id"):
-                    # Native stop is live — Alpaca will execute it.
-                    # _sync_with_alpaca() reconciles the closure locally on next run.
-                    params = get_symbol_params(symbol)
                     log.info(
                         f"  {symbol}: ⚠️ price ${current_price:.2f} at/below "
-                        f"stop ${pos['stop_loss_price']:.2f} — "
+                        f"hard stop ${pos['stop_loss_price']:.2f} — "
                         f"native Alpaca stop active, awaiting fill"
                     )
                 else:
-                    # No native stop was placed — Python fallback
-                    params = get_symbol_params(symbol)
-                    tier   = ASSET_TYPE.get(symbol, "large").upper()
                     log.warning(
                         f"  {symbol}: ⚠️ no native stop order found — "
-                        f"executing Python fallback stop-loss"
+                        f"executing Python fallback hard stop"
                     )
                     self._close_position(
                         pos, current_price,
@@ -1263,42 +1292,62 @@ class AmaraBot:
                     )
                 continue
 
-            if current_price >= pos["take_profit_price"]:
-                # Profit milestone crossed → hand exit management to Alpaca
-                # via a GTC trailing-stop order.  Do NOT close immediately.
-                self._activate_trailing_stop(pos, current_price)
-                continue
+            # ── 2. Trailing stop update + check ──────────────────────────
+            # Ratchet peak_price up if price has moved in our favour.
+            peak_price      = max(pos.get("peak_price") or entry_price, current_price)
+            trail_stop      = round(peak_price * (1 - trail_pct), 2)
+            # trail_stop must never be below the hard stop floor
+            trail_stop      = max(trail_stop, pos["stop_loss_price"])
+            gain_from_entry = (peak_price - entry_price) / entry_price
 
-            if hold_days >= CONFIG["MAX_HOLD_DAYS"]:
-                self._close_position(pos, current_price, f"Max hold days ({hold_days}d)")
-                continue
-
-            log.info(f"  {symbol}: ${current_price:.2f} | {pnl_pct*100:+.1f}% | {hold_days}d held")
+            # Persist updated peak and trail stop
             self.logger.update_position(symbol, {
-                "last_price":   round(current_price, 2),
-                "last_checked": datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "peak_price":       round(peak_price, 2),
+                "trail_stop_price": trail_stop,
+                "last_price":       round(current_price, 2),
+                "last_checked":     datetime.now().strftime("%Y-%m-%d %H:%M"),
             })
+
+            if current_price <= trail_stop:
+                lock_pct = gain_from_entry * 100
+                self._close_position(
+                    pos, current_price,
+                    f"Trailing stop {trail_pct*100:.1f}% [{tier}] | "
+                    f"peak ${peak_price:.2f} (+{lock_pct:.1f}%) → trail ${trail_stop:.2f}"
+                )
+                continue
+
+            # ── 3. Max hold days (calendar days — simple backstop) ────────
+            if hold_days >= max_hold:
+                self._close_position(
+                    pos, current_price,
+                    f"Max hold {max_hold}d [{tier}] | {hold_days}d elapsed"
+                )
+                continue
+
+            log.info(
+                f"  {symbol} [{tier}]: ${current_price:.2f} | {pnl_pct*100:+.1f}% | "
+                f"peak ${peak_price:.2f} | trail stop ${trail_stop:.2f} | {hold_days}d held"
+            )
 
     def _close_position(self, pos: dict, exit_price: float, reason: str):
         """Submit SELL order to Alpaca, record locally, append to run decisions."""
         fill_price = exit_price
 
-        # ── Cancel native hard stop before submitting market sell ─────────
-        # Prevents an orphan GTC stop order from triggering a short sale
-        # after the position is already closed.
-        # Skip if trailing is active — that order is the exit, not the hard stop.
-        stop_order_id   = pos.get("stop_order_id", "")
-        trailing_active = pos.get("trailing_stop_active", False)
-        if stop_order_id and not trailing_active and self.trading:
-            try:
-                self.trading.cancel_order_by_id(stop_order_id)
-                log.info(f"🗑️  Cancelled native stop order {stop_order_id} for {pos['symbol']}")
-            except Exception as e:
-                # Already filled or cancelled — safe to proceed
-                log.warning(
-                    f"⚠️ Could not cancel stop order for {pos['symbol']} "
-                    f"(may already be processed): {e}"
-                )
+        # ── Cancel both native GTC orders (stop + take profit) ───────────
+        # Cancel the native GTC hard stop to prevent an orphan sell order after
+        # the Python-side trailing stop or max-hold-days exit fires.
+        if self.trading:
+            stop_order_id = pos.get("stop_order_id", "")
+            if stop_order_id:
+                try:
+                    self.trading.cancel_order_by_id(stop_order_id)
+                    log.info(f"🗑️  Cancelled native hard stop order {stop_order_id} for {pos['symbol']}")
+                except Exception as e:
+                    log.warning(
+                        f"⚠️ Could not cancel hard stop for {pos['symbol']} "
+                        f"(may already be processed): {e}"
+                    )
 
         if self.trading:
             try:
@@ -1323,8 +1372,10 @@ class AmaraBot:
             except Exception as e:
                 log.error(f"❌ SELL order failed for {pos['symbol']}: {e}")
 
-        pnl_pct = (fill_price - pos["entry_price"]) / pos["entry_price"]
-        pnl_usd = pnl_pct * pos["cost_usd"]
+        # Use actual shares × price delta — more accurate than planned notional
+        shares  = pos.get("shares", 0)
+        pnl_usd = (fill_price - pos["entry_price"]) * shares
+        pnl_pct = (fill_price - pos["entry_price"]) / pos["entry_price"] if pos["entry_price"] else 0
         self.logger.update_position(pos["symbol"], {
             "status":     "closed",
             "exit_price": fill_price,
@@ -1396,12 +1447,17 @@ class AmaraBot:
         # Moving averages
         ma5_all   = close_all.rolling(5).mean()
         ma20_all  = close_all.rolling(20).mean()
-        ma200_all = close_all.rolling(200).mean()
+        ma200_all = close_all.rolling(200).mean()   # kept for dashboard display only
 
-        # Vectorised RSI(14) across all symbols simultaneously
+        # 5-day momentum (short-term price change — directly relevant to 3-5 day swing trades)
+        mom5_all = ((close_all - close_all.shift(5)) / close_all.shift(5) * 100)
+
+        # Vectorised Wilder's RSI(14) across all symbols simultaneously.
+        # ewm(com=13, adjust=False) replicates Wilder's smoothing — matches
+        # TradingView / Bloomberg and the scalar calculate_rsi() above.
         _delta     = close_all.diff()
-        _gain      = _delta.clip(lower=0).rolling(14).mean()
-        _loss      = (-_delta.clip(upper=0)).rolling(14).mean()
+        _gain      = _delta.clip(lower=0).ewm(com=13, min_periods=14, adjust=False).mean()
+        _loss      = (-_delta).clip(lower=0).ewm(com=13, min_periods=14, adjust=False).mean()
         rsi_all    = 100 - (100 / (1 + _gain / _loss))
 
         # Vectorised volume ratio: today's volume vs 20-day average
@@ -1412,9 +1468,10 @@ class AmaraBot:
         last_open      = open_all.iloc[-1]
         last_ma5       = ma5_all.iloc[-1]
         last_ma20      = ma20_all.iloc[-1]
-        last_ma200     = ma200_all.iloc[-1]
+        last_ma200     = ma200_all.iloc[-1]   # kept for hold review context only
         last_rsi       = rsi_all.iloc[-1]
         last_vol_ratio = vol_ratio_all.iloc[-1]
+        last_mom5      = mom5_all.iloc[-1]
 
         # ── Real-time price fetch (single bulk call for all 150 symbols) ──
         # Used for price > MA20 comparison so intraday scans reflect live price.
@@ -1422,7 +1479,8 @@ class AmaraBot:
         real_price = last_close.copy()
         try:
             from alpaca.data.requests import StockLatestTradeRequest
-            req    = StockLatestTradeRequest(symbol_or_symbols=list(WATCHLIST))
+            from alpaca.data.enums    import DataFeed
+            req    = StockLatestTradeRequest(symbol_or_symbols=list(WATCHLIST), feed=DataFeed.IEX)
             trades = self.market.client.get_stock_latest_trade(req)
             for sym, trade in trades.items():
                 if sym in real_price.index:
@@ -1431,29 +1489,28 @@ class AmaraBot:
         except Exception as e:
             log.warning(f"⚠️ Real-time price fetch failed ({e}) — using last daily close")
 
-        # ── Step 3: 5-criterion composite score (max 115) ────────────────
-        # MA200 is a +15 bonus, not a hard gate — stocks in recovery can still
-        # qualify on strong momentum. Prevents eliminating whole market segments
-        # during broad corrections when many MA20s temporarily dip below MA200.
-        # MA200 NaN-safe: False if data unavailable, bonus simply doesn't fire.
+        # ── Step 3: 4-criterion composite score (max 100) ────────────────
+        # 200-MA removed — long-term context irrelevant for 3-5 day swing trades.
+        # Replaced with 5-day momentum: directly measures short-term price velocity.
         valid = (last_close.notna() & last_ma5.notna() &
                  last_ma20.notna() &
                  last_rsi.notna() & last_vol_ratio.notna())
 
-        rsi_ok            = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
-        price_vs_ma       = real_price > last_ma20          # direction: real-time price above 20-day MA
-        bullish_candle    = last_close > last_open          # green day: yesterday close > yesterday open
-        vol_surge         = (last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]) & bullish_candle
-        long_term_uptrend = last_ma20 > last_ma200          # bonus: NaN-safe, False if unavailable
+        rsi_ok         = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
+        price_vs_ma    = real_price > last_ma20          # direction: real-time price above 20-day MA
+        bullish_candle = last_close > last_open          # green day: yesterday close > yesterday open
+        vol_surge      = (last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]) & bullish_candle
+        # 5-day momentum: +2% minimum over last 5 trading days — confirms swing is already underway
+        # NaN-safe: False if insufficient history
+        mom5_ok        = last_mom5 > 2.0
 
         # ── Scoring (max 100 pts) ─────────────────────────────────────────
-        # Four dimensions of short-term stock strength — no single criterion
-        # can carry a stock alone; at least two strong signals required.
+        # Four dimensions of short-term swing strength.
         score_all = (
-            (vol_surge.astype(int)           * 35) +   # conviction: unusual buying volume (35 pts)
-            (rsi_ok.astype(int)              * 30) +   # momentum quality: RSI in sweet spot (30 pts)
-            (price_vs_ma.astype(int)         * 25) +   # direction: price above 20-MA       (25 pts)
-            (long_term_uptrend.astype(int)   * 10)     # context: MA20 > MA200 bonus         (10 pts)
+            (vol_surge.astype(int)   * 35) +   # conviction: unusual buying volume  (35 pts)
+            (rsi_ok.astype(int)      * 30) +   # momentum quality: RSI sweet spot   (30 pts)
+            (price_vs_ma.astype(int) * 25) +   # direction: price above 20-MA       (25 pts)
+            (mom5_ok.astype(int)     * 10)     # short-term velocity: +2% over 5d   (10 pts)
         ).where(valid, other=0)
 
         # ── Step 4: Filter — score ≥ 60 ──────────────────────────────────
@@ -1511,6 +1568,7 @@ class AmaraBot:
             tier_label = "[LARGE]" if asset_type == "large" else "[MID]"
 
             # Build human-readable score breakdown for Claude
+            mom5_val = float(last_mom5[symbol]) if symbol in last_mom5.index and not pd.isna(last_mom5[symbol]) else 0.0
             reasons = []
             if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
                 reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg (bullish candle, close>open) +35pts")
@@ -1524,10 +1582,10 @@ class AmaraBot:
                 reasons.append(f"Price ${current_price:.2f} above 20-MA (${sma_20:.2f}) +25pts")
             else:
                 reasons.append(f"Price ${current_price:.2f} below 20-MA (${sma_20:.2f}) — no direction pts")
-            if sma_20 > sma_200:
-                reasons.append(f"Long-term uptrend: 20-MA > 200-MA (${sma_200:.2f}) +10pts")
+            if mom5_val > 2.0:
+                reasons.append(f"5-day momentum +{mom5_val:.1f}% (above +2% threshold) +10pts")
             else:
-                reasons.append(f"Below 200-MA (${sma_200:.2f}) — no context bonus")
+                reasons.append(f"5-day momentum {mom5_val:+.1f}% — below +2% threshold, no velocity pts")
 
             candidate = {
                 "symbol":          symbol,
@@ -1550,7 +1608,7 @@ class AmaraBot:
                 sym_params=sym_params,
                 previous_context=self.previous_context
             )
-            approved = analysis.get("approve") and analysis.get("confidence", 0) >= 6
+            approved = analysis.get("approve") and analysis.get("confidence", 0) >= 7
             can_buy  = (current_count + bought_this_scan) < max_positions
 
             self.logger.log_scan_result(
@@ -1637,106 +1695,23 @@ class AmaraBot:
                 current_price=current_price
             )
 
-    def _activate_trailing_stop(self, pos: dict, current_price: float):
-        """
-        Called when an open position's price crosses its trailing trigger
-        threshold (e.g. +8% large-cap, +11% mid-cap).
-
-        Instead of closing immediately, we submit a GTC trailing-stop SELL
-        order to Alpaca so it manages the exit dynamically.  The local
-        position is marked trailing_stop_active=True to prevent re-submission
-        on subsequent hourly runs and to suppress the fixed hard-stop check.
-
-        If the Alpaca order submission fails, we fall back to a standard
-        market close so no trade is left unmanaged.
-        """
-        symbol    = pos["symbol"]
-        params    = get_symbol_params(symbol)
-        trail_pct = params["take_profit_pct"] * 100        # e.g. 11.0 for mid-caps
-        tier      = ASSET_TYPE.get(symbol, "large").upper()
-        shares    = pos.get("shares", 0)
-        entry_pnl = (current_price - pos["entry_price"]) / pos["entry_price"] * 100
-
-        log.info(
-            f"🎯 [{tier}] {symbol}: +{trail_pct:.1f}% trigger hit "
-            f"@ ${current_price:.2f} ({entry_pnl:+.1f}% unrealised) — "
-            f"submitting Alpaca {trail_pct:.1f}% trailing stop"
-        )
-
-        # ── Step 1: Cancel the native hard stop before replacing ─────────
-        # Hard stop and trailing stop cannot both be live simultaneously.
-        stop_order_id = pos.get("stop_order_id", "")
-        if stop_order_id and self.trading:
-            try:
-                self.trading.cancel_order_by_id(stop_order_id)
-                log.info(
-                    f"🗑️  Cancelled native hard stop (order {stop_order_id}) "
-                    f"for {symbol} — replacing with trailing stop"
-                )
-            except Exception as e:
-                # May already be filled or cancelled — log and continue
-                log.warning(
-                    f"⚠️ Could not cancel hard stop for {symbol} "
-                    f"(may already be processed): {e}"
-                )
-
-        # ── Step 2: Submit native GTC trailing stop ───────────────────────
-        order_ok = False
-        if self.trading and shares > 0:
-            try:
-                from alpaca.trading.requests import TrailingStopOrderRequest
-                from alpaca.trading.enums   import OrderSide, TimeInForce
-                order = self.trading.submit_order(
-                    TrailingStopOrderRequest(
-                        symbol=symbol,
-                        qty=round(shares, 4),
-                        side=OrderSide.SELL,
-                        time_in_force=TimeInForce.GTC,   # persists between sessions
-                        trail_percent=round(trail_pct, 2),
-                    )
-                )
-                log.info(
-                    f"✅ GTC trailing stop submitted: {symbol} "
-                    f"{trail_pct:.1f}% trail | order {order.id}"
-                )
-                order_ok = True
-            except Exception as e:
-                log.error(f"❌ Trailing stop order failed for {symbol}: {e} — falling back to market close")
-
-        if not order_ok:
-            # Fallback: close at market to avoid an unmanaged position
-            self._close_position(
-                pos, current_price,
-                f"Trailing trigger +{trail_pct:.1f}% [{tier}] (Alpaca order failed — market close)"
-            )
-            return
-
-        # Mark position as Alpaca-managed; persist activation metadata
-        # Clear stop_order_id — the hard stop is cancelled, trailing stop now owns the exit
-        self.logger.update_position(symbol, {
-            "trailing_stop_active":      True,
-            "stop_order_id":             "",
-            "trailing_activated_price":  round(current_price, 2),
-            "trailing_activated_date":   datetime.now().strftime("%Y-%m-%d %H:%M"),
-        })
-
-        self._run_decisions.append({
-            "time":       datetime.now().strftime("%H:%M"),
-            "symbol":     f"{symbol} [{tier}]",
-            "action":     f"🎯 TRAILING STOP ACTIVATED (+{trail_pct:.1f}%)",
-            "confidence": "—",
-            "reason":     (
-                f"Trigger hit at ${current_price:.2f} ({entry_pnl:+.1f}% unrealised). "
-                f"Alpaca GTC trailing stop set at {trail_pct:.1f}% — fixed floor replaced."
-            ),
-        })
-
     def _open_position(self, symbol: str, price: float, analysis: dict, daily_pct: float = 0.0):
         """Submit BUY order to Alpaca, record locally, append to run decisions."""
-        params           = get_symbol_params(symbol)
-        position_size_usd = CONFIG["TOTAL_CAPITAL"] * params["position_pct"]
-        fill_price       = price
-        shares           = round(position_size_usd / price, 4)
+        params = get_symbol_params(symbol)
+        tier   = ASSET_TYPE.get(symbol, "large").upper()
+
+        # ── Size against actual portfolio equity, not static starting capital ──
+        # After losses the account shrinks; positions should shrink proportionally.
+        actual_equity     = self.logger.data.get("portfolio_value") or CONFIG["TOTAL_CAPITAL"]
+        intended_size     = actual_equity * params["position_pct"]
+        actual_bp         = self.logger.data.get("buying_power", actual_equity)
+        position_size_usd = min(intended_size, actual_bp * 0.95)  # 95% buffer
+        if position_size_usd < 100:
+            log.warning(f"⚠️ Insufficient buying power (${actual_bp:,.0f}) for {symbol} — skipping")
+            return
+
+        fill_price = price
+        shares     = round(position_size_usd / price, 4)
 
         if self.trading:
             try:
@@ -1762,28 +1737,38 @@ class AmaraBot:
                 log.error(f"❌ BUY order failed for {symbol}: {e}")
                 return
 
-        stop_loss   = fill_price * (1 - params["stop_loss_pct"])
-        take_profit = fill_price * (1 + params["take_profit_pct"])
+        trail_pct       = params["trail_pct"]
+        stop_loss       = round(fill_price * (1 - params["stop_loss_pct"]), 2)
+        trail_stop      = round(fill_price * (1 - trail_pct), 2)  # starts at entry − trail%
+        # Actual cost uses real fill price × real shares (not planned notional)
+        actual_cost_usd = round(fill_price * shares, 2)
 
         pos = PaperPosition(
             symbol=symbol,
             entry_price=fill_price,
             entry_date=datetime.now().strftime("%Y-%m-%d"),
             shares=shares,
-            cost_usd=position_size_usd,
-            stop_loss_price=round(stop_loss, 2),
-            take_profit_price=round(take_profit, 2),
+            cost_usd=actual_cost_usd,
+            stop_loss_price=stop_loss,
+            trail_stop_price=trail_stop,
+            trail_pct=trail_pct,
+            peak_price=fill_price,
             daily_pct_at_entry=round(daily_pct, 2),
         )
         self.logger.add_position(pos)
         mode = "LIVE" if not CONFIG.get("PAPER_TRADING", True) else "Paper"
-        log.info(f"🛒 [{mode}] Bought {symbol} x{shares:.4f} @ ${fill_price:.2f} | SL ${stop_loss:.2f} | TP ${take_profit:.2f}")
+        log.info(
+            f"🛒 [{mode}] Bought {symbol} x{shares:.4f} @ ${fill_price:.2f} | "
+            f"Hard stop ${stop_loss:.2f} (-{params['stop_loss_pct']*100:.1f}%) | "
+            f"Trail stop ${trail_stop:.2f} (-{trail_pct*100:.1f}% from peak) [{tier}]"
+        )
         log.info(f"   Claude: {analysis.get('analysis', '')[:120]}")
 
-        # ── Submit native GTC hard stop order to Alpaca ───────────────────
-        # This order lives on Alpaca's servers independently of the bot.
-        # If the bot is offline and price drops to stop_loss_price, Alpaca
-        # executes the sell automatically — no bot run required.
+        # ── Submit native GTC hard stop ────────────────────────────────────
+        # The hard stop lives on Alpaca's servers as an unconditional floor.
+        # The trailing stop is managed in Python on each run (check_existing_positions).
+        # We no longer place a GTC limit take-profit order — the trailing stop
+        # lets winners run rather than capping them at a fixed target.
         if self.trading and shares > 0:
             try:
                 from alpaca.trading.requests import StopOrderRequest
@@ -1794,15 +1779,12 @@ class AmaraBot:
                         qty=round(float(shares), 4),
                         side=OrderSide.SELL,
                         time_in_force=TimeInForce.GTC,
-                        stop_price=round(stop_loss, 2),
+                        stop_price=stop_loss,
                     )
                 )
                 stop_order_id = str(stop_order.id)
                 self.logger.update_position(symbol, {"stop_order_id": stop_order_id})
-                log.info(
-                    f"🛡️ Native GTC stop placed: {symbol} @ ${stop_loss:.2f} "
-                    f"(order {stop_order_id})"
-                )
+                log.info(f"🛡️ Native GTC hard stop placed: {symbol} @ ${stop_loss:.2f} (order {stop_order_id})")
             except Exception as e:
                 log.warning(
                     f"⚠️ Native stop order failed for {symbol}: {e} — "
@@ -1842,13 +1824,15 @@ class AmaraBot:
         local_map  = {p["symbol"]: p for p in self.logger.get_open_positions()}
         added = closed = updated = 0
 
-        # Case 1: on Alpaca but missing locally
+        # Case 1: on Alpaca but missing locally (bot crashed before writing JSON)
         for symbol, ap in alpaca_map.items():
             if symbol not in local_map:
                 entry_price = float(ap.avg_entry_price)
                 shares      = float(ap.qty)
                 sym_params  = get_symbol_params(symbol)
                 stop_price  = round(entry_price * (1 - sym_params["stop_loss_pct"]), 2)
+                trail_pct   = sym_params["trail_pct"]
+                trail_stop  = round(entry_price * (1 - trail_pct), 2)
                 pos = PaperPosition(
                     symbol=symbol,
                     entry_price=entry_price,
@@ -1856,7 +1840,9 @@ class AmaraBot:
                     shares=shares,
                     cost_usd=entry_price * shares,
                     stop_loss_price=stop_price,
-                    take_profit_price=round(entry_price * (1 + sym_params["take_profit_pct"]), 2),
+                    trail_stop_price=trail_stop,
+                    trail_pct=trail_pct,
+                    peak_price=entry_price,  # conservative — peak unknown after crash
                 )
                 self.logger.add_position(pos)
                 log.info(f"🔄 Sync [added]   {symbol} x{shares} @ ${entry_price:.2f}")
@@ -1888,18 +1874,54 @@ class AmaraBot:
                         f"Python fallback active"
                     )
 
-        # Case 2: in local JSON but gone from Alpaca
+        # Case 2: in local JSON but gone from Alpaca — closed by stop or take profit
         for symbol, lp in local_map.items():
             if symbol not in alpaca_map:
-                current_price = self.market.get_current_price(symbol) or lp["entry_price"]
-                pnl_pct       = (current_price - lp["entry_price"]) / lp["entry_price"]
-                pnl_usd       = pnl_pct * lp["cost_usd"]
+                # Try to get the actual fill price from Alpaca's closed order history
+                exit_price = lp.get("last_price") or lp["entry_price"]
+                exit_reason = "Sync: closed by Alpaca (native order)"
+                try:
+                    from alpaca.trading.requests import GetOrdersRequest
+                    from alpaca.trading.enums   import QueryOrderStatus, OrderSide, OrderStatus
+                    orders = self.trading.get_orders(filter=GetOrdersRequest(
+                        status=QueryOrderStatus.CLOSED,
+                        symbols=[symbol],
+                        limit=10
+                    ))
+                    for order in sorted(
+                        orders,
+                        key=lambda o: o.filled_at or o.updated_at or datetime.min.replace(tzinfo=timezone.utc),
+                        reverse=True
+                    ):
+                        if (order.side == OrderSide.SELL and
+                                order.status == OrderStatus.FILLED and
+                                order.filled_avg_price):
+                            exit_price  = float(order.filled_avg_price)
+                            exit_reason = f"Sync: filled by Alpaca native order @ ${exit_price:.2f}"
+                            log.info(f"🔄 Sync: actual fill price found for {symbol}: ${exit_price:.2f}")
+                            break
+                except Exception as e:
+                    log.warning(f"⚠️ Sync: could not fetch order history for {symbol}: {e}")
+
+                # Cancel any remaining open sell orders for this symbol (orphan prevention)
+                if self.trading:
+                    try:
+                        open_orders = self.trading.get_orders()
+                        for order in open_orders:
+                            if str(order.symbol) == symbol:
+                                self.trading.cancel_order_by_id(str(order.id))
+                                log.info(f"🗑️ Sync: cancelled orphan order {order.id} for {symbol}")
+                    except Exception as e:
+                        log.warning(f"⚠️ Sync: could not clean up orders for {symbol}: {e}")
+
+                shares  = lp.get("shares", 0)
+                pnl_usd = (exit_price - lp["entry_price"]) * shares
                 self.logger.update_position(symbol, {
-                    "status":     "closed",
-                    "exit_price": current_price,
-                    "exit_date":  datetime.now().strftime("%Y-%m-%d %H:%M"),
-                    "exit_reason": "Sync: not found on Alpaca",
-                    "pnl_usd":    round(pnl_usd, 2),
+                    "status":      "closed",
+                    "exit_price":  round(exit_price, 2),
+                    "exit_date":   datetime.now().strftime("%Y-%m-%d %H:%M"),
+                    "exit_reason": exit_reason,
+                    "pnl_usd":     round(pnl_usd, 2),
                 })
                 log.warning(f"🔄 Sync [closed]  {symbol} — gone from Alpaca (P&L ${pnl_usd:+,.2f})")
                 closed += 1
