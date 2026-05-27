@@ -1,424 +1,475 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
-  <title>Amara 交易儀表板</title>
+  <title>Amara Trading Dashboard</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', sans-serif; padding: 16px; max-width: 680px; margin: 0 auto; }
-    h1 { font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; color: #111827; }
-    h2 { font-size: 1.3rem; font-weight: 700; color: #111827; margin: 28px 0 10px; }
-    .meta { font-size: 0.75rem; color: #9ca3af; margin-bottom: 16px; }
-    .badge-mode { display:inline-block; padding:3px 10px; border-radius:5px; font-size:.75rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }
-    .hero { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:8px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+    body { background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; color: #111827; }
+    h2 { font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .06em; margin: 24px 0 8px; }
+    .meta { font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }
+    .badge-mode { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }
+    .hero { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
     .hero .big { font-size:2.8rem; font-weight:800; color:#16a34a; line-height:1; }
-    .hero .sub { font-size:.85rem; color:#6b7280; margin-top:6px; }
-    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
+    .hero .sub { font-size:.82rem; color:#6b7280; margin-top:6px; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
     .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
-    label { display:block; font-size:.7rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }
-    val { display:block; font-size:.95rem; font-weight:600; color:#111827; }
-    .symbol { font-size:1.05rem; font-weight:700; color:#111827; }
+    label { display:block; font-size:.68rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }
+    val { display:block; font-size:.92rem; font-weight:600; color:#111827; }
+    .symbol { font-size:1rem; font-weight:700; color:#111827; }
     .pnl { font-size:.95rem; font-weight:700; }
     .pos-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
     .pos-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }
-    /* ── Flat item: no box, just a top border separator ── */
-    .flat-list { margin-top:4px; }
-    .flat-item { border-top:1px solid #e5e7eb; padding:14px 0; }
-    .flat-item:first-child { border-top:none; padding-top:0; }
-    .flat-header { display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }
-    .conf { font-size:.78rem; color:#9ca3af; margin-left:auto; }
-    .full-reason { font-size:.85rem; color:#374151; line-height:1.6; margin-top:4px; white-space:pre-wrap; }
-    .scan-stats { display:flex; gap:14px; font-size:.75rem; color:#9ca3af; margin:4px 0; }
-    .score { font-size:.8rem; color:#6b7280; font-weight:600; }
-    .hist-header { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
-    .hist-pnl { margin-left:auto; font-weight:700; font-size:.92rem; }
-    .hist-detail { font-size:.75rem; color:#9ca3af; margin-bottom:4px; }
-    .reason { font-size:.82rem; color:#6b7280; line-height:1.5; }
-    .badge { display:inline-block; padding:2px 9px; border-radius:4px; font-size:.72rem; font-weight:700; }
+    .dec-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap; }
+    .conf { font-size:.72rem; color:#9ca3af; }
+    .reason { font-size:.78rem; color:#6b7280; line-height:1.5; margin-top:5px; }
+    .scan-header { display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }
+    .score { font-size:.78rem; color:#6b7280; font-weight:600; }
+    .scan-stats { display:flex; gap:14px; font-size:.72rem; color:#9ca3af; margin-bottom:4px; }
+    .hist-header { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+    .hist-pnl { margin-left:auto; font-weight:700; font-size:.9rem; }
+    .hist-detail { font-size:.72rem; color:#9ca3af; margin-bottom:3px; }
+    .badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.68rem; font-weight:700; }
     .badge.win { background:#dcfce7; color:#16a34a; }
     .badge.loss { background:#fee2e2; color:#dc2626; }
-    .sbadge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; white-space:nowrap; }
+    .sbadge { display:inline-block; padding:2px 7px; border-radius:4px; font-size:.66rem; font-weight:700; }
     .sbadge.bought { background:#dcfce7; color:#16a34a; }
     .sbadge.skipped { background:#fee2e2; color:#dc2626; }
     .sbadge.notsent { background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }
     .sbadge.review { background:#fef9c3; color:#854d0e; }
-    .empty { color:#9ca3af; font-size:.88rem; padding:8px 0; }
-    .footer { font-size:.7rem; color:#d1d5db; text-align:center; margin-top:32px; padding-top:16px; border-top:1px solid #e5e7eb; }
+    .empty { color:#9ca3af; font-size:.85rem; padding:6px 0; }
+    .footer { font-size:.68rem; color:#d1d5db; text-align:center; margin-top:28px; padding-top:16px; border-top:1px solid #e5e7eb; }
   </style>
 </head>
 <body>
-  <h1>🤖 Amara <span class="badge-mode">模擬</span></h1>
-  <p class="meta">最後更新：2026-05-27 23:05:15 台灣時間 · 每5分鐘自動更新</p>
+  <h1>🤖 Amara <span class="badge-mode">PAPER</span></h1>
+  <p class="meta">Last updated: 2026-05-28 03:54:22 TWN · auto-refreshes every 5 min</p>
 
   <div class="hero">
     <div class="big">+$0.00</div>
-    <div class="sub">總損益 &nbsp;·&nbsp; +0.00%</div>
+    <div class="sub">Total P&amp;L &nbsp;·&nbsp; +0.00%</div>
   </div>
 
   <section>
-    <h2>💰 投資組合</h2>
+    <h2>Portfolio</h2>
     <div class="card">
       <div class="stat-grid">
-        <div><label>現金</label><val>$94,000.00</val></div>
-        <div><label>投資組合市值</label><val>$99,994.19</val></div>
-        <div><label>今日損益</label><val style="color:#16a34a">+$0.00</val></div>
-        <div><label>勝率</label><val>尚無已平倉交易</val></div>
-        <div><label>持倉數量</label><val>1 / 10</val></div>
-        <div><label>觀察清單</label><val>150 支股票</val></div>
+        <div><label>Cash</label><val>$78,000.00</val></div>
+        <div><label>Portfolio Value</label><val>$99,832.40</val></div>
+        <div><label>Today's P&amp;L</label><val style="color:#16a34a">+$0.00</val></div>
+        <div><label>Win Rate</label><val>No closed trades yet</val></div>
+        <div><label>Open Positions</label><val>5 / 10</val></div>
+        <div><label>Watchlist</label><val>150 stocks</val></div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>📋 持倉股票（1）</h2>
+    <h2>Open Positions (5)</h2>
     <div class="pos-list">
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">AXTA</span>
+                <span class="pnl" style="color:#dc2626">🔴 -2.2%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>Entry</label><val>$30.99</val></div>
+                <div><label>Last</label><val>$30.32</val></div>
+                <div><label>Stop</label><val>$29.44</val></div>
+                <div><label>Target</label><val>$34.09</val></div>
+                <div><label>Cost</label><val>$6,000</val></div>
+                <div><label>Since</label><val>2026-05-27</val></div>
+              </div>
+            </div>
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">ANF</span>
+                <span class="pnl" style="color:#dc2626">🔴 -0.4%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>Entry</label><val>$82.39</val></div>
+                <div><label>Last</label><val>$82.08</val></div>
+                <div><label>Stop</label><val>$78.27</val></div>
+                <div><label>Target</label><val>$90.63</val></div>
+                <div><label>Cost</label><val>$6,000</val></div>
+                <div><label>Since</label><val>2026-05-27</val></div>
+              </div>
+            </div>
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">MS</span>
                 <span class="pnl" style="color:#dc2626">🔴 -0.1%</span>
               </div>
               <div class="pos-grid">
-                <div><label>進場價</label><val>$30.99</val></div>
-                <div><label>現價</label><val>$30.97</val></div>
-                <div><label>最高價</label><val>$30.99</val></div>
-                <div><label>硬停損</label><val>$29.44</val></div>
-                <div><label>移動停損 (3.5%)</label><val>$29.91</val></div>
-                <div><label>成本</label><val>$6,000</val></div>
-                <div><label>進場日</label><val>2026-05-27</val></div>
+                <div><label>Entry</label><val>$201.60</val></div>
+                <div><label>Last</label><val>$201.36</val></div>
+                <div><label>Stop</label><val>$194.54</val></div>
+                <div><label>Target</label><val>$215.71</val></div>
+                <div><label>Cost</label><val>$10,000</val></div>
+                <div><label>Since</label><val>2026-05-27</val></div>
+              </div>
+            </div>
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">POWI</span>
+                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>Entry</label><val>$87.70</val></div>
+                <div><label>Last</label><val>$87.70</val></div>
+                <div><label>Stop</label><val>$83.31</val></div>
+                <div><label>Target</label><val>$96.47</val></div>
+                <div><label>Cost</label><val>$6,000</val></div>
+                <div><label>Since</label><val>2026-05-27</val></div>
+              </div>
+            </div>
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">NTNX</span>
+                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>Entry</label><val>$46.86</val></div>
+                <div><label>Last</label><val>$46.86</val></div>
+                <div><label>Stop</label><val>$44.52</val></div>
+                <div><label>Target</label><val>$51.55</val></div>
+                <div><label>Cost</label><val>$6,000</val></div>
+                <div><label>Since</label><val>2026-05-27</val></div>
               </div>
             </div></div>
   </section>
 
   <section>
-    <h2>🧠 本次決策</h2>
-    <div class="flat-list">
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">RXO [MID]</span>
-                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">信心 3/10</span>
-              </div>
-              <p class="full-reason">RXO has posted a strong 5-day momentum of +18.5% and RSI at 69.2 sits in the momentum zone, but the price is already 19.7% above its 20-day SMA, indicating the move is significantly extended and late-stage. The critical red flag is volume at only 0.1x the 20-day average, which signals a complete lack of institutional conviction behind the move — a surge without volume is highly suspect and prone to sharp reversals. There is no news catalyst to justify or sustain the breakout, making this a purely technical setup with no fundamental backing. The primary downside risk is a rapid mean-reversion toward the 20-day SMA (~$20.94), which would far exceed the hard stop at $23.81, and entering at the top of an exhausted, low-volume move offers a deeply unfavorable risk/reward profile.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">AAON [MID]</span>
-                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">信心 3/10</span>
-              </div>
-              <p class="full-reason">AAON shows strong price momentum with a 10% 5-day move and RSI at 71.0, but the stock is already extended 16.2% above its 20-day SMA, suggesting the bulk of the move may already be priced in. The critical red flag is volume at only 0.3x the 20-day average — this is a severe lack of institutional conviction and signals the rally lacks broad participation, raising the risk of a sharp reversal. With no news catalyst to justify the surge, the move appears technically driven without fundamental backing, making it difficult to trust continuation at these elevated levels. Primary downside risk is a mean-reversion snap back toward the 20-SMA ($123), which would far exceed the hard stop at $135.79 before the stop could protect capital.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">AMD [LARGE]</span>
-                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">信心 4/10</span>
-              </div>
-              <p class="full-reason">AMD shows strong price momentum with a 5-day gain of 18.3% and RSI at 72.2, placing it in the upper end of the momentum zone and approaching overbought territory. However, the critical red flag is the volume multiple of only 0.3x average — far below the 1.5x surge threshold — indicating the move lacks institutional conviction and broad participation. With price already 15.9% above the 20-day SMA, the stock is significantly extended and vulnerable to a mean-reversion pullback, especially without a fresh catalyst to justify the stretch. The absence of any news catalyst means there is no fundamental driver to sustain momentum, and chasing an extended, low-volume move into near-overbought RSI presents an unfavorable risk/reward for a short-term trade.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
+    <h2>This Run's Decisions</h2>
+    <div class="dec-list">
+            <div class="card dec-card">
+              <div class="dec-header">
                 <span class="symbol">POWI [MID]</span>
-                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">信心 4/10</span>
+                <span style="color:#16a34a;font-weight:700">✅ BUY</span>
+                <span class="conf">7/10</span>
               </div>
-              <p class="full-reason">POWI shows strong price momentum with a 23.7% 5-day move and RSI at 71.3, but the critical concern is volume at only 0.7x the 20-day average — well below the 1.5x surge threshold needed to confirm institutional conviction behind this move. Price is already extended 15.2% above the 20-day SMA, which dramatically increases the risk of a mean-reversion pullback with limited upside remaining before overbought conditions deteriorate. No news catalyst was returned, meaning this rally lacks a fundamental narrative to sustain momentum, making it difficult to distinguish a genuine breakout from a low-liquidity drift higher. The primary downside risk is a sharp reversion to the mean: entering at $84.42 after a 23.7% 5-day surge with no volume confirmation and no news is a late-stage chase with asymmetric downside skew.</p>
+              <p class="reason">POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) without being overbought, price is 19.3% above the 20-day SMA signaling strong trend, and 5-day momentum </p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">YETI [MID]</span>
-                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">信心 3/10</span>
+            <div class="card dec-card">
+              <div class="dec-header">
+                <span class="symbol">NTNX [MID]</span>
+                <span style="color:#16a34a;font-weight:700">✅ BUY</span>
+                <span class="conf">7/10</span>
               </div>
-              <p class="full-reason">YETI shows strong price momentum with a 14.3% 5-day move and RSI at 69.8, sitting 14.5% above its 20-day SMA — but these are signs of an extended move rather than a fresh breakout opportunity. The critical red flag is volume at only 0.2x the 20-day average, indicating virtually no institutional participation or conviction behind this rally, which disqualifies it as a momentum trade. With no news catalyst to explain the surge, the move lacks a fundamental anchor, raising the probability this is thin-float drift or short-squeeze noise that can reverse sharply. The primary downside risk is a mean-reversion snapback toward the 20-SMA (~$41.81), representing ~13% drawdown potential — poor risk/reward for a chasing entry at these extended levels.</p>
+              <p class="reason">NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a bullish candle, RSI at 62.5 in the momentum zone, and price trading 4.3% above its 20-day SMA — all </p>
+            </div>
+            <div class="card dec-card">
+              <div class="dec-header">
+                <span class="symbol">BBWI [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">6/10</span>
+              </div>
+              <p class="reason">BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day SMA, supported by elevated volume at 1.9x the 20-day average on a bullish candle — the primary tech</p>
+            </div>
+            <div class="card dec-card">
+              <div class="dec-header">
+                <span class="symbol">PG [LARGE]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">6/10</span>
+              </div>
+              <p class="reason">PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum of +4.4%, and notably elevated volume at 1.9x the 20-day average confirming the move with a bullish</p>
+            </div>
+            <div class="card dec-card">
+              <div class="dec-header">
+                <span class="symbol">ELF [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">6/10</span>
+              </div>
+              <p class="reason">ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bullish candle, suggesting institutional accumulation or a short-term momentum surge. Price is holding a</p>
             </div></div>
   </section>
 
   <section>
-    <h2>🔍 掃描結果 — 各股決策原因</h2>
-    <div class="flat-list">
-            <div class="flat-item">
-              <div class="flat-header">
+    <h2>Top Scan Results — Why Each Stock Did or Didn't Proceed</h2>
+    <div class="scan-list">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">AXTA</span>
-                <span class="score">分數：100/100</span>
-                <span class="sbadge bought">✅ 已買入</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge bought">✅ Bought</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 64.5</span>
-                <span>量比 2.4x</span>
+                <span>Vol 2.4x</span>
                 <span>2026-05-27 14:49</span>
               </div>
-              <p class="full-reason">—</p>
+              <p class="reason">—</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">AXTA</span>
-                <span class="score">分數：100/100</span>
-                <span class="sbadge review">持倉審查</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge review">Hold Review</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 64.5</span>
-                <span>量比 2.4x</span>
+                <span>Vol 2.4x</span>
                 <span>2026-05-27 14:51</span>
               </div>
-              <p class="full-reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.5 (strong but not overbought), and volume running at 2.4x average — the original buy thesis based on breakout momentum and elevated volume is still fully valid despite the negligible -0.1% tick from entry. ② No negative news or early warning signals are present; the minor dip from $30.99 to $30.95 is noise well within normal intraday fluctuation, and both hard stop ($29.44) and trailing stop ($29.91) provide adequate downside protection with over 3% buffer. ③ Watch for a sustained hold above $30.99 entry to confirm bullish continuation — a push above $31.50 would be the next meaningful breakout level to monitor, while a close below $30.50 on elevated volume would be the first meaningful caution signal to reassess thesis.</p>
+              <p class="reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.5 (strong but not overbought), and volume running at 2.4x average — the original buy thesis based on breakout mome</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">AXTA</span>
-                <span class="score">分數：100/100</span>
-                <span class="sbadge review">持倉審查</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge review">Hold Review</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 64.6</span>
-                <span>量比 2.8x</span>
+                <span>Vol 2.8x</span>
                 <span>2026-05-27 15:05</span>
               </div>
-              <p class="full-reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.6 (strong but not overbought), and an impressive 5-day momentum of 11.5% — the original buy thesis is fully supported. ② No negative news or early warning signals are present; the -0.1% drift from entry is negligible noise on day 0, and volume at 2.8x confirms institutional interest. ③ Watch for RSI pushing above 70 (potential short-term exhaustion) and monitor whether price can break and hold above the $30.99 entry/peak level to confirm continuation — trailing stop at $29.91 provides adequate downside protection.</p>
+              <p class="reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.6 (strong but not overbought), and an impressive 5-day momentum of 11.5% — the original buy thesis is fully suppor</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">ANF</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge bought">✅ Bought</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 55.3</span>
+                <span>Vol 2.0x</span>
+                <span>2026-05-27 19:51</span>
+              </div>
+              <p class="reason">ANF shows a perfect technical score of 100/100, driven by strong volume (2.0x average) on a bullish candle, RSI at 55.3 sitting in the ideal momentum zone (55–75), price extended 7.1% above the 20-day</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">MS</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge bought">✅ Bought</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 64.2</span>
+                <span>Vol 2.8x</span>
+                <span>2026-05-27 19:52</span>
+              </div>
+              <p class="reason">MS is showing a near-perfect technical setup with a perfect 100/100 score: RSI at 64.2 sits firmly in the momentum zone without being overbought, price is 4.2% above the 20-day SMA confirming trend st</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">POWI</span>
+                <span class="score">Score: 100/100</span>
+                <span class="sbadge bought">✅ Bought</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 61.5</span>
+                <span>Vol 1.6x</span>
+                <span>2026-05-27 19:53</span>
+              </div>
+              <p class="reason">POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) without being overbought, price is 19.3% above the 20-day SMA signaling strong trend, and 5-day momentum </p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">NTNX</span>
+                <span class="score">Score: 90/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 62.4</span>
+                <span>Vol 1.9x</span>
+                <span>2026-05-27 19:52</span>
+              </div>
+              <p class="reason">NTNX shows a strong technical setup with price 4.4% above its 20-day SMA, RSI at 62.4 sitting comfortably in the momentum zone, and volume running at 1.9x average on a bullish candle — collectively sc</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">NTNX</span>
+                <span class="score">Score: 90/100</span>
+                <span class="sbadge bought">✅ Bought</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 62.5</span>
+                <span>Vol 2.0x</span>
+                <span>2026-05-27 19:53</span>
+              </div>
+              <p class="reason">NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a bullish candle, RSI at 62.5 in the momentum zone, and price trading 4.3% above its 20-day SMA — all </p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">BBWI</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 52.7</span>
+                <span>Vol 1.9x</span>
+                <span>2026-05-27 19:52</span>
+              </div>
+              <p class="reason">BBWI shows strong short-term momentum with a +21.7% 5-day surge and elevated volume at 1.9x the 20-day average on a bullish candle, confirming institutional or momentum-driven buying interest. Price i</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">PG</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 49.3</span>
+                <span>Vol 1.8x</span>
+                <span>2026-05-27 19:52</span>
+              </div>
+              <p class="reason">PG shows modest technical strength with price 2.2% above its 20-day SMA, a 5-day momentum of +4.4%, and elevated volume at 1.8x average supporting the recent move, yielding a technical score of 70/100</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">BBWI</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 53.2</span>
+                <span>Vol 1.9x</span>
+                <span>2026-05-27 19:53</span>
+              </div>
+              <p class="reason">BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day SMA, supported by elevated volume at 1.9x the 20-day average on a bullish candle — the primary tech</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">PG</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 49.2</span>
+                <span>Vol 1.9x</span>
+                <span>2026-05-27 19:54</span>
+              </div>
+              <p class="reason">PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum of +4.4%, and notably elevated volume at 1.9x the 20-day average confirming the move with a bullish</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">ELF</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 42.5</span>
+                <span>Vol 1.7x</span>
+                <span>2026-05-27 19:54</span>
+              </div>
+              <p class="reason">ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bullish candle, suggesting institutional accumulation or a short-term momentum surge. Price is holding a</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
+                <span class="symbol">ANF</span>
+                <span class="score">Score: 70/100</span>
+                <span class="sbadge review">Hold Review</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 54.9</span>
+                <span>Vol 2.0x</span>
+                <span>2026-05-27 19:54</span>
+              </div>
+              <p class="reason">① ANF is essentially flat at -0.4% on day 0, and the original buy thesis remains intact — RSI at 54.9 is healthy mid-range, 5-day momentum of 13.8% is strong, and the technical score of 70/100 support</p>
+            </div>
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">RXO</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 70.1</span>
-                <span>量比 0.0x</span>
+                <span>Vol 0.0x</span>
                 <span>2026-05-27 13:37</span>
               </div>
-              <p class="full-reason">RXO shows strong momentum signals on paper — RSI at 70.1, price 21.3% above the 20-day SMA, and 5-day momentum of +20.2% — but the critical red flag is a volume multiple of 0.0x, meaning effectively zero volume data is available or volume is absent, which completely undermines any conviction in the move. Without volume confirmation, a 20%+ price surge in 5 days is more likely a data anomaly, thin-float manipulation, or illiquid spike rather than genuine institutional momentum. There is no news catalyst to explain or support the price action, leaving the move entirely unvalidated. The primary downside risk is that this is a false signal driven by data error or extremely low liquidity — entering a position without volume confirmation on an already extended price (21% above SMA) creates significant mean-reversion risk right into the hard stop.</p>
+              <p class="reason">RXO shows strong momentum signals on paper — RSI at 70.1, price 21.3% above the 20-day SMA, and 5-day momentum of +20.2% — but the critical red flag is a volume multiple of 0.0x, meaning effectively z</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">QCOM</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 71.1</span>
-                <span>量比 0.0x</span>
+                <span>Vol 0.0x</span>
                 <span>2026-05-27 13:37</span>
               </div>
-              <p class="full-reason">QCOM shows strong technical momentum with a 24.5% 5-day surge, RSI of 71.1 in the momentum zone, and price sitting 19.2% above its 20-day SMA — all suggesting a powerful recent move. However, the critical red flag is the volume multiple of 0.0x, meaning no meaningful volume data is available or volume is essentially absent, which completely undermines conviction in the breakout and suggests the move may lack institutional participation or liquidity support. With no news catalyst to explain the sharp 5-day move, chasing a 24.5% gain into an extended, potentially exhausted position without volume confirmation is a low-probability setup. Primary downside risk is a sharp mean-reversion back toward the 20-day SMA ($204.55), representing a potential ~16% drawdown that far exceeds the 3.5% hard stop, making risk/reward unfavorable at current levels.</p>
+              <p class="reason">QCOM shows strong technical momentum with a 24.5% 5-day surge, RSI of 71.1 in the momentum zone, and price sitting 19.2% above its 20-day SMA — all suggesting a powerful recent move. However, the crit</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">AAON</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 70.5</span>
-                <span>量比 0.0x</span>
+                <span>Vol 0.0x</span>
                 <span>2026-05-27 13:37</span>
               </div>
-              <p class="full-reason">AAON shows strong price momentum with a 9.2% 5-day gain and trades 15.4% above its 20-day SMA, but these extended levels suggest the move is already mature rather than nascent. The critical red flag is a volume multiple of 0.0x, meaning today's price action lacks any volume confirmation whatsoever — momentum without volume is a hallmark of exhaustion or illiquidity, not a sustainable breakout. RSI at 70.5 sits at the upper edge of the 'momentum zone' and is approaching overbought territory, compounding the risk of a sharp mean-reversion toward the $122-$123 SMA support. With no news catalyst to justify or sustain the move and price this extended from its mean, the risk/reward for a new entry is unfavorable — chasing here risks a painful pullback with limited upside remaining.</p>
+              <p class="reason">AAON shows strong price momentum with a 9.2% 5-day gain and trades 15.4% above its 20-day SMA, but these extended levels suggest the move is already mature rather than nascent. The critical red flag i</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">MOD</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 64.8</span>
-                <span>量比 0.1x</span>
+                <span>Vol 0.1x</span>
                 <span>2026-05-27 13:37</span>
               </div>
-              <p class="full-reason">MOD shows strong momentum signals with RSI at 64.8 (momentum zone), price 13.6% above the 20-day SMA, and an impressive 5-day momentum of +24.8%, yielding a technical score of 65/100. However, the critical red flag is volume at only 0.1x the 20-day average — an extreme absence of participation that suggests this price move lacks institutional conviction and may be driven by thin, illiquid conditions rather than genuine demand. With no news catalyst to explain the sharp 5-day surge, the move is unconfirmed and highly suspect, raising the risk of a snap reversal. The primary downside risk is chasing an extended, low-volume spike with no catalyst and a 13.6% extension above the mean — the setup carries significant reversion risk that the trailing stop alone may not adequately protect against given the potential for gap-downs.</p>
+              <p class="reason">MOD shows strong momentum signals with RSI at 64.8 (momentum zone), price 13.6% above the 20-day SMA, and an impressive 5-day momentum of +24.8%, yielding a technical score of 65/100. However, the cri</p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">POWI</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 68.7</span>
-                <span>量比 0.1x</span>
+                <span>Vol 0.1x</span>
                 <span>2026-05-27 13:37</span>
               </div>
-              <p class="full-reason">POWI shows strong price momentum with a 5-day gain of +21.4% and RSI at 68.7 sitting in the momentum zone, but the critical red flag is volume at only 0.1x the 20-day average — this is extremely thin participation, suggesting the move lacks institutional conviction and may be illiquid or stale. Price is already 13.2% extended above its 20-day SMA, meaning the risk/reward for a new entry is poor as much of the move has already been captured and mean-reversion risk is elevated. There is no news catalyst to explain or sustain the price surge, leaving the move unexplained and potentially fragile. The primary downside risk is a sharp reversal on low-volume exhaustion, with the hard stop at -5.0% ($78.73) offering limited cushion given the overextended entry point.</p>
+              <p class="reason">POWI shows strong price momentum with a 5-day gain of +21.4% and RSI at 68.7 sitting in the momentum zone, but the critical red flag is volume at only 0.1x the 20-day average — this is extremely thin </p>
             </div>
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">RXO</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
+                <span class="score">Score: 65/100</span>
+                <span class="sbadge skipped">❌ Claude Skip</span>
               </div>
               <div class="scan-stats">
                 <span>RSI 70.3</span>
-                <span>量比 0.0x</span>
+                <span>Vol 0.0x</span>
                 <span>2026-05-27 13:59</span>
               </div>
-              <p class="full-reason">RXO shows strong technical momentum with RSI at 70.3, price 21.8% above its 20-day SMA, and a 5-day gain of 20.7%, suggesting a sharp recent move already well underway. However, the critical red flag is volume at 0.0x the 20-day average, indicating an essentially absent or unconfirmed volume surge — momentum without volume participation lacks conviction and raises the risk of a false breakout or imminent reversal. There is no news catalyst to explain or justify the price spike, which increases the probability this is a low-liquidity, thin-volume move that could reverse sharply. The primary downside risk is buying into an exhausted, volume-less rally near a short-term peak, where a reversion toward the 20-day SMA could represent a 15-20% drawdown well beyond the hard stop threshold.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">AAON</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 71.3</span>
-                <span>量比 0.1x</span>
-                <span>2026-05-27 14:00</span>
-              </div>
-              <p class="full-reason">AAON shows a respectable technical score of 65/100 with RSI at 71.3 in the momentum zone, price 16.5% above its 20-day SMA, and 5-day momentum of +10.4%, suggesting a recent strong move. However, the critical red flag is volume at only 0.1x the 20-day average — this is exceptionally low and indicates virtually no conviction or institutional participation behind the price move, making the momentum highly suspect and fragile. With no news catalyst to explain the price surge and zero volume confirmation, this setup carries significant risk of a sharp reversal or mean reversion back toward the 20-day SMA. The primary downside risk is that the price has moved dramatically on thin air, and any selling pressure could rapidly trigger the hard stop at $136.24 or worse, with no supporting volume base to absorb the decline.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">QCOM</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 64.7</span>
-                <span>量比 0.1x</span>
-                <span>2026-05-27 14:00</span>
-              </div>
-              <p class="full-reason">QCOM shows solid RSI momentum at 64.7 and a strong 5-day move of +19%, with price trading 14.2% above its 20-day SMA — all technically constructive signals. However, the critical red flag is volume at just 0.1x the 20-day average, indicating virtually no market participation or conviction behind this move, which raises serious concerns about sustainability and potential for a sharp reversal. With no news catalyst to explain the price surge, the absence of a fundamental driver combined with extremely thin volume makes this move highly suspect and difficult to trust for a momentum entry. The primary downside risk is a swift mean-reversion toward the 20-day SMA given the lack of volume confirmation, and entering at extended levels (+14% above SMA) without a catalyst creates an unfavorable risk/reward profile.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">YETI</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 68.7</span>
-                <span>量比 0.0x</span>
-                <span>2026-05-27 14:00</span>
-              </div>
-              <p class="full-reason">YETI shows a decent technical setup with RSI at 68.7 in the momentum zone, price 13.4% above its 20-day SMA, and 5-day momentum of +13.1%, suggesting recent buying interest. However, the volume multiple is reported at 0.0x, which is a critical red flag — there is no measurable volume confirmation behind this price move, meaning the rally lacks institutional conviction and could be illiquid or data-anomalous. With no news catalyst to explain the surge and zero volume support, the risk of a sharp mean-reversion toward the 20-day SMA ($41.79) is elevated, which would represent a ~12% drawdown well beyond the hard stop floor. The primary downside risk is a low-volume, unsupported breakout that fades quickly, triggering the trailing stop early with limited upside captured.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">BBWI</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 62.4</span>
-                <span>量比 0.3x</span>
-                <span>2026-05-27 14:00</span>
-              </div>
-              <p class="full-reason">BBWI shows a strong 5-day momentum of +27.7% and RSI at 62.4, which sits in the momentum zone, with price trading 12.2% above its 20-day SMA — technically constructive but stretched. The critical red flag is volume at only 0.3x the 20-day average, which is severely below the 1.5x surge threshold, indicating this move lacks institutional conviction and participation. With no news catalyst to explain or sustain the +27.7% 5-day surge, the rally looks thin and potentially exhausted, raising the risk of a sharp mean-reversion pullback. The primary downside risk is buying into a low-volume, overextended move with no fundamental trigger — the -5% hard stop at $19.54 could be triggered quickly if the momentum fades without volume support.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">RXO</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 70.3</span>
-                <span>量比 0.0x</span>
-                <span>2026-05-27 14:00</span>
-              </div>
-              <p class="full-reason">RXO has posted strong technical readings with RSI at 70.3, price 21.8% above its 20-day SMA, and a 5-day gain of 20.7%, indicating a sharp parabolic move already well underway. However, the critical red flag is a volume multiple of 0.0x, meaning there is effectively no volume data supporting this move — without volume confirmation, the momentum lacks institutional conviction and the price action cannot be trusted as sustainable. With no news catalyst to explain the spike and zero volume corroboration, this setup carries a high risk of being a thin-market overextension or data anomaly rather than a genuine breakout. The primary downside risk is a swift mean-reversion toward the 20-day SMA (~$20.96), representing a potential 18%+ drawdown that would far exceed the hard stop, making the risk/reward unfavorable at this entry.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">AAON</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 71.3</span>
-                <span>量比 0.1x</span>
-                <span>2026-05-27 14:01</span>
-              </div>
-              <p class="full-reason">AAON shows strong price momentum with RSI at 71.3 and price sitting 17.6% above its 20-day SMA after a 5-day gain of 11.4%, but the critical red flag is volume at only 0.1x the 20-day average — an extreme absence of participation that signals this move lacks institutional conviction and is potentially illiquid or exhausted. Without volume confirmation, a breakout at these elevated levels is highly suspect and prone to sharp reversal with little buying support underneath. No news catalyst exists to justify the extended move, making this a pure technical setup with unfavorable risk/reward: buying 17.6% above the SMA with no fuel in the tank. The primary downside risk is a rapid mean-reversion toward the 20-day SMA, which would represent a loss far exceeding the 5% hard stop, triggering an early exit with minimal gain potential given the lack of momentum continuation signals.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">QCOM</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 65.6</span>
-                <span>量比 0.1x</span>
-                <span>2026-05-27 14:01</span>
-              </div>
-              <p class="full-reason">QCOM shows solid technical momentum with RSI at 65.6 in the momentum zone, price 14% above its 20-day SMA, and a strong 5-day gain of 18.8%, suggesting real upside thrust. However, the critical red flag is the extremely low volume at only 0.2x the 20-day average, which severely undermines conviction — a major price move on minimal volume is a hallmark of an unsustained, low-participation rally that is prone to sharp reversals. With no news catalyst to explain or support the move, this looks like a potentially exhausted or illiquid surge rather than a breakout with institutional backing. The primary downside risk is a swift mean-reversion back toward the 20-day SMA given the absence of volume confirmation and no fundamental driver to anchor the elevated price level.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">YETI</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 68.7</span>
-                <span>量比 0.0x</span>
-                <span>2026-05-27 14:01</span>
-              </div>
-              <p class="full-reason">YETI shows solid technical momentum with RSI at 68.7 in the healthy momentum zone, price 13.4% above its 20-day SMA, and a strong 5-day gain of 13.1%, suggesting real buying interest over the recent period. However, the critical red flag is the volume multiple of 0.0x, meaning no volume data is available or volume is essentially absent — this completely undermines conviction in the move, as a genuine momentum breakout requires volume confirmation to be trustworthy. With no news catalyst to explain the price surge, the rally lacks a fundamental anchor, raising the risk that this is a thin, unsustainable move or a data anomaly rather than true institutional-driven momentum. The primary downside risk is that without volume support or a news catalyst, the stock is vulnerable to a sharp mean-reversion back toward the 20-day SMA, which would represent a ~12% drawdown well beyond the hard stop.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">BBWI</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 62.4</span>
-                <span>量比 0.3x</span>
-                <span>2026-05-27 14:01</span>
-              </div>
-              <p class="full-reason">BBWI shows strong price momentum with a 28.2% 5-day gain and RSI at 62.4 in the momentum zone, with price sitting 12.6% above its 20-day SMA — technically constructive but increasingly stretched. The critical red flag is volume at only 0.3x the 20-day average, which is severely below the 1.5x surge threshold and indicates this move lacks institutional conviction or broad participation. No news catalyst was returned, meaning there is no identifiable fundamental driver to justify the sharp 5-day surge, raising the risk this is a low-liquidity drift or thin-market spike rather than a genuine breakout. The primary downside risk is a swift mean-reversion toward the 20-day SMA ($18.33), implying potential drawdown well beyond the hard stop floor before any trailing stop could protect capital.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">RXO</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 69.3</span>
-                <span>量比 0.1x</span>
-                <span>2026-05-27 14:49</span>
-              </div>
-              <p class="full-reason">RXO shows solid momentum metrics with RSI at 69.3, price nearly 20% above its 20-day SMA, and a 5-day gain of 18.7%, but the critical red flag is a volume multiple of 0.0x — essentially zero confirmed volume, which means there is no institutional conviction behind the move and the price action cannot be trusted. Without volume confirmation, a breakout or momentum trade lacks the foundational fuel needed to sustain further upside. No news catalyst was returned, leaving pure technicals as the only basis, and those technicals are undermined entirely by the absent volume. The primary downside risk is a sharp mean-reversion collapse back toward the 20-day SMA (~$20.94), representing roughly a 17% drawdown that would breach the hard stop well before reaching that level.</p>
-            </div>
-            <div class="flat-item">
-              <div class="flat-header">
-                <span class="symbol">AMD</span>
-                <span class="score">分數：65/100</span>
-                <span class="sbadge skipped">❌ AI 跳過</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 74.2</span>
-                <span>量比 0.3x</span>
-                <span>2026-05-27 14:50</span>
-              </div>
-              <p class="full-reason">AMD has posted a strong 5-day momentum gain of 19.5% and RSI of 74.2, with price sitting 17.0% above its 20-day SMA — all signals of a stock that has already made a significant move. The critical red flag here is the volume multiple at just 0.3x the 20-day average, meaning this price surge is occurring on dramatically thin volume with no institutional conviction backing the move. No news catalyst was returned to justify or explain the sharp price appreciation, making this a technically extended, low-volume drift that is highly susceptible to a swift reversal. The primary downside risk is a mean-reversion snapback toward the 20-day SMA (~$423), which would represent a loss well beyond the hard stop floor of -3.5%, and entering at peak extension without volume support is a low-probability setup.</p>
+              <p class="reason">RXO shows strong technical momentum with RSI at 70.3, price 21.8% above its 20-day SMA, and a 5-day gain of 20.7%, suggesting a sharp recent move already well underway. However, the critical red flag </p>
             </div></div>
   </section>
 
   <section>
-    <h2>📒 近期交易記錄</h2>
-    <p class="empty">尚無已平倉交易。</p>
+    <h2>Recent Trade History</h2>
+    <p class="empty">No closed trades yet.</p>
   </section>
 
   
         <section>
-          <h2>🏁 S&P 500 基準比較</h2>
+          <h2>S&P 500 Benchmark</h2>
           <div class="card">
             <div class="stat-grid">
-              <div><label>SPY 基準開始</label><val>$750.46（2026-05-27）</val></div>
-              <div><label>SPY 現值</label><val>$749.85（-0.08%）</val></div>
-              <div><label>我們的報酬</label><val style="color:#16a34a">+0.00%</val></div>
-              <div><label>狀態</label><val>✅ 超越 S&P — 第 1/14 天</val></div>
+              <div><label>SPY Start</label><val>$750.46 on 2026-05-27</val></div>
+              <div><label>SPY Now</label><val>$750.63 (+0.02%)</val></div>
+              <div><label>Our Return</label><val style="color:#16a34a">+0.00%</val></div>
+              <div><label>Status</label><val>❌ Trailing S&P — Day 2/14</val></div>
             </div>
           </div>
         </section>
 
-  <p class="footer">Amara · 單次執行模式 · 生成時間 2026-05-27 23:05:15</p>
+  <p class="footer">Amara · single-run serverless mode · generated 2026-05-28 03:54:22</p>
 </body>
 </html>
