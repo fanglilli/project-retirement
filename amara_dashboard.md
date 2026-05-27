@@ -4,7 +4,7 @@
 
 | Field | Value |
 |:------|:------|
-| **Last Run** | `2026-05-27 04:59:36` |
+| **Last Run** | `2026-05-27 05:10:07` |
 | **Mode** | 🧪 PAPER |
 | **Cash Available** | `$0.00` |
 | **Portfolio Value** | `$0.00` |
@@ -32,4 +32,4 @@
 *No closed trades yet.*
 
 ---
-*Amara · single-run serverless mode · generated 2026-05-27 04:59:36*
+*Amara · single-run serverless mode · generated 2026-05-27 05:10:07*
