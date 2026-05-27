@@ -34,7 +34,7 @@ _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # The local Google Drive sync client keeps this path always up-to-date.
 DASHBOARD_PATH = os.path.join(_SCRIPT_DIR, "amara_dashboard.md")
 
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 from dataclasses import dataclass, asdict
 from typing import Optional
 
@@ -63,24 +63,20 @@ CONFIG = {
     # Portfolio limits
     "TOTAL_CAPITAL": 100000,
     "MAX_POSITION_PCT": 0.10,       # used to calculate max simultaneous positions (10 slots)
+    "MAX_HOLD_DAYS": 8,
     "DAILY_LOSS_LIMIT_PCT": 0.05,
     "TOTAL_LOSS_LIMIT_PCT": 0.30,
 
     # ── Dual-tier risk profiles ──────────────────────────────────────────
-    # Exit architecture: hard stop-loss (floor) + trailing stop (ratchets up with peak price).
-    # No fixed take-profit — trailing stop lets winners run while locking in gains.
-    #
-    # Large-caps: tighter stop, tighter trail, 3-day hold limit
-    "LARGE_CAP_STOP_LOSS_PCT":    0.035,  # Hard floor stop-loss      -3.5%
-    "LARGE_CAP_TRAIL_PCT":        0.025,  # Trailing stop from peak   -2.5%
-    "LARGE_CAP_MAX_HOLD_DAYS":    3,      # Exit at market after 3 trading sessions
-    "LARGE_CAP_POSITION_PCT":     0.10,   # 10% of equity per position
+    # Large-caps: tighter stop, conservative target
+    "LARGE_CAP_STOP_LOSS_PCT":    0.035,  # Hard stop-loss    -3.5%
+    "LARGE_CAP_TAKE_PROFIT_PCT":  0.070,  # Fixed take profit  +7.0%
+    "LARGE_CAP_POSITION_PCT":     0.10,   # 10% of capital per position
 
-    # Mid-caps: wider stop, wider trail to absorb volatility, 4-day hold limit
-    "MID_CAP_STOP_LOSS_PCT":      0.050,  # Hard floor stop-loss      -5.0%
-    "MID_CAP_TRAIL_PCT":          0.035,  # Trailing stop from peak   -3.5%
-    "MID_CAP_MAX_HOLD_DAYS":      4,      # Exit at market after 4 trading sessions
-    "MID_CAP_POSITION_PCT":       0.06,   # 6% of equity per position
+    # Mid-caps: wider stop, higher target — accommodates larger swings
+    "MID_CAP_STOP_LOSS_PCT":      0.050,  # Hard stop-loss    -5.0%
+    "MID_CAP_TAKE_PROFIT_PCT":    0.100,  # Fixed take profit +10.0%
+    "MID_CAP_POSITION_PCT":       0.06,   # 6% of capital per position
 
     # ── 4-criterion scoring thresholds ──────────────────────────────────
     "RSI_BUY_THRESHOLD":    55,     # RSI must be above this (momentum building)
@@ -231,20 +227,18 @@ ASSET_TYPE: dict = {s: "large" for s in LARGE_CAPS} | {s: "mid" for s in MID_CAP
 
 
 def get_symbol_params(symbol: str) -> dict:
-    """Return stop-loss, trailing stop, max hold days, and position-size parameters for a symbol's tier."""
+    """Return stop-loss, trailing trigger, and position-size parameters for a symbol's tier."""
     if ASSET_TYPE.get(symbol) == "mid":
         return {
-            "stop_loss_pct":   CONFIG["MID_CAP_STOP_LOSS_PCT"],   # -5.0%  hard floor
-            "trail_pct":       CONFIG["MID_CAP_TRAIL_PCT"],        # -3.5%  trail from peak
-            "max_hold_days":   CONFIG["MID_CAP_MAX_HOLD_DAYS"],    # 4 trading sessions
-            "position_pct":    CONFIG["MID_CAP_POSITION_PCT"],     # 6% of equity
+            "stop_loss_pct":   CONFIG["MID_CAP_STOP_LOSS_PCT"],      # -5.0%
+            "take_profit_pct": CONFIG["MID_CAP_TAKE_PROFIT_PCT"],    # +11.0% fixed take profit
+            "position_pct":    CONFIG["MID_CAP_POSITION_PCT"],       # 6% of capital
         }
     # Default to large-cap profile (also covers any unlisted symbol)
     return {
-        "stop_loss_pct":   CONFIG["LARGE_CAP_STOP_LOSS_PCT"],      # -3.5%  hard floor
-        "trail_pct":       CONFIG["LARGE_CAP_TRAIL_PCT"],           # -2.5%  trail from peak
-        "max_hold_days":   CONFIG["LARGE_CAP_MAX_HOLD_DAYS"],       # 3 trading sessions
-        "position_pct":    CONFIG["LARGE_CAP_POSITION_PCT"],        # 10% of equity
+        "stop_loss_pct":   CONFIG["LARGE_CAP_STOP_LOSS_PCT"],        # -3.5%
+        "take_profit_pct": CONFIG["LARGE_CAP_TAKE_PROFIT_PCT"],      # +8.0% fixed take profit
+        "position_pct":    CONFIG["LARGE_CAP_POSITION_PCT"],         # 10% of capital
     }
 
 # ─────────────────────────────────────────────
@@ -257,10 +251,8 @@ class PaperPosition:
     entry_date: str
     shares: float
     cost_usd: float
-    stop_loss_price: float    # Hard floor — never moves down
-    trail_stop_price: float   # Trailing stop — ratchets up as peak_price rises
-    trail_pct: float          # Trail percentage used for this position (e.g. 0.025 = 2.5%)
-    peak_price: float         # Highest price seen since entry — drives trail stop updates
+    stop_loss_price: float
+    take_profit_price: float
     status: str = "open"
     exit_price: float = 0.0
     exit_date: str = ""
@@ -270,6 +262,9 @@ class PaperPosition:
     # Alpaca order ID of the native GTC hard stop placed at entry.
     # Empty string means no native stop was placed (Python fallback active).
     stop_order_id: str = ""
+    # Alpaca order ID of the native GTC limit (take profit) order placed at entry.
+    # Empty string means no native take profit was placed (Python fallback active).
+    take_profit_order_id: str = ""
 
 @dataclass
 class DailyStats:
@@ -330,77 +325,76 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     open_pos    = bot.logger.get_open_positions()
     all_closed  = [p for p in data["positions"] if p["status"] == "closed"]
     winners     = len([p for p in all_closed if p["pnl_usd"] > 0])
-    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "尚無已平倉交易"
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
 
-    mode = "🧪 模擬" if CONFIG.get("PAPER_TRADING", True) else "💰 實盤"
+    mode = "🧪 PAPER" if CONFIG.get("PAPER_TRADING", True) else "💰 LIVE"
     pnl_pct = total_pnl / capital * 100 if capital else 0
     pnl_arrow = "▲" if total_pnl >= 0 else "▼"
 
     lines = []
 
     # ── Header ───────────────────────────────────────────────────────────────
-    lines.append("# 🤖 Amara — 交易儀表板")
+    lines.append("# 🤖 Amara — Trading Dashboard")
     lines.append("")
 
     # ── Run Summary Table ─────────────────────────────────────────────────────
-    lines.append("## 📊 本次執行摘要")
+    lines.append("## 📊 Run Summary")
     lines.append("")
-    lines.append("| 項目 | 數值 |")
+    lines.append("| Field | Value |")
     lines.append("|:------|:------|")
-    lines.append(f"| **最後執行時間** | `{now.strftime('%Y-%m-%d %H:%M:%S')}` |")
-    lines.append(f"| **模式** | {mode} |")
-    lines.append(f"| **可用現金** | `${cash:,.2f}` |")
-    lines.append(f"| **投資組合市值** | `${port_val:,.2f}` |")
-    lines.append(f"| **可用購買力** | `${buy_power:,.2f}` |")
-    lines.append(f"| **總損益** | `${total_pnl:+,.2f}` ({pnl_arrow} {abs(pnl_pct):.2f}%) |")
-    lines.append(f"| **今日損益** | `${today_pnl:+,.2f}` |")
-    lines.append(f"| **勝率** | {win_rate_str} |")
-    lines.append(f"| **持倉數量** | {len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])} |")
-    lines.append(f"| **觀察清單股票數** | {len(WATCHLIST)} |")
+    lines.append(f"| **Last Run** | `{now.strftime('%Y-%m-%d %H:%M:%S')}` |")
+    lines.append(f"| **Mode** | {mode} |")
+    lines.append(f"| **Cash Available** | `${cash:,.2f}` |")
+    lines.append(f"| **Portfolio Value** | `${port_val:,.2f}` |")
+    lines.append(f"| **Buying Power** | `${buy_power:,.2f}` |")
+    lines.append(f"| **Total P&L** | `${total_pnl:+,.2f}` ({pnl_arrow} {abs(pnl_pct):.2f}%) |")
+    lines.append(f"| **Today's P&L** | `${today_pnl:+,.2f}` |")
+    lines.append(f"| **Win Rate** | {win_rate_str} |")
+    lines.append(f"| **Open Positions** | {len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])} |")
+    lines.append(f"| **Stocks Watched** | {len(WATCHLIST)} |")
     lines.append("")
 
     # ── Open Positions ────────────────────────────────────────────────────────
-    lines.append("## 📋 持倉股票")
+    lines.append("## 📋 Open Positions")
     lines.append("")
     if open_pos:
-        lines.append("| 股票 | 進場價 | 現價 | 未實現損益 | 進場日 | 硬停損 | 移動停損 | 最高價 | 成本（美元）|")
-        lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|-----------:|-----:|-----------:|")
+        lines.append("| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Stop Loss | Take Profit | Cost (USD) |")
+        lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|------------:|-----------:|")
         for pos in open_pos:
-            last       = pos.get("last_price") or pos["entry_price"]
-            peak       = pos.get("peak_price") or pos["entry_price"]
-            trail_stop = pos.get("trail_stop_price") or pos["stop_loss_price"]
-            pct        = (last - pos["entry_price"]) / pos["entry_price"] * 100
-            sign       = "🟢" if pct >= 0 else "🔴"
+            last = pos.get("last_price") or pos["entry_price"]
+            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            sign = "🟢" if pct >= 0 else "🔴"
             lines.append(
                 f"| **{pos['symbol']}** | ${pos['entry_price']:.2f} | ${last:.2f} | "
                 f"{sign} {pct:+.1f}% | {pos['entry_date']} | "
-                f"${pos['stop_loss_price']:.2f} | ${trail_stop:.2f} | ${peak:.2f} | "
+                f"${pos['stop_loss_price']:.2f} | ${pos['take_profit_price']:.2f} | "
                 f"${pos['cost_usd']:,.0f} |"
             )
     else:
-        lines.append("*本次執行時無持倉。*")
+        lines.append("*No open positions at time of this run.*")
     lines.append("")
 
     # ── This Run's Decisions ──────────────────────────────────────────────────
-    lines.append("## 🧠 本次決策")
+    lines.append("## 🧠 This Run's Decisions")
     lines.append("")
     decisions = getattr(bot, "_run_decisions", [])
     if decisions:
-        lines.append("| 時間 | 股票 | 動作 | 信心分數 | 原因 |")
+        lines.append("| Time | Symbol | Action | Confidence | Reason |")
         lines.append("|:----:|:------:|:------:|:----------:|:-------|")
         for d in decisions:
             reason = (d.get("reason") or "—").replace("|", "\\|").replace("\n", " ")
+            reason = reason[:140] + ("…" if len(reason) > 140 else "")
             conf   = d.get("confidence", "—")
             lines.append(
                 f"| {d.get('time', '—')} | **{d['symbol']}** | {d['action']} | "
                 f"{conf} | {reason} |"
             )
     else:
-        lines.append("*本次無買賣決策 — 市場已收盤或無股票達到門檻。*")
+        lines.append("*No buy/sell decisions this run — market was closed or no signals met the threshold.*")
     lines.append("")
 
     # ── Latest Scan Results (today, up to 20) ────────────────────────────────
-    lines.append("## 🔍 掃描結果")
+    lines.append("## 🔍 Latest Scan Results")
     lines.append("")
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
@@ -408,35 +402,36 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     display_scans = today_scans[-20:] if today_scans else scan_log[-20:]
 
     if display_scans:
-        lines.append("| 時間 | 股票 | 分數 | RSI | 量比 | 送交AI | 決策 | AI 分析原因 |")
+        lines.append("| Time | Symbol | Score | RSI | Vol× | Sent to AI | Decision | AI Reason |")
         lines.append("|:----:|:------:|------:|----:|-----:|:----------:|:--------:|:----------|")
         for s in display_scans:
-            sent    = "🧠 是" if s.get("sent_to_claude") else "—"
+            sent    = "🧠 Yes" if s.get("sent_to_claude") else "—"
             if s.get("hold_review"):
-                decision = "🔍 持倉審查"
+                decision = "🔍 Hold Review"
             elif s.get("sent_to_claude"):
-                decision = "✅ 買入" if s.get("claude_approved") else "❌ 跳過"
+                decision = "✅ BUY" if s.get("claude_approved") else "❌ SKIP"
             else:
                 decision = "—"
             reason = (s.get("claude_reason") or "—").replace("|", "\\|").replace("\n", " ")
+            reason = reason[:100] + ("…" if len(reason) > 100 else "")
             lines.append(
                 f"| {s.get('timestamp', '—')} | **{s['symbol']}** | {s.get('score', 0)} | "
                 f"{s.get('rsi', 0):.1f} | {s.get('volume_ratio', 0):.1f}x | "
                 f"{sent} | {decision} | {reason} |"
             )
     else:
-        lines.append("*尚無掃描資料。*")
+        lines.append("*No scan data recorded yet.*")
     lines.append("")
 
     # ── Recent Trade History (last 10 closed) ─────────────────────────────────
-    lines.append("## 📒 近期交易記錄")
+    lines.append("## 📒 Recent Trade History")
     lines.append("")
     recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
     if recent_closed:
-        lines.append("| 股票 | 進場價 | 出場價 | 損益（美元）| 結果 | 出場原因 | 平倉日 |")
+        lines.append("| Symbol | Entry | Exit | P&L (USD) | Result | Reason | Closed |")
         lines.append("|:------:|------:|-----:|----------:|:------:|:-------|:------:|")
         for p in reversed(recent_closed):
-            result = "✅ 獲利" if p.get("pnl_usd", 0) > 0 else "❌ 虧損"
+            result = "✅ Win" if p.get("pnl_usd", 0) > 0 else "❌ Loss"
             reason = (p.get("exit_reason") or "—").replace("|", "\\|")
             lines.append(
                 f"| **{p['symbol']}** | ${p['entry_price']:.2f} | "
@@ -445,7 +440,7 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
                 f"{(p.get('exit_date') or '—')[:10]} |"
             )
     else:
-        lines.append("*尚無已平倉交易。*")
+        lines.append("*No closed trades yet.*")
     lines.append("")
 
     # ── SPY Benchmark ─────────────────────────────────────────────────────────
@@ -454,20 +449,20 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
         spy_ret = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
         our_ret = pnl_pct
         days_in = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
-        beating = "✅ 超越 S&P" if our_ret > spy_ret else "❌ 落後 S&P"
-        lines.append("## 🏁 S&P 500 基準比較")
+        beating = "✅ Beating S&P" if our_ret > spy_ret else "❌ Trailing S&P"
+        lines.append("## 🏁 S&P 500 Benchmark")
         lines.append("")
-        lines.append("| 指標 | 數值 |")
+        lines.append("| Metric | Value |")
         lines.append("|:-------|:------|")
-        lines.append(f"| SPY 基準開始 | `${bm['start_price']:.2f}`（{bm['start_date']}）|")
-        lines.append(f"| SPY 現值 | `${bm['current_price']:.2f}`（{spy_ret:+.2f}%）|")
-        lines.append(f"| 我們的報酬 | `{our_ret:+.2f}%` |")
-        lines.append(f"| 挑戰狀態 | {beating} — 第 {days_in} / 14 天 |")
+        lines.append(f"| SPY Start | `${bm['start_price']:.2f}` on {bm['start_date']} |")
+        lines.append(f"| SPY Now | `${bm['current_price']:.2f}` ({spy_ret:+.2f}%) |")
+        lines.append(f"| Our Return | `{our_ret:+.2f}%` |")
+        lines.append(f"| Challenge Status | {beating} — Day {days_in} / 14 |")
         lines.append("")
 
     # ── Footer ────────────────────────────────────────────────────────────────
     lines.append("---")
-    lines.append(f"*Amara · 單次執行模式 · 生成時間 {now.strftime('%Y-%m-%d %H:%M:%S')}*")
+    lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
 
     dashboard_path = DASHBOARD_PATH
     dashboard_dir  = os.path.dirname(dashboard_path)
@@ -483,7 +478,6 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     """
     Write index.html — a mobile-friendly light-theme HTML dashboard for GitHub Pages.
     Accessible at https://fanglilli.github.io/project-retirement/
-    UI language: Traditional Chinese.
     """
     import pytz
     tw_tz = pytz.timezone("Asia/Taipei")
@@ -498,9 +492,9 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     open_pos   = bot.logger.get_open_positions()
     all_closed = [p for p in data["positions"] if p["status"] == "closed"]
     winners    = len([p for p in all_closed if p["pnl_usd"] > 0])
-    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "尚無已平倉交易"
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
     pnl_pct    = total_pnl / capital * 100 if capital else 0
-    mode       = "模擬" if CONFIG.get("PAPER_TRADING", True) else "實盤"
+    mode       = "PAPER" if CONFIG.get("PAPER_TRADING", True) else "LIVE"
     pnl_color  = "#16a34a" if total_pnl >= 0 else "#dc2626"
     pnl_sign   = "+" if total_pnl >= 0 else ""
 
@@ -508,12 +502,9 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     if open_pos:
         pos_rows = ""
         for pos in open_pos:
-            last       = pos.get("last_price") or pos["entry_price"]
-            peak       = pos.get("peak_price") or pos["entry_price"]
-            trail_stop = pos.get("trail_stop_price") or pos["stop_loss_price"]
-            pct        = (last - pos["entry_price"]) / pos["entry_price"] * 100
-            dot        = "🟢" if pct >= 0 else "🔴"
-            trail_pct_disp = pos.get("trail_pct", 0.025) * 100
+            last = pos.get("last_price") or pos["entry_price"]
+            pct  = (last - pos["entry_price"]) / pos["entry_price"] * 100
+            dot  = "🟢" if pct >= 0 else "🔴"
             pos_rows += f"""
             <div class="card pos-card">
               <div class="pos-header">
@@ -521,44 +512,39 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
                 <span class="pnl" style="color:{'#16a34a' if pct>=0 else '#dc2626'}">{dot} {pct:+.1f}%</span>
               </div>
               <div class="pos-grid">
-                <div><label>進場價</label><val>${pos['entry_price']:.2f}</val></div>
-                <div><label>現價</label><val>${last:.2f}</val></div>
-                <div><label>最高價</label><val>${peak:.2f}</val></div>
-                <div><label>硬停損</label><val>${pos['stop_loss_price']:.2f}</val></div>
-                <div><label>移動停損 ({trail_pct_disp:.1f}%)</label><val>${trail_stop:.2f}</val></div>
-                <div><label>成本</label><val>${pos['cost_usd']:,.0f}</val></div>
-                <div><label>進場日</label><val>{pos['entry_date']}</val></div>
+                <div><label>Entry</label><val>${pos['entry_price']:.2f}</val></div>
+                <div><label>Last</label><val>${last:.2f}</val></div>
+                <div><label>Stop</label><val>${pos['stop_loss_price']:.2f}</val></div>
+                <div><label>Target</label><val>${pos['take_profit_price']:.2f}</val></div>
+                <div><label>Cost</label><val>${pos['cost_usd']:,.0f}</val></div>
+                <div><label>Since</label><val>{pos['entry_date']}</val></div>
               </div>
             </div>"""
         open_section = f'<div class="pos-list">{pos_rows}</div>'
     else:
-        open_section = '<p class="empty">目前無持倉。</p>'
+        open_section = '<p class="empty">No open positions.</p>'
 
-    # ── Decisions rows — flat layout, full text, no card box ─────────────────
+    # ── Decisions rows ────────────────────────────────────────────────────────
     decisions = getattr(bot, "_run_decisions", [])
     if decisions:
         dec_rows = ""
         for d in decisions:
-            reason = d.get("reason") or "—"   # no truncation
-            action_color = (
-                "#16a34a" if "BUY"  in str(d.get("action", "")).upper() else
-                "#dc2626" if "SELL" in str(d.get("action", "")).upper() else
-                "#6b7280"
-            )
+            reason = (d.get("reason") or "—")[:200]
+            action_color = "#16a34a" if "BUY" in str(d.get("action","")).upper() else "#dc2626" if "SELL" in str(d.get("action","")).upper() else "#6b7280"
             dec_rows += f"""
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card dec-card">
+              <div class="dec-header">
                 <span class="symbol">{d['symbol']}</span>
                 <span style="color:{action_color};font-weight:700">{d.get('action','—')}</span>
-                <span class="conf">信心 {d.get('confidence','—')}</span>
+                <span class="conf">{d.get('confidence','—')}</span>
               </div>
-              <p class="full-reason">{reason}</p>
+              <p class="reason">{reason}</p>
             </div>"""
-        dec_section = f'<div class="flat-list">{dec_rows}</div>'
+        dec_section = f'<div class="dec-list">{dec_rows}</div>'
     else:
-        dec_section = '<p class="empty">本次無買賣決策 — 市場已收盤或無股票達到門檻。</p>'
+        dec_section = '<p class="empty">No buy/sell decisions this run — market closed or no signals met the threshold.</p>'
 
-    # ── Scan results rows — flat layout, full text, no card box ──────────────
+    # ── Scan results rows (top 20 qualifying stocks, with why not sent to Claude) ──
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
     today_scans  = [s for s in scan_log if s.get("date") == today_str]
@@ -568,40 +554,40 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     if display_scans:
         scan_rows = ""
         for s in display_scans:
-            sent     = s.get("sent_to_claude", False)
+            sent = s.get("sent_to_claude", False)
             approved = s.get("claude_approved", False)
-            hold     = s.get("hold_review", False)
+            hold = s.get("hold_review", False)
 
             if hold:
-                status_badge  = '<span class="sbadge review">持倉審查</span>'
-                status_reason = s.get("claude_reason") or "持倉審查中"
+                status_badge = '<span class="sbadge review">Hold Review</span>'
+                status_reason = s.get("claude_reason") or "Position under review"
             elif sent and approved:
-                status_badge  = '<span class="sbadge bought">✅ 已買入</span>'
+                status_badge = '<span class="sbadge bought">✅ Bought</span>'
                 status_reason = s.get("claude_reason") or "—"
             elif sent and not approved:
-                status_badge  = '<span class="sbadge skipped">❌ AI 跳過</span>'
-                status_reason = s.get("claude_reason") or "Claude 拒絕"
+                status_badge = '<span class="sbadge skipped">❌ Claude Skip</span>'
+                status_reason = s.get("claude_reason") or "Claude rejected"
             else:
-                status_badge  = '<span class="sbadge notsent">未入前5名</span>'
-                status_reason = f"分數 {s.get('score',0)}/100 — 符合條件但排名在前 {CONFIG['TOP_CANDIDATES']} 名之外"
+                status_badge = '<span class="sbadge notsent">Not top 5</span>'
+                status_reason = f"Score {s.get('score',0)}/100 — qualified but ranked outside top {CONFIG['TOP_CANDIDATES']}"
 
             scan_rows += f"""
-            <div class="flat-item">
-              <div class="flat-header">
+            <div class="card scan-card">
+              <div class="scan-header">
                 <span class="symbol">{s['symbol']}</span>
-                <span class="score">分數：{s.get('score',0)}/100</span>
+                <span class="score">Score: {s.get('score',0)}/100</span>
                 {status_badge}
               </div>
               <div class="scan-stats">
                 <span>RSI {s.get('rsi',0):.1f}</span>
-                <span>量比 {s.get('volume_ratio',0):.1f}x</span>
+                <span>Vol {s.get('volume_ratio',0):.1f}x</span>
                 <span>{s.get('timestamp','—')}</span>
               </div>
-              <p class="full-reason">{status_reason}</p>
+              <p class="reason">{status_reason[:200]}</p>
             </div>"""
-        scan_section = f'<div class="flat-list">{scan_rows}</div>'
+        scan_section = f'<div class="scan-list">{scan_rows}</div>'
     else:
-        scan_section = '<p class="empty">尚無掃描資料 — 僅在交易時段執行。</p>'
+        scan_section = '<p class="empty">No scan data yet — runs during market hours only.</p>'
 
     # ── Trade history rows ────────────────────────────────────────────────────
     recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
@@ -609,8 +595,8 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
         hist_rows = ""
         for p in reversed(recent_closed):
             win    = p.get("pnl_usd", 0) > 0
-            badge  = '<span class="badge win">獲利</span>' if win else '<span class="badge loss">虧損</span>'
-            reason = p.get("exit_reason") or "—"   # no truncation
+            badge  = '<span class="badge win">Win</span>' if win else '<span class="badge loss">Loss</span>'
+            reason = (p.get("exit_reason") or "—")[:100]
             hist_rows += f"""
             <div class="card hist-card">
               <div class="hist-header">
@@ -623,23 +609,23 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
             </div>"""
         hist_section = f'<div class="hist-list">{hist_rows}</div>'
     else:
-        hist_section = '<p class="empty">尚無已平倉交易。</p>'
+        hist_section = '<p class="empty">No closed trades yet.</p>'
 
     # ── SPY benchmark ─────────────────────────────────────────────────────────
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
-        spy_ret  = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in  = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
-        beating  = pnl_pct > spy_ret
+        spy_ret   = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
+        days_in   = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
+        beating   = pnl_pct > spy_ret
         bm_section = f"""
         <section>
-          <h2>🏁 S&P 500 基準比較</h2>
+          <h2>S&P 500 Benchmark</h2>
           <div class="card">
             <div class="stat-grid">
-              <div><label>SPY 基準開始</label><val>${bm['start_price']:.2f}（{bm['start_date']}）</val></div>
-              <div><label>SPY 現值</label><val>${bm['current_price']:.2f}（{spy_ret:+.2f}%）</val></div>
-              <div><label>我們的報酬</label><val style="color:{'#16a34a' if pnl_pct>=0 else '#dc2626'}">{pnl_pct:+.2f}%</val></div>
-              <div><label>狀態</label><val>{'✅ 超越 S&P' if beating else '❌ 落後 S&P'} — 第 {days_in}/14 天</val></div>
+              <div><label>SPY Start</label><val>${bm['start_price']:.2f} on {bm['start_date']}</val></div>
+              <div><label>SPY Now</label><val>${bm['current_price']:.2f} ({spy_ret:+.2f}%)</val></div>
+              <div><label>Our Return</label><val style="color:{'#16a34a' if pnl_pct>=0 else '#dc2626'}">{pnl_pct:+.2f}%</val></div>
+              <div><label>Status</label><val>{'✅ Beating S&P' if beating else '❌ Trailing S&P'} — Day {days_in}/14</val></div>
             </div>
           </div>
         </section>"""
@@ -647,101 +633,97 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
         bm_section = ""
 
     html = f"""<!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
-  <title>Amara 交易儀表板</title>
+  <title>Amara Trading Dashboard</title>
   <style>
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{ background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang TC', 'Noto Sans TC', sans-serif; padding: 16px; max-width: 680px; margin: 0 auto; }}
-    h1 {{ font-size: 1.5rem; font-weight: 800; margin-bottom: 4px; color: #111827; }}
-    h2 {{ font-size: 1.3rem; font-weight: 700; color: #111827; margin: 28px 0 10px; }}
-    .meta {{ font-size: 0.75rem; color: #9ca3af; margin-bottom: 16px; }}
-    .badge-mode {{ display:inline-block; padding:3px 10px; border-radius:5px; font-size:.75rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }}
-    .hero {{ background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:8px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }}
+    body {{ background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }}
+    h1 {{ font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; color: #111827; }}
+    h2 {{ font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .06em; margin: 24px 0 8px; }}
+    .meta {{ font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }}
+    .badge-mode {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }}
+    .hero {{ background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }}
     .hero .big {{ font-size:2.8rem; font-weight:800; color:{pnl_color}; line-height:1; }}
-    .hero .sub {{ font-size:.85rem; color:#6b7280; margin-top:6px; }}
-    .card {{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:10px; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
+    .hero .sub {{ font-size:.82rem; color:#6b7280; margin-top:6px; }}
+    .card {{ background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }}
     .stat-grid {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }}
-    label {{ display:block; font-size:.7rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.04em; margin-bottom:2px; }}
-    val {{ display:block; font-size:.95rem; font-weight:600; color:#111827; }}
-    .symbol {{ font-size:1.05rem; font-weight:700; color:#111827; }}
+    label {{ display:block; font-size:.68rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.05em; margin-bottom:2px; }}
+    val {{ display:block; font-size:.92rem; font-weight:600; color:#111827; }}
+    .symbol {{ font-size:1rem; font-weight:700; color:#111827; }}
     .pnl {{ font-size:.95rem; font-weight:700; }}
     .pos-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }}
     .pos-grid {{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; }}
-    /* ── Flat item: no box, just a top border separator ── */
-    .flat-list {{ margin-top:4px; }}
-    .flat-item {{ border-top:1px solid #e5e7eb; padding:14px 0; }}
-    .flat-item:first-child {{ border-top:none; padding-top:0; }}
-    .flat-header {{ display:flex; align-items:center; gap:10px; margin-bottom:6px; flex-wrap:wrap; }}
-    .conf {{ font-size:.78rem; color:#9ca3af; margin-left:auto; }}
-    .full-reason {{ font-size:.85rem; color:#374151; line-height:1.6; margin-top:4px; white-space:pre-wrap; }}
-    .scan-stats {{ display:flex; gap:14px; font-size:.75rem; color:#9ca3af; margin:4px 0; }}
-    .score {{ font-size:.8rem; color:#6b7280; font-weight:600; }}
-    .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:6px; }}
-    .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.92rem; }}
-    .hist-detail {{ font-size:.75rem; color:#9ca3af; margin-bottom:4px; }}
-    .reason {{ font-size:.82rem; color:#6b7280; line-height:1.5; }}
-    .badge {{ display:inline-block; padding:2px 9px; border-radius:4px; font-size:.72rem; font-weight:700; }}
+    .dec-header {{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap; }}
+    .conf {{ font-size:.72rem; color:#9ca3af; }}
+    .reason {{ font-size:.78rem; color:#6b7280; line-height:1.5; margin-top:5px; }}
+    .scan-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; flex-wrap:wrap; }}
+    .score {{ font-size:.78rem; color:#6b7280; font-weight:600; }}
+    .scan-stats {{ display:flex; gap:14px; font-size:.72rem; color:#9ca3af; margin-bottom:4px; }}
+    .hist-header {{ display:flex; align-items:center; gap:8px; margin-bottom:4px; }}
+    .hist-pnl {{ margin-left:auto; font-weight:700; font-size:.9rem; }}
+    .hist-detail {{ font-size:.72rem; color:#9ca3af; margin-bottom:3px; }}
+    .badge {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.68rem; font-weight:700; }}
     .badge.win {{ background:#dcfce7; color:#16a34a; }}
     .badge.loss {{ background:#fee2e2; color:#dc2626; }}
-    .sbadge {{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; white-space:nowrap; }}
+    .sbadge {{ display:inline-block; padding:2px 7px; border-radius:4px; font-size:.66rem; font-weight:700; }}
     .sbadge.bought {{ background:#dcfce7; color:#16a34a; }}
     .sbadge.skipped {{ background:#fee2e2; color:#dc2626; }}
     .sbadge.notsent {{ background:#f3f4f6; color:#6b7280; border:1px solid #e5e7eb; }}
     .sbadge.review {{ background:#fef9c3; color:#854d0e; }}
-    .empty {{ color:#9ca3af; font-size:.88rem; padding:8px 0; }}
-    .footer {{ font-size:.7rem; color:#d1d5db; text-align:center; margin-top:32px; padding-top:16px; border-top:1px solid #e5e7eb; }}
+    .empty {{ color:#9ca3af; font-size:.85rem; padding:6px 0; }}
+    .footer {{ font-size:.68rem; color:#d1d5db; text-align:center; margin-top:28px; padding-top:16px; border-top:1px solid #e5e7eb; }}
   </style>
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">{mode}</span></h1>
-  <p class="meta">最後更新：{now.strftime('%Y-%m-%d %H:%M:%S')} 台灣時間 · 每5分鐘自動更新</p>
+  <p class="meta">Last updated: {now.strftime('%Y-%m-%d %H:%M:%S')} TWN · auto-refreshes every 5 min</p>
 
   <div class="hero">
     <div class="big">{pnl_sign}${abs(total_pnl):,.2f}</div>
-    <div class="sub">總損益 &nbsp;·&nbsp; {pnl_sign}{abs(pnl_pct):.2f}%</div>
+    <div class="sub">Total P&amp;L &nbsp;·&nbsp; {pnl_sign}{abs(pnl_pct):.2f}%</div>
   </div>
 
   <section>
-    <h2>💰 投資組合</h2>
+    <h2>Portfolio</h2>
     <div class="card">
       <div class="stat-grid">
-        <div><label>現金</label><val>${cash:,.2f}</val></div>
-        <div><label>投資組合市值</label><val>${port_val:,.2f}</val></div>
-        <div><label>今日損益</label><val style="color:{'#16a34a' if today_pnl>=0 else '#dc2626'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
-        <div><label>勝率</label><val>{win_rate_str}</val></div>
-        <div><label>持倉數量</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
-        <div><label>觀察清單</label><val>{len(WATCHLIST)} 支股票</val></div>
+        <div><label>Cash</label><val>${cash:,.2f}</val></div>
+        <div><label>Portfolio Value</label><val>${port_val:,.2f}</val></div>
+        <div><label>Today's P&amp;L</label><val style="color:{'#16a34a' if today_pnl>=0 else '#dc2626'}">{'+' if today_pnl>=0 else ''}${today_pnl:,.2f}</val></div>
+        <div><label>Win Rate</label><val>{win_rate_str}</val></div>
+        <div><label>Open Positions</label><val>{len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])}</val></div>
+        <div><label>Watchlist</label><val>{len(WATCHLIST)} stocks</val></div>
       </div>
     </div>
   </section>
 
   <section>
-    <h2>📋 持倉股票（{len(open_pos)}）</h2>
+    <h2>Open Positions ({len(open_pos)})</h2>
     {open_section}
   </section>
 
   <section>
-    <h2>🧠 本次決策</h2>
+    <h2>This Run's Decisions</h2>
     {dec_section}
   </section>
 
   <section>
-    <h2>🔍 掃描結果 — 各股決策原因</h2>
+    <h2>Top Scan Results — Why Each Stock Did or Didn't Proceed</h2>
     {scan_section}
   </section>
 
   <section>
-    <h2>📒 近期交易記錄</h2>
+    <h2>Recent Trade History</h2>
     {hist_section}
   </section>
 
   {bm_section}
 
-  <p class="footer">Amara · 單次執行模式 · 生成時間 {now.strftime('%Y-%m-%d %H:%M:%S')}</p>
+  <p class="footer">Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}</p>
 </body>
 </html>"""
 
@@ -964,15 +946,11 @@ class MarketData:
 class TechnicalAnalysis:
     @staticmethod
     def calculate_rsi(prices: pd.Series, period: int = 14) -> float:
-        # Wilder's smoothed RSI (EMA-based) — matches TradingView / Bloomberg standard.
-        # Uses adjust=False so it replicates Wilder's recursive formula exactly.
-        delta  = prices.diff()
-        gain   = delta.clip(lower=0)
-        loss   = (-delta).clip(lower=0)
-        avg_gain = gain.ewm(com=period - 1, min_periods=period, adjust=False).mean()
-        avg_loss = loss.ewm(com=period - 1, min_periods=period, adjust=False).mean()
-        rs  = avg_gain / avg_loss
-        rsi = 100 - (100 / (1 + rs))
+        delta = prices.diff()
+        gain  = delta.where(delta > 0, 0).rolling(period).mean()
+        loss  = (-delta.where(delta < 0, 0)).rolling(period).mean()
+        rs    = gain / loss
+        rsi   = 100 - (100 / (1 + rs))
         return float(rsi.iloc[-1])
 
     @staticmethod
@@ -1010,11 +988,12 @@ class ClaudeAnalyst:
         previous_context: brief excerpt from amara_dashboard.md (prior run summary).
         """
         if not self.client:
-            return {"approve": tech_data["buy_signal"], "reason": "Claude 離線 — 使用技術信號作為備用"}
+            return {"approve": tech_data["buy_signal"], "reason": "Claude offline — technical signal used"}
 
         if sym_params is None:
             sym_params = get_symbol_params(symbol)
         sl_pct = sym_params["stop_loss_pct"]
+        tp_pct = sym_params["take_profit_pct"]
 
         news_section = (
             "Recent news (Benzinga):\n" + "\n".join(news)
@@ -1033,44 +1012,42 @@ Prior run context (for awareness only — do not let it override current signals
 ...
 """
 
-        trail_pct = sym_params["trail_pct"]
-        max_hold  = sym_params["max_hold_days"]
         prompt = f"""
-你是一位嚴格紀律的短線交易分析師。請根據以下技術指標與近期新聞，判斷是否應買入這檔股票進行動能交易。
-請用繁體中文回答。
+You are a disciplined short-term trading analyst. Based on the technical indicators and
+recent news below, decide whether to BUY this stock for a 3-5 day momentum trade.
 {prior_block}
-股票代號：{symbol}
-現價：${tech_data['current_price']:.2f}
-RSI（14日）：{tech_data['rsi']:.1f}
-20日均線：${tech_data['sma_20']:.2f}（現價高出 {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}%）
-成交量倍數：{tech_data['volume_ratio']:.1f}x（與20日均量相比）
-5日動能：{tech_data['momentum_5d_pct']:.1f}%
-技術分數：{tech_data['score']}/100
-分數細項：{', '.join(tech_data['reasons'])}
+Stock: {symbol}
+Current price: ${tech_data['current_price']:.2f}
+RSI (14-day): {tech_data['rsi']:.1f}
+20-day SMA: ${tech_data['sma_20']:.2f} (price is {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}% above)
+Volume multiple: {tech_data['volume_ratio']:.1f}x (vs 20-day avg)
+5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
+Technical score: {tech_data['score']}/100
+Score breakdown: {', '.join(tech_data['reasons'])}
 
 {news_section}
 
-出場架構（移動停損，無固定停利）：
-- 硬停損底線：-{sl_pct*100:.1f}%（→ ${tech_data['current_price'] * (1 - sl_pct):.2f}）— 無條件執行
-- 移動停損：從最高價下跌 -{trail_pct*100:.1f}% 觸發 — 隨股價上漲自動上移，鎖定獲利
-- 最長持有：{max_hold} 天 — 時間底線
+Trade parameters:
+- Stop loss: -{sl_pct*100:.0f}% (→ ${tech_data['current_price'] * (1 - sl_pct):.2f})
+- Take profit: +{tp_pct*100:.0f}% (→ ${tech_data['current_price'] * (1 + tp_pct):.2f})
+- Max hold: {CONFIG['MAX_HOLD_DAYS']} days
 
-新聞評分準則：
-- 正向催化劑（財報超預期、分析師升評、合約得標）→ 提升信心
-- 負向事件（財報未達標、降評、監管風險、訴訟）→ 否決或降低信心
-- 中性／無新聞 → 純技術面判斷
+News scoring guide:
+- Positive catalyst (earnings beat, analyst upgrade, contract win) → increases conviction
+- Negative event (miss, downgrade, regulatory risk, lawsuit) → veto or reduce confidence
+- Neutral / no news → pure technical judgment
 
-請僅回覆 JSON（不含其他文字）：
+Reply ONLY with JSON (no other text):
 {{
-  "approve": true 或 false,
-  "confidence": 1到10的整數,
-  "analysis": "3至4句分析：① 關鍵技術信號或新聞催化劑 ② 新聞與技術面的一致性 ③ 整體風險報酬評估 ④ 主要下行風險"
+  "approve": true or false,
+  "confidence": integer 1-10,
+  "analysis": "3-4 sentences: ① key technical signal or news catalyst ② news vs. technical alignment ③ overall risk/reward ④ primary downside risk"
 }}
 """
         try:
             response = self.client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=800,
+                max_tokens=600,
                 messages=[{"role": "user", "content": prompt}]
             )
             raw = response.content[0].text.strip()
@@ -1084,26 +1061,21 @@ RSI（14日）：{tech_data['rsi']:.1f}
             log.warning(f"⚠️ Claude analysis failed: {e} — falling back to technical signal")
             approve = tech_data["buy_signal"] and tech_data["score"] >= 70
             return {"approve": approve, "confidence": 7,
-                    "analysis": "Claude 分析失敗；技術分數足夠支撐決策"}
+                    "analysis": "Claude analysis failed; technical score was sufficient"}
 
     def review_hold(self, symbol: str, pos: dict, tech_data: dict,
                     news: list = None, previous_context: str = "") -> dict:
         """Qualitative hold review for an existing position. Informational only."""
         if not self.client:
-            return {"hold": True, "confidence": 5, "analysis": "Claude 離線 — 無法執行持倉審查"}
+            return {"hold": True, "confidence": 5, "analysis": "Claude offline — cannot review hold"}
 
-        sym_params      = get_symbol_params(symbol)
-        entry_date      = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
-        hold_days       = (datetime.now() - entry_date).days
-        max_hold        = sym_params["max_hold_days"]
-        current_price   = tech_data["current_price"]
-        entry_price     = pos["entry_price"]
-        pnl_pct         = (current_price - entry_price) / entry_price * 100
-        peak_price      = pos.get("peak_price") or entry_price
-        trail_stop      = pos.get("trail_stop_price") or pos["stop_loss_price"]
-        trail_pct       = pos.get("trail_pct") or sym_params["trail_pct"]
-        stop_distance   = (current_price - pos["stop_loss_price"]) / current_price * 100
-        trail_distance  = (current_price - trail_stop) / current_price * 100
+        entry_date     = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
+        hold_days      = (datetime.now() - entry_date).days
+        current_price  = tech_data["current_price"]
+        entry_price    = pos["entry_price"]
+        pnl_pct        = (current_price - entry_price) / entry_price * 100
+        stop_distance  = (current_price - pos["stop_loss_price"]) / current_price * 100
+        tp_distance    = (pos["take_profit_price"] - current_price) / current_price * 100
 
         news_section = (
             "Recent news (Benzinga):\n" + "\n".join(news)
@@ -1122,39 +1094,37 @@ Prior run context (for awareness only — do not let it override current signals
 """
 
         prompt = f"""
-你是一位嚴格紀律的短線交易分析師，正在審查一個現有持倉。
-此為參考資訊，不會直接觸發任何停損或移動停損規則。
-請用繁體中文回答。
+You are a disciplined short-term trading analyst reviewing an existing position.
+This is informational only — it does NOT trigger any stop-loss or take-profit rules.
 {prior_block}
 
-股票代號：{symbol}
-進場價：${entry_price:.2f}
-現價：${current_price:.2f}（{pnl_pct:+.1f}%）
-進場後最高價：${peak_price:.2f}
-已持有天數：{hold_days} 天（最長 {max_hold} 天）
-硬停損底線：${pos['stop_loss_price']:.2f}（距現價 {stop_distance:.1f}%）
-移動停損：${trail_stop:.2f}（從最高價下跌 -{trail_pct*100:.1f}%，距現價 {trail_distance:.1f}%）
+Stock: {symbol}
+Entry price: ${entry_price:.2f}
+Current price: ${current_price:.2f} ({pnl_pct:+.1f}%)
+Days held: {hold_days} (max {CONFIG['MAX_HOLD_DAYS']} days)
+Stop loss: ${pos['stop_loss_price']:.2f} ({stop_distance:.1f}% away)
+Take profit: ${pos['take_profit_price']:.2f} ({tp_distance:.1f}% away)
 
-最新技術指標：
-RSI（14日）：{tech_data['rsi']:.1f}
-成交量倍數：{tech_data['volume_ratio']:.1f}x
-5日動能：{tech_data['momentum_5d_pct']:.1f}%
-技術分數：{tech_data['score']}/100
-分數細項：{', '.join(tech_data['reasons']) if tech_data['reasons'] else '無明顯信號'}
+Latest technical indicators:
+RSI (14-day): {tech_data['rsi']:.1f}
+Volume multiple: {tech_data['volume_ratio']:.1f}x
+5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
+Technical score: {tech_data['score']}/100
+Score breakdown: {', '.join(tech_data['reasons']) if tech_data['reasons'] else 'no strong signals'}
 
 {news_section}
 
-請僅回覆 JSON（不含其他文字）：
+Reply ONLY with JSON:
 {{
-  "hold": true 或 false,
-  "confidence": 1到10的整數,
-  "analysis": "2至3句分析：① 當前動能與原始買入邏輯的比較 ② 任何早期警示信號或負面新聞 ③ 建議關注的關鍵點"
+  "hold": true or false,
+  "confidence": integer 1-10,
+  "analysis": "2-3 sentences: ① current momentum vs. original buy thesis ② any early warning signals or negative news ③ recommended watch points"
 }}
 """
         try:
             response = self.client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=600,
+                max_tokens=400,
                 messages=[{"role": "user", "content": prompt}]
             )
             raw = response.content[0].text.strip()
@@ -1166,7 +1136,7 @@ RSI（14日）：{tech_data['rsi']:.1f}
             return result
         except Exception as e:
             log.warning(f"⚠️ Hold review failed for {symbol}: {e}")
-            return {"hold": True, "confidence": 5, "analysis": f"持倉審查失敗 — 請手動確認：{e}"}
+            return {"hold": True, "confidence": 5, "analysis": f"Review failed — check manually: {e}"}
 
 # ─────────────────────────────────────────────
 # Main Bot — single-run, serverless
@@ -1248,18 +1218,6 @@ class AmaraBot:
 
     # ── Position monitoring ────────────────────────────────────────────────
     def check_existing_positions(self):
-        """
-        Check every open position and apply three exit rules in priority order:
-
-          1. Hard stop-loss floor  — native Alpaca GTC stop (or Python fallback)
-          2. Trailing stop         — Python-managed: trail_stop_price ratchets up
-                                     whenever current_price exceeds peak_price
-          3. Max hold days         — time-based exit after N trading sessions
-                                     (per-tier: 3d large-cap, 4d mid-cap)
-
-        The native GTC hard stop on Alpaca protects the position between runs.
-        The trailing stop is enforced here in Python on every run.
-        """
         positions = self.logger.get_open_positions()
         if not positions:
             return
@@ -1270,28 +1228,29 @@ class AmaraBot:
             if not current_price:
                 continue
 
-            params      = get_symbol_params(symbol)
-            tier        = ASSET_TYPE.get(symbol, "large").upper()
+            params     = get_symbol_params(symbol)
+            tier       = ASSET_TYPE.get(symbol, "large").upper()
             entry_price = pos["entry_price"]
-            pnl_pct     = (current_price - entry_price) / entry_price
-            trail_pct   = pos.get("trail_pct") or params["trail_pct"]
-            max_hold    = params["max_hold_days"]
+            pnl_pct    = (current_price - entry_price) / entry_price
 
             entry_date = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
             hold_days  = (datetime.now() - entry_date).days
 
-            # ── 1. Hard stop-loss floor ───────────────────────────────────
+            # ── Hard stop-loss check ──────────────────────────────────────
             if current_price <= pos["stop_loss_price"]:
                 if pos.get("stop_order_id"):
+                    # Native GTC stop is live — Alpaca will execute it.
+                    # _sync_with_alpaca() reconciles the closure on next run.
                     log.info(
                         f"  {symbol}: ⚠️ price ${current_price:.2f} at/below "
-                        f"hard stop ${pos['stop_loss_price']:.2f} — "
+                        f"stop ${pos['stop_loss_price']:.2f} — "
                         f"native Alpaca stop active, awaiting fill"
                     )
                 else:
+                    # No native stop was placed — Python fallback
                     log.warning(
                         f"  {symbol}: ⚠️ no native stop order found — "
-                        f"executing Python fallback hard stop"
+                        f"executing Python fallback stop-loss"
                     )
                     self._close_position(
                         pos, current_price,
@@ -1300,62 +1259,61 @@ class AmaraBot:
                     )
                 continue
 
-            # ── 2. Trailing stop update + check ──────────────────────────
-            # Ratchet peak_price up if price has moved in our favour.
-            peak_price      = max(pos.get("peak_price") or entry_price, current_price)
-            trail_stop      = round(peak_price * (1 - trail_pct), 2)
-            # trail_stop must never be below the hard stop floor
-            trail_stop      = max(trail_stop, pos["stop_loss_price"])
-            gain_from_entry = (peak_price - entry_price) / entry_price
+            # ── Fixed take profit check ───────────────────────────────────
+            if current_price >= pos["take_profit_price"]:
+                if pos.get("take_profit_order_id"):
+                    # Native GTC limit order is live — Alpaca will execute it.
+                    # _sync_with_alpaca() reconciles the closure on next run.
+                    log.info(
+                        f"  {symbol}: 🎯 price ${current_price:.2f} at/above "
+                        f"take profit ${pos['take_profit_price']:.2f} — "
+                        f"native Alpaca limit order active, awaiting fill"
+                    )
+                else:
+                    # No native take profit was placed — Python fallback
+                    log.warning(
+                        f"  {symbol}: ⚠️ no native take profit order found — "
+                        f"executing Python fallback take profit"
+                    )
+                    self._close_position(
+                        pos, current_price,
+                        f"Fixed take profit +{params['take_profit_pct']*100:.1f}% [{tier}] "
+                        f"(Python fallback — no native limit order)"
+                    )
+                continue
 
-            # Persist updated peak and trail stop
+            # ── Max hold days ─────────────────────────────────────────────
+            if hold_days >= CONFIG["MAX_HOLD_DAYS"]:
+                self._close_position(pos, current_price, f"Max hold days ({hold_days}d)")
+                continue
+
+            log.info(f"  {symbol}: ${current_price:.2f} | {pnl_pct*100:+.1f}% | {hold_days}d held")
             self.logger.update_position(symbol, {
-                "peak_price":       round(peak_price, 2),
-                "trail_stop_price": trail_stop,
-                "last_price":       round(current_price, 2),
-                "last_checked":     datetime.now().strftime("%Y-%m-%d %H:%M"),
+                "last_price":   round(current_price, 2),
+                "last_checked": datetime.now().strftime("%Y-%m-%d %H:%M"),
             })
-
-            if current_price <= trail_stop:
-                lock_pct = gain_from_entry * 100
-                self._close_position(
-                    pos, current_price,
-                    f"Trailing stop {trail_pct*100:.1f}% [{tier}] | "
-                    f"peak ${peak_price:.2f} (+{lock_pct:.1f}%) → trail ${trail_stop:.2f}"
-                )
-                continue
-
-            # ── 3. Max hold days (calendar days — simple backstop) ────────
-            if hold_days >= max_hold:
-                self._close_position(
-                    pos, current_price,
-                    f"Max hold {max_hold}d [{tier}] | {hold_days}d elapsed"
-                )
-                continue
-
-            log.info(
-                f"  {symbol} [{tier}]: ${current_price:.2f} | {pnl_pct*100:+.1f}% | "
-                f"peak ${peak_price:.2f} | trail stop ${trail_stop:.2f} | {hold_days}d held"
-            )
 
     def _close_position(self, pos: dict, exit_price: float, reason: str):
         """Submit SELL order to Alpaca, record locally, append to run decisions."""
         fill_price = exit_price
 
         # ── Cancel both native GTC orders (stop + take profit) ───────────
-        # Cancel the native GTC hard stop to prevent an orphan sell order after
-        # the Python-side trailing stop or max-hold-days exit fires.
+        # Prevents orphan orders from triggering a short sale after the position
+        # is already closed by the Python fallback.
         if self.trading:
-            stop_order_id = pos.get("stop_order_id", "")
-            if stop_order_id:
-                try:
-                    self.trading.cancel_order_by_id(stop_order_id)
-                    log.info(f"🗑️  Cancelled native hard stop order {stop_order_id} for {pos['symbol']}")
-                except Exception as e:
-                    log.warning(
-                        f"⚠️ Could not cancel hard stop for {pos['symbol']} "
-                        f"(may already be processed): {e}"
-                    )
+            for order_id, label in [
+                (pos.get("stop_order_id", ""),       "stop"),
+                (pos.get("take_profit_order_id", ""), "take profit"),
+            ]:
+                if order_id:
+                    try:
+                        self.trading.cancel_order_by_id(order_id)
+                        log.info(f"🗑️  Cancelled native {label} order {order_id} for {pos['symbol']}")
+                    except Exception as e:
+                        log.warning(
+                            f"⚠️ Could not cancel {label} order for {pos['symbol']} "
+                            f"(may already be processed): {e}"
+                        )
 
         if self.trading:
             try:
@@ -1460,12 +1418,10 @@ class AmaraBot:
         # 5-day momentum (short-term price change — directly relevant to 3-5 day swing trades)
         mom5_all = ((close_all - close_all.shift(5)) / close_all.shift(5) * 100)
 
-        # Vectorised Wilder's RSI(14) across all symbols simultaneously.
-        # ewm(com=13, adjust=False) replicates Wilder's smoothing — matches
-        # TradingView / Bloomberg and the scalar calculate_rsi() above.
+        # Vectorised RSI(14) across all symbols simultaneously
         _delta     = close_all.diff()
-        _gain      = _delta.clip(lower=0).ewm(com=13, min_periods=14, adjust=False).mean()
-        _loss      = (-_delta).clip(lower=0).ewm(com=13, min_periods=14, adjust=False).mean()
+        _gain      = _delta.clip(lower=0).rolling(14).mean()
+        _loss      = (-_delta.clip(upper=0)).rolling(14).mean()
         rsi_all    = 100 - (100 / (1 + _gain / _loss))
 
         # Vectorised volume ratio: today's volume vs 20-day average
@@ -1708,12 +1664,10 @@ class AmaraBot:
         params = get_symbol_params(symbol)
         tier   = ASSET_TYPE.get(symbol, "large").upper()
 
-        # ── Size against actual portfolio equity, not static starting capital ──
-        # After losses the account shrinks; positions should shrink proportionally.
-        actual_equity     = self.logger.data.get("portfolio_value") or CONFIG["TOTAL_CAPITAL"]
-        intended_size     = actual_equity * params["position_pct"]
-        actual_bp         = self.logger.data.get("buying_power", actual_equity)
-        position_size_usd = min(intended_size, actual_bp * 0.95)  # 95% buffer
+        # ── Use actual buying power, not static capital figure ────────────
+        intended_size    = CONFIG["TOTAL_CAPITAL"] * params["position_pct"]
+        actual_bp        = self.logger.data.get("buying_power", CONFIG["TOTAL_CAPITAL"])
+        position_size_usd = min(intended_size, actual_bp * 0.95)  # 95% to leave a buffer
         if position_size_usd < 100:
             log.warning(f"⚠️ Insufficient buying power (${actual_bp:,.0f}) for {symbol} — skipping")
             return
@@ -1745,11 +1699,10 @@ class AmaraBot:
                 log.error(f"❌ BUY order failed for {symbol}: {e}")
                 return
 
-        trail_pct       = params["trail_pct"]
-        stop_loss       = round(fill_price * (1 - params["stop_loss_pct"]), 2)
-        trail_stop      = round(fill_price * (1 - trail_pct), 2)  # starts at entry − trail%
+        stop_loss        = round(fill_price * (1 - params["stop_loss_pct"]), 2)
+        take_profit      = round(fill_price * (1 + params["take_profit_pct"]), 2)
         # Actual cost uses real fill price × real shares (not planned notional)
-        actual_cost_usd = round(fill_price * shares, 2)
+        actual_cost_usd  = round(fill_price * shares, 2)
 
         pos = PaperPosition(
             symbol=symbol,
@@ -1758,26 +1711,20 @@ class AmaraBot:
             shares=shares,
             cost_usd=actual_cost_usd,
             stop_loss_price=stop_loss,
-            trail_stop_price=trail_stop,
-            trail_pct=trail_pct,
-            peak_price=fill_price,
+            take_profit_price=take_profit,
             daily_pct_at_entry=round(daily_pct, 2),
         )
         self.logger.add_position(pos)
         mode = "LIVE" if not CONFIG.get("PAPER_TRADING", True) else "Paper"
-        log.info(
-            f"🛒 [{mode}] Bought {symbol} x{shares:.4f} @ ${fill_price:.2f} | "
-            f"Hard stop ${stop_loss:.2f} (-{params['stop_loss_pct']*100:.1f}%) | "
-            f"Trail stop ${trail_stop:.2f} (-{trail_pct*100:.1f}% from peak) [{tier}]"
-        )
+        log.info(f"🛒 [{mode}] Bought {symbol} x{shares:.4f} @ ${fill_price:.2f} | SL ${stop_loss:.2f} | TP ${take_profit:.2f}")
         log.info(f"   Claude: {analysis.get('analysis', '')[:120]}")
 
-        # ── Submit native GTC hard stop ────────────────────────────────────
-        # The hard stop lives on Alpaca's servers as an unconditional floor.
-        # The trailing stop is managed in Python on each run (check_existing_positions).
-        # We no longer place a GTC limit take-profit order — the trailing stop
-        # lets winners run rather than capping them at a fixed target.
+        # ── Submit native GTC hard stop + GTC limit (take profit) ─────────
+        # Both orders live on Alpaca's servers independently of the bot.
+        # Whichever triggers first closes the position; we cancel the other
+        # in _close_position() / _sync_with_alpaca() to prevent orphan orders.
         if self.trading and shares > 0:
+            # Hard stop
             try:
                 from alpaca.trading.requests import StopOrderRequest
                 from alpaca.trading.enums   import OrderSide, TimeInForce
@@ -1792,11 +1739,33 @@ class AmaraBot:
                 )
                 stop_order_id = str(stop_order.id)
                 self.logger.update_position(symbol, {"stop_order_id": stop_order_id})
-                log.info(f"🛡️ Native GTC hard stop placed: {symbol} @ ${stop_loss:.2f} (order {stop_order_id})")
+                log.info(f"🛡️ Native GTC stop placed: {symbol} @ ${stop_loss:.2f} (order {stop_order_id})")
             except Exception as e:
                 log.warning(
                     f"⚠️ Native stop order failed for {symbol}: {e} — "
                     f"Python fallback active (bot must be running to enforce stop)"
+                )
+
+            # Fixed take profit (limit order)
+            try:
+                from alpaca.trading.requests import LimitOrderRequest
+                from alpaca.trading.enums   import OrderSide, TimeInForce
+                tp_order = self.trading.submit_order(
+                    LimitOrderRequest(
+                        symbol=symbol,
+                        qty=round(float(shares), 4),
+                        side=OrderSide.SELL,
+                        time_in_force=TimeInForce.GTC,
+                        limit_price=take_profit,
+                    )
+                )
+                tp_order_id = str(tp_order.id)
+                self.logger.update_position(symbol, {"take_profit_order_id": tp_order_id})
+                log.info(f"🎯 Native GTC take profit placed: {symbol} @ ${take_profit:.2f} +{params['take_profit_pct']*100:.1f}% [{tier}] (order {tp_order_id})")
+            except Exception as e:
+                log.warning(
+                    f"⚠️ Native take profit order failed for {symbol}: {e} — "
+                    f"Python fallback active (bot must be running to enforce take profit)"
                 )
 
     def _wait_for_fill(self, order_id: str, timeout: int = 60):
@@ -1832,15 +1801,13 @@ class AmaraBot:
         local_map  = {p["symbol"]: p for p in self.logger.get_open_positions()}
         added = closed = updated = 0
 
-        # Case 1: on Alpaca but missing locally (bot crashed before writing JSON)
+        # Case 1: on Alpaca but missing locally
         for symbol, ap in alpaca_map.items():
             if symbol not in local_map:
                 entry_price = float(ap.avg_entry_price)
                 shares      = float(ap.qty)
                 sym_params  = get_symbol_params(symbol)
                 stop_price  = round(entry_price * (1 - sym_params["stop_loss_pct"]), 2)
-                trail_pct   = sym_params["trail_pct"]
-                trail_stop  = round(entry_price * (1 - trail_pct), 2)
                 pos = PaperPosition(
                     symbol=symbol,
                     entry_price=entry_price,
@@ -1848,9 +1815,7 @@ class AmaraBot:
                     shares=shares,
                     cost_usd=entry_price * shares,
                     stop_loss_price=stop_price,
-                    trail_stop_price=trail_stop,
-                    trail_pct=trail_pct,
-                    peak_price=entry_price,  # conservative — peak unknown after crash
+                    take_profit_price=round(entry_price * (1 + sym_params["take_profit_pct"]), 2),
                 )
                 self.logger.add_position(pos)
                 log.info(f"🔄 Sync [added]   {symbol} x{shares} @ ${entry_price:.2f}")
@@ -1898,7 +1863,7 @@ class AmaraBot:
                     ))
                     for order in sorted(
                         orders,
-                        key=lambda o: o.filled_at or o.updated_at or datetime.min.replace(tzinfo=timezone.utc),
+                        key=lambda o: o.filled_at or o.updated_at or datetime.min,
                         reverse=True
                     ):
                         if (order.side == OrderSide.SELL and
