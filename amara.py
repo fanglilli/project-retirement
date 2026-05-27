@@ -330,40 +330,40 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     open_pos    = bot.logger.get_open_positions()
     all_closed  = [p for p in data["positions"] if p["status"] == "closed"]
     winners     = len([p for p in all_closed if p["pnl_usd"] > 0])
-    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "No closed trades yet"
+    win_rate_str = f"{winners}/{len(all_closed)} ({winners/len(all_closed)*100:.0f}%)" if all_closed else "尚無已平倉交易"
 
-    mode = "🧪 PAPER" if CONFIG.get("PAPER_TRADING", True) else "💰 LIVE"
+    mode = "🧪 模擬" if CONFIG.get("PAPER_TRADING", True) else "💰 實盤"
     pnl_pct = total_pnl / capital * 100 if capital else 0
     pnl_arrow = "▲" if total_pnl >= 0 else "▼"
 
     lines = []
 
     # ── Header ───────────────────────────────────────────────────────────────
-    lines.append("# 🤖 Amara — Trading Dashboard")
+    lines.append("# 🤖 Amara — 交易儀表板")
     lines.append("")
 
     # ── Run Summary Table ─────────────────────────────────────────────────────
-    lines.append("## 📊 Run Summary")
+    lines.append("## 📊 本次執行摘要")
     lines.append("")
-    lines.append("| Field | Value |")
+    lines.append("| 項目 | 數值 |")
     lines.append("|:------|:------|")
-    lines.append(f"| **Last Run** | `{now.strftime('%Y-%m-%d %H:%M:%S')}` |")
-    lines.append(f"| **Mode** | {mode} |")
-    lines.append(f"| **Cash Available** | `${cash:,.2f}` |")
-    lines.append(f"| **Portfolio Value** | `${port_val:,.2f}` |")
-    lines.append(f"| **Buying Power** | `${buy_power:,.2f}` |")
-    lines.append(f"| **Total P&L** | `${total_pnl:+,.2f}` ({pnl_arrow} {abs(pnl_pct):.2f}%) |")
-    lines.append(f"| **Today's P&L** | `${today_pnl:+,.2f}` |")
-    lines.append(f"| **Win Rate** | {win_rate_str} |")
-    lines.append(f"| **Open Positions** | {len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])} |")
-    lines.append(f"| **Stocks Watched** | {len(WATCHLIST)} |")
+    lines.append(f"| **最後執行時間** | `{now.strftime('%Y-%m-%d %H:%M:%S')}` |")
+    lines.append(f"| **模式** | {mode} |")
+    lines.append(f"| **可用現金** | `${cash:,.2f}` |")
+    lines.append(f"| **投資組合市值** | `${port_val:,.2f}` |")
+    lines.append(f"| **可用購買力** | `${buy_power:,.2f}` |")
+    lines.append(f"| **總損益** | `${total_pnl:+,.2f}` ({pnl_arrow} {abs(pnl_pct):.2f}%) |")
+    lines.append(f"| **今日損益** | `${today_pnl:+,.2f}` |")
+    lines.append(f"| **勝率** | {win_rate_str} |")
+    lines.append(f"| **持倉數量** | {len(open_pos)} / {int(1 / CONFIG['MAX_POSITION_PCT'])} |")
+    lines.append(f"| **觀察清單股票數** | {len(WATCHLIST)} |")
     lines.append("")
 
     # ── Open Positions ────────────────────────────────────────────────────────
-    lines.append("## 📋 Open Positions")
+    lines.append("## 📋 持倉股票")
     lines.append("")
     if open_pos:
-        lines.append("| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Hard Stop | Trail Stop | Peak | Cost (USD) |")
+        lines.append("| 股票 | 進場價 | 現價 | 未實現損益 | 進場日 | 硬停損 | 移動停損 | 最高價 | 成本（美元）|")
         lines.append("|:------:|------------:|----------:|:--------------:|:----------:|----------:|-----------:|-----:|-----------:|")
         for pos in open_pos:
             last       = pos.get("last_price") or pos["entry_price"]
@@ -378,30 +378,29 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
                 f"${pos['cost_usd']:,.0f} |"
             )
     else:
-        lines.append("*No open positions at time of this run.*")
+        lines.append("*本次執行時無持倉。*")
     lines.append("")
 
     # ── This Run's Decisions ──────────────────────────────────────────────────
-    lines.append("## 🧠 This Run's Decisions")
+    lines.append("## 🧠 本次決策")
     lines.append("")
     decisions = getattr(bot, "_run_decisions", [])
     if decisions:
-        lines.append("| Time | Symbol | Action | Confidence | Reason |")
+        lines.append("| 時間 | 股票 | 動作 | 信心分數 | 原因 |")
         lines.append("|:----:|:------:|:------:|:----------:|:-------|")
         for d in decisions:
             reason = (d.get("reason") or "—").replace("|", "\\|").replace("\n", " ")
-            reason = reason[:140] + ("…" if len(reason) > 140 else "")
             conf   = d.get("confidence", "—")
             lines.append(
                 f"| {d.get('time', '—')} | **{d['symbol']}** | {d['action']} | "
                 f"{conf} | {reason} |"
             )
     else:
-        lines.append("*No buy/sell decisions this run — market was closed or no signals met the threshold.*")
+        lines.append("*本次無買賣決策 — 市場已收盤或無股票達到門檻。*")
     lines.append("")
 
     # ── Latest Scan Results (today, up to 20) ────────────────────────────────
-    lines.append("## 🔍 Latest Scan Results")
+    lines.append("## 🔍 掃描結果")
     lines.append("")
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
@@ -409,36 +408,35 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     display_scans = today_scans[-20:] if today_scans else scan_log[-20:]
 
     if display_scans:
-        lines.append("| Time | Symbol | Score | RSI | Vol× | Sent to AI | Decision | AI Reason |")
+        lines.append("| 時間 | 股票 | 分數 | RSI | 量比 | 送交AI | 決策 | AI 分析原因 |")
         lines.append("|:----:|:------:|------:|----:|-----:|:----------:|:--------:|:----------|")
         for s in display_scans:
-            sent    = "🧠 Yes" if s.get("sent_to_claude") else "—"
+            sent    = "🧠 是" if s.get("sent_to_claude") else "—"
             if s.get("hold_review"):
-                decision = "🔍 Hold Review"
+                decision = "🔍 持倉審查"
             elif s.get("sent_to_claude"):
-                decision = "✅ BUY" if s.get("claude_approved") else "❌ SKIP"
+                decision = "✅ 買入" if s.get("claude_approved") else "❌ 跳過"
             else:
                 decision = "—"
             reason = (s.get("claude_reason") or "—").replace("|", "\\|").replace("\n", " ")
-            reason = reason[:100] + ("…" if len(reason) > 100 else "")
             lines.append(
                 f"| {s.get('timestamp', '—')} | **{s['symbol']}** | {s.get('score', 0)} | "
                 f"{s.get('rsi', 0):.1f} | {s.get('volume_ratio', 0):.1f}x | "
                 f"{sent} | {decision} | {reason} |"
             )
     else:
-        lines.append("*No scan data recorded yet.*")
+        lines.append("*尚無掃描資料。*")
     lines.append("")
 
     # ── Recent Trade History (last 10 closed) ─────────────────────────────────
-    lines.append("## 📒 Recent Trade History")
+    lines.append("## 📒 近期交易記錄")
     lines.append("")
     recent_closed = [p for p in data["positions"] if p["status"] == "closed"][-10:]
     if recent_closed:
-        lines.append("| Symbol | Entry | Exit | P&L (USD) | Result | Reason | Closed |")
+        lines.append("| 股票 | 進場價 | 出場價 | 損益（美元）| 結果 | 出場原因 | 平倉日 |")
         lines.append("|:------:|------:|-----:|----------:|:------:|:-------|:------:|")
         for p in reversed(recent_closed):
-            result = "✅ Win" if p.get("pnl_usd", 0) > 0 else "❌ Loss"
+            result = "✅ 獲利" if p.get("pnl_usd", 0) > 0 else "❌ 虧損"
             reason = (p.get("exit_reason") or "—").replace("|", "\\|")
             lines.append(
                 f"| **{p['symbol']}** | ${p['entry_price']:.2f} | "
@@ -447,7 +445,7 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
                 f"{(p.get('exit_date') or '—')[:10]} |"
             )
     else:
-        lines.append("*No closed trades yet.*")
+        lines.append("*尚無已平倉交易。*")
     lines.append("")
 
     # ── SPY Benchmark ─────────────────────────────────────────────────────────
@@ -456,20 +454,20 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
         spy_ret = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
         our_ret = pnl_pct
         days_in = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
-        beating = "✅ Beating S&P" if our_ret > spy_ret else "❌ Trailing S&P"
-        lines.append("## 🏁 S&P 500 Benchmark")
+        beating = "✅ 超越 S&P" if our_ret > spy_ret else "❌ 落後 S&P"
+        lines.append("## 🏁 S&P 500 基準比較")
         lines.append("")
-        lines.append("| Metric | Value |")
+        lines.append("| 指標 | 數值 |")
         lines.append("|:-------|:------|")
-        lines.append(f"| SPY Start | `${bm['start_price']:.2f}` on {bm['start_date']} |")
-        lines.append(f"| SPY Now | `${bm['current_price']:.2f}` ({spy_ret:+.2f}%) |")
-        lines.append(f"| Our Return | `{our_ret:+.2f}%` |")
-        lines.append(f"| Challenge Status | {beating} — Day {days_in} / 14 |")
+        lines.append(f"| SPY 基準開始 | `${bm['start_price']:.2f}`（{bm['start_date']}）|")
+        lines.append(f"| SPY 現值 | `${bm['current_price']:.2f}`（{spy_ret:+.2f}%）|")
+        lines.append(f"| 我們的報酬 | `{our_ret:+.2f}%` |")
+        lines.append(f"| 挑戰狀態 | {beating} — 第 {days_in} / 14 天 |")
         lines.append("")
 
     # ── Footer ────────────────────────────────────────────────────────────────
     lines.append("---")
-    lines.append(f"*Amara · single-run serverless mode · generated {now.strftime('%Y-%m-%d %H:%M:%S')}*")
+    lines.append(f"*Amara · 單次執行模式 · 生成時間 {now.strftime('%Y-%m-%d %H:%M:%S')}*")
 
     dashboard_path = DASHBOARD_PATH
     dashboard_dir  = os.path.dirname(dashboard_path)
@@ -631,7 +629,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
         spy_ret  = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in  = (now - tw_tz.localize(datetime.strptime(bm["start_date"], "%Y-%m-%d"))).days + 1
+        days_in  = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
         beating  = pnl_pct > spy_ret
         bm_section = f"""
         <section>
