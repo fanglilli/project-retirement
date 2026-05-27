@@ -629,7 +629,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
         spy_ret  = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in  = (now - tw_tz.localize(datetime.strptime(bm["start_date"], "%Y-%m-%d"))).days + 1
+        days_in  = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
         beating  = pnl_pct > spy_ret
         bm_section = f"""
         <section>
@@ -1010,7 +1010,7 @@ class ClaudeAnalyst:
         previous_context: brief excerpt from amara_dashboard.md (prior run summary).
         """
         if not self.client:
-            return {"approve": tech_data["buy_signal"], "reason": "Claude offline — technical signal used"}
+            return {"approve": tech_data["buy_signal"], "reason": "Claude 離線 — 使用技術信號作為備用"}
 
         if sym_params is None:
             sym_params = get_symbol_params(symbol)
@@ -1036,41 +1036,41 @@ Prior run context (for awareness only — do not let it override current signals
         trail_pct = sym_params["trail_pct"]
         max_hold  = sym_params["max_hold_days"]
         prompt = f"""
-You are a disciplined short-term trading analyst. Based on the technical indicators and
-recent news below, decide whether to BUY this stock for a momentum trade.
+你是一位嚴格紀律的短線交易分析師。請根據以下技術指標與近期新聞，判斷是否應買入這檔股票進行動能交易。
+請用繁體中文回答。
 {prior_block}
-Stock: {symbol}
-Current price: ${tech_data['current_price']:.2f}
-RSI (14-day): {tech_data['rsi']:.1f}
-20-day SMA: ${tech_data['sma_20']:.2f} (price is {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}% above)
-Volume multiple: {tech_data['volume_ratio']:.1f}x (vs 20-day avg)
-5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
-Technical score: {tech_data['score']}/100
-Score breakdown: {', '.join(tech_data['reasons'])}
+股票代號：{symbol}
+現價：${tech_data['current_price']:.2f}
+RSI（14日）：{tech_data['rsi']:.1f}
+20日均線：${tech_data['sma_20']:.2f}（現價高出 {((tech_data['current_price']/tech_data['sma_20'])-1)*100:.1f}%）
+成交量倍數：{tech_data['volume_ratio']:.1f}x（與20日均量相比）
+5日動能：{tech_data['momentum_5d_pct']:.1f}%
+技術分數：{tech_data['score']}/100
+分數細項：{', '.join(tech_data['reasons'])}
 
 {news_section}
 
-Exit architecture (trailing stop — no fixed take-profit):
-- Hard stop floor: -{sl_pct*100:.1f}% (→ ${tech_data['current_price'] * (1 - sl_pct):.2f}) — unconditional
-- Trailing stop:   -{trail_pct*100:.1f}% from peak — ratchets up as price rises, locks in gains
-- Max hold:        {max_hold} days — time-based backstop
+出場架構（移動停損，無固定停利）：
+- 硬停損底線：-{sl_pct*100:.1f}%（→ ${tech_data['current_price'] * (1 - sl_pct):.2f}）— 無條件執行
+- 移動停損：從最高價下跌 -{trail_pct*100:.1f}% 觸發 — 隨股價上漲自動上移，鎖定獲利
+- 最長持有：{max_hold} 天 — 時間底線
 
-News scoring guide:
-- Positive catalyst (earnings beat, analyst upgrade, contract win) → increases conviction
-- Negative event (miss, downgrade, regulatory risk, lawsuit) → veto or reduce confidence
-- Neutral / no news → pure technical judgment
+新聞評分準則：
+- 正向催化劑（財報超預期、分析師升評、合約得標）→ 提升信心
+- 負向事件（財報未達標、降評、監管風險、訴訟）→ 否決或降低信心
+- 中性／無新聞 → 純技術面判斷
 
-Reply ONLY with JSON (no other text):
+請僅回覆 JSON（不含其他文字）：
 {{
-  "approve": true or false,
-  "confidence": integer 1-10,
-  "analysis": "3-4 sentences: ① key technical signal or news catalyst ② news vs. technical alignment ③ overall risk/reward ④ primary downside risk"
+  "approve": true 或 false,
+  "confidence": 1到10的整數,
+  "analysis": "3至4句分析：① 關鍵技術信號或新聞催化劑 ② 新聞與技術面的一致性 ③ 整體風險報酬評估 ④ 主要下行風險"
 }}
 """
         try:
             response = self.client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=600,
+                max_tokens=800,
                 messages=[{"role": "user", "content": prompt}]
             )
             raw = response.content[0].text.strip()
@@ -1084,13 +1084,13 @@ Reply ONLY with JSON (no other text):
             log.warning(f"⚠️ Claude analysis failed: {e} — falling back to technical signal")
             approve = tech_data["buy_signal"] and tech_data["score"] >= 70
             return {"approve": approve, "confidence": 7,
-                    "analysis": "Claude analysis failed; technical score was sufficient"}
+                    "analysis": "Claude 分析失敗；技術分數足夠支撐決策"}
 
     def review_hold(self, symbol: str, pos: dict, tech_data: dict,
                     news: list = None, previous_context: str = "") -> dict:
         """Qualitative hold review for an existing position. Informational only."""
         if not self.client:
-            return {"hold": True, "confidence": 5, "analysis": "Claude offline — cannot review hold"}
+            return {"hold": True, "confidence": 5, "analysis": "Claude 離線 — 無法執行持倉審查"}
 
         sym_params      = get_symbol_params(symbol)
         entry_date      = datetime.strptime(pos["entry_date"], "%Y-%m-%d")
@@ -1122,38 +1122,39 @@ Prior run context (for awareness only — do not let it override current signals
 """
 
         prompt = f"""
-You are a disciplined short-term trading analyst reviewing an existing position.
-This is informational only — it does NOT trigger any stop-loss or trailing stop rules.
+你是一位嚴格紀律的短線交易分析師，正在審查一個現有持倉。
+此為參考資訊，不會直接觸發任何停損或移動停損規則。
+請用繁體中文回答。
 {prior_block}
 
-Stock: {symbol}
-Entry price: ${entry_price:.2f}
-Current price: ${current_price:.2f} ({pnl_pct:+.1f}%)
-Peak price since entry: ${peak_price:.2f}
-Days held: {hold_days} (max {max_hold} days)
-Hard stop floor: ${pos['stop_loss_price']:.2f} ({stop_distance:.1f}% below current)
-Trailing stop: ${trail_stop:.2f} (-{trail_pct*100:.1f}% from peak, {trail_distance:.1f}% below current)
+股票代號：{symbol}
+進場價：${entry_price:.2f}
+現價：${current_price:.2f}（{pnl_pct:+.1f}%）
+進場後最高價：${peak_price:.2f}
+已持有天數：{hold_days} 天（最長 {max_hold} 天）
+硬停損底線：${pos['stop_loss_price']:.2f}（距現價 {stop_distance:.1f}%）
+移動停損：${trail_stop:.2f}（從最高價下跌 -{trail_pct*100:.1f}%，距現價 {trail_distance:.1f}%）
 
-Latest technical indicators:
-RSI (14-day): {tech_data['rsi']:.1f}
-Volume multiple: {tech_data['volume_ratio']:.1f}x
-5-day momentum: {tech_data['momentum_5d_pct']:.1f}%
-Technical score: {tech_data['score']}/100
-Score breakdown: {', '.join(tech_data['reasons']) if tech_data['reasons'] else 'no strong signals'}
+最新技術指標：
+RSI（14日）：{tech_data['rsi']:.1f}
+成交量倍數：{tech_data['volume_ratio']:.1f}x
+5日動能：{tech_data['momentum_5d_pct']:.1f}%
+技術分數：{tech_data['score']}/100
+分數細項：{', '.join(tech_data['reasons']) if tech_data['reasons'] else '無明顯信號'}
 
 {news_section}
 
-Reply ONLY with JSON:
+請僅回覆 JSON（不含其他文字）：
 {{
-  "hold": true or false,
-  "confidence": integer 1-10,
-  "analysis": "2-3 sentences: ① current momentum vs. original buy thesis ② any early warning signals or negative news ③ recommended watch points"
+  "hold": true 或 false,
+  "confidence": 1到10的整數,
+  "analysis": "2至3句分析：① 當前動能與原始買入邏輯的比較 ② 任何早期警示信號或負面新聞 ③ 建議關注的關鍵點"
 }}
 """
         try:
             response = self.client.messages.create(
                 model="claude-sonnet-4-6",
-                max_tokens=400,
+                max_tokens=600,
                 messages=[{"role": "user", "content": prompt}]
             )
             raw = response.content[0].text.strip()
@@ -1165,7 +1166,7 @@ Reply ONLY with JSON:
             return result
         except Exception as e:
             log.warning(f"⚠️ Hold review failed for {symbol}: {e}")
-            return {"hold": True, "confidence": 5, "analysis": f"Review failed — check manually: {e}"}
+            return {"hold": True, "confidence": 5, "analysis": f"持倉審查失敗 — 請手動確認：{e}"}
 
 # ─────────────────────────────────────────────
 # Main Bot — single-run, serverless
