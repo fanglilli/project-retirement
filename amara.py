@@ -1969,12 +1969,13 @@ class AmaraBot:
         import pytz
         tz     = pytz.timezone("Asia/Taipei")
         now_tw = datetime.now(tz)
-        gate   = now_tw.replace(hour=3, minute=45, second=0, microsecond=0)
-        if now_tw < gate:
+        gate_open  = now_tw.replace(hour=3, minute=45, second=0, microsecond=0)
+        gate_close = now_tw.replace(hour=4, minute=30, second=0, microsecond=0)
+        if not (gate_open <= now_tw <= gate_close):
             log.info(
                 f"🔕 LINE notification suppressed — TW time is "
-                f"{now_tw.strftime('%H:%M')} (gate: 03:45). "
-                f"Silent run — message will fire on the ≥03:45 pass."
+                f"{now_tw.strftime('%H:%M')} (outside 03:45–04:30 window). "
+                f"Only the pre-close run fires LINE."
             )
             return
 
