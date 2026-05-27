@@ -629,7 +629,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     bm = data.get("benchmark", {})
     if bm and bm.get("start_price"):
         spy_ret  = (bm["current_price"] - bm["start_price"]) / bm["start_price"] * 100
-        days_in  = (now - datetime.strptime(bm["start_date"], "%Y-%m-%d")).days + 1
+        days_in  = (now - tw_tz.localize(datetime.strptime(bm["start_date"], "%Y-%m-%d"))).days + 1
         beating  = pnl_pct > spy_ret
         bm_section = f"""
         <section>
