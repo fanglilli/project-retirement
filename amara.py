@@ -1350,16 +1350,17 @@ class AmaraBot:
 
         Pipeline:
           1. Single batch Alpaca request → MultiIndex DataFrame (symbol × timestamp)
-          2. Vectorised MA5, MA20, MA200, RSI(14), volume ratio across all symbols
-          3. 4-criterion composite score (max 100):
-               RSI 55–75  → +30 pts  (momentum zone, not overbought)
-               Price > 20-MA → +25 pts  (trend confirmation)
-               5-MA > 20-MA  → +20 pts  (short-term golden cross)
-               Volume ≥ 1.5×  → +25 pts  (institutional conviction)
-          4. Hard filter: score ≥ 60 AND Price > 20-MA > 200-MA
-          5. Rank by score desc; tiebreak by % above 20-MA desc
-          6. Top 5 fresh candidates → news fetch → Claude.analyze()
-          7. Hold reviews for open positions using the same batch data
+          2. Vectorised MA20, MA200, RSI(14), volume ratio across all symbols
+          3. Real-time price fetch (bulk latest trade) for live price > MA20 comparison
+          4. 4-criterion composite score (max 100):
+               Volume ≥ 1.5× + bullish candle → 35 pts  (conviction)
+               RSI 55–75                       → 30 pts  (momentum quality)
+               Real-time price > 20-MA         → 25 pts  (direction)
+               MA20 > MA200 bonus              → 10 pts  (long-term context)
+          5. Hard filter: score ≥ 60
+          6. Rank by score desc; tiebreak by % above 20-MA desc
+          7. Top 5 fresh candidates → news fetch → Claude.analyze()
+          8. Hold reviews for open positions using the same batch data
         """
         if self.daily_stopped:
             log.info("⏸️ Daily loss limit active — skipping new trade scan")
@@ -1404,7 +1405,7 @@ class AmaraBot:
         # Vectorised volume ratio: today's volume vs 20-day average
         vol_ratio_all = volume_all / volume_all.rolling(20).mean()
 
-        # Latest values (most recent trading day)
+        # Latest values (most recent completed daily bar)
         last_close     = close_all.iloc[-1]
         last_open      = open_all.iloc[-1]
         last_ma5       = ma5_all.iloc[-1]
@@ -1412,6 +1413,21 @@ class AmaraBot:
         last_ma200     = ma200_all.iloc[-1]
         last_rsi       = rsi_all.iloc[-1]
         last_vol_ratio = vol_ratio_all.iloc[-1]
+
+        # ── Real-time price fetch (single bulk call for all 150 symbols) ──
+        # Used for price > MA20 comparison so intraday scans reflect live price.
+        # Falls back to last daily close if live fetch fails.
+        real_price = last_close.copy()
+        try:
+            from alpaca.data.requests import StockLatestTradeRequest
+            req    = StockLatestTradeRequest(symbol_or_symbols=list(WATCHLIST))
+            trades = self.market.client.get_stock_latest_trade(req)
+            for sym, trade in trades.items():
+                if sym in real_price.index:
+                    real_price[sym] = float(trade.price)
+            log.info(f"📡 Real-time prices fetched for {len(trades)} symbols")
+        except Exception as e:
+            log.warning(f"⚠️ Real-time price fetch failed ({e}) — using last daily close")
 
         # ── Step 3: 5-criterion composite score (max 115) ────────────────
         # MA200 is a +15 bonus, not a hard gate — stocks in recovery can still
@@ -1423,8 +1439,8 @@ class AmaraBot:
                  last_rsi.notna() & last_vol_ratio.notna())
 
         rsi_ok            = (last_rsi >= CONFIG["RSI_BUY_THRESHOLD"]) & (last_rsi <= CONFIG["RSI_OVERBOUGHT"])
-        price_vs_ma       = last_close > last_ma20          # direction: price above 20-day average
-        bullish_candle    = last_close > last_open          # green day: close higher than open
+        price_vs_ma       = real_price > last_ma20          # direction: real-time price above 20-day MA
+        bullish_candle    = last_close > last_open          # green day: yesterday close > yesterday open
         vol_surge         = (last_vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]) & bullish_candle
         long_term_uptrend = last_ma20 > last_ma200          # bonus: NaN-safe, False if unavailable
 
@@ -1474,7 +1490,7 @@ class AmaraBot:
             if close_ser.empty:
                 continue
 
-            current_price = float(close_ser.iloc[-1])
+            current_price = float(real_price[symbol]) if symbol in real_price.index else float(close_ser.iloc[-1])
             sma_5         = float(last_ma5[symbol])
             sma_20        = float(last_ma20[symbol])
             sma_200       = float(last_ma200[symbol])
