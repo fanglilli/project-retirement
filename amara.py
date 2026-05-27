@@ -6,7 +6,7 @@ Amara — Serverless Single-Run Trading Bot
 執行：單次執行（適合 Claude Code routines / cron / 任何排程器）
 
 需要安裝：
-    pip install alpaca-py anthropic pandas ta requests python-dotenv pytz
+    pip install alpaca-py anthropic pandas requests python-dotenv pytz
 
 需要設定：
     把您的 API keys 填入同一資料夾的 secrets.env 檔案（不要填在這裡）
