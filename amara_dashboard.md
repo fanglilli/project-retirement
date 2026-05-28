@@ -1,77 +1,67 @@
-# 🤖 Amara — Trading Dashboard
+# 🤖 Amara — 交易儀表板
 
-## 📊 Run Summary
+## 📊 執行摘要
 
-| Field | Value |
-|:------|:------|
-| **Last Run** | `2026-05-27 19:54:22` |
-| **Mode** | 🧪 PAPER |
-| **Cash Available** | `$78,000.00` |
-| **Portfolio Value** | `$99,832.40` |
-| **Buying Power** | `$177,832.40` |
-| **Total P&L** | `$+0.00` (▲ 0.00%) |
-| **Today's P&L** | `$+0.00` |
-| **Win Rate** | No closed trades yet |
-| **Open Positions** | 5 / 10 |
-| **Stocks Watched** | 150 |
+| 項目 | 數值 |
+|:-----|:-----|
+| **最後執行** | `2026-05-28 13:38:01` |
+| **模式** | 🧪 模擬盤 |
+| **可用現金** | `$66,000.00` |
+| **資產總值** | `$99,268.27` |
+| **可用買力** | `$165,268.27` |
+| **累計損益**（含未實現）| `$-773.70` (▼ 0.77%) |
+| **今日損益**（含未實現）| `$-773.70` |
+| **勝率** | 尚無已結算交易 |
+| **持倉中** | 5 筆 |
+| **監控股票數** | 150 檔 |
 
-## 📋 Open Positions
+## 📋 持倉中
 
-| Symbol | Entry Price | Last Price | Unrealised P&L | Entry Date | Stop Loss | Take Profit | Cost (USD) |
-|:------:|------------:|----------:|:--------------:|:----------:|----------:|------------:|-----------:|
-| **AXTA** | $30.99 | $30.32 | 🔴 -2.2% | 2026-05-27 | $29.44 | $34.09 | $6,000 |
-| **ANF** | $82.39 | $82.08 | 🔴 -0.4% | 2026-05-27 | $78.27 | $90.63 | $6,000 |
-| **MS** | $201.60 | $201.36 | 🔴 -0.1% | 2026-05-27 | $194.54 | $215.71 | $10,000 |
-| **POWI** | $87.70 | $87.70 | 🟢 +0.0% | 2026-05-27 | $83.31 | $96.47 | $6,000 |
-| **NTNX** | $46.86 | $46.86 | 🟢 +0.0% | 2026-05-27 | $44.52 | $51.55 | $6,000 |
+| 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 |
+|:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|
+| **AXTA** | $30.99 | $29.77 | 🔴 -3.9% | 2 天 | 0.0× | +0.0% | $6,000 |
+| **ANF** | $82.39 | $78.66 | 🔴 -4.5% | 2 天 | 0.0× | +0.0% | $6,000 |
+| **MS** | $201.60 | $201.39 | 🔴 -0.1% | 2 天 | 0.0× | +0.0% | $10,000 |
+| **POWI** | $87.70 | $83.33 | 🔴 -5.0% | 2 天 | 0.0× | +0.0% | $6,000 |
+| **NTNX** | $46.86 | $47.20 | 🟢 +0.7% | 2 天 | 0.0× | +0.0% | $6,000 |
 
-## 🧠 This Run's Decisions
+## 🧠 本次決策
 
-| Time | Symbol | Action | Confidence | Reason |
-|:----:|:------:|:------:|:----------:|:-------|
-| 19:53 | **POWI [MID]** | ✅ BUY | 7/10 | POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) without being overbought, price is 19.3% abov… |
-| 19:53 | **NTNX [MID]** | ✅ BUY | 7/10 | NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a bullish candle, RSI at 62.5 in the momen… |
-| 19:53 | **BBWI [MID]** | ❌ SKIP | 6/10 | BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day SMA, supported by elevated volume at 1.… |
-| 19:54 | **PG [LARGE]** | ❌ SKIP | 6/10 | PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum of +4.4%, and notably elevated volume a… |
-| 19:54 | **ELF [MID]** | ❌ SKIP | 6/10 | ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bullish candle, suggesting institutional acc… |
+| 時間 | 股票 | 動作 | 信心 | 評分 | 理由 |
+|:----:|:----:|:----:|:----:|:----:|:-----|
+| 13:36 | **RXO [MID]** | ❌ SKIP | 4/10 | 65 | ① RXO技術面呈現正面訊號：RSI 66.1處於動能區間、價格高於20日均線15.6%、5日動能+2.8%，技術評分65/100屬中等水準。② 本次無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件面的確認依據。③ 風險報酬比為1:2（止損-5%對應獲利+10%），比例尚可… |
+| 13:37 | **QCOM [LARGE]** | ❌ SKIP | 4/10 | 65 | ① QCOM技術分數65/100，RSI 65.9處於動能區間，5日動能強勁達+15.8%，且價格高於20日均線12.8%，顯示短期強勢；然而成交量倍數為0.0x，完全無法確認突破的有效性，缺乏機構買盤支撐。② 無任何新聞催化劑回傳，純技術面判斷下，缺乏基本面驅動力，無法排除此波… |
+| 13:37 | **LLY [LARGE]** | ❌ SKIP | 3/10 | 65 | ① LLY的RSI高達73.7，雖處於動能區間上緣，但已接近超買領域，加上5日動能達8.6%，短期漲幅過快，追高風險顯著。② 目前無任何新聞催化劑支撐此波漲勢，純靠技術面驅動，缺乏基本面確認，訊號一致性不足。③ 雖然技術分數65分尚可，但最關鍵的成交量僅為均量的0.1倍，極度低迷… |
+| 13:37 | **AAON [MID]** | ❌ SKIP | 3/10 | 65 | ① AAON技術面尚可，RSI 65.5處於動能區間，價格高於20日均線9.5%，5日動能+2.7%，技術評分65分屬中等水準，但最關鍵的成交量倍數為0.0倍，完全無法確認突破的真實性。② 無任何新聞催化劑支撐，純靠技術面驅動，在缺乏消息面配合的情況下，動能持續性存疑。③ 風險報… |
+| 13:37 | **YETI [MID]** | ❌ SKIP | 4/10 | 65 | ① YETI技術面呈現正向訊號，RSI 63.6處於動能區間，價格高於20日均線9.2%，5日動能達+3.0%，技術總分65/100屬於中等偏上水準。② 無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件驅動的額外確信度。③ 最關鍵問題在於成交量倍數為0.0倍，意味著當前漲勢… |
 
-## 🔍 Latest Scan Results
+## 🔍 掃描結果
 
-| Time | Symbol | Score | RSI | Vol× | Sent to AI | Decision | AI Reason |
-|:----:|:------:|------:|----:|-----:|:----------:|:--------:|:----------|
-| 2026-05-27 15:04 | **RXO** | 65 | 69.2 | 0.1x | 🧠 Yes | ❌ SKIP | RXO has posted a strong 5-day momentum of +18.5% and RSI at 69.2 sits in the momentum zone, but the … |
-| 2026-05-27 15:04 | **AAON** | 65 | 71.0 | 0.3x | 🧠 Yes | ❌ SKIP | AAON shows strong price momentum with a 10% 5-day move and RSI at 71.0, but the stock is already ext… |
-| 2026-05-27 15:04 | **AMD** | 65 | 72.2 | 0.3x | 🧠 Yes | ❌ SKIP | AMD shows strong price momentum with a 5-day gain of 18.3% and RSI at 72.2, placing it in the upper … |
-| 2026-05-27 15:05 | **POWI** | 65 | 71.3 | 0.7x | 🧠 Yes | ❌ SKIP | POWI shows strong price momentum with a 23.7% 5-day move and RSI at 71.3, but the critical concern i… |
-| 2026-05-27 15:05 | **YETI** | 65 | 69.8 | 0.2x | 🧠 Yes | ❌ SKIP | YETI shows strong price momentum with a 14.3% 5-day move and RSI at 69.8, sitting 14.5% above its 20… |
-| 2026-05-27 15:05 | **AXTA** | 100 | 64.6 | 2.8x | 🧠 Yes | 🔍 Hold Review | ① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.6 (strong but … |
-| 2026-05-27 19:51 | **ANF** | 100 | 55.3 | 2.0x | 🧠 Yes | ✅ BUY | ANF shows a perfect technical score of 100/100, driven by strong volume (2.0x average) on a bullish … |
-| 2026-05-27 19:52 | **MS** | 100 | 64.2 | 2.8x | 🧠 Yes | ✅ BUY | MS is showing a near-perfect technical setup with a perfect 100/100 score: RSI at 64.2 sits firmly i… |
-| 2026-05-27 19:52 | **NTNX** | 90 | 62.4 | 1.9x | 🧠 Yes | ❌ SKIP | NTNX shows a strong technical setup with price 4.4% above its 20-day SMA, RSI at 62.4 sitting comfor… |
-| 2026-05-27 19:52 | **BBWI** | 70 | 52.7 | 1.9x | 🧠 Yes | ❌ SKIP | BBWI shows strong short-term momentum with a +21.7% 5-day surge and elevated volume at 1.9x the 20-d… |
-| 2026-05-27 19:52 | **PG** | 70 | 49.3 | 1.8x | 🧠 Yes | ❌ SKIP | PG shows modest technical strength with price 2.2% above its 20-day SMA, a 5-day momentum of +4.4%, … |
-| 2026-05-27 19:52 | **AXTA** | 65 | 62.6 | 4.8x | 🧠 Yes | 🔍 Hold Review | ① AXTA is down 2.1% intraday but the original buy thesis remains intact — RSI at 62.6 is healthy (no… |
-| 2026-05-27 19:53 | **POWI** | 100 | 61.5 | 1.6x | 🧠 Yes | ✅ BUY | POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) witho… |
-| 2026-05-27 19:53 | **NTNX** | 90 | 62.5 | 2.0x | 🧠 Yes | ✅ BUY | NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a … |
-| 2026-05-27 19:53 | **BBWI** | 70 | 53.2 | 1.9x | 🧠 Yes | ❌ SKIP | BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day… |
-| 2026-05-27 19:54 | **PG** | 70 | 49.2 | 1.9x | 🧠 Yes | ❌ SKIP | PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum… |
-| 2026-05-27 19:54 | **ELF** | 70 | 42.5 | 1.7x | 🧠 Yes | ❌ SKIP | ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bull… |
-| 2026-05-27 19:54 | **MS** | 65 | 63.8 | 2.8x | 🧠 Yes | 🔍 Hold Review | MS is essentially flat at entry with RSI at 63.8 and a strong 2.8x volume multiple supporting the or… |
-| 2026-05-27 19:54 | **AXTA** | 65 | 62.6 | 4.9x | 🧠 Yes | 🔍 Hold Review | ① AXTA entered with strong momentum (5-day momentum +9.2%, volume 4.9x average) and RSI at 62.6 sugg… |
-| 2026-05-27 19:54 | **ANF** | 70 | 54.9 | 2.0x | 🧠 Yes | 🔍 Hold Review | ① ANF is essentially flat at -0.4% on day 0, and the original buy thesis remains intact — RSI at 54.… |
+| 時間 | 股票 | 評分↓ | RSI | 成交量倍數 | 決策 | AI 分析 |
+|:----:|:----:|------:|----:|----------:|:----:|:--------|
+| 2026-05-28 13:36 | **RXO** | 65 | 66.1 | 0.0× | ❌ 略過 | ① RXO技術面呈現正面訊號：RSI 66.1處於動能區間、價格高於20日均線15.6%、5日動能+2.8%，技術評分65/100屬中等水準。② 本次無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或… |
+| 2026-05-28 13:37 | **QCOM** | 65 | 65.9 | 0.0× | ❌ 略過 | ① QCOM技術分數65/100，RSI 65.9處於動能區間，5日動能強勁達+15.8%，且價格高於20日均線12.8%，顯示短期強勢；然而成交量倍數為0.0x，完全無法確認突破的有效性，缺乏機構買… |
+| 2026-05-28 13:37 | **LLY** | 65 | 73.7 | 0.1× | ❌ 略過 | ① LLY的RSI高達73.7，雖處於動能區間上緣，但已接近超買領域，加上5日動能達8.6%，短期漲幅過快，追高風險顯著。② 目前無任何新聞催化劑支撐此波漲勢，純靠技術面驅動，缺乏基本面確認，訊號一致… |
+| 2026-05-28 13:37 | **AAON** | 65 | 65.5 | 0.0× | ❌ 略過 | ① AAON技術面尚可，RSI 65.5處於動能區間，價格高於20日均線9.5%，5日動能+2.7%，技術評分65分屬中等水準，但最關鍵的成交量倍數為0.0倍，完全無法確認突破的真實性。② 無任何新聞… |
+| 2026-05-28 13:37 | **YETI** | 65 | 63.6 | 0.0× | ❌ 略過 | ① YETI技術面呈現正向訊號，RSI 63.6處於動能區間，價格高於20日均線9.2%，5日動能達+3.0%，技術總分65/100屬於中等偏上水準。② 無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本… |
+| 2026-05-28 13:37 | **POWI** | 65 | 66.5 | 0.0× | 🔍 持倉審查 | ① 當前價格$83.33已幾乎觸及止損價$83.31（僅差$0.02），與原始買入時預期的上漲邏輯嚴重背離，5日動能雖達20.4%但顯示係入場前的漲幅，入場後立即下跌5%代表動能未能延續。② 成交量倍… |
+| 2026-05-28 13:37 | **AXTA** | 65 | 57.3 | 0.1× | 🔍 持倉審查 | ① 當前價格已從進場價$30.99下跌至$29.77（跌幅3.9%），5日動能雖仍為正值3.6%，但短期內價格持續承壓，原始買入邏輯有所削弱；RSI維持在57.3屬中性偏強，尚未出現超賣訊號。② 成交… |
+| 2026-05-28 13:37 | **NTNX** | 65 | 62.0 | 0.1× | 🔍 持倉審查 | NTNX持倉1天，目前上漲1.7%，5日動能達5.8%，RSI為62，尚未進入超買區間，技術面基本符合原始買入邏輯，距離止盈目標51.55仍有6.5%空間。然而最值得警惕的是成交量僅為均量的0.1倍，… |
+| 2026-05-28 13:38 | **MS** | 55 | 67.6 | 0.0× | 🔍 持倉審查 | MS目前僅持倉1天，股價幾乎與進場價持平（-0.1%），5日動能仍有1.9%的正向表現，RSI 67.6接近超買邊緣但尚未達到警戒水位，原始買入邏輯尚未明顯受損。然而最大警示訊號為成交量倍數為0.0x… |
+| 2026-05-28 13:37 | **ANF** | 35 | 48.3 | 0.0× | 🔍 持倉審查 | ① 當前價格已從入場價$82.39下跌4.5%至$78.66，5日動能雖顯示5.3%的正值，但技術評分僅35/100且RSI處於48.3的中性偏弱區間，原始買入邏輯已明顯弱化。② 成交量倍數為0.0x… |
 
-## 📒 Recent Trade History
+## 📒 近期交易紀錄
 
-*No closed trades yet.*
+*尚無已結算交易。*
 
-## 🏁 S&P 500 Benchmark
+## 🏁 S&P 500 基準比較
 
-| Metric | Value |
-|:-------|:------|
-| SPY Start | `$750.46` on 2026-05-27 |
-| SPY Now | `$750.63` (+0.02%) |
-| Our Return | `+0.00%` |
-| Challenge Status | ❌ Trailing S&P — Day 1 / 14 |
+| 項目 | 數值 |
+|:-----|:-----|
+| SPY 起始價 | `$750.46`（2026-05-27）|
+| SPY 現價 | `$749.39`（-0.14%）|
+| 我們的報酬 | `-0.77%` |
+| 挑戰狀態 | ❌ 落後 S&P 500 — 第 2 天 / 14 天 |
 
 ---
-*Amara · single-run serverless mode · generated 2026-05-27 19:54:22*
+*Amara · 單次執行模式 · 產生時間：2026-05-28 13:38:01*

@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="refresh" content="300">
-  <title>Amara Trading Dashboard</title>
+  <title>Amara 交易儀表板</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background: #f3f4f6; color: #111827; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 16px; max-width: 640px; margin: 0 auto; }
-    h1 { font-size: 1.3rem; font-weight: 700; margin-bottom: 4px; color: #111827; }
-    h2 { font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .06em; margin: 24px 0 8px; }
+    h1 { font-size: 2.4rem; font-weight: 800; margin-bottom: 4px; color: #111827; letter-spacing: -0.03em; }
     .meta { font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }
-    .badge-mode { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:8px; vertical-align:middle; }
-    .hero { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:6px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
-    .hero .big { font-size:2.8rem; font-weight:800; color:#16a34a; line-height:1; }
+    .badge-mode { display:inline-block; padding:3px 10px; border-radius:6px; font-size:.72rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:10px; vertical-align:middle; }
+    .hero { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
+    .hero .big { font-size:2.8rem; font-weight:800; color:#dc2626; line-height:1; }
     .hero .sub { font-size:.82rem; color:#6b7280; margin-top:6px; }
     .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
     .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
@@ -42,60 +41,92 @@
     .sbadge.review { background:#fef9c3; color:#854d0e; }
     .empty { color:#9ca3af; font-size:.85rem; padding:6px 0; }
     .footer { font-size:.68rem; color:#d1d5db; text-align:center; margin-top:28px; padding-top:16px; border-top:1px solid #e5e7eb; }
+    .sort-bar { display:flex; gap:6px; align-items:center; font-size:.72rem; color:#6b7280; margin-bottom:8px; flex-wrap:wrap; }
+    .sort-btn { padding:3px 10px; border-radius:6px; border:1px solid #e5e7eb; background:#fff; font-size:.7rem; cursor:pointer; color:#6b7280; }
+    .sort-btn.active { background:#1d4ed8; color:#fff; border-color:#1d4ed8; }
+    /* ── Collapsible sections ── */
+    details { margin-bottom: 4px; }
+    details[open] summary { margin-bottom: 8px; }
+    summary {
+      display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; list-style: none; user-select: none;
+      font-size: 1.1rem; font-weight: 700; color: #111827;
+      padding: 10px 0; border-bottom: 2px solid #e5e7eb;
+      margin-bottom: 0;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::after {
+      content: '›';
+      font-size: 1.3rem; color: #9ca3af; transition: transform .2s;
+      transform: rotate(90deg);
+    }
+    details:not([open]) summary::after { transform: rotate(0deg); }
+    /* ── Framework section ── */
+    .fw-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:10px; }
+    .fw-tier { background:#f9fafb; border-radius:10px; padding:12px; }
+    .fw-tier-title { font-size:.82rem; font-weight:700; color:#374151; margin-bottom:8px; }
+    .fw-row { display:flex; align-items:baseline; gap:8px; margin-bottom:5px; }
+    .fw-label { font-size:.7rem; color:#9ca3af; text-transform:uppercase; letter-spacing:.04em; min-width:36px; }
+    .fw-val { font-size:.82rem; font-weight:600; color:#111827; }
+    .fw-val.red { color:#dc2626; }
+    .fw-val.green { color:#16a34a; }
+    .fw-divider { border-top:1px solid #e5e7eb; margin:10px 0; }
+    .fw-scoring-title { font-size:.75rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px; }
+    .fw-pts { display:inline-block; min-width:44px; background:#eff6ff; color:#1d4ed8; font-size:.72rem; font-weight:700; border-radius:4px; padding:1px 6px; text-align:center; }
   </style>
 </head>
 <body>
-  <h1>🤖 Amara <span class="badge-mode">PAPER</span></h1>
-  <p class="meta">Last updated: 2026-05-28 03:54:22 TWN · auto-refreshes every 5 min</p>
+  <h1>🤖 Amara <span class="badge-mode">模擬盤</span></h1>
+  <p class="meta">更新時間：2026-05-28 21:38:01 台灣時間 · 每 5 分鐘自動刷新</p>
 
   <div class="hero">
-    <div class="big">+$0.00</div>
-    <div class="sub">Total P&amp;L &nbsp;·&nbsp; +0.00%</div>
+    <div class="big">$773.70</div>
+    <div class="sub">累計損益（含未實現）&nbsp;·&nbsp; 0.77%</div>
   </div>
 
-  <section>
-    <h2>Portfolio</h2>
+  <details open>
+    <summary>📊 Portfolio Overview</summary>
     <div class="card">
       <div class="stat-grid">
-        <div><label>Cash</label><val>$78,000.00</val></div>
-        <div><label>Portfolio Value</label><val>$99,832.40</val></div>
-        <div><label>Today's P&amp;L</label><val style="color:#16a34a">+$0.00</val></div>
-        <div><label>Win Rate</label><val>No closed trades yet</val></div>
-        <div><label>Open Positions</label><val>5 / 10</val></div>
-        <div><label>Watchlist</label><val>150 stocks</val></div>
+        <div><label>可用現金</label><val>$66,000.00</val></div>
+        <div><label>資產總值</label><val>$99,268.27</val></div>
+        <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-773.70</val></div>
+        <div><label>勝率</label><val>尚無已結算交易</val></div>
+        <div><label>持倉中</label><val>5 筆</val></div>
+        <div><label>監控股票</label><val>150 檔</val></div>
       </div>
     </div>
-  </section>
+  </details>
 
-  <section>
-    <h2>Open Positions (5)</h2>
+  <details open>
+    <summary>💼 Open Positions (5)</summary>
     <div class="pos-list">
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">AXTA</span>
-                <span class="pnl" style="color:#dc2626">🔴 -2.2%</span>
+                <span class="pnl" style="color:#dc2626">🔴 -3.9%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>$30.99</val></div>
-                <div><label>Last</label><val>$30.32</val></div>
-                <div><label>Stop</label><val>$29.44</val></div>
-                <div><label>Target</label><val>$34.09</val></div>
-                <div><label>Cost</label><val>$6,000</val></div>
-                <div><label>Since</label><val>2026-05-27</val></div>
+                <div><label>買入價</label><val>$30.99</val></div>
+                <div><label>現價</label><val>$29.77</val></div>
+                <div><label>成交量倍數</label><val>0.0×</val></div>
+                <div><label>高於均線</label><val>+0.0%</val></div>
+                <div><label>投入金額</label><val>$6,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
               </div>
             </div>
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">ANF</span>
-                <span class="pnl" style="color:#dc2626">🔴 -0.4%</span>
+                <span class="pnl" style="color:#dc2626">🔴 -4.5%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>$82.39</val></div>
-                <div><label>Last</label><val>$82.08</val></div>
-                <div><label>Stop</label><val>$78.27</val></div>
-                <div><label>Target</label><val>$90.63</val></div>
-                <div><label>Cost</label><val>$6,000</val></div>
-                <div><label>Since</label><val>2026-05-27</val></div>
+                <div><label>買入價</label><val>$82.39</val></div>
+                <div><label>現價</label><val>$78.66</val></div>
+                <div><label>成交量倍數</label><val>0.0×</val></div>
+                <div><label>高於均線</label><val>+0.0%</val></div>
+                <div><label>投入金額</label><val>$6,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
               </div>
             </div>
             <div class="card pos-card">
@@ -104,372 +135,292 @@
                 <span class="pnl" style="color:#dc2626">🔴 -0.1%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>$201.60</val></div>
-                <div><label>Last</label><val>$201.36</val></div>
-                <div><label>Stop</label><val>$194.54</val></div>
-                <div><label>Target</label><val>$215.71</val></div>
-                <div><label>Cost</label><val>$10,000</val></div>
-                <div><label>Since</label><val>2026-05-27</val></div>
+                <div><label>買入價</label><val>$201.60</val></div>
+                <div><label>現價</label><val>$201.39</val></div>
+                <div><label>成交量倍數</label><val>0.0×</val></div>
+                <div><label>高於均線</label><val>+0.0%</val></div>
+                <div><label>投入金額</label><val>$10,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
               </div>
             </div>
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">POWI</span>
-                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
+                <span class="pnl" style="color:#dc2626">🔴 -5.0%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>$87.70</val></div>
-                <div><label>Last</label><val>$87.70</val></div>
-                <div><label>Stop</label><val>$83.31</val></div>
-                <div><label>Target</label><val>$96.47</val></div>
-                <div><label>Cost</label><val>$6,000</val></div>
-                <div><label>Since</label><val>2026-05-27</val></div>
+                <div><label>買入價</label><val>$87.70</val></div>
+                <div><label>現價</label><val>$83.33</val></div>
+                <div><label>成交量倍數</label><val>0.0×</val></div>
+                <div><label>高於均線</label><val>+0.0%</val></div>
+                <div><label>投入金額</label><val>$6,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
               </div>
             </div>
             <div class="card pos-card">
               <div class="pos-header">
                 <span class="symbol">NTNX</span>
-                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
+                <span class="pnl" style="color:#16a34a">🟢 +0.7%</span>
               </div>
               <div class="pos-grid">
-                <div><label>Entry</label><val>$46.86</val></div>
-                <div><label>Last</label><val>$46.86</val></div>
-                <div><label>Stop</label><val>$44.52</val></div>
-                <div><label>Target</label><val>$51.55</val></div>
-                <div><label>Cost</label><val>$6,000</val></div>
-                <div><label>Since</label><val>2026-05-27</val></div>
+                <div><label>買入價</label><val>$46.86</val></div>
+                <div><label>現價</label><val>$47.20</val></div>
+                <div><label>成交量倍數</label><val>0.0×</val></div>
+                <div><label>高於均線</label><val>+0.0%</val></div>
+                <div><label>投入金額</label><val>$6,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
               </div>
             </div></div>
-  </section>
+  </details>
 
-  <section>
-    <h2>This Run's Decisions</h2>
-    <div class="dec-list">
-            <div class="card dec-card">
+  <details>
+    <summary>🧠 Amara's Framework</summary>
+    
+    <div class="card">
+      <div class="fw-grid">
+        <div class="fw-tier">
+          <div class="fw-tier-title">🔵 大型股（50 支）</div>
+          <div class="fw-row"><span class="fw-label">停損</span><span class="fw-val red">-3.5%</span></div>
+          <div class="fw-row"><span class="fw-label">止盈</span><span class="fw-val green">+7.0%</span></div>
+          <div class="fw-row"><span class="fw-label">倉位</span><span class="fw-val">10% / 筆（最高 $10,000）</span></div>
+        </div>
+        <div class="fw-tier">
+          <div class="fw-tier-title">🟠 中型股（100 支）</div>
+          <div class="fw-row"><span class="fw-label">停損</span><span class="fw-val red">-5.0%</span></div>
+          <div class="fw-row"><span class="fw-label">止盈</span><span class="fw-val green">+10.0%</span></div>
+          <div class="fw-row"><span class="fw-label">倉位</span><span class="fw-val">6% / 筆（最高 $6,000）</span></div>
+        </div>
+      </div>
+      <div class="fw-divider"></div>
+      <div class="fw-row"><span class="fw-label">最長持倉</span><span class="fw-val">8 天</span></div>
+      <div class="fw-row"><span class="fw-label">最多持倉</span><span class="fw-val">以可用資金為上限（安全上限 20 筆）</span></div>
+      <div class="fw-row"><span class="fw-label">Claude 門檻</span><span class="fw-val">信心 ≥ 7/10 才執行買入</span></div>
+      <div class="fw-divider"></div>
+      <div class="fw-scoring-title">評分條件（滿分 100 分，門檻 ≥ 60）</div>
+      <div class="fw-row"><span class="fw-pts">35 分</span><span class="fw-val">成交量 ≥ 1.5 倍 20 日均量（量能放大）</span></div>
+      <div class="fw-row"><span class="fw-pts">30 分</span><span class="fw-val">RSI 55–75（動能建立中，未過熱）</span></div>
+      <div class="fw-row"><span class="fw-pts">25 分</span><span class="fw-val">現價高於 20 日均線（短期趨勢向上）</span></div>
+      <div class="fw-row"><span class="fw-pts">10 分</span><span class="fw-val">5 日漲幅 &gt; 2%（近期動能確認）</span></div>
+    </div>
+  </details>
+
+  <details open>
+    <summary>🎯 This Run's Decisions</summary>
+    <div class="dec-list" id="decList">
+            <div class="card dec-card" data-score="65">
               <div class="dec-header">
-                <span class="symbol">POWI [MID]</span>
-                <span style="color:#16a34a;font-weight:700">✅ BUY</span>
-                <span class="conf">7/10</span>
-              </div>
-              <p class="reason">POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) without being overbought, price is 19.3% above the 20-day SMA signaling strong trend, and 5-day momentum </p>
-            </div>
-            <div class="card dec-card">
-              <div class="dec-header">
-                <span class="symbol">NTNX [MID]</span>
-                <span style="color:#16a34a;font-weight:700">✅ BUY</span>
-                <span class="conf">7/10</span>
-              </div>
-              <p class="reason">NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a bullish candle, RSI at 62.5 in the momentum zone, and price trading 4.3% above its 20-day SMA — all </p>
-            </div>
-            <div class="card dec-card">
-              <div class="dec-header">
-                <span class="symbol">BBWI [MID]</span>
+                <span class="symbol">RXO [MID]</span>
                 <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">6/10</span>
+                <span class="conf">信心 4/10 &nbsp;|&nbsp; 評分 65</span>
               </div>
-              <p class="reason">BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day SMA, supported by elevated volume at 1.9x the 20-day average on a bullish candle — the primary tech</p>
+              <p class="reason">① RXO技術面呈現正面訊號：RSI 66.1處於動能區間、價格高於20日均線15.6%、5日動能+2.8%，技術評分65/100屬中等水準。② 本次無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件面的確認依據。③ 風險報酬比為1:2（止損-5%對應獲利+10%），比例尚可，但最關鍵的警示是成交量倍數為0.0x，顯示今日幾乎無交易量，缺乏市場參與者的認同，動能缺乏說服力。④ 主要下行風險在於</p>
             </div>
-            <div class="card dec-card">
+            <div class="card dec-card" data-score="65">
               <div class="dec-header">
-                <span class="symbol">PG [LARGE]</span>
+                <span class="symbol">QCOM [LARGE]</span>
                 <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">6/10</span>
+                <span class="conf">信心 4/10 &nbsp;|&nbsp; 評分 65</span>
               </div>
-              <p class="reason">PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum of +4.4%, and notably elevated volume at 1.9x the 20-day average confirming the move with a bullish</p>
+              <p class="reason">① QCOM技術分數65/100，RSI 65.9處於動能區間，5日動能強勁達+15.8%，且價格高於20日均線12.8%，顯示短期強勢；然而成交量倍數為0.0x，完全無法確認突破的有效性，缺乏機構買盤支撐。② 無任何新聞催化劑回傳，純技術面判斷下，缺乏基本面驅動力，無法排除此波漲幅已為消息提前反映後的高點。③ 雖然止盈目標+7%（$250.93）對比止損-4%（$226.30）風險報酬比約1.7</p>
             </div>
-            <div class="card dec-card">
+            <div class="card dec-card" data-score="65">
               <div class="dec-header">
-                <span class="symbol">ELF [MID]</span>
+                <span class="symbol">LLY [LARGE]</span>
                 <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
-                <span class="conf">6/10</span>
+                <span class="conf">信心 3/10 &nbsp;|&nbsp; 評分 65</span>
               </div>
-              <p class="reason">ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bullish candle, suggesting institutional accumulation or a short-term momentum surge. Price is holding a</p>
+              <p class="reason">① LLY的RSI高達73.7，雖處於動能區間上緣，但已接近超買領域，加上5日動能達8.6%，短期漲幅過快，追高風險顯著。② 目前無任何新聞催化劑支撐此波漲勢，純靠技術面驅動，缺乏基本面確認，訊號一致性不足。③ 雖然技術分數65分尚可，但最關鍵的成交量僅為均量的0.1倍，極度低迷，顯示此次上漲毫無資金參與，突破缺乏說服力，風險報酬比偏差。④ 主要下行風險在於成交量嚴重不足代表動能虛弱，若市場稍有回</p>
+            </div>
+            <div class="card dec-card" data-score="65">
+              <div class="dec-header">
+                <span class="symbol">AAON [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">信心 3/10 &nbsp;|&nbsp; 評分 65</span>
+              </div>
+              <p class="reason">① AAON技術面尚可，RSI 65.5處於動能區間，價格高於20日均線9.5%，5日動能+2.7%，技術評分65分屬中等水準，但最關鍵的成交量倍數為0.0倍，完全無法確認突破的真實性。② 無任何新聞催化劑支撐，純靠技術面驅動，在缺乏消息面配合的情況下，動能持續性存疑。③ 風險報酬比為1:2（停損-5% vs 獲利+10%），理論上尚可接受，但成交量為零代表流動性或數據異常，實際執行風險極高。④ </p>
+            </div>
+            <div class="card dec-card" data-score="65">
+              <div class="dec-header">
+                <span class="symbol">YETI [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">信心 4/10 &nbsp;|&nbsp; 評分 65</span>
+              </div>
+              <p class="reason">① YETI技術面呈現正向訊號，RSI 63.6處於動能區間，價格高於20日均線9.2%，5日動能達+3.0%，技術總分65/100屬於中等偏上水準。② 無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件驅動的額外確信度。③ 最關鍵問題在於成交量倍數為0.0倍，意味著當前漲勢完全欠缺成交量確認，突破缺乏市場參與度支撐，風險報酬比雖為1:2（停損-5% vs 止盈+10%）在理論上尚可，但無量上</p>
             </div></div>
-  </section>
+  </details>
 
-  <section>
-    <h2>Top Scan Results — Why Each Stock Did or Didn't Proceed</h2>
-    <div class="scan-list">
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">AXTA</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge bought">✅ Bought</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 64.5</span>
-                <span>Vol 2.4x</span>
-                <span>2026-05-27 14:49</span>
-              </div>
-              <p class="reason">—</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">AXTA</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge review">Hold Review</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 64.5</span>
-                <span>Vol 2.4x</span>
-                <span>2026-05-27 14:51</span>
-              </div>
-              <p class="reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.5 (strong but not overbought), and volume running at 2.4x average — the original buy thesis based on breakout mome</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">AXTA</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge review">Hold Review</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 64.6</span>
-                <span>Vol 2.8x</span>
-                <span>2026-05-27 15:05</span>
-              </div>
-              <p class="reason">① AXTA's momentum remains intact with a perfect technical score of 100/100, RSI at 64.6 (strong but not overbought), and an impressive 5-day momentum of 11.5% — the original buy thesis is fully suppor</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">ANF</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge bought">✅ Bought</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 55.3</span>
-                <span>Vol 2.0x</span>
-                <span>2026-05-27 19:51</span>
-              </div>
-              <p class="reason">ANF shows a perfect technical score of 100/100, driven by strong volume (2.0x average) on a bullish candle, RSI at 55.3 sitting in the ideal momentum zone (55–75), price extended 7.1% above the 20-day</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">MS</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge bought">✅ Bought</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 64.2</span>
-                <span>Vol 2.8x</span>
-                <span>2026-05-27 19:52</span>
-              </div>
-              <p class="reason">MS is showing a near-perfect technical setup with a perfect 100/100 score: RSI at 64.2 sits firmly in the momentum zone without being overbought, price is 4.2% above the 20-day SMA confirming trend st</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">POWI</span>
-                <span class="score">Score: 100/100</span>
-                <span class="sbadge bought">✅ Bought</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 61.5</span>
-                <span>Vol 1.6x</span>
-                <span>2026-05-27 19:53</span>
-              </div>
-              <p class="reason">POWI scores a perfect 100/100 technically: RSI at 61.5 sits in the ideal momentum zone (55–75) without being overbought, price is 19.3% above the 20-day SMA signaling strong trend, and 5-day momentum </p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">NTNX</span>
-                <span class="score">Score: 90/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 62.4</span>
-                <span>Vol 1.9x</span>
-                <span>2026-05-27 19:52</span>
-              </div>
-              <p class="reason">NTNX shows a strong technical setup with price 4.4% above its 20-day SMA, RSI at 62.4 sitting comfortably in the momentum zone, and volume running at 1.9x average on a bullish candle — collectively sc</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">NTNX</span>
-                <span class="score">Score: 90/100</span>
-                <span class="sbadge bought">✅ Bought</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 62.5</span>
-                <span>Vol 2.0x</span>
-                <span>2026-05-27 19:53</span>
-              </div>
-              <p class="reason">NTNX shows strong technical structure with a high score of 90/100, driven by 2.0x volume surge on a bullish candle, RSI at 62.5 in the momentum zone, and price trading 4.3% above its 20-day SMA — all </p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">BBWI</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 52.7</span>
-                <span>Vol 1.9x</span>
-                <span>2026-05-27 19:52</span>
-              </div>
-              <p class="reason">BBWI shows strong short-term momentum with a +21.7% 5-day surge and elevated volume at 1.9x the 20-day average on a bullish candle, confirming institutional or momentum-driven buying interest. Price i</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">PG</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 49.3</span>
-                <span>Vol 1.8x</span>
-                <span>2026-05-27 19:52</span>
-              </div>
-              <p class="reason">PG shows modest technical strength with price 2.2% above its 20-day SMA, a 5-day momentum of +4.4%, and elevated volume at 1.8x average supporting the recent move, yielding a technical score of 70/100</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">BBWI</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 53.2</span>
-                <span>Vol 1.9x</span>
-                <span>2026-05-27 19:53</span>
-              </div>
-              <p class="reason">BBWI shows strong short-term momentum with a 22% 5-day surge and price trading 7.5% above its 20-day SMA, supported by elevated volume at 1.9x the 20-day average on a bullish candle — the primary tech</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">PG</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 49.2</span>
-                <span>Vol 1.9x</span>
-                <span>2026-05-27 19:54</span>
-              </div>
-              <p class="reason">PG is showing solid technical momentum with price 2.2% above its 20-day SMA, a strong 5-day momentum of +4.4%, and notably elevated volume at 1.9x the 20-day average confirming the move with a bullish</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">ELF</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 42.5</span>
-                <span>Vol 1.7x</span>
-                <span>2026-05-27 19:54</span>
-              </div>
-              <p class="reason">ELF shows a strong 5-day momentum of +8.9% with elevated volume at 1.7x the 20-day average on a bullish candle, suggesting institutional accumulation or a short-term momentum surge. Price is holding a</p>
-            </div>
-            <div class="card scan-card">
-              <div class="scan-header">
-                <span class="symbol">ANF</span>
-                <span class="score">Score: 70/100</span>
-                <span class="sbadge review">Hold Review</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 54.9</span>
-                <span>Vol 2.0x</span>
-                <span>2026-05-27 19:54</span>
-              </div>
-              <p class="reason">① ANF is essentially flat at -0.4% on day 0, and the original buy thesis remains intact — RSI at 54.9 is healthy mid-range, 5-day momentum of 13.8% is strong, and the technical score of 70/100 support</p>
-            </div>
-            <div class="card scan-card">
+  <details>
+    <summary>🔍 Scan Results</summary>
+    
+        <div class="sort-bar">
+          排序：
+          <button class="sort-btn active" onclick="sortCards('scanList','score',this)">評分↓</button>
+          <button class="sort-btn" onclick="sortCards('scanList','rsi',this)">RSI↓</button>
+          <button class="sort-btn" onclick="sortCards('scanList','vol',this)">成交量↓</button>
+        </div>
+        <div class="scan-list" id="scanList">
+            <div class="card scan-card" data-score="65" data-rsi="66.1" data-vol="0.0">
               <div class="scan-header">
                 <span class="symbol">RXO</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 70.1</span>
-                <span>Vol 0.0x</span>
-                <span>2026-05-27 13:37</span>
+                <span>RSI 66.1</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:36</span>
               </div>
-              <p class="reason">RXO shows strong momentum signals on paper — RSI at 70.1, price 21.3% above the 20-day SMA, and 5-day momentum of +20.2% — but the critical red flag is a volume multiple of 0.0x, meaning effectively z</p>
+              <p class="reason">① RXO技術面呈現正面訊號：RSI 66.1處於動能區間、價格高於20日均線15.6%、5日動能+2.8%，技術評分65/100屬中等水準。② 本次無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件面的確認依據。③ 風險報酬比為1:2（止損-5%對應獲利+10%），比例尚可，但最關鍵的警示是成交量倍數為0.0x，顯示今日幾乎無交易量，缺乏市場參與者的認同，動能缺乏說服力。④ 主要下行風險在於</p>
             </div>
-            <div class="card scan-card">
+            <div class="card scan-card" data-score="65" data-rsi="65.9" data-vol="0.0">
               <div class="scan-header">
                 <span class="symbol">QCOM</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 71.1</span>
-                <span>Vol 0.0x</span>
-                <span>2026-05-27 13:37</span>
+                <span>RSI 65.9</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:37</span>
               </div>
-              <p class="reason">QCOM shows strong technical momentum with a 24.5% 5-day surge, RSI of 71.1 in the momentum zone, and price sitting 19.2% above its 20-day SMA — all suggesting a powerful recent move. However, the crit</p>
+              <p class="reason">① QCOM技術分數65/100，RSI 65.9處於動能區間，5日動能強勁達+15.8%，且價格高於20日均線12.8%，顯示短期強勢；然而成交量倍數為0.0x，完全無法確認突破的有效性，缺乏機構買盤支撐。② 無任何新聞催化劑回傳，純技術面判斷下，缺乏基本面驅動力，無法排除此波漲幅已為消息提前反映後的高點。③ 雖然止盈目標+7%（$250.93）對比止損-4%（$226.30）風險報酬比約1.7</p>
             </div>
-            <div class="card scan-card">
+            <div class="card scan-card" data-score="65" data-rsi="73.7" data-vol="0.1">
+              <div class="scan-header">
+                <span class="symbol">LLY</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 73.7</span>
+                <span>成交量 0.1×</span>
+                <span>2026-05-28 13:37</span>
+              </div>
+              <p class="reason">① LLY的RSI高達73.7，雖處於動能區間上緣，但已接近超買領域，加上5日動能達8.6%，短期漲幅過快，追高風險顯著。② 目前無任何新聞催化劑支撐此波漲勢，純靠技術面驅動，缺乏基本面確認，訊號一致性不足。③ 雖然技術分數65分尚可，但最關鍵的成交量僅為均量的0.1倍，極度低迷，顯示此次上漲毫無資金參與，突破缺乏說服力，風險報酬比偏差。④ 主要下行風險在於成交量嚴重不足代表動能虛弱，若市場稍有回</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="65.5" data-vol="0.0">
               <div class="scan-header">
                 <span class="symbol">AAON</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 70.5</span>
-                <span>Vol 0.0x</span>
-                <span>2026-05-27 13:37</span>
+                <span>RSI 65.5</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:37</span>
               </div>
-              <p class="reason">AAON shows strong price momentum with a 9.2% 5-day gain and trades 15.4% above its 20-day SMA, but these extended levels suggest the move is already mature rather than nascent. The critical red flag i</p>
+              <p class="reason">① AAON技術面尚可，RSI 65.5處於動能區間，價格高於20日均線9.5%，5日動能+2.7%，技術評分65分屬中等水準，但最關鍵的成交量倍數為0.0倍，完全無法確認突破的真實性。② 無任何新聞催化劑支撐，純靠技術面驅動，在缺乏消息面配合的情況下，動能持續性存疑。③ 風險報酬比為1:2（停損-5% vs 獲利+10%），理論上尚可接受，但成交量為零代表流動性或數據異常，實際執行風險極高。④ </p>
             </div>
-            <div class="card scan-card">
+            <div class="card scan-card" data-score="65" data-rsi="63.6" data-vol="0.0">
               <div class="scan-header">
-                <span class="symbol">MOD</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="symbol">YETI</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 64.8</span>
-                <span>Vol 0.1x</span>
-                <span>2026-05-27 13:37</span>
+                <span>RSI 63.6</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:37</span>
               </div>
-              <p class="reason">MOD shows strong momentum signals with RSI at 64.8 (momentum zone), price 13.6% above the 20-day SMA, and an impressive 5-day momentum of +24.8%, yielding a technical score of 65/100. However, the cri</p>
+              <p class="reason">① YETI技術面呈現正向訊號，RSI 63.6處於動能區間，價格高於20日均線9.2%，5日動能達+3.0%，技術總分65/100屬於中等偏上水準。② 無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件驅動的額外確信度。③ 最關鍵問題在於成交量倍數為0.0倍，意味著當前漲勢完全欠缺成交量確認，突破缺乏市場參與度支撐，風險報酬比雖為1:2（停損-5% vs 止盈+10%）在理論上尚可，但無量上</p>
             </div>
-            <div class="card scan-card">
+            <div class="card scan-card" data-score="65" data-rsi="66.5" data-vol="0.0">
               <div class="scan-header">
                 <span class="symbol">POWI</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge review">持倉審查</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 68.7</span>
-                <span>Vol 0.1x</span>
-                <span>2026-05-27 13:37</span>
+                <span>RSI 66.5</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:37</span>
               </div>
-              <p class="reason">POWI shows strong price momentum with a 5-day gain of +21.4% and RSI at 68.7 sitting in the momentum zone, but the critical red flag is volume at only 0.1x the 20-day average — this is extremely thin </p>
+              <p class="reason">① 當前價格$83.33已幾乎觸及止損價$83.31（僅差$0.02），與原始買入時預期的上漲邏輯嚴重背離，5日動能雖達20.4%但顯示係入場前的漲幅，入場後立即下跌5%代表動能未能延續。② 成交量倍數為0.0x屬極度異常，顯示市場對該股興趣極低，缺乏推動價格向上的買盤支撐，且RSI 66.5在下跌過程中仍偏高，存在進一步回落空間。③ 建議重點觀察止損$83.31是否即將被跌破，若價格無法在當前水</p>
             </div>
-            <div class="card scan-card">
+            <div class="card scan-card" data-score="65" data-rsi="57.3" data-vol="0.1">
               <div class="scan-header">
-                <span class="symbol">RXO</span>
-                <span class="score">Score: 65/100</span>
-                <span class="sbadge skipped">❌ Claude Skip</span>
+                <span class="symbol">AXTA</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge review">持倉審查</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 70.3</span>
-                <span>Vol 0.0x</span>
-                <span>2026-05-27 13:59</span>
+                <span>RSI 57.3</span>
+                <span>成交量 0.1×</span>
+                <span>2026-05-28 13:37</span>
               </div>
-              <p class="reason">RXO shows strong technical momentum with RSI at 70.3, price 21.8% above its 20-day SMA, and a 5-day gain of 20.7%, suggesting a sharp recent move already well underway. However, the critical red flag </p>
+              <p class="reason">① 當前價格已從進場價$30.99下跌至$29.77（跌幅3.9%），5日動能雖仍為正值3.6%，但短期內價格持續承壓，原始買入邏輯有所削弱；RSI維持在57.3屬中性偏強，尚未出現超賣訊號。② 成交量倍數為0.0x，顯示今日幾乎無交易量，價格疲弱且缺乏買盤支撐，這是一個值得警惕的早期負面訊號，但目前無重大利空新聞。③ 需密切關注止損價$29.44是否被跌破（目前僅剩1.1%緩衝空間），若成交量持</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="62.0" data-vol="0.1">
+              <div class="scan-header">
+                <span class="symbol">NTNX</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge review">持倉審查</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 62.0</span>
+                <span>成交量 0.1×</span>
+                <span>2026-05-28 13:37</span>
+              </div>
+              <p class="reason">NTNX持倉1天，目前上漲1.7%，5日動能達5.8%，RSI為62，尚未進入超買區間，技術面基本符合原始買入邏輯，距離止盈目標51.55仍有6.5%空間。然而最值得警惕的是成交量僅為均量的0.1倍，極度萎縮的交易量顯示此波漲勢缺乏實質買盤支撐，短期突破的可信度存疑。建議重點觀察接下來幾個交易日的成交量能否有效放大至均量以上，若量能無法跟上而股價開始滯漲或回落，需提高警覺考慮提前減倉。</p>
+            </div>
+            <div class="card scan-card" data-score="55" data-rsi="67.6" data-vol="0.0">
+              <div class="scan-header">
+                <span class="symbol">MS</span>
+                <span class="score">評分：55/100</span>
+                <span class="sbadge review">持倉審查</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 67.6</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:38</span>
+              </div>
+              <p class="reason">MS目前僅持倉1天，股價幾乎與進場價持平（-0.1%），5日動能仍有1.9%的正向表現，RSI 67.6接近超買邊緣但尚未達到警戒水位，原始買入邏輯尚未明顯受損。然而最大警示訊號為成交量倍數為0.0x，顯示今日幾乎無成交量支撐，動能缺乏實質買盤驗證，這是需要高度留意的早期弱化訊號。建議重點觀察後續交易日成交量能否明顯回升配合，若連續2日量縮價滯，應考慮主動縮倉或提高警戒，同時關注止損$194.54</p>
+            </div>
+            <div class="card scan-card" data-score="35" data-rsi="48.3" data-vol="0.0">
+              <div class="scan-header">
+                <span class="symbol">ANF</span>
+                <span class="score">評分：35/100</span>
+                <span class="sbadge review">持倉審查</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 48.3</span>
+                <span>成交量 0.0×</span>
+                <span>2026-05-28 13:37</span>
+              </div>
+              <p class="reason">① 當前價格已從入場價$82.39下跌4.5%至$78.66，5日動能雖顯示5.3%的正值，但技術評分僅35/100且RSI處於48.3的中性偏弱區間，原始買入邏輯已明顯弱化。② 成交量倍數為0.0x顯示今日幾乎無成交，缺乏支撐力道，且止損位$78.27僅距當前價0.5%，風險極高，隨時可能觸及止損。③ 建議密切關注$78.27止損線是否被跌破，若無法出現明顯量能回升或RSI重返50以上，應考慮提</p>
             </div></div>
-  </section>
+  </details>
 
-  <section>
-    <h2>Recent Trade History</h2>
-    <p class="empty">No closed trades yet.</p>
-  </section>
+  <details>
+    <summary>📜 Recent Trades</summary>
+    <p class="empty">尚無已結算交易。</p>
+  </details>
 
   
-        <section>
-          <h2>S&P 500 Benchmark</h2>
+        <details open>
+          <summary>📈 S&amp;P 500 Benchmark</summary>
           <div class="card">
             <div class="stat-grid">
-              <div><label>SPY Start</label><val>$750.46 on 2026-05-27</val></div>
-              <div><label>SPY Now</label><val>$750.63 (+0.02%)</val></div>
-              <div><label>Our Return</label><val style="color:#16a34a">+0.00%</val></div>
-              <div><label>Status</label><val>❌ Trailing S&P — Day 2/14</val></div>
+              <div><label>SPY 起始價</label><val>$750.46（2026-05-27）</val></div>
+              <div><label>SPY 現價</label><val>$749.39（-0.14%）</val></div>
+              <div><label>我們的報酬</label><val style="color:#dc2626">-0.77%</val></div>
+              <div><label>挑戰狀態</label><val>❌ 落後 S&P — 第 2/14 天</val></div>
             </div>
           </div>
-        </section>
+        </details>
 
-  <p class="footer">Amara · single-run serverless mode · generated 2026-05-28 03:54:22</p>
+  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-05-28 21:38:01</p>
+
+  <script>
+    function sortCards(listId, key, btn) {
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const list = document.getElementById(listId);
+      if (!list) return;
+      const cards = Array.from(list.children);
+      cards.sort((a, b) => parseFloat(b.dataset[key] || 0) - parseFloat(a.dataset[key] || 0));
+      cards.forEach(c => list.appendChild(c));
+    }
+  </script>
 </body>
 </html>
