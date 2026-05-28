@@ -231,13 +231,13 @@ def get_symbol_params(symbol: str) -> dict:
     if ASSET_TYPE.get(symbol) == "mid":
         return {
             "stop_loss_pct":   CONFIG["MID_CAP_STOP_LOSS_PCT"],      # -5.0%
-            "take_profit_pct": CONFIG["MID_CAP_TAKE_PROFIT_PCT"],    # +11.0% fixed take profit
+            "take_profit_pct": CONFIG["MID_CAP_TAKE_PROFIT_PCT"],    # +10.0% fixed take profit
             "position_pct":    CONFIG["MID_CAP_POSITION_PCT"],       # 6% of capital
         }
     # Default to large-cap profile (also covers any unlisted symbol)
     return {
         "stop_loss_pct":   CONFIG["LARGE_CAP_STOP_LOSS_PCT"],        # -3.5%
-        "take_profit_pct": CONFIG["LARGE_CAP_TAKE_PROFIT_PCT"],      # +8.0% fixed take profit
+        "take_profit_pct": CONFIG["LARGE_CAP_TAKE_PROFIT_PCT"],      # +7.0% fixed take profit
         "position_pct":    CONFIG["LARGE_CAP_POSITION_PCT"],         # 10% of capital
     }
 
@@ -887,7 +887,7 @@ class TradeLogger:
             "current_price": round(current_price, 2)
         }
         self.data["scan_log"].append(entry)
-        self.data["scan_log"] = self.data["scan_log"][-200:]
+        self.data["scan_log"] = self.data["scan_log"][-1000:]  # ~1.5 days of full 4×150 scans
         self.save()
 
     def add_position(self, pos: PaperPosition):
@@ -1518,10 +1518,12 @@ class AmaraBot:
         # 5-day momentum (short-term price change — directly relevant to 3-5 day swing trades)
         mom5_all = ((close_all - close_all.shift(5)) / close_all.shift(5) * 100)
 
-        # Vectorised RSI(14) across all symbols simultaneously
+        # Vectorised RSI(14) using Wilder's exponential smoothing (com=13 = α=1/14)
+        # Matches TradingView, Bloomberg, and standard charting platforms.
+        # Simple rolling mean diverges significantly after ~20 bars.
         _delta     = close_all.diff()
-        _gain      = _delta.clip(lower=0).rolling(14).mean()
-        _loss      = (-_delta.clip(upper=0)).rolling(14).mean()
+        _gain      = _delta.clip(lower=0).ewm(com=13, adjust=False).mean()
+        _loss      = (-_delta.clip(upper=0)).ewm(com=13, adjust=False).mean()
         rsi_all    = 100 - (100 / (1 + _gain / _loss))
 
         # Vectorised volume ratio: today's volume vs 20-day average
@@ -1632,10 +1634,14 @@ class AmaraBot:
             tier_label = "[LARGE]" if asset_type == "large" else "[MID]"
 
             # Build human-readable score breakdown for Claude
-            mom5_val = float(last_mom5[symbol]) if symbol in last_mom5.index and not pd.isna(last_mom5[symbol]) else 0.0
+            # vol_surge requires BOTH volume ≥ 1.5× AND bullish candle — reasons must reflect actual state
+            mom5_val    = float(last_mom5[symbol]) if symbol in last_mom5.index and not pd.isna(last_mom5[symbol]) else 0.0
+            is_bullish  = bool(last_close[symbol] > last_open[symbol]) if symbol in last_open.index else False
             reasons = []
-            if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"]:
-                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg (bullish candle, close>open) +35pts")
+            if vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"] and is_bullish:
+                reasons.append(f"Volume {vol_ratio:.1f}× 20-day avg + bullish candle (close>open) → 量能放大 +35pts")
+            elif vol_ratio >= CONFIG["VOLUME_SURGE_FACTOR"] and not is_bullish:
+                reasons.append(f"Volume {vol_ratio:.1f}× avg but red candle (close<open) — volume surge不算，no conviction pts")
             else:
                 reasons.append(f"Volume {vol_ratio:.1f}× avg — below 1.5× surge threshold, no conviction pts")
             if CONFIG["RSI_BUY_THRESHOLD"] <= rsi <= CONFIG["RSI_OVERBOUGHT"]:
@@ -2160,7 +2166,7 @@ class AmaraBot:
                 for p in open_pos
             )
         else:
-            pos_lines = "\n📋 持倉中（0/{SAFETY_CAP}）：無"
+            pos_lines = f"\n📋 持倉中（0/{SAFETY_CAP}）：無"
 
         port_val = self.logger.data.get("portfolio_value", capital + unrealized)
         today_total = today_realized + unrealized
