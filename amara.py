@@ -34,7 +34,7 @@ _SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 # The local Google Drive sync client keeps this path always up-to-date.
 DASHBOARD_PATH = os.path.join(_SCRIPT_DIR, "amara_dashboard.md")
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dataclasses import dataclass, asdict
 from typing import Optional
 
@@ -63,7 +63,7 @@ CONFIG = {
     # Portfolio limits
     "TOTAL_CAPITAL": 100000,
     "MAX_POSITION_PCT": 0.10,       # used to calculate max simultaneous positions (10 slots)
-    "MAX_HOLD_DAYS": 8,
+    "MAX_HOLD_DAYS": 8,          # calendar days (≈ 5–6 trading days); raise to 12 for ~8 trading days
     "DAILY_LOSS_LIMIT_PCT": 0.05,
     "TOTAL_LOSS_LIMIT_PCT": 0.30,
 
@@ -224,6 +224,50 @@ WATCHLIST: list = sorted(LARGE_CAPS | MID_CAPS)   # 150 symbols, alphabetically 
 
 # Maps every symbol → its tier string for O(1) lookup in position checks
 ASSET_TYPE: dict = {s: "large" for s in LARGE_CAPS} | {s: "mid" for s in MID_CAPS}
+
+# ── Sector map — cap at MAX_SECTOR_POSITIONS per sector ──────────────────
+# Add symbols here as needed. Unlisted symbols have no sector cap applied.
+SECTOR_MAP: dict = {
+    # Semiconductors
+    "NVDA": "semi", "AMD": "semi", "AVGO": "semi", "QCOM": "semi",
+    "INTC": "semi", "POWI": "semi",
+    # Mega-cap Tech
+    "AAPL": "mega_tech", "MSFT": "mega_tech", "GOOGL": "mega_tech",
+    "META": "mega_tech", "AMZN": "mega_tech",
+    # Software / Cloud
+    "CRM": "software", "ADBE": "software", "ORCL": "software",
+    "GTLB": "software", "DOCN": "software", "BILL": "software",
+    "NTNX": "software", "APPF": "software", "CWAN": "software",
+    "AZPN": "software", "SMAR": "software", "JAMF": "software", "NCNO": "software",
+    # Fintech / Payments
+    "V": "fintech", "MA": "fintech", "AXP": "fintech",
+    "FOUR": "fintech", "TOST": "fintech",
+    # Financials
+    "JPM": "finance", "BAC": "finance", "GS": "finance", "MS": "finance",
+    "BLK": "finance", "WFC": "finance", "C": "finance",
+    "PIPR": "finance", "LPLA": "finance", "RYAN": "finance",
+    "HLNE": "finance", "STEP": "finance", "GBCI": "finance",
+    "WSFS": "finance", "CVBF": "finance", "PRI": "finance",
+    # Healthcare / Biotech
+    "UNH": "health", "JNJ": "health", "LLY": "health", "ABBV": "health",
+    "MRK": "health", "TMO": "health", "ABT": "health", "PFE": "health",
+    "AMGN": "health", "CELH": "health", "HIMS": "health", "ACAD": "health",
+    "AXSM": "health", "ENSG": "health", "ITCI": "health", "EXEL": "health",
+    "TMDX": "health", "BRKR": "health", "LNTH": "health",
+    "NEOG": "health", "STVN": "health", "PRCT": "health", "RCKT": "health",
+    "VCEL": "health", "HRMY": "health", "HALO": "health", "GKOS": "health",
+    "PODD": "health", "INSP": "health",
+    # Energy
+    "XOM": "energy", "CVX": "energy", "CEIX": "energy", "AM": "energy",
+    "HESM": "energy", "DINO": "energy", "DNOW": "energy", "LBRT": "energy",
+    # Consumer
+    "PG": "consumer", "MCD": "consumer", "SBUX": "consumer", "NKE": "consumer",
+    "COST": "consumer", "TGT": "consumer", "WMT": "consumer",
+    "ANF": "consumer", "AEO": "consumer", "BOOT": "consumer", "CAVA": "consumer",
+    "ELF": "consumer", "BBWI": "consumer", "SFM": "consumer", "FIVE": "consumer",
+    "YETI": "consumer", "WING": "consumer",
+}
+MAX_SECTOR_POSITIONS: int = 2   # max open positions in any one sector at a time
 
 
 def get_symbol_params(symbol: str) -> dict:
@@ -1050,9 +1094,10 @@ class MarketData:
 class TechnicalAnalysis:
     @staticmethod
     def calculate_rsi(prices: pd.Series, period: int = 14) -> float:
+        # Wilder's EWM smoothing — matches the vectorised batch pipeline (com = period-1 = α=1/period)
         delta = prices.diff()
-        gain  = delta.where(delta > 0, 0).rolling(period).mean()
-        loss  = (-delta.where(delta < 0, 0)).rolling(period).mean()
+        gain  = delta.clip(lower=0).ewm(com=period - 1, adjust=False).mean()
+        loss  = (-delta.clip(upper=0)).ewm(com=period - 1, adjust=False).mean()
         rs    = gain / loss
         rsi   = 100 - (100 / (1 + rs))
         return float(rsi.iloc[-1])
@@ -1255,6 +1300,9 @@ class AmaraBot:
         self.today           = datetime.now().strftime("%Y-%m-%d")
         self.previous_context = previous_context   # prior-run markdown for Claude context
         self._run_decisions  = []                  # collects every buy/sell/skip this run
+        # Snapshot unrealized P&L at session start so daily limit only counts
+        # intraday deterioration, not accumulated losses from prior days.
+        self._session_start_unrealized = self.logger.get_unrealized_pnl()
 
         # Alpaca trading client (order execution)
         self.trading = None
@@ -1292,15 +1340,18 @@ class AmaraBot:
 
     # ── Risk limits ────────────────────────────────────────────────────────
     def check_daily_limits(self) -> bool:
-        # Include unrealized losses — open positions bleeding money count against the limit
-        today_pnl    = self.logger.get_today_pnl()
-        unrealized   = self.logger.get_unrealized_pnl()
-        combined     = today_pnl + unrealized
-        daily_limit  = -CONFIG["TOTAL_CAPITAL"] * CONFIG["DAILY_LOSS_LIMIT_PCT"]
+        # Realized P&L from positions closed today
+        today_pnl       = self.logger.get_today_pnl()
+        # Only count the CHANGE in unrealized since session start — prevents old
+        # multi-day floating losses from eating into today's daily limit.
+        unrealized_now   = self.logger.get_unrealized_pnl()
+        unrealized_delta = unrealized_now - self._session_start_unrealized
+        combined    = today_pnl + unrealized_delta
+        daily_limit = -CONFIG["TOTAL_CAPITAL"] * CONFIG["DAILY_LOSS_LIMIT_PCT"]
         if combined <= daily_limit:
             log.warning(
                 f"🚨 Daily loss limit hit — realized ${today_pnl:+,.2f} + "
-                f"unrealized ${unrealized:+,.2f} = ${combined:+,.2f} USD. No new trades."
+                f"unrealized change ${unrealized_delta:+,.2f} = ${combined:+,.2f} USD. No new trades."
             )
             self.daily_stopped = True
             return False
@@ -1579,8 +1630,11 @@ class AmaraBot:
             (mom5_ok.astype(int)     * 10)     # short-term velocity: +2% over 5d   (10 pts)
         ).where(valid, other=0)
 
-        # ── Step 4: Filter — score ≥ 60 ──────────────────────────────────
-        qualifying = valid & (score_all >= 60)
+        # ── Step 4: Filter — score ≥ 60 AND volume surge required ───────
+        # vol_surge is the primary conviction signal — a stock can score 65/100
+        # without it (RSI 30 + MA20 25 + mom5 10), so we enforce it as a hard
+        # gate rather than letting it remain optional via the score alone.
+        qualifying = valid & (score_all >= 60) & vol_surge
 
         pct_above_ma20 = ((last_close - last_ma20) / last_ma20 * 100).where(qualifying)
 
@@ -1629,6 +1683,21 @@ class AmaraBot:
             mom5       = (current_price - p5ago) / p5ago * 100
             prev_close = float(close_ser.iloc[-2]) if len(close_ser) > 1 else current_price
             daily_pct  = (current_price - prev_close) / prev_close * 100
+
+            # ── Gap-up filter ─────────────────────────────────────────────
+            # Scoring is based on yesterday's candle. If price has already
+            # gapped up >3% from yesterday's close, the setup is stale and
+            # we'd be paying a premium into a move that's already happened.
+            gap_pct = (current_price - float(close_ser.iloc[-1])) / float(close_ser.iloc[-1]) * 100
+            if gap_pct > 3.0:
+                log.info(f"  {symbol}: skipped — gap up {gap_pct:.1f}% from yesterday's close (>3% threshold)")
+                self.logger.log_scan_result(
+                    symbol=symbol, score=score, rsi=rsi, volume_ratio=vol_ratio,
+                    tech_signal=True, sent_to_claude=False, claude_approved=False,
+                    claude_reason=f"跳空開高 {gap_pct:.1f}% — 超過 3% 門檻，訊號已過時，跳過",
+                    reasons=reasons, momentum_5d_pct=mom5, current_price=current_price
+                )
+                continue
 
             asset_type = ASSET_TYPE.get(symbol, "large")
             tier_label = "[LARGE]" if asset_type == "large" else "[MID]"
@@ -1705,6 +1774,21 @@ class AmaraBot:
             })
 
             if approved and can_buy:
+                # ── Sector concentration check ────────────────────────────
+                sector = SECTOR_MAP.get(symbol)
+                if sector:
+                    sector_count = sum(
+                        1 for p in self.logger.get_open_positions()
+                        if SECTOR_MAP.get(p["symbol"]) == sector
+                    )
+                    if sector_count >= MAX_SECTOR_POSITIONS:
+                        log.info(
+                            f"  {symbol}: skipped — sector '{sector}' already has "
+                            f"{sector_count}/{MAX_SECTOR_POSITIONS} positions"
+                        )
+                        self._run_decisions[-1]["action"] = f"🟡 SKIP (sector cap: {sector})"
+                        continue
+
                 self._open_position(
                     symbol, current_price, analysis,
                     daily_pct=daily_pct,
@@ -1728,7 +1812,9 @@ class AmaraBot:
             if close_ser.empty:
                 continue
 
-            current_price = float(close_ser.iloc[-1])
+            # Use real-time price for hold reviews (same as entry scanning) so
+            # intraday moves against the position are reflected immediately.
+            current_price = float(real_price[symbol]) if symbol in real_price.index else float(close_ser.iloc[-1])
             rsi_hold      = (float(last_rsi[symbol])
                              if symbol in last_rsi.index and not pd.isna(last_rsi[symbol])
                              else TechnicalAnalysis.calculate_rsi(close_ser))
@@ -1978,7 +2064,7 @@ class AmaraBot:
                     ))
                     for order in sorted(
                         orders,
-                        key=lambda o: o.filled_at or o.updated_at or datetime.min,
+                        key=lambda o: o.filled_at or o.updated_at or datetime.min.replace(tzinfo=timezone.utc),
                         reverse=True
                     ):
                         if (order.side == OrderSide.SELL and
@@ -2094,10 +2180,9 @@ class AmaraBot:
         if not CONFIG.get("LINE_CHANNEL_ACCESS_TOKEN") or not CONFIG.get("LINE_USER_IDS"):
             return
 
-        import pytz as _pytz
-        _tz      = _pytz.timezone("Asia/Taipei")
-        _now_tw  = datetime.now(_tz)
-        today_str    = _now_tw.strftime("%Y-%m-%d")
+        # entry_date / exit_date are stored using machine local time (datetime.now()),
+        # so filter against machine local today — not TW time — to avoid missing trades.
+        today_str     = datetime.now().strftime("%Y-%m-%d")
         all_positions = self.logger.data["positions"]
         open_pos     = self.logger.get_open_positions()
         unrealized   = self.logger.get_unrealized_pnl()
