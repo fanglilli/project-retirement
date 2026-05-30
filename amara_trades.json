@@ -20,7 +20,7 @@
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
       "last_price": 30.78,
-      "last_checked": "2026-05-30 00:39"
+      "last_checked": "2026-05-30 02:15"
     },
     {
       "symbol": "ANF",
@@ -58,7 +58,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 208.04,
-      "last_checked": "2026-05-30 00:39"
+      "last_checked": "2026-05-30 02:15"
     },
     {
       "symbol": "POWI",
@@ -77,7 +77,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 83.94,
-      "last_checked": "2026-05-30 00:39"
+      "last_checked": "2026-05-30 02:15"
     },
     {
       "symbol": "NTNX",
@@ -138,7 +138,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 861.94,
-      "last_checked": "2026-05-30 00:39"
+      "last_checked": "2026-05-30 02:15"
     },
     {
       "symbol": "KFRC",
@@ -159,7 +159,45 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 46.95,
-      "last_checked": "2026-05-30 00:39"
+      "last_checked": "2026-05-30 02:15"
+    },
+    {
+      "symbol": "ANF",
+      "entry_price": 82.39,
+      "entry_date": "2026-05-30",
+      "shares": 72.824371889,
+      "cost_usd": 5999.99999993471,
+      "stop_loss_price": 78.27,
+      "take_profit_price": 90.63,
+      "status": "closed",
+      "exit_price": 77.2,
+      "exit_date": "2026-05-30 02:15",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -377.95849010390987,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
+    },
+    {
+      "symbol": "NTNX",
+      "entry_price": 46.86,
+      "entry_date": "2026-05-30",
+      "shares": 128.040973111,
+      "cost_usd": 5999.99999998146,
+      "stop_loss_price": 44.52,
+      "take_profit_price": 51.55,
+      "status": "closed",
+      "exit_price": 52.075,
+      "exit_date": "2026-05-30 02:15",
+      "exit_reason": "固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單）",
+      "pnl_usd": 667.7336747738655,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2335,8 +2373,8 @@
   ],
   "total_capital_usd": 100000,
   "cash_available": 52887.52,
-  "portfolio_value": 99664.02,
-  "buying_power": 152551.54,
+  "portfolio_value": 99679.28,
+  "buying_power": 152566.8,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
