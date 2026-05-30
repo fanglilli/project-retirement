@@ -12,7 +12,7 @@
     .meta { font-size: 0.72rem; color: #9ca3af; margin-bottom: 16px; }
     .badge-mode { display:inline-block; padding:3px 10px; border-radius:6px; font-size:.72rem; font-weight:700; background:#dbeafe; color:#1d4ed8; margin-left:10px; vertical-align:middle; }
     .hero { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:22px; margin-bottom:16px; text-align:center; box-shadow:0 1px 3px rgba(0,0,0,.06); }
-    .hero .big { font-size:2.8rem; font-weight:800; color:#dc2626; line-height:1; }
+    .hero .big { font-size:2.8rem; font-weight:800; color:#16a34a; line-height:1; }
     .hero .sub { font-size:.82rem; color:#6b7280; margin-top:6px; }
     .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:14px; margin-bottom:8px; box-shadow:0 1px 2px rgba(0,0,0,.04); }
     .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
@@ -77,11 +77,11 @@
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">模擬盤</span></h1>
-  <p class="meta">更新時間：2026-05-30 10:15:44 台灣時間 · 每 5 分鐘自動刷新</p>
+  <p class="meta">更新時間：2026-05-30 11:52:03 台灣時間 · 每 5 分鐘自動刷新</p>
 
   <div class="hero">
-    <div class="big">$29.48</div>
-    <div class="sub">累計損益（含未實現）&nbsp;·&nbsp; 0.03%</div>
+    <div class="big">+$260.30</div>
+    <div class="sub">累計損益（含未實現）&nbsp;·&nbsp; +0.26%</div>
   </div>
 
   <details open>
@@ -90,8 +90,8 @@
       <div class="stat-grid">
         <div><label>可用現金</label><val>$52,887.52</val></div>
         <div><label>資產總值</label><val>$99,679.28</val></div>
-        <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-29.48</val></div>
-        <div><label>勝率</label><val>2/5 (40%)</val></div>
+        <div><label>今日損益（含未實現）</label><val style="color:#16a34a">+$260.30</val></div>
+        <div><label>勝率</label><val>3/7 (43%)</val></div>
         <div><label>持倉中</label><val>5 筆</val></div>
         <div><label>監控股票</label><val>150 檔</val></div>
       </div>
@@ -520,6 +520,24 @@
             </div>
             <div class="card hist-card">
               <div class="hist-header">
+                <span class="symbol">NTNX</span>
+                <span class="badge win">獲利</span>
+                <span class="hist-pnl" style="color:#16a34a">$+667.73</span>
+              </div>
+              <div class="hist-detail">$46.86 → $52.08 &nbsp;·&nbsp; 2026-05-30</div>
+              <div class="reason">固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單）</div>
+            </div>
+            <div class="card hist-card">
+              <div class="hist-header">
+                <span class="symbol">ANF</span>
+                <span class="badge loss">虧損</span>
+                <span class="hist-pnl" style="color:#dc2626">$-377.96</span>
+              </div>
+              <div class="hist-detail">$82.39 → $77.20 &nbsp;·&nbsp; 2026-05-30</div>
+              <div class="reason">硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）</div>
+            </div>
+            <div class="card hist-card">
+              <div class="hist-header">
                 <span class="symbol">AEO</span>
                 <span class="badge loss">虧損</span>
                 <span class="hist-pnl" style="color:#dc2626">$-1,112.48</span>
@@ -554,13 +572,13 @@
             <div class="stat-grid">
               <div><label>SPY 起始價</label><val>$750.46（2026-05-27）</val></div>
               <div><label>SPY 現價</label><val>$755.95（+0.73%）</val></div>
-              <div><label>我們的報酬</label><val style="color:#dc2626">-0.03%</val></div>
+              <div><label>我們的報酬</label><val style="color:#16a34a">+0.26%</val></div>
               <div><label>挑戰狀態</label><val>❌ 落後 S&P — 第 4/14 天</val></div>
             </div>
           </div>
         </details>
 
-  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-05-30 10:15:44</p>
+  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-05-30 11:52:03</p>
 
   <script>
     function sortCards(listId, key, btn) {
