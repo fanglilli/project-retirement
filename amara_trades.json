@@ -19,8 +19,8 @@
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.1,
-      "last_checked": "2026-05-28 19:51"
+      "last_price": 30.78,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "ANF",
@@ -30,16 +30,16 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 78.27,
       "take_profit_price": 90.63,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 77.2,
+      "exit_date": "2026-05-30 00:39",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -377.95849010390987,
       "daily_pct_at_entry": 10.04,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 81.83,
-      "last_checked": "2026-05-28 19:51"
+      "last_price": 76.96,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "MS",
@@ -57,8 +57,8 @@
       "daily_pct_at_entry": -0.01,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 204.16,
-      "last_checked": "2026-05-28 19:51"
+      "last_price": 208.04,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "POWI",
@@ -76,8 +76,8 @@
       "daily_pct_at_entry": 4.16,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 87.39,
-      "last_checked": "2026-05-28 19:51"
+      "last_price": 83.94,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "NTNX",
@@ -87,16 +87,16 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 44.52,
       "take_profit_price": 51.55,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 52.075,
+      "exit_date": "2026-05-30 00:39",
+      "exit_reason": "固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單）",
+      "pnl_usd": 667.7336747738655,
       "daily_pct_at_entry": 0.79,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 49.34,
-      "last_checked": "2026-05-28 19:51"
+      "last_price": 52.24,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "AEO",
@@ -106,11 +106,11 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 17.46,
       "take_profit_price": 20.22,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 14.97,
+      "exit_date": "2026-05-30 00:39",
+      "exit_reason": "同步：Alpaca 原生委託成交 @ $14.97",
+      "pnl_usd": -1112.48,
       "daily_pct_at_entry": 4.67,
       "volume_ratio": 1.77,
       "pct_above_ma20": 12.22,
@@ -136,7 +136,9 @@
       "volume_ratio": 1.54,
       "pct_above_ma20": 10.13,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 861.94,
+      "last_checked": "2026-05-30 00:39"
     },
     {
       "symbol": "KFRC",
@@ -155,7 +157,9 @@
       "volume_ratio": 1.82,
       "pct_above_ma20": 5.94,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 46.95,
+      "last_checked": "2026-05-30 00:39"
     }
   ],
   "daily_stats": [],
@@ -2330,14 +2334,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 60000.0,
-  "portfolio_value": 100036.64,
-  "buying_power": 160036.64,
+  "cash_available": 52887.52,
+  "portfolio_value": 99664.02,
+  "buying_power": 152551.54,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 754.76,
+    "current_price": 755.95,
     "goal_days": 14
   }
 }
