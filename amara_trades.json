@@ -19,8 +19,8 @@
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.11,
-      "last_checked": "2026-06-01 13:37"
+      "last_price": 29.92,
+      "last_checked": "2026-06-01 15:05"
     },
     {
       "symbol": "ANF",
@@ -57,8 +57,8 @@
       "daily_pct_at_entry": -0.01,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 208.04,
-      "last_checked": "2026-06-01 13:37"
+      "last_price": 209.8,
+      "last_checked": "2026-06-01 15:05"
     },
     {
       "symbol": "POWI",
@@ -68,16 +68,16 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 83.31,
       "take_profit_price": 96.47,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 81.93,
+      "exit_date": "2026-06-01 15:05",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -394.75484606446975,
       "daily_pct_at_entry": 4.16,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 84.05,
-      "last_checked": "2026-06-01 13:37"
+      "last_price": 82.14,
+      "last_checked": "2026-06-01 15:05"
     },
     {
       "symbol": "NTNX",
@@ -137,8 +137,8 @@
       "pct_above_ma20": 10.13,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 859.34,
-      "last_checked": "2026-06-01 13:37"
+      "last_price": 844.27,
+      "last_checked": "2026-06-01 15:05"
     },
     {
       "symbol": "KFRC",
@@ -158,8 +158,8 @@
       "pct_above_ma20": 5.94,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 47.12,
-      "last_checked": "2026-06-01 13:37"
+      "last_price": 47.55,
+      "last_checked": "2026-06-01 15:05"
     },
     {
       "symbol": "ANF",
@@ -2521,17 +2521,93 @@
       "reasons": [],
       "momentum_5d_pct": 17.35,
       "current_price": 859.34
+    },
+    {
+      "timestamp": "2026-06-01 15:05",
+      "date": "2026-06-01",
+      "symbol": "MS",
+      "score": 35,
+      "rsi": 75.6,
+      "volume_ratio": 0.51,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "MS目前上漲4.1%，距離停利目標僅剩2.8%，動能持續但RSI已達75.6，進入超買區域，短線回調風險上升。成交量僅0.5倍屬偏低，顯示此波上漲缺乏量能支撐，突破力道存疑，需警惕假突破風險。建議密切關注$209-210區間能否維持，若價格出現回落且量能未能放大，應考慮提前鎖定獲利，避免錯失目前已有的浮盈。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.4,
+      "current_price": 209.8
+    },
+    {
+      "timestamp": "2026-06-01 15:05",
+      "date": "2026-06-01",
+      "symbol": "AXTA",
+      "score": 65,
+      "rsi": 56.5,
+      "volume_ratio": 0.2,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "AXTA目前下跌3.5%，距止損位僅剩1.6%，原始買入邏輯尚未完全失效，但動能偏弱，5日動能僅2.4%且成交量極低（0.2倍），缺乏買盤支撐令人擔憂。技術評分65分屬中性偏弱，無強烈訊號，目前仍持有係因尚未觸及止損，但再無改善空間有限。建議密切關注$29.44止損線是否被測試，以及是否有成交量放大配合反彈，若持續低量下跌則考慮主動減倉。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 2.4,
+      "current_price": 29.92
+    },
+    {
+      "timestamp": "2026-06-01 15:05",
+      "date": "2026-06-01",
+      "symbol": "STRL",
+      "score": 65,
+      "rsi": 64.2,
+      "volume_ratio": 0.16,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "STRL目前小幅上漲0.5%，RSI為64.2尚未進入超買區間，5日動能達15.3%顯示短期趨勢仍具有相當強度，與原始買入邏輯基本吻合。然而今日成交量倍數僅0.2×，明顯低於平均水準，顯示上漲缺乏量能支撐，需警惕可能的多頭力道衰竭風險。建議持續觀察成交量是否能回升至正常水準，以及RSI是否突破70進入超買區域，若量能持續萎縮而價格停滯，應考量提前評估出場時機。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 15.29,
+      "current_price": 844.27
+    },
+    {
+      "timestamp": "2026-06-01 15:05",
+      "date": "2026-06-01",
+      "symbol": "KFRC",
+      "score": 35,
+      "rsi": 75.2,
+      "volume_ratio": 0.16,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "KFRC目前上漲6.8%，距離止盈目標$48.98僅剩3.0%空間，短期動能強勁（5日動能14.6%），但RSI已達75.2顯示超買狀態，需警惕回調風險。成交量倍數僅0.2×，量能嚴重不足，表示此波上漲缺乏實質買盤支撐，技術評分35分亦反映信號疲弱。建議密切觀察價格能否有效突破並維持在$48.98附近，若出現明顯放量滯漲或跌破短期支撐，應考慮提前鎖利，剩餘持倉天數僅4天需加快決策節奏。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 14.63,
+      "current_price": 47.55
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 62640.58,
-  "portfolio_value": 99726.86,
-  "buying_power": 162367.44,
+  "cash_available": 65286.46,
+  "portfolio_value": 99546.22,
+  "buying_power": 164832.68,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 756.295,
+    "current_price": 755.53,
     "goal_days": 14
   }
 }
