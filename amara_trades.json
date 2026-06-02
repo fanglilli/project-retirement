@@ -19,8 +19,8 @@
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.24,
-      "last_checked": "2026-06-02 13:36"
+      "last_price": 30.66,
+      "last_checked": "2026-06-02 15:05"
     },
     {
       "symbol": "ANF",
@@ -49,16 +49,16 @@
       "cost_usd": 10000.0,
       "stop_loss_price": 194.54,
       "take_profit_price": 215.71,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 216.18,
+      "exit_date": "2026-06-02 15:05",
+      "exit_reason": "固定止盈 +7.0% [LARGE] （Python 備援 — 無原生限價單）",
+      "pnl_usd": 723.2142857117406,
       "daily_pct_at_entry": -0.01,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 215.11,
-      "last_checked": "2026-06-02 13:36"
+      "last_price": 216.2,
+      "last_checked": "2026-06-02 15:05"
     },
     {
       "symbol": "POWI",
@@ -137,8 +137,8 @@
       "pct_above_ma20": 10.13,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 867.85,
-      "last_checked": "2026-06-02 13:36"
+      "last_price": 869.26,
+      "last_checked": "2026-06-02 15:05"
     },
     {
       "symbol": "KFRC",
@@ -158,8 +158,8 @@
       "pct_above_ma20": 5.94,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 48.28,
-      "last_checked": "2026-06-02 13:36"
+      "last_price": 47.72,
+      "last_checked": "2026-06-02 15:05"
     }
   ],
   "daily_stats": [],
@@ -2407,17 +2407,74 @@
       "reasons": [],
       "momentum_5d_pct": 10.74,
       "current_price": 867.85
+    },
+    {
+      "timestamp": "2026-06-02 15:05",
+      "date": "2026-06-02",
+      "symbol": "AXTA",
+      "score": 65,
+      "rsi": 61.7,
+      "volume_ratio": 0.08,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① AXTA目前價格$30.66，較買入價$30.99下跌約1%，5日動能仍維持+2.2%且RSI 61.7尚在健康區間，短期技術面尚未惡化，但成交量萎縮至0.1倍為重大警訊，顯示買盤支撐力道明顯不足。② 無重大負面新聞，但量能極度低迷意味市場對此股興趣缺缺，若持續無量則反彈動能難以形成；現已持倉6天且剩餘最多2天，時間成本壓力升高。③ 建議密切觀察明日是否出現量能回升（至少0.8倍以上）配合價格站回$30.99買入價，若無法回升則考慮於第8天到期前主動出場以控制機會成本。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 2.18,
+      "current_price": 30.66
+    },
+    {
+      "timestamp": "2026-06-02 15:05",
+      "date": "2026-06-02",
+      "symbol": "KFRC",
+      "score": 65,
+      "rsi": 73.5,
+      "volume_ratio": 0.09,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "KFRC目前漲幅達7.2%，距離止盈目標$48.98僅剩2.7%空間，原始買入邏輯（成交量放大+動能強勁）在當前仍部分成立，但今日成交量倍數驟降至0.1×，顯示買盤動能明顯減弱。RSI已升至73.5進入超買區間，需警惕短期回調風險，尤其在成交量萎縮的情況下，上漲缺乏持續動力支撐。建議重點觀察成交量能否回升至正常水平以及RSI是否持續走高，若股價接近$48.98止盈位應考慮主動了結，勿因貪婪錯失獲利機會。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 14.62,
+      "current_price": 47.72
+    },
+    {
+      "timestamp": "2026-06-02 15:06",
+      "date": "2026-06-02",
+      "symbol": "STRL",
+      "score": 65,
+      "rsi": 66.3,
+      "volume_ratio": 0.2,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① STRL 目前上漲 3.5%，5 日動能達 10.9%，與原始買入邏輯一致，技術分數 65 分維持中性偏多格局，距離止盈目標 $924.13 仍有 6.3% 空間，持有邏輯尚未破壞。② 主要警示訊號為成交量驟降至 0.2 倍，表示買盤動能明顯衰退，RSI 66.3 接近超買區間，若無量上漲則反彈可持續性存疑。③ 建議密切觀察後續交易日是否出現放量突破，若成交量持續萎縮且價格無法維持在均線上方，應考慮提前鎖利；另需注意還有 3 天至最大持倉期限，應設定時間停損紀律。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 10.92,
+      "current_price": 869.26
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 70891.66,
-  "portfolio_value": 99942.78,
-  "buying_power": 170834.44,
+  "portfolio_value": 100221.7,
+  "buying_power": 171113.36,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 757.39,
+    "current_price": 759.41,
     "goal_days": 14
   }
 }
