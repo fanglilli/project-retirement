@@ -63,7 +63,7 @@ CONFIG = {
     # Portfolio limits
     "TOTAL_CAPITAL": 100000,
     "MAX_POSITION_PCT": 0.10,       # used to calculate max simultaneous positions (10 slots)
-    "MAX_HOLD_DAYS": 8,          # calendar days (≈ 5–6 trading days); raise to 12 for ~8 trading days
+    "MAX_HOLD_DAYS": 5,          # calendar days (≈ 3–4 trading days); faster turnover cuts stale losers
     "DAILY_LOSS_LIMIT_PCT": 0.05,
     "TOTAL_LOSS_LIMIT_PCT": 0.30,
 
@@ -84,7 +84,7 @@ CONFIG = {
     "VOLUME_SURGE_FACTOR":  1.5,    # Volume must be >= 1.5× 20-day average
 
     # Scanning
-    "TOP_CANDIDATES": 5,           # only top-N momentum stocks go to Claude
+    "TOP_CANDIDATES": 8,           # only top-N momentum stocks go to Claude
     "LOG_FILE": os.path.join(_SCRIPT_DIR, "amara.log"),
     "TRADES_FILE": os.path.join(_SCRIPT_DIR, "amara_trades.json"),
 
@@ -1442,6 +1442,44 @@ class AmaraBot:
                 self._close_position(pos, current_price, f"持倉達上限（{hold_days}天）")
                 continue
 
+            # ── Breakeven stop: once up ≥ 4%, move hard stop to entry ────────
+            BREAKEVEN_TRIGGER = 0.04
+            if (pnl_pct >= BREAKEVEN_TRIGGER
+                    and pos["stop_loss_price"] < pos["entry_price"]):
+                new_stop = round(pos["entry_price"] * 1.001, 2)   # just above entry to cover fees
+                log.info(
+                    f"  {symbol}: ✅ up {pnl_pct*100:.1f}% — moving stop from "
+                    f"${pos['stop_loss_price']:.2f} → breakeven ${new_stop:.2f}"
+                )
+                self.logger.update_position(symbol, {"stop_loss_price": new_stop})
+                pos["stop_loss_price"] = new_stop   # keep local copy in sync for this loop
+
+                # Replace the native Alpaca stop order
+                if self.trading:
+                    old_stop_id = pos.get("stop_order_id", "")
+                    if old_stop_id:
+                        try:
+                            self.trading.cancel_order_by_id(old_stop_id)
+                            log.info(f"  {symbol}: 🗑️ Cancelled old stop order {old_stop_id}")
+                        except Exception as e:
+                            log.warning(f"  {symbol}: ⚠️ Could not cancel old stop: {e}")
+                    try:
+                        from alpaca.trading.requests import StopOrderRequest
+                        from alpaca.trading.enums   import OrderSide, TimeInForce
+                        new_stop_ord = self.trading.submit_order(
+                            StopOrderRequest(
+                                symbol=symbol,
+                                qty=round(float(pos.get("shares", 0)), 4),
+                                side=OrderSide.SELL,
+                                time_in_force=TimeInForce.GTC,
+                                stop_price=new_stop,
+                            )
+                        )
+                        self.logger.update_position(symbol, {"stop_order_id": str(new_stop_ord.id)})
+                        log.info(f"  {symbol}: 🛡️ New breakeven stop placed @ ${new_stop:.2f} (order {new_stop_ord.id})")
+                    except Exception as e:
+                        log.warning(f"  {symbol}: ⚠️ Could not place breakeven stop: {e}")
+
             log.info(f"  {symbol}: ${current_price:.2f} | {pnl_pct*100:+.1f}% | {hold_days}d held")
             self.logger.update_position(symbol, {
                 "last_price":   round(current_price, 2),
@@ -1695,7 +1733,7 @@ class AmaraBot:
                     symbol=symbol, score=score, rsi=rsi, volume_ratio=vol_ratio,
                     tech_signal=True, sent_to_claude=False, claude_approved=False,
                     claude_reason=f"跳空開高 {gap_pct:.1f}% — 超過 3% 門檻，訊號已過時，跳過",
-                    reasons=reasons, momentum_5d_pct=mom5, current_price=current_price
+                    reasons=[], momentum_5d_pct=mom5, current_price=current_price
                 )
                 continue
 
@@ -1842,20 +1880,61 @@ class AmaraBot:
             asset_type  = ASSET_TYPE.get(symbol, "large")
             news_hours  = 48 if asset_type == "large" else 72
             news        = self.market.get_news(symbol, hours=news_hours, limit=3)
+
+            # ── Volume decay tracker ──────────────────────────────────────────
+            # If volume stays below 0.5× average for 2 consecutive hold reviews,
+            # momentum has clearly evaporated — exit regardless of Claude.
+            LOW_VOL_THRESHOLD = 0.5
+            LOW_VOL_EXIT_RUNS  = 2
+            current_low_vol_runs = pos_data.get("low_vol_runs", 0)
+            if vol_hold < LOW_VOL_THRESHOLD:
+                current_low_vol_runs += 1
+            else:
+                current_low_vol_runs = 0   # reset streak on any healthy volume
+            self.logger.update_position(symbol, {"low_vol_runs": current_low_vol_runs})
+
+            if current_low_vol_runs >= LOW_VOL_EXIT_RUNS:
+                vol_exit_reason = (
+                    f"成交量連續 {current_low_vol_runs} 次低於 0.5 倍均量 "
+                    f"（最近 {vol_hold:.2f}×） — 動能衰竭出場"
+                )
+                log.warning(f"  {symbol}: 📉 Volume decay exit triggered — {vol_exit_reason}")
+                self.logger.log_scan_result(
+                    symbol=symbol, score=score_hold, rsi=rsi_hold,
+                    volume_ratio=vol_hold, tech_signal=False,
+                    sent_to_claude=False, hold_review=True,
+                    claude_approved=False,
+                    claude_reason=vol_exit_reason,
+                    confidence=0, reasons=[], momentum_5d_pct=mom5,
+                    current_price=current_price
+                )
+                self._close_position(pos_data, current_price, vol_exit_reason)
+                continue
+
             hold_result = self.claude.review_hold(
                 symbol, pos_data, tech_for_hold, news=news,
                 previous_context=self.previous_context
             )
+            claude_hold      = hold_result.get("hold", True)
+            claude_conf      = hold_result.get("confidence", 0)
+            claude_analysis  = hold_result.get("analysis", "—")
+
             self.logger.log_scan_result(
                 symbol=symbol, score=score_hold, rsi=rsi_hold,
                 volume_ratio=vol_hold, tech_signal=False,
                 sent_to_claude=True, hold_review=True,
-                claude_approved=hold_result.get("hold", True),
-                claude_reason=hold_result.get("analysis", "—"),
-                confidence=hold_result.get("confidence", 0),
+                claude_approved=claude_hold,
+                claude_reason=claude_analysis,
+                confidence=claude_conf,
                 reasons=[], momentum_5d_pct=mom5,
                 current_price=current_price
             )
+
+            # ── Actionable exit: Claude says sell with high confidence ────────
+            if not claude_hold and claude_conf >= 7:
+                exit_reason = f"Claude 建議出場（信心 {claude_conf}/10）：{claude_analysis[:100]}"
+                log.warning(f"  {symbol}: 🤖 Claude hold=False conf={claude_conf} — closing position")
+                self._close_position(pos_data, current_price, exit_reason)
 
     def _open_position(self, symbol: str, price: float, analysis: dict,
                        daily_pct: float = 0.0, volume_ratio: float = 0.0, pct_above_ma20: float = 0.0):
@@ -2167,12 +2246,12 @@ class AmaraBot:
         import pytz
         tz     = pytz.timezone("Asia/Taipei")
         now_tw = datetime.now(tz)
-        gate_open  = now_tw.replace(hour=3, minute=45, second=0, microsecond=0)
-        gate_close = now_tw.replace(hour=4, minute=30, second=0, microsecond=0)
+        gate_open  = now_tw.replace(hour=3, minute=30, second=0, microsecond=0)
+        gate_close = now_tw.replace(hour=5, minute=0,  second=0, microsecond=0)
         if not (gate_open <= now_tw <= gate_close):
             log.info(
                 f"🔕 LINE notification suppressed — TW time is "
-                f"{now_tw.strftime('%H:%M')} (outside 03:45–04:30 window). "
+                f"{now_tw.strftime('%H:%M')} (outside 03:30–05:00 window). "
                 f"Only the pre-close run fires LINE."
             )
             return
@@ -2204,7 +2283,7 @@ class AmaraBot:
             port_pnl_pct = total_pnl / capital * 100
             beating      = port_pnl_pct > spy_ret
             try:
-                days_in = (_now_tw.date() - datetime.strptime(bm["start_date"], "%Y-%m-%d").date()).days + 1
+                days_in = (now_tw.date() - datetime.strptime(bm["start_date"], "%Y-%m-%d").date()).days + 1
             except Exception:
                 days_in = 1
             beat_str = "✅ 正在贏" if beating else "❌ 落後"
