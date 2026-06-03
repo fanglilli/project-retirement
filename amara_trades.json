@@ -160,6 +160,25 @@
       "take_profit_order_id": "",
       "last_price": 47.095,
       "last_checked": "2026-06-03 13:36"
+    },
+    {
+      "symbol": "AXTA",
+      "entry_price": 31.23,
+      "entry_date": "2026-06-03",
+      "shares": 192.122958693,
+      "cost_usd": 6000.0,
+      "stop_loss_price": 29.67,
+      "take_profit_price": 34.35,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 2.72,
+      "volume_ratio": 1.53,
+      "pct_above_ma20": 7.41,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2464,6 +2483,30 @@
       "reasons": [],
       "momentum_5d_pct": 10.92,
       "current_price": 869.26
+    },
+    {
+      "timestamp": "2026-06-03 18:04",
+      "date": "2026-06-03",
+      "symbol": "AXTA",
+      "score": 100,
+      "rsi": 64.7,
+      "volume_ratio": 1.53,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① AXTA技術面表現全面強勁，技術評分滿分100分，RSI 64.7處於動能區間，股價較20日均線高出7.4%，5日動能達+2.9%，成交量放大至1.5倍均量，顯示資金持續介入。② 本次無新聞催化劑，屬純技術面驅動，缺乏基本面事件確認，信心略受限制，但技術訊號本身一致性高。③ 風險報酬比為1:2（止損-5% vs 止盈+10%），整體配置合理，短線動能架構有利於3-5日持有策略。④ 主要下行風險在於股價已高於均線7.4%，短期獲利回吐壓力較大，且無消息面支撐，若大盤出現回檔則個股易受拖累跌破止損位。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 64.7 in momentum zone (55–75) +30pts",
+        "Price $31.21 above 20-MA ($29.06) +25pts",
+        "5-day momentum +2.9% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 2.87,
+      "current_price": 31.21
     }
   ],
   "total_capital_usd": 100000,
@@ -2474,7 +2517,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 754.12,
+    "current_price": 755.58,
     "goal_days": 14
   }
 }
