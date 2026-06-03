@@ -19,8 +19,8 @@
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.66,
-      "last_checked": "2026-06-02 15:05"
+      "last_price": 30.39,
+      "last_checked": "2026-06-03 00:38"
     },
     {
       "symbol": "ANF",
@@ -137,8 +137,8 @@
       "pct_above_ma20": 10.13,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 869.26,
-      "last_checked": "2026-06-02 15:05"
+      "last_price": 876.04,
+      "last_checked": "2026-06-03 00:38"
     },
     {
       "symbol": "KFRC",
@@ -158,8 +158,8 @@
       "pct_above_ma20": 5.94,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 47.72,
-      "last_checked": "2026-06-02 15:05"
+      "last_price": 47.95,
+      "last_checked": "2026-06-03 00:38"
     }
   ],
   "daily_stats": [],
@@ -2467,14 +2467,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 70891.66,
-  "portfolio_value": 100221.7,
-  "buying_power": 171113.36,
+  "cash_available": 81614.87,
+  "portfolio_value": 99913.63,
+  "buying_power": 181528.5,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 759.41,
+    "current_price": 760.0,
     "goal_days": 14
   }
 }
