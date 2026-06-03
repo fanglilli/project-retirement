@@ -407,9 +407,15 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     # ── 持倉中 ────────────────────────────────────────────────────────────────
     lines.append("## 📋 持倉中")
     lines.append("")
+    # Build hold note lookup for markdown dashboard
+    _hold_notes_md: dict = {}
+    for _s in data.get("scan_log", []):
+        if _s.get("hold_review") and _s.get("claude_reason"):
+            _hold_notes_md[_s["symbol"]] = _s["claude_reason"]
+
     if open_pos:
-        lines.append("| 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 |")
-        lines.append("|:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|")
+        lines.append("| 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 | Claude 審查 |")
+        lines.append("|:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|:------------|")
         for pos in open_pos:
             last      = pos.get("last_price") or pos["entry_price"]
             pct       = (last - pos["entry_price"]) / pos["entry_price"] * 100
@@ -417,11 +423,13 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
             hold_days = (now.date() - datetime.strptime(pos["entry_date"], "%Y-%m-%d").date()).days + 1
             vol_r     = pos.get("volume_ratio", 0)
             ma_pct    = pos.get("pct_above_ma20", 0)
+            note      = (_hold_notes_md.get(pos["symbol"]) or "—").replace("|", "\\|").replace("\n", " ")
+            note      = note[:120] + ("…" if len(note) > 120 else "")
             lines.append(
                 f"| **{pos['symbol']}** | ${pos['entry_price']:.2f} | ${last:.2f} | "
                 f"{sign} {pct:+.1f}% | {hold_days} 天 | "
                 f"{vol_r:.1f}× | {ma_pct:+.1f}% | "
-                f"${pos['cost_usd']:,.0f} |"
+                f"${pos['cost_usd']:,.0f} | {note} |"
             )
     else:
         lines.append("*目前無持倉。*")
@@ -454,8 +462,10 @@ def write_amara_dashboard(bot: "AmaraBot") -> None:
     lines.append("")
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
+    _open_syms_md = {p["symbol"] for p in open_pos}
     today_scans  = [s for s in scan_log if s.get("date") == today_str]
     raw_scans    = today_scans if today_scans else scan_log[-40:]
+    raw_scans    = [s for s in raw_scans if not (s.get("hold_review") and s["symbol"] not in _open_syms_md)]
     display_scans = sorted(raw_scans, key=lambda s: s.get("score", 0), reverse=True)[:20]
 
     if display_scans:
@@ -558,6 +568,12 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     pnl_sign       = "+" if port_pnl >= 0 else ""
 
     # ── 持倉卡片 ──────────────────────────────────────────────────────────────
+    # Build a lookup: symbol → most recent hold review note from scan_log
+    _hold_notes: dict = {}
+    for _s in data.get("scan_log", []):
+        if _s.get("hold_review") and _s.get("claude_reason"):
+            _hold_notes[_s["symbol"]] = _s["claude_reason"]   # last entry wins (log is appended)
+
     if open_pos:
         pos_rows = ""
         for pos in open_pos:
@@ -567,6 +583,11 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
             hold_days = (now.date() - datetime.strptime(pos["entry_date"], "%Y-%m-%d").date()).days + 1
             vol_r     = pos.get("volume_ratio", 0)
             ma_pct    = pos.get("pct_above_ma20", 0)
+            hold_note = _hold_notes.get(pos["symbol"], "")
+            hold_note_html = (
+                f'<p class="hold-note">🤖 {hold_note[:250]}{"…" if len(hold_note) > 250 else ""}</p>'
+                if hold_note else ""
+            )
             pos_rows += f"""
             <div class="card pos-card">
               <div class="pos-header">
@@ -581,6 +602,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
                 <div><label>投入金額</label><val>${pos['cost_usd']:,.0f}</val></div>
                 <div><label>持倉天數</label><val>{hold_days} 天</val></div>
               </div>
+              {hold_note_html}
             </div>"""
         open_section = f'<div class="pos-list">{pos_rows}</div>'
     else:
@@ -613,8 +635,11 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     # ── 掃描結果（依評分排序，可點擊切換）───────────────────────────────────
     today_str    = now.strftime("%Y-%m-%d")
     scan_log     = data.get("scan_log", [])
+    _open_syms   = {p["symbol"] for p in open_pos}
     today_scans  = [s for s in scan_log if s.get("date") == today_str]
     raw_scans    = today_scans if today_scans else scan_log[-40:]
+    # Exclude hold-review entries for symbols that are now closed — prevents stale 持倉審查 showing
+    raw_scans    = [s for s in raw_scans if not (s.get("hold_review") and s["symbol"] not in _open_syms)]
     display_scans = sorted(raw_scans, key=lambda x: x.get("score", 0), reverse=True)[:20]
 
     if display_scans:
@@ -807,6 +832,7 @@ def write_dashboard_html(bot: "AmaraBot") -> None:
     .fw-divider {{ border-top:1px solid #e5e7eb; margin:10px 0; }}
     .fw-scoring-title {{ font-size:.75rem; font-weight:700; color:#6b7280; text-transform:uppercase; letter-spacing:.05em; margin-bottom:8px; }}
     .fw-pts {{ display:inline-block; min-width:44px; background:#eff6ff; color:#1d4ed8; font-size:.72rem; font-weight:700; border-radius:4px; padding:1px 6px; text-align:center; }}
+    .hold-note {{ font-size:.75rem; color:#374151; background:#f9fafb; border-left:3px solid #6b7280; padding:6px 10px; border-radius:0 6px 6px 0; margin-top:10px; line-height:1.5; }}
   </style>
 </head>
 <body>
