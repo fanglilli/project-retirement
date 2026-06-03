@@ -12,15 +12,15 @@
       "trail_stop_price": 29.91,
       "trail_pct": 0.035,
       "peak_price": 30.99,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 31.01,
+      "exit_date": "2026-06-03 13:37",
+      "exit_reason": "持倉達上限（7天）",
+      "pnl_usd": 3.8722168441406053,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 30.39,
-      "last_checked": "2026-06-03 02:15"
+      "last_price": 31.02,
+      "last_checked": "2026-06-03 13:36"
     },
     {
       "symbol": "ANF",
@@ -127,18 +127,18 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 798.11,
       "take_profit_price": 924.13,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 896.935,
+      "exit_date": "2026-06-03 13:38",
+      "exit_reason": "持倉達上限（6天）",
+      "pnl_usd": 405.76346233719954,
       "daily_pct_at_entry": 7.4,
       "volume_ratio": 1.54,
       "pct_above_ma20": 10.13,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 876.04,
-      "last_checked": "2026-06-03 02:15"
+      "last_price": 894.215,
+      "last_checked": "2026-06-03 13:36"
     },
     {
       "symbol": "KFRC",
@@ -148,18 +148,18 @@
       "cost_usd": 6000.0,
       "stop_loss_price": 42.3,
       "take_profit_price": 48.98,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 47.95,
+      "exit_date": "2026-06-03 13:39",
+      "exit_reason": "持倉達上限（6天）",
+      "pnl_usd": 460.81293509916026,
       "daily_pct_at_entry": 3.76,
       "volume_ratio": 1.82,
       "pct_above_ma20": 5.94,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 47.95,
-      "last_checked": "2026-06-03 02:15"
+      "last_price": 47.095,
+      "last_checked": "2026-06-03 13:36"
     }
   ],
   "daily_stats": [],
@@ -2467,14 +2467,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 81614.87,
-  "portfolio_value": 99913.63,
-  "buying_power": 181528.5,
+  "cash_available": 81614.86,
+  "portfolio_value": 100352.62,
+  "buying_power": 181967.48,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 760.0,
+    "current_price": 757.86,
     "goal_days": 14
   }
 }
