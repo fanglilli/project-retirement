@@ -165,11 +165,11 @@
       "cost_usd": 10000.0,
       "stop_loss_price": 567.39,
       "take_profit_price": 629.13,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 597.61,
+      "exit_date": "2026-06-04 16:39",
+      "exit_reason": "同步：Alpaca 原生委託成交 @ $597.61",
+      "pnl_usd": 163.95,
       "daily_pct_at_entry": 1.46,
       "volume_ratio": 1.52,
       "pct_above_ma20": 4.57,
@@ -2414,14 +2414,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 84213.18,
-  "portfolio_value": 100434.53,
-  "buying_power": 369295.43,
+  "cash_available": 100566.77,
+  "portfolio_value": 100566.77,
+  "buying_power": 402267.08,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 752.76,
+    "current_price": 756.79,
     "goal_days": 14
   }
 }
