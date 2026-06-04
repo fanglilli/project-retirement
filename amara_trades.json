@@ -165,19 +165,19 @@
       "cost_usd": 10000.0,
       "stop_loss_price": 567.39,
       "take_profit_price": 629.13,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 597.61,
+      "exit_date": "2026-06-04 15:05",
+      "exit_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.32×） — 動能衰竭出場",
+      "pnl_usd": 163.95394322475977,
       "daily_pct_at_entry": 1.46,
       "volume_ratio": 1.52,
       "pct_above_ma20": 4.57,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 589.07,
-      "last_checked": "2026-06-04 13:37",
-      "low_vol_runs": 1
+      "last_price": 599.0,
+      "last_checked": "2026-06-04 15:05",
+      "low_vol_runs": 2
     }
   ],
   "daily_stats": [],
@@ -2411,17 +2411,36 @@
       "reasons": [],
       "momentum_5d_pct": 9.28,
       "current_price": 589.07
+    },
+    {
+      "timestamp": "2026-06-04 15:05",
+      "date": "2026-06-04",
+      "symbol": "DE",
+      "score": 65,
+      "rsi": 63.7,
+      "volume_ratio": 0.32,
+      "tech_signal": false,
+      "sent_to_claude": false,
+      "hold_review": true,
+      "claude_approved": false,
+      "claude_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.32×） — 動能衰竭出場",
+      "confidence": 0,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 11.12,
+      "current_price": 599.0
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 84213.18,
-  "portfolio_value": 100434.53,
-  "buying_power": 369295.43,
+  "cash_available": 90402.82,
+  "portfolio_value": 100578.25,
+  "buying_power": 381962.15,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 752.76,
+    "current_price": 754.58,
     "goal_days": 14
   }
 }
