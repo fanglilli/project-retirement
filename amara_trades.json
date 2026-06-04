@@ -12,15 +12,15 @@
       "trail_stop_price": 29.91,
       "trail_pct": 0.035,
       "peak_price": 30.99,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 32.235,
+      "exit_date": "2026-06-04 13:37",
+      "exit_reason": "持倉達上限（8天）",
+      "pnl_usd": 239.19308357278518,
       "daily_pct_at_entry": 3.13,
       "stop_order_id": "",
-      "last_price": 31.43,
-      "last_checked": "2026-06-03 19:52"
+      "last_price": 32.22,
+      "last_checked": "2026-06-04 13:36"
     },
     {
       "symbol": "ANF",
@@ -174,7 +174,10 @@
       "volume_ratio": 1.52,
       "pct_above_ma20": 4.57,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 589.07,
+      "last_checked": "2026-06-04 13:37",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -2389,17 +2392,36 @@
       "reasons": [],
       "momentum_5d_pct": 3.58,
       "current_price": 31.43
+    },
+    {
+      "timestamp": "2026-06-04 13:37",
+      "date": "2026-06-04",
+      "symbol": "DE",
+      "score": 65,
+      "rsi": 60.7,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前RSI 60.7與買入時相近，5日動能仍有9.3%，但技術評分從買入時的100分降至65分，顯示短期動能有所減弱，原始強勢買入邏輯已部分消退。② 今日成交量倍數僅0.0x，代表市場參與度極低，缺乏資金推動，價格雖小幅上漲0.2%，但無法確認為有效突破，需警惕量能不足導致的假突破風險。③ 建議重點觀察成交量是否能回升至1.0x以上以確認多頭動能，同時留意技術評分是否繼續下滑至50分以下，若出現量縮價跌則應考慮提前退出。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 9.28,
+      "current_price": 589.07
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 94213.25,
-  "portfolio_value": 100248.79,
-  "buying_power": 194462.04,
+  "cash_available": 84213.18,
+  "portfolio_value": 100434.53,
+  "buying_power": 369295.43,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 754.66,
+    "current_price": 752.76,
     "goal_days": 14
   }
 }
