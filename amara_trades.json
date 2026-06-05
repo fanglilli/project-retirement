@@ -208,11 +208,11 @@
       "cost_usd": 9999.99,
       "stop_loss_price": 907.48,
       "take_profit_price": 1006.22,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 925.5,
+      "exit_date": "2026-06-05 19:52",
+      "exit_reason": "同步：Alpaca 原生委託成交 @ $925.50",
+      "pnl_usd": -158.31,
       "daily_pct_at_entry": 1.47,
       "volume_ratio": 1.57,
       "pct_above_ma20": 5.03,
@@ -241,8 +241,8 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 351.41,
-      "last_checked": "2026-06-05 13:38",
-      "low_vol_runs": 1
+      "last_checked": "2026-06-05 19:52",
+      "low_vol_runs": 0
     }
   ],
   "daily_stats": [],
@@ -2586,17 +2586,36 @@
       "reasons": [],
       "momentum_5d_pct": 4.35,
       "current_price": 351.41
+    },
+    {
+      "timestamp": "2026-06-05 19:52",
+      "date": "2026-06-05",
+      "symbol": "AMGN",
+      "score": 100,
+      "rsi": 62.5,
+      "volume_ratio": 2.48,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "AMGN自買入以來上漲1.4%，5日動能強勁達4.3%，當前成交量放大至2.5×顯示資金持續流入，買入時的技術邏輯獲得進一步驗證，RSI62.5處於健康上升區間，技術評分滿分100分，整體動能明顯優於入場時。目前無任何負面新聞或早期警示訊號，止損位仍有4.8%緩衝空間，風險報酬比維持有利。建議觀察成交量是否持續維持高於1.5×水準，以及RSI是否進入超買區（>70），若價格能突破前高並維持成交量支撐，有望進一步向獲利目標$370.93推進。",
+      "confidence": 8,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.35,
+      "current_price": 351.41
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 74566.75,
-  "portfolio_value": 99932.3,
-  "buying_power": 348998.09,
+  "cash_available": 89906.66,
+  "portfolio_value": 100039.06,
+  "buying_power": 379891.43,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 751.835,
+    "current_price": 739.3,
     "goal_days": 14
   }
 }
