@@ -187,16 +187,18 @@
       "cost_usd": 5999.99,
       "stop_loss_price": 949.44,
       "take_profit_price": 1099.35,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 922.27,
+      "exit_date": "2026-06-05 13:38",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -463.1124648826199,
       "daily_pct_at_entry": 4.34,
       "volume_ratio": 1.66,
       "pct_above_ma20": 20.09,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 920.0001,
+      "last_checked": "2026-06-05 13:37"
     },
     {
       "symbol": "CAT",
@@ -215,7 +217,10 @@
       "volume_ratio": 1.57,
       "pct_above_ma20": 5.03,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 913.18,
+      "last_checked": "2026-06-05 13:38",
+      "low_vol_runs": 1
     },
     {
       "symbol": "AMGN",
@@ -234,7 +239,10 @@
       "volume_ratio": 1.67,
       "pct_above_ma20": 3.85,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 351.41,
+      "last_checked": "2026-06-05 13:38",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -2540,17 +2548,55 @@
       ],
       "momentum_5d_pct": 3.07,
       "current_price": 346.81
+    },
+    {
+      "timestamp": "2026-06-05 13:38",
+      "date": "2026-06-05",
+      "symbol": "CAT",
+      "score": 65,
+      "rsi": 56.6,
+      "volume_ratio": 0.06,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "CAT自買入以來下跌2.9%，目前距離止損位僅剩0.6%，原始買入邏輯基於成交量放大（1.6×）與均線之上的強勢，但當前成交量萎縮至僅0.1×，動能明顯減弱，買入時的技術支撐條件已大幅惡化。RSI維持在56.6尚屬中性區間，5日動能仍有4.3%為正值，目前尚未跌破止損，但繼續持有風險偏高。建議密切關注股價是否守穩$907.48止損位，若成交量無法回升且價格繼續下探，應考慮提前減碼以保護資本。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.28,
+      "current_price": 913.18
+    },
+    {
+      "timestamp": "2026-06-05 13:38",
+      "date": "2026-06-05",
+      "symbol": "AMGN",
+      "score": 65,
+      "rsi": 63.0,
+      "volume_ratio": 0.1,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "AMGN目前上漲1.4%，5日動能達4.3%，RSI為63處於健康偏強區間，尚未超買，原始買入邏輯（突破均線+量能放大）基本維持。主要警示訊號為今日成交量急劇萎縮至僅0.1倍，顯示市場參與度極低，短期動能可能缺乏後繼支撐，需警惕假突破風險。建議重點觀察成交量是否恢復正常水準（至少0.8倍以上），以及RSI是否能站穩60以上，若量能持續低迷則考慮提前評估出場時機。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.35,
+      "current_price": 351.41
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 100566.77,
-  "portfolio_value": 100566.77,
-  "buying_power": 402267.08,
+  "cash_available": 74566.75,
+  "portfolio_value": 99932.3,
+  "buying_power": 348998.09,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 757.44,
+    "current_price": 751.835,
     "goal_days": 14
   }
 }
