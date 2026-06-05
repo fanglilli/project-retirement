@@ -208,11 +208,11 @@
       "cost_usd": 9999.99,
       "stop_loss_price": 907.48,
       "take_profit_price": 1006.22,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 925.5,
+      "exit_date": "2026-06-05 16:38",
+      "exit_reason": "同步：Alpaca 原生委託成交 @ $925.50",
+      "pnl_usd": -158.31,
       "daily_pct_at_entry": 1.47,
       "volume_ratio": 1.57,
       "pct_above_ma20": 5.03,
@@ -240,9 +240,9 @@
       "pct_above_ma20": 3.85,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 351.41,
-      "last_checked": "2026-06-05 13:38",
-      "low_vol_runs": 1
+      "last_price": 355.65,
+      "last_checked": "2026-06-05 16:38",
+      "low_vol_runs": 0
     }
   ],
   "daily_stats": [],
@@ -2586,17 +2586,36 @@
       "reasons": [],
       "momentum_5d_pct": 4.35,
       "current_price": 351.41
+    },
+    {
+      "timestamp": "2026-06-05 16:39",
+      "date": "2026-06-05",
+      "symbol": "AMGN",
+      "score": 65,
+      "rsi": 65.1,
+      "volume_ratio": 1.27,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "AMGN自買入以來上漲2.6%，5日動能強勁達5.6%，成交量維持1.3×且RSI升至65.1，整體動能優於原始買入時的條件，買入邏輯持續獲得支撐。目前無負面新聞，技術面尚未出現超買訊號（RSI未達70），距離止盈目標$370.93仍有4.3%空間，風險報酬比仍屬合理。建議密切觀察成交量是否持續放大以確認突破動能，以及RSI是否突破70進入超買區間，若出現量縮價滯則需提高警覺。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 5.61,
+      "current_price": 355.65
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 74566.75,
-  "portfolio_value": 99932.3,
-  "buying_power": 348998.09,
+  "cash_available": 89906.66,
+  "portfolio_value": 100165.98,
+  "buying_power": 380145.28,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 751.835,
+    "current_price": 744.52,
     "goal_days": 14
   }
 }
