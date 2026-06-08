@@ -243,6 +243,25 @@
       "last_price": 347.42,
       "last_checked": "2026-06-08 15:08",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "PRGO",
+      "entry_price": 11.61,
+      "entry_date": "2026-06-08",
+      "shares": 516.795004306,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 11.03,
+      "take_profit_price": 12.77,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 7.25,
+      "volume_ratio": 1.66,
+      "pct_above_ma20": 6.41,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2643,6 +2662,30 @@
       "reasons": [],
       "momentum_5d_pct": 5.58,
       "current_price": 347.42
+    },
+    {
+      "timestamp": "2026-06-08 19:51",
+      "date": "2026-06-08",
+      "symbol": "PRGO",
+      "score": 100,
+      "rsi": 57.7,
+      "volume_ratio": 1.66,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① PRGO 技術面全面強勢：RSI 57.7 處於動能區間、成交量放大至 1.7 倍均量、價格突破 20 日均線 6.2%、5 日動能達 +8%，技術評分滿分 100/100，短線買壓明確。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面確認可能限制突破持續性，但無負面消息亦無需打折信心。③ 風險報酬比為 1:2（停損 -5% vs 目標 +10%），在 5 日持有框架下相對合理，若動能延續則有機會觸及目標價 $12.78。④ 主要下行風險為無新聞支撐的短線急漲容易快速反轉，加上 PRGO 本身為中小型製藥股，流動性與波動性風險較高，建議嚴守 $11.04 停損紀律。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.7× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 57.7 in momentum zone (55–75) +30pts",
+        "Price $11.62 above 20-MA ($10.94) +25pts",
+        "5-day momentum +8.2% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 7.99,
+      "current_price": 11.62
     }
   ],
   "total_capital_usd": 100000,
@@ -2653,7 +2696,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 741.825,
+    "current_price": 738.8,
     "goal_days": 14
   }
 }
