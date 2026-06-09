@@ -194,6 +194,25 @@
       "pct_above_ma20": 0.0,
       "stop_order_id": "",
       "take_profit_order_id": ""
+    },
+    {
+      "symbol": "TREX",
+      "entry_price": 43.9,
+      "entry_date": "2026-06-09",
+      "shares": 136.67403189,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 41.7,
+      "take_profit_price": 48.29,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 4.35,
+      "volume_ratio": 1.62,
+      "pct_above_ma20": 9.8,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2408,6 +2427,54 @@
       "reasons": [],
       "momentum_5d_pct": 3.58,
       "current_price": 31.43
+    },
+    {
+      "timestamp": "2026-06-09 18:06",
+      "date": "2026-06-09",
+      "symbol": "TREX",
+      "score": 100,
+      "rsi": 63.7,
+      "volume_ratio": 1.62,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① TREX技術面表現全面強勁，技術評分滿分100分，RSI 63.7處於動能黃金區間，5日動能達+5.5%，成交量放大至均量1.6倍，且收盤高於開盤形成看漲K線形態，股價更已突破20日均線達9.8%。② 本次無新聞催化劑，交易純屬技術面驅動，缺乏基本面事件加持，但技術訊號各項指標高度一致，未見任何負面消息拖累。③ 風險報酬設定合理，止損-5%（$41.67）、止盈+10%（$48.25），報酬風險比達2:1，在5日持倉窗口內具備充分獲利空間。④ 主要下行風險在於股價已大幅高於20日均線（+9.8%），短線過度延伸可能引發獲利了結賣壓，且無催化劑支撐下若大盤走弱，動能可能迅速衰退並觸發止損。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.6× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 63.7 in momentum zone (55–75) +30pts",
+        "Price $43.86 above 20-MA ($39.95) +25pts",
+        "5-day momentum +5.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 5.52,
+      "current_price": 43.86
+    },
+    {
+      "timestamp": "2026-06-09 18:06",
+      "date": "2026-06-09",
+      "symbol": "PRI",
+      "score": 70,
+      "rsi": 52.2,
+      "volume_ratio": 1.53,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① PRI技術評分70/100，成交量放大至均量1.5倍且收出陽線，價格站上20日均線，5日動能達+4.5%，顯示短期多頭動能溫和啟動。② 目前無任何新聞催化劑，純屬技術面驅動，缺乏基本面確認，動能持續性存在不確定性。③ RSI僅52.2，未進入55–75動能區間，技術強度屬中等水準，但風險報酬比約1:2（停損-5% vs 目標+10%），整體尚屬合理。④ 主要下行風險在於無消息面支撐，若大盤走弱或量能無法延續，價格可能迅速回落至均線以下並觸發停損。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 52.2 outside momentum zone (55–75) — no RSI pts",
+        "Price $271.61 above 20-MA ($270.69) +25pts",
+        "5-day momentum +4.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 4.49,
+      "current_price": 271.61
     }
   ],
   "total_capital_usd": 100000,
@@ -2418,7 +2485,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 737.73,
+    "current_price": 732.76,
     "goal_days": 14
   }
 }
