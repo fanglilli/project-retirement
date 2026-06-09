@@ -2411,14 +2411,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93936.04,
+  "cash_available": 99610.45,
   "portfolio_value": 99610.45,
-  "buying_power": 391632.51,
+  "buying_power": 398441.8,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 744.46,
+    "current_price": 737.73,
     "goal_days": 14
   }
 }
