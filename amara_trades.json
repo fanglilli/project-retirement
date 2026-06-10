@@ -259,7 +259,10 @@
       "volume_ratio": 2.44,
       "pct_above_ma20": 5.64,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 59.61,
+      "last_checked": "2026-06-10 16:34",
+      "low_vol_runs": 0
     }
   ],
   "daily_stats": [],
@@ -2612,17 +2615,36 @@
       "reasons": [],
       "momentum_5d_pct": 9.99,
       "current_price": 15.9
+    },
+    {
+      "timestamp": "2026-06-10 16:34",
+      "date": "2026-06-10",
+      "symbol": "IIPR",
+      "score": 100,
+      "rsi": 62.1,
+      "volume_ratio": 5.63,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 股價自買入後小幅回落2.0%，但RSI仍維持62.1的健康動能區間，成交量大幅放量至5.6倍均量，顯示市場對此股仍有高度關注，原始買入邏輯尚未失效。② 目前未見重大負面新聞，惟價格短期承壓需留意是否為獲利了結賣壓，若成交量持續放大但價格持續下滑則需警惕。③ 建議密切觀察收盤價能否守住20日均線支撐以及$59關鍵整數關口，若跌破且伴隨放量則應重新評估持倉，止損$57.81仍有足夠緩衝空間。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 3.86,
+      "current_price": 59.61
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 81610.38,
-  "portfolio_value": 99875.46,
-  "buying_power": 377583.73,
+  "cash_available": 93866.7,
+  "portfolio_value": 99745.9,
+  "buying_power": 391928.56,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 733.67,
+    "current_price": 730.36,
     "goal_days": 14
   }
 }
