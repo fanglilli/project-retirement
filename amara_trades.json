@@ -260,8 +260,8 @@
       "pct_above_ma20": 5.64,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 60.32,
-      "last_checked": "2026-06-10 19:20",
+      "last_price": 58.77,
+      "last_checked": "2026-06-10 19:51",
       "low_vol_runs": 0
     },
     {
@@ -281,7 +281,10 @@
       "volume_ratio": 2.24,
       "pct_above_ma20": 13.41,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 35.46,
+      "last_checked": "2026-06-10 19:51",
+      "low_vol_runs": 0
     }
   ],
   "daily_stats": [],
@@ -2720,17 +2723,79 @@
       "reasons": [],
       "momentum_5d_pct": 5.1,
       "current_price": 60.32
+    },
+    {
+      "timestamp": "2026-06-10 19:52",
+      "date": "2026-06-10",
+      "symbol": "PRGO",
+      "score": 70,
+      "rsi": 52.1,
+      "volume_ratio": 1.7,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① PRGO技術評分70/100，5日動能達7.3%表現尚可，成交量放大1.7倍且收紅K，價格站上20日均線2.5%，但RSI僅52.1未進入動能區間（55–75），顯示上漲動能仍不夠強勁。② 本次無任何新聞催化劑回傳，純依技術訊號判斷，缺乏基本面支撐，難以確認此波漲勢的可持續性。③ 整體風險報酬比雖達1:2（止損-5% vs 獲利+10%），但在無消息驅動、動能指標未達標的情況下，7.3%的5日漲幅已消耗相當部分潛在上行空間，追高風險偏高。④ 主要下行風險在於股價已在短期內急漲7.3%後可能面臨獲利了結壓力，加上PRGO為製藥/消費健康企業，潛在監管或定價壓力風險不容忽視，且無新聞支撐使反轉難以預判。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.7× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 52.1 outside momentum zone (55–75) — no RSI pts",
+        "Price $11.23 above 20-MA ($10.95) +25pts",
+        "5-day momentum +7.4% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 7.26,
+      "current_price": 11.23
+    },
+    {
+      "timestamp": "2026-06-10 19:52",
+      "date": "2026-06-10",
+      "symbol": "HRMY",
+      "score": 100,
+      "rsi": 70.6,
+      "volume_ratio": 2.64,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前RSI高達70.6、成交量放量2.6倍、5日動能達10.4%，技術評分滿分100，整體動能與買入邏輯高度一致，尚無失效跡象。② 需注意RSI已進入超買區域（>70），加上短期回落0.9%，需警惕動能衰竭或回調加深的可能，但目前止損位距現價仍有4.2%緩衝，風險可控。③ 建議密切觀察成交量是否出現萎縮跡象以及RSI能否維持在65以上，若價格跌破$34.5附近支撐則需提高警覺。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 10.43,
+      "current_price": 35.46
+    },
+    {
+      "timestamp": "2026-06-10 19:52",
+      "date": "2026-06-10",
+      "symbol": "IIPR",
+      "score": 100,
+      "rsi": 57.8,
+      "volume_ratio": 8.06,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 技術評分仍維持滿分100、成交量放量高達8.1倍均量，5日動能2.4%雖較買入時略有收窄，但整體動能結構仍屬強勢，原始買入邏輯尚未失效。② 價格自買入後已下滑3.4%，需留意此跌幅是否為盤中異常賣壓或市場廣泛回調所致，目前距止損位$57.81僅剩1.6%緩衝空間，風險正在升高。③ 建議密切觀察收盤是否能守穩$58.77以上，並確認成交量是否由買盤主導；若價格進一步跌破$58.50，應提高警覺準備因應止損觸發。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 2.4,
+      "current_price": 58.77
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93866.7,
-  "portfolio_value": 99760.21,
-  "buying_power": 391968.62,
+  "cash_available": 87866.71,
+  "portfolio_value": 99586.73,
+  "buying_power": 384282.88,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 726.51,
+    "current_price": 727.37,
     "goal_days": 14
   }
 }
