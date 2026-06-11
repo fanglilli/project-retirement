@@ -285,6 +285,25 @@
       "last_price": 35.29,
       "last_checked": "2026-06-11 15:04",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "MGNI",
+      "entry_price": 15.94,
+      "entry_date": "2026-06-11",
+      "shares": 376.410915934,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 15.14,
+      "take_profit_price": 17.53,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 1.66,
+      "volume_ratio": 1.5,
+      "pct_above_ma20": 12.74,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2861,17 +2880,65 @@
       "reasons": [],
       "momentum_5d_pct": 3.9,
       "current_price": 60.6
+    },
+    {
+      "timestamp": "2026-06-11 18:07",
+      "date": "2026-06-11",
+      "symbol": "MGNI",
+      "score": 100,
+      "rsi": 67.0,
+      "volume_ratio": 1.5,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "MGNI 技術評分滿分100，RSI 67 處於動能強勢區間（55–75），價格高於20日均線12.5%，顯示短期上行動能充足。成交量為均量1.5倍，配合陽線收盤，量價齊揚確認多方力道，5日動能達7.1%符合追勢條件。無新聞催化劑，純技術驅動的交易需注意若市場情緒轉變缺乏基本面支撐，回撤風險較高。風險報酬比為1:2（停損-5% vs 止盈+10%），設定合理，建議嚴守停損$15.13，主要下行風險為RSI接近超買區域（70）若動能衰退可能快速反轉。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 67.0 in momentum zone (55–75) +30pts",
+        "Price $15.93 above 20-MA ($14.16) +25pts",
+        "5-day momentum +7.3% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 7.13,
+      "current_price": 15.93
+    },
+    {
+      "timestamp": "2026-06-11 18:07",
+      "date": "2026-06-11",
+      "symbol": "CHEF",
+      "score": 70,
+      "rsi": 79.0,
+      "volume_ratio": 1.55,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① CHEF 的 RSI 高達 79.0，已明顯進入超買區域，超出動能交易的理想進場區間（55–75），且股價已高於 20 日均線 11.8%，短線追高風險極大。② 目前無任何新聞催化劑支撐此波漲勢，純屬技術驅動，缺乏基本面或消息面的確認，動能的可持續性存疑。③ 雖然技術評分達 70 分、5 日動能達 14.5%，但在如此超買的狀態下進場，風險報酬比偏差，止損 -5% 與獲利 +10% 的設定在高位追入時面臨均值回歸壓力。④ 主要下行風險為：RSI 超買引發短線獲利了結、無催化劑支撐導致快速回落，以及股價距均線過遠時的技術性修正，均可能令止損提前觸發。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 79.0 outside momentum zone (55–75) — no RSI pts",
+        "Price $88.69 above 20-MA ($79.33) +25pts",
+        "5-day momentum +14.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 14.5,
+      "current_price": 88.69
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 87866.61,
-  "portfolio_value": 99762.12,
-  "buying_power": 384773.86,
+  "cash_available": 99742.99,
+  "portfolio_value": 99742.99,
+  "buying_power": 398971.96,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 725.95,
+    "current_price": 732.97,
     "goal_days": 14
   }
 }

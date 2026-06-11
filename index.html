@@ -78,7 +78,7 @@
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">模擬盤</span></h1>
-  <p class="meta">更新時間：2026-06-11 23:04:31 台灣時間 · 每 5 分鐘自動刷新</p>
+  <p class="meta">更新時間：2026-06-12 02:07:25 台灣時間 · 每 5 分鐘自動刷新</p>
 
   <div class="hero">
     <div class="big">+$740.10</div>
@@ -89,19 +89,34 @@
     <summary>📊 Portfolio Overview</summary>
     <div class="card">
       <div class="stat-grid">
-        <div><label>可用現金</label><val>$87,866.61</val></div>
-        <div><label>資產總值</label><val>$99,762.12</val></div>
+        <div><label>可用現金</label><val>$99,742.99</val></div>
+        <div><label>資產總值</label><val>$99,742.99</val></div>
         <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-123.60</val></div>
         <div><label>勝率</label><val>9/14 (64%)</val></div>
-        <div><label>持倉中</label><val>0 筆</val></div>
+        <div><label>持倉中</label><val>1 筆</val></div>
         <div><label>監控股票</label><val>150 檔</val></div>
       </div>
     </div>
   </details>
 
   <details open>
-    <summary>💼 Open Positions (0)</summary>
-    <p class="empty">目前無持倉。</p>
+    <summary>💼 Open Positions (1)</summary>
+    <div class="pos-list">
+            <div class="card pos-card">
+              <div class="pos-header">
+                <span class="symbol">MGNI</span>
+                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
+              </div>
+              <div class="pos-grid">
+                <div><label>買入價</label><val>$15.94</val></div>
+                <div><label>現價</label><val>$15.94</val></div>
+                <div><label>成交量倍數</label><val>1.5×</val></div>
+                <div><label>高於均線</label><val>+12.7%</val></div>
+                <div><label>投入金額</label><val>$6,000</val></div>
+                <div><label>持倉天數</label><val>2 天</val></div>
+              </div>
+              <p class="hold-note">🤖 成交量連續 2 次低於 0.5 倍均量 （最近 0.41×） — 動能衰竭出場</p>
+            </div></div>
   </details>
 
   <details>
@@ -138,27 +153,242 @@
   <details open>
     <summary>🎯 This Run's Decisions</summary>
     <div class="dec-list" id="decList">
-            <div class="card dec-card" data-score="0">
+            <div class="card dec-card" data-score="100">
               <div class="dec-header">
-                <span class="symbol">HRMY</span>
-                <span style="color:#dc2626;font-weight:700">🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場)</span>
-                <span class="conf">信心 — &nbsp;|&nbsp; 評分 —</span>
+                <span class="symbol">MGNI [MID]</span>
+                <span style="color:#16a34a;font-weight:700">✅ BUY</span>
+                <span class="conf">信心 7/10 &nbsp;|&nbsp; 評分 100</span>
               </div>
-              <p class="reason">P&L: $-82.19 (-1.4%)</p>
+              <p class="reason">MGNI 技術評分滿分100，RSI 67 處於動能強勢區間（55–75），價格高於20日均線12.5%，顯示短期上行動能充足。成交量為均量1.5倍，配合陽線收盤，量價齊揚確認多方力道，5日動能達7.1%符合追勢條件。無新聞催化劑，純技術驅動的交易需注意若市場情緒轉變缺乏基本面支撐，回撤風險較高。風險報酬比為1:2（停損-5% vs 止盈+10%），設定合理，建議嚴守停損$15.13，主要下行風險</p>
             </div>
-            <div class="card dec-card" data-score="0">
+            <div class="card dec-card" data-score="70">
               <div class="dec-header">
-                <span class="symbol">IIPR</span>
-                <span style="color:#dc2626;font-weight:700">🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.13×） — 動能衰竭出場)</span>
-                <span class="conf">信心 — &nbsp;|&nbsp; 評分 —</span>
+                <span class="symbol">CHEF [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">信心 3/10 &nbsp;|&nbsp; 評分 70</span>
               </div>
-              <p class="reason">P&L: $-41.41 (-0.7%)</p>
+              <p class="reason">① CHEF 的 RSI 高達 79.0，已明顯進入超買區域，超出動能交易的理想進場區間（55–75），且股價已高於 20 日均線 11.8%，短線追高風險極大。② 目前無任何新聞催化劑支撐此波漲勢，純屬技術驅動，缺乏基本面或消息面的確認，動能的可持續性存疑。③ 雖然技術評分達 70 分、5 日動能達 14.5%，但在如此超買的狀態下進場，風險報酬比偏差，止損 -5% 與獲利 +10% 的設定在高</p>
             </div></div>
   </details>
 
   <details>
     <summary>🔍 Scan Results</summary>
-    <p class="empty">尚無掃描資料 — 市場開盤時間才會執行。</p>
+    
+        <div class="sort-bar">
+          排序：
+          <button class="sort-btn active" onclick="sortCards('scanList','score',this)">評分↓</button>
+          <button class="sort-btn" onclick="sortCards('scanList','rsi',this)">RSI↓</button>
+          <button class="sort-btn" onclick="sortCards('scanList','vol',this)">成交量↓</button>
+        </div>
+        <div class="scan-list" id="scanList">
+            <div class="card scan-card" data-score="100" data-rsi="65.6" data-vol="1.5">
+              <div class="scan-header">
+                <span class="symbol">STRL</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 65.6</span>
+                <span>成交量 1.5×</span>
+                <span>2026-05-28 19:51</span>
+              </div>
+              <p class="reason">① STRL技術面強勁，RSI 65.6處於動能區間，5日動能高達11.7%，成交量為均量1.5倍，技術評分滿分100分，顯示短期多頭動能充足。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面事件加持，但技術訊號整體一致性高，無負面消息干擾。③ 風險報酬比為1:2（止損-5% vs 止盈+10%），配置合理，具備短線動能延續的條件。④ 主要下行風險在於股價已高於20日均線9.5%，短線獲利了結壓力</p>
+            </div>
+            <div class="card scan-card" data-score="100" data-rsi="69.1" data-vol="1.8">
+              <div class="scan-header">
+                <span class="symbol">KFRC</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 69.1</span>
+                <span>成交量 1.8×</span>
+                <span>2026-05-28 19:52</span>
+              </div>
+              <p class="reason">① KFRC技術面表現強勁，技術評分滿分100分，RSI 69.1處於動能區間（55–75），5日動能達+9.2%，成交量放大至1.8倍，且股價高於20日均線5.9%，顯示短期買盤積極。② 本次無新聞催化劑支撐，純屬技術面驅動，缺乏基本面確認，但技術訊號整體一致且方向明確。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），在技術面全面看多的背景下風報比具吸引力，適合短線動能交易。④ 主</p>
+            </div>
+            <div class="card scan-card" data-score="100" data-rsi="60.2" data-vol="1.5">
+              <div class="scan-header">
+                <span class="symbol">DE</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 60.2</span>
+                <span>成交量 1.5×</span>
+                <span>2026-06-03 19:52</span>
+              </div>
+              <p class="reason">① DE技術面表現強勁，技術評分滿分100分，RSI 60.2處於動能區間，5日動能達+11.0%，成交量放大至均量1.5倍，價格高於20日均線4.6%，顯示短期買盤積極。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面確認，但技術訊號全面一致，方向偏多無明顯矛盾。③ 停損設於-4%（$567.22），止盈設於+7%（$628.94），風險報酬比約1:1.75，在8日持倉框架下屬合理配置，具備正期</p>
+            </div>
+            <div class="card scan-card" data-score="100" data-rsi="66.6" data-vol="2.4">
+              <div class="scan-header">
+                <span class="symbol">IIPR</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 66.6</span>
+                <span>成交量 2.4×</span>
+                <span>2026-06-10 15:02</span>
+              </div>
+              <p class="reason">① IIPR技術評分達滿分100分，成交量放大至2.4倍均量並伴隨看漲蠟燭，RSI 66.6處於動能區間，5日動能+5.5%，價格高於20日均線6.0%，多項技術指標同步確認上漲動能強勁。② 本次無新聞催化劑，漲勢純屬技術面驅動，缺乏基本面事件支撐，短期動能延續性需依賴市場情緒維持。③ 止損設於-5%（$57.55），止盈設於+10%（$66.64），風險報酬比達1:2，搭配強勁量能支撐，整體交易</p>
+            </div>
+            <div class="card scan-card" data-score="100" data-rsi="71.5" data-vol="2.2">
+              <div class="scan-header">
+                <span class="symbol">HRMY</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 71.5</span>
+                <span>成交量 2.2×</span>
+                <span>2026-06-10 19:20</span>
+              </div>
+              <p class="reason">① HRMY技術面呈現強勢動能，技術評分達滿分100分，RSI 71.5處於動能區間上緣，5日動能達11.3%，成交量放大至均量2.2倍，股價高於20日均線13.4%，顯示短期買盤積極介入。② 本次無任何新聞催化劑，純屬技術面驅動，缺乏基本面支撐使突破的可持續性存在不確定性，但技術訊號多重共振仍具說服力。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），在強勢動能背景下屬於合理的短線佈</p>
+            </div>
+            <div class="card scan-card" data-score="100" data-rsi="67.0" data-vol="1.5">
+              <div class="scan-header">
+                <span class="symbol">MGNI</span>
+                <span class="score">評分：100/100</span>
+                <span class="sbadge bought">✅ 買入</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 67.0</span>
+                <span>成交量 1.5×</span>
+                <span>2026-06-11 18:07</span>
+              </div>
+              <p class="reason">MGNI 技術評分滿分100，RSI 67 處於動能強勢區間（55–75），價格高於20日均線12.5%，顯示短期上行動能充足。成交量為均量1.5倍，配合陽線收盤，量價齊揚確認多方力道，5日動能達7.1%符合追勢條件。無新聞催化劑，純技術驅動的交易需注意若市場情緒轉變缺乏基本面支撐，回撤風險較高。風險報酬比為1:2（停損-5% vs 止盈+10%），設定合理，建議嚴守停損$15.13，主要下行風險</p>
+            </div>
+            <div class="card scan-card" data-score="70" data-rsi="55.0" data-vol="1.5">
+              <div class="scan-header">
+                <span class="symbol">PLTR</span>
+                <span class="score">評分：70/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 55.0</span>
+                <span>成交量 1.5×</span>
+                <span>2026-05-28 19:52</span>
+              </div>
+              <p class="reason">① PLTR技術面呈現溫和偏多格局：價格高於20日均線3.6%、5日動能+3.4%、成交量放大至1.5倍平均，RSI 55屬中性偏強區間，技術評分70分。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面事件加持，動能延續需仰賴市場情緒維持。③ 風險報酬比為1:1.75（止損-4% vs 目標+7%），結構合理，若短期動能延續，有機會觸及目標價$151.68。④ 主要下行風險為PLTR近期估值偏高且</p>
+            </div>
+            <div class="card scan-card" data-score="70" data-rsi="51.6" data-vol="1.6">
+              <div class="scan-header">
+                <span class="symbol">PRGO</span>
+                <span class="score">評分：70/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 51.6</span>
+                <span>成交量 1.6×</span>
+                <span>2026-06-10 19:20</span>
+              </div>
+              <p class="reason">① 技術面呈現溫和多頭訊號：5日動能+7.0%表現強勁，股價高於20日均線2.3%，成交量放大至1.6倍，整體技術評分70分屬中等水準。② RSI為51.6，未進入55-75的動能強勢區間，顯示買盤力道尚不充裕，缺乏強勁動能支撐；同時完全無新聞催化劑，純粹依賴技術面操作，訊號說服力有限。③ 風險報酬比為1:2（止損-5% vs 止盈+10%），理論上尚可接受，但PRGO為製藥股，無基本面或消息面配</p>
+            </div>
+            <div class="card scan-card" data-score="70" data-rsi="52.1" data-vol="1.7">
+              <div class="scan-header">
+                <span class="symbol">PRGO</span>
+                <span class="score">評分：70/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 52.1</span>
+                <span>成交量 1.7×</span>
+                <span>2026-06-10 19:52</span>
+              </div>
+              <p class="reason">① PRGO技術評分70/100，5日動能達7.3%表現尚可，成交量放大1.7倍且收紅K，價格站上20日均線2.5%，但RSI僅52.1未進入動能區間（55–75），顯示上漲動能仍不夠強勁。② 本次無任何新聞催化劑回傳，純依技術訊號判斷，缺乏基本面支撐，難以確認此波漲勢的可持續性。③ 整體風險報酬比雖達1:2（止損-5% vs 獲利+10%），但在無消息驅動、動能指標未達標的情況下，7.3%的5日</p>
+            </div>
+            <div class="card scan-card" data-score="70" data-rsi="79.0" data-vol="1.6">
+              <div class="scan-header">
+                <span class="symbol">CHEF</span>
+                <span class="score">評分：70/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 79.0</span>
+                <span>成交量 1.6×</span>
+                <span>2026-06-11 18:07</span>
+              </div>
+              <p class="reason">① CHEF 的 RSI 高達 79.0，已明顯進入超買區域，超出動能交易的理想進場區間（55–75），且股價已高於 20 日均線 11.8%，短線追高風險極大。② 目前無任何新聞催化劑支撐此波漲勢，純屬技術驅動，缺乏基本面或消息面的確認，動能的可持續性存疑。③ 雖然技術評分達 70 分、5 日動能達 14.5%，但在如此超買的狀態下進場，風險報酬比偏差，止損 -5% 與獲利 +10% 的設定在高</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="66.7" data-vol="0.7">
+              <div class="scan-header">
+                <span class="symbol">GTLB</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 66.7</span>
+                <span>成交量 0.7×</span>
+                <span>2026-05-28 18:16</span>
+              </div>
+              <p class="reason">① GTLB技術面呈現正面訊號：RSI 66.7處於動能區間、價格高於20日均線13.7%、5日動能達+6.4%，技術評分65/100屬中等偏上。② 然而成交量僅為均量的0.7倍，遠低於1.5倍的突破門檻，顯示此波上漲缺乏市場廣泛參與支撐，無新聞催化劑進一步降低了突破的可信度。③ 整體風險報酬比為1:2（止損-5%、目標+10%），比例尚可，但在無量攻漲且無基本面催化劑的情況下，追高風險顯著偏高。</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="70.2" data-vol="0.5">
+              <div class="scan-header">
+                <span class="symbol">AAON</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 70.2</span>
+                <span>成交量 0.5×</span>
+                <span>2026-05-28 18:16</span>
+              </div>
+              <p class="reason">① AAON技術面呈現RSI 70.2處於動能區間上緣、價格高於20日均線13.8%且5日動能達+6.9%，顯示短期強勢，但成交量僅為均量的0.5倍，缺乏資金驅動的突破確認。② 無任何新聞催化劑支撐，純屬技術面驅動，難以判斷此波上漲是否具備持續性，缺乏基本面與消息面的一致性驗證。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），比例尚可，但在無成交量放大且無新聞催化的情況下，價格已大幅</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="71.6" data-vol="0.3">
+              <div class="scan-header">
+                <span class="symbol">RXO</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 71.6</span>
+                <span>成交量 0.3×</span>
+                <span>2026-05-28 19:52</span>
+              </div>
+              <p class="reason">① RSI達71.6處於動能區間上緣，價格已高於20日均線22.3%，5日動能+9.1%，技術分數65分，但成交量僅為均量的0.3倍，明顯缺乏買盤支撐。② 無任何新聞催化劑，純技術驅動，缺乏基本面支撐，難以判斷漲勢能否持續。③ 整體風險報酬比約1:2（止損-5%，止盈+10%），數字尚可，但在無量推升的情況下，追高風險偏高，動能可能隨時熄火。④ 主要下行風險在於超低成交量（0.3倍）顯示市場參與度</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="68.1" data-vol="0.4">
+              <div class="scan-header">
+                <span class="symbol">QCOM</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 68.1</span>
+                <span>成交量 0.4×</span>
+                <span>2026-05-28 19:52</span>
+              </div>
+              <p class="reason">① QCOM 技術面顯示強勁動能，RSI 68.1 處於動能區間，5日漲幅達19.9%，價格高於20日均線16.6%，技術評分65/100，但成交量僅為均量的0.4倍，明顯低於1.5倍的強勢門檻，缺乏機構買盤佐證。② 無任何新聞催化劑支撐此波急漲，純技術驅動且缺乏成交量確認，上漲可持續性存疑，無法排除是市場整體回暖帶動的虛漲。③ 風險報酬比為1：1.75（-4% vs +7%），比率尚可，但在價格</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="63.6" data-vol="0.0">
+              <div class="scan-header">
+                <span class="symbol">MGNI</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge review">持倉審查</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 63.6</span>
+                <span>成交量 0.0×</span>
+                <span>2026-06-10 13:37</span>
+              </div>
+              <p class="reason">① MGNI買入當日即出現小幅回落(-1.3%)，但5日動能仍達7.5%且RSI維持在63.6的強勢區間，原始買入邏輯尚未被破壞，技術評分65分屬中等偏上。② 當前最大警示為成交量倍數為0.0×，顯示今日交易量極為清淡，缺乏資金推動力道，若後續持續低量則需警惕假突破風險。③ 建議重點觀察明日成交量是否能回升至均量以上，以及股價能否守穩$15.40支撐位，若跌破此位且量能萎縮則應考慮提前出場。</p>
+            </div>
+            <div class="card scan-card" data-score="65" data-rsi="67.4" data-vol="0.4">
+              <div class="scan-header">
+                <span class="symbol">MGNI</span>
+                <span class="score">評分：65/100</span>
+                <span class="sbadge review">持倉審查</span>
+              </div>
+              <div class="scan-stats">
+                <span>RSI 67.4</span>
+                <span>成交量 0.4×</span>
+                <span>2026-06-10 15:03</span>
+              </div>
+              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.41×） — 動能衰竭出場</p>
+            </div></div>
   </details>
 
   <details>
@@ -262,14 +492,14 @@
           <div class="card">
             <div class="stat-grid">
               <div><label>SPY 起始價</label><val>$750.46（2026-05-27）</val></div>
-              <div><label>SPY 現價</label><val>$725.95（-3.27%）</val></div>
+              <div><label>SPY 現價</label><val>$732.97（-2.33%）</val></div>
               <div><label>我們的報酬</label><val style="color:#16a34a">+0.74%</val></div>
-              <div><label>挑戰狀態</label><val>✅ 跑贏 S&P — 第 16/14 天</val></div>
+              <div><label>挑戰狀態</label><val>✅ 跑贏 S&P — 第 17/14 天</val></div>
             </div>
           </div>
         </details>
 
-  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-06-11 23:04:31</p>
+  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-06-12 02:07:25</p>
 
   <script>
     function sortCards(listId, key, btn) {

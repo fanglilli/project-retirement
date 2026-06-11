@@ -80,3 +80,44 @@
 2026-06-11 15:04:31,435 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-11 15:04:31,435 [INFO] 🔕 LINE notification suppressed — TW time is 23:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-11 15:04:31,435 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-11 18:06:59,308 [INFO] =======================================================
+2026-06-11 18:06:59,308 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-11 18:06:59,308 [INFO] =======================================================
+2026-06-11 18:06:59,309 [INFO] 📖 Previous dashboard loaded (1,997 chars) — Amara has prior-run context
+2026-06-11 18:06:59,590 [INFO] ✅ Alpaca market data connected
+2026-06-11 18:07:00,207 [INFO] ✅ Claude API connected
+2026-06-11 18:07:00,207 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-11 18:07:00,522 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 0
+2026-06-11 18:07:00,567 [INFO] 💰 Account — cash $99,742.99 | portfolio $99,742.99
+2026-06-11 18:07:00,568 [INFO] 🚀 Amara initialised
+2026-06-11 18:07:00,568 [INFO]    Capital: $100,000 USD
+2026-06-11 18:07:00,568 [INFO]    Max position: $10,000 USD
+2026-06-11 18:07:00,568 [INFO]    Daily loss limit: $5,000 USD
+2026-06-11 18:07:00,568 [INFO] 
+=======================================================
+2026-06-11 18:07:00,568 [INFO] ⏰ Amara run: 2026-06-11 18:07
+2026-06-11 18:07:00,809 [INFO] 📊 持倉中：0 筆 | 可用資金決定是否繼續開倉
+2026-06-11 18:07:00,809 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-11 18:07:03,848 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-11 18:07:03,939 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-11 18:07:03,942 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 2/150 symbols
+2026-06-11 18:07:03,943 [INFO]    Top 8 candidates → Claude: MGNI, CHEF
+2026-06-11 18:07:04,025 [WARNING] ⚠️ Cannot fetch news for MGNI: 'NewsSet' object has no attribute 'news'
+2026-06-11 18:07:10,685 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-11 18:07:10,707 [INFO] 🧠 Claude on MGNI: ✅ APPROVED (conf 7/10) — MGNI 技術評分滿分100，RSI 67 處於動能強勢區間（55–75），價格高於20日均線12.5%，顯示短期上行動能充足。成交量為均量1.5倍，配合陽線收
+2026-06-11 18:07:10,787 [INFO] 📤 BUY submitted: MGNI notional=$6,000.00 (order d7f6fde6-385c-4c6e-9f16-446ab73a48b5)
+2026-06-11 18:07:16,957 [INFO] ✅ BUY filled: MGNI x376.410915934 @ $15.94
+2026-06-11 18:07:16,961 [INFO] 📋 New position: MGNI x376.4109 @ $15.94 ($6,000 USD)
+2026-06-11 18:07:16,961 [INFO] 🛒 [Paper] Bought MGNI x376.4109 @ $15.94 | SL $15.14 | TP $17.53
+2026-06-11 18:07:16,961 [INFO]    Claude: MGNI 技術評分滿分100，RSI 67 處於動能強勢區間（55–75），價格高於20日均線12.5%，顯示短期上行動能充足。成交量為均量1.5倍，配合陽線收盤，量價齊揚確認多方力道，5日動能達7.1%符合追勢條件。無新聞催化劑，純技術驅
+2026-06-11 18:07:17,010 [WARNING] ⚠️ Native stop order failed for MGNI: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-11 18:07:17,048 [WARNING] ⚠️ Native take profit order failed for MGNI: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-11 18:07:17,145 [WARNING] ⚠️ Cannot fetch news for CHEF: 'NewsSet' object has no attribute 'news'
+2026-06-11 18:07:25,547 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-11 18:07:25,548 [INFO] 🧠 Claude on CHEF: ❌ REJECTED (conf 3/10) — ① CHEF 的 RSI 高達 79.0，已明顯進入超買區域，超出動能交易的理想進場區間（55–75），且股價已高於 20 日均線 11.8%，短線追高風險極大
+2026-06-11 18:07:25,554 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-123.60 | total P&L: $+740.10
+2026-06-11 18:07:25,555 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-06-11 18:07:25,556 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-11 18:07:25,556 [INFO] 🔕 LINE notification suppressed — TW time is 02:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-11 18:07:25,557 [INFO] ✅ Amara run complete — exiting cleanly.
