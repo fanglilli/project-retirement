@@ -260,9 +260,9 @@
       "pct_above_ma20": 5.64,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 58.77,
-      "last_checked": "2026-06-10 19:51",
-      "low_vol_runs": 0
+      "last_price": 58.35,
+      "last_checked": "2026-06-11 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "HRMY",
@@ -282,9 +282,9 @@
       "pct_above_ma20": 13.41,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 35.46,
-      "last_checked": "2026-06-10 19:51",
-      "low_vol_runs": 0
+      "last_price": 35.51,
+      "last_checked": "2026-06-11 13:36",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -2785,17 +2785,55 @@
       "reasons": [],
       "momentum_5d_pct": 2.4,
       "current_price": 58.77
+    },
+    {
+      "timestamp": "2026-06-11 13:36",
+      "date": "2026-06-11",
+      "symbol": "HRMY",
+      "score": 0,
+      "rsi": 70.8,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前RSI仍維持70.8的高位，5日動能強勁達10.6%，顯示原始買入時的超買動能邏輯尚未完全失效，但技術評分已從滿分驟降至0分，警示訊號明顯。② 成交量倍數歸零（0.0×）是最大的負面警示，代表今日完全缺乏量能支撐，動能可能正在快速衰退，配合評分歸零，短線多頭驅動力已顯著弱化。③ 建議密切觀察成交量能否在今日收盤前回升至均量以上，若量能持續低迷且價格跌破$35，應考慮提前減倉或出場以保護利潤空間。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 10.57,
+      "current_price": 35.51
+    },
+    {
+      "timestamp": "2026-06-11 13:36",
+      "date": "2026-06-11",
+      "symbol": "IIPR",
+      "score": 0,
+      "rsi": 55.9,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前技術評分已從買入時的100分驟降至0分，成交量倍數萎縮至0.0倍，5日動能雖仍維持1.7%正值，但整體動能結構已大幅弱化，原始買入邏輯大部分已失效。② 價格持續下跌至$58.35（-4.1%），距止損位$57.81僅剩0.9%空間，技術評分歸零且無放量支撐，顯示賣壓未止、多方力道潰散，為明顯早期警示訊號。③ 建議密切觀察是否有成交量回升配合價格止穩跡象，若價格繼續下探或無反彈跡象應準備於止損位執行出場，切勿因持倉成本心理而延誤止損。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.66,
+      "current_price": 58.35
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 87866.71,
-  "portfolio_value": 99586.73,
-  "buying_power": 384282.88,
+  "cash_available": 87866.61,
+  "portfolio_value": 99656.36,
+  "buying_power": 384477.74,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 727.37,
+    "current_price": 727.695,
     "goal_days": 14
   }
 }
