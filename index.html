@@ -78,11 +78,11 @@
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">模擬盤</span></h1>
-  <p class="meta">更新時間：2026-06-11 21:36:57 台灣時間 · 每 5 分鐘自動刷新</p>
+  <p class="meta">更新時間：2026-06-11 23:04:31 台灣時間 · 每 5 分鐘自動刷新</p>
 
   <div class="hero">
-    <div class="big">+$573.59</div>
-    <div class="sub">累計損益（含未實現）&nbsp;·&nbsp; +0.57%</div>
+    <div class="big">+$740.10</div>
+    <div class="sub">累計損益（含未實現）&nbsp;·&nbsp; +0.74%</div>
   </div>
 
   <details open>
@@ -90,48 +90,18 @@
     <div class="card">
       <div class="stat-grid">
         <div><label>可用現金</label><val>$87,866.61</val></div>
-        <div><label>資產總值</label><val>$99,656.36</val></div>
-        <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-290.12</val></div>
-        <div><label>勝率</label><val>9/12 (75%)</val></div>
-        <div><label>持倉中</label><val>2 筆</val></div>
+        <div><label>資產總值</label><val>$99,762.12</val></div>
+        <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-123.60</val></div>
+        <div><label>勝率</label><val>9/14 (64%)</val></div>
+        <div><label>持倉中</label><val>0 筆</val></div>
         <div><label>監控股票</label><val>150 檔</val></div>
       </div>
     </div>
   </details>
 
   <details open>
-    <summary>💼 Open Positions (2)</summary>
-    <div class="pos-list">
-            <div class="card pos-card">
-              <div class="pos-header">
-                <span class="symbol">IIPR</span>
-                <span class="pnl" style="color:#dc2626">🔴 -4.1%</span>
-              </div>
-              <div class="pos-grid">
-                <div><label>買入價</label><val>$60.85</val></div>
-                <div><label>現價</label><val>$58.35</val></div>
-                <div><label>成交量倍數</label><val>2.4×</val></div>
-                <div><label>高於均線</label><val>+5.6%</val></div>
-                <div><label>投入金額</label><val>$6,000</val></div>
-                <div><label>持倉天數</label><val>2 天</val></div>
-              </div>
-              <p class="hold-note">🤖 ① 當前技術評分已從買入時的100分驟降至0分，成交量倍數萎縮至0.0倍，5日動能雖仍維持1.7%正值，但整體動能結構已大幅弱化，原始買入邏輯大部分已失效。② 價格持續下跌至$58.35（-4.1%），距止損位$57.81僅剩0.9%空間，技術評分歸零且無放量支撐，顯示賣壓未止、多方力道潰散，為明顯早期警示訊號。③ 建議密切觀察是否有成交量回升配合價格止穩跡象，若價格繼續下探或無反彈跡象應準備於止損位執行出場，切勿因持倉成本心理而延誤止損。</p>
-            </div>
-            <div class="card pos-card">
-              <div class="pos-header">
-                <span class="symbol">HRMY</span>
-                <span class="pnl" style="color:#dc2626">🔴 -0.7%</span>
-              </div>
-              <div class="pos-grid">
-                <div><label>買入價</label><val>$35.77</val></div>
-                <div><label>現價</label><val>$35.51</val></div>
-                <div><label>成交量倍數</label><val>2.2×</val></div>
-                <div><label>高於均線</label><val>+13.4%</val></div>
-                <div><label>投入金額</label><val>$6,000</val></div>
-                <div><label>持倉天數</label><val>2 天</val></div>
-              </div>
-              <p class="hold-note">🤖 ① 當前RSI仍維持70.8的高位，5日動能強勁達10.6%，顯示原始買入時的超買動能邏輯尚未完全失效，但技術評分已從滿分驟降至0分，警示訊號明顯。② 成交量倍數歸零（0.0×）是最大的負面警示，代表今日完全缺乏量能支撐，動能可能正在快速衰退，配合評分歸零，短線多頭驅動力已顯著弱化。③ 建議密切觀察成交量能否在今日收盤前回升至均量以上，若量能持續低迷且價格跌破$35，應考慮提前減倉或出場以保護利潤空間。</p>
-            </div></div>
+    <summary>💼 Open Positions (0)</summary>
+    <p class="empty">目前無持倉。</p>
   </details>
 
   <details>
@@ -167,50 +137,51 @@
 
   <details open>
     <summary>🎯 This Run's Decisions</summary>
-    <p class="empty">本次無買賣決策 — 市場休市或無符合條件的訊號。</p>
+    <div class="dec-list" id="decList">
+            <div class="card dec-card" data-score="0">
+              <div class="dec-header">
+                <span class="symbol">HRMY</span>
+                <span style="color:#dc2626;font-weight:700">🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場)</span>
+                <span class="conf">信心 — &nbsp;|&nbsp; 評分 —</span>
+              </div>
+              <p class="reason">P&L: $-82.19 (-1.4%)</p>
+            </div>
+            <div class="card dec-card" data-score="0">
+              <div class="dec-header">
+                <span class="symbol">IIPR</span>
+                <span style="color:#dc2626;font-weight:700">🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.13×） — 動能衰竭出場)</span>
+                <span class="conf">信心 — &nbsp;|&nbsp; 評分 —</span>
+              </div>
+              <p class="reason">P&L: $-41.41 (-0.7%)</p>
+            </div></div>
   </details>
 
   <details>
     <summary>🔍 Scan Results</summary>
-    
-        <div class="sort-bar">
-          排序：
-          <button class="sort-btn active" onclick="sortCards('scanList','score',this)">評分↓</button>
-          <button class="sort-btn" onclick="sortCards('scanList','rsi',this)">RSI↓</button>
-          <button class="sort-btn" onclick="sortCards('scanList','vol',this)">成交量↓</button>
-        </div>
-        <div class="scan-list" id="scanList">
-            <div class="card scan-card" data-score="0" data-rsi="70.8" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">HRMY</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 70.8</span>
-                <span>成交量 0.0×</span>
-                <span>2026-06-11 13:36</span>
-              </div>
-              <p class="reason">① 當前RSI仍維持70.8的高位，5日動能強勁達10.6%，顯示原始買入時的超買動能邏輯尚未完全失效，但技術評分已從滿分驟降至0分，警示訊號明顯。② 成交量倍數歸零（0.0×）是最大的負面警示，代表今日完全缺乏量能支撐，動能可能正在快速衰退，配合評分歸零，短線多頭驅動力已顯著弱化。③ 建議密切觀察成交量能否在今日收盤前回升至均量以上，若量能持續低迷且價格跌破$35，應考慮提前減倉或出場以保護利潤</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="55.9" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">IIPR</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 55.9</span>
-                <span>成交量 0.0×</span>
-                <span>2026-06-11 13:36</span>
-              </div>
-              <p class="reason">① 當前技術評分已從買入時的100分驟降至0分，成交量倍數萎縮至0.0倍，5日動能雖仍維持1.7%正值，但整體動能結構已大幅弱化，原始買入邏輯大部分已失效。② 價格持續下跌至$58.35（-4.1%），距止損位$57.81僅剩0.9%空間，技術評分歸零且無放量支撐，顯示賣壓未止、多方力道潰散，為明顯早期警示訊號。③ 建議密切觀察是否有成交量回升配合價格止穩跡象，若價格繼續下探或無反彈跡象應準備於止</p>
-            </div></div>
+    <p class="empty">尚無掃描資料 — 市場開盤時間才會執行。</p>
   </details>
 
   <details>
     <summary>📜 Recent Trades</summary>
     <div class="hist-list">
+            <div class="card hist-card">
+              <div class="hist-header">
+                <span class="symbol">HRMY</span>
+                <span class="badge loss">虧損</span>
+                <span class="hist-pnl" style="color:#dc2626">$-82.19</span>
+              </div>
+              <div class="hist-detail">$35.77 → $35.28 &nbsp;·&nbsp; 2026-06-11</div>
+              <div class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場</div>
+            </div>
+            <div class="card hist-card">
+              <div class="hist-header">
+                <span class="symbol">IIPR</span>
+                <span class="badge loss">虧損</span>
+                <span class="hist-pnl" style="color:#dc2626">$-41.41</span>
+              </div>
+              <div class="hist-detail">$60.85 → $60.43 &nbsp;·&nbsp; 2026-06-11</div>
+              <div class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.13×） — 動能衰竭出場</div>
+            </div>
             <div class="card hist-card">
               <div class="hist-header">
                 <span class="symbol">TREX</span>
@@ -282,24 +253,6 @@
               </div>
               <div class="hist-detail">$46.86 → $53.58 &nbsp;·&nbsp; 2026-06-03</div>
               <div class="reason">同步：Alpaca 原生委託成交 @ $53.58</div>
-            </div>
-            <div class="card hist-card">
-              <div class="hist-header">
-                <span class="symbol">POWI</span>
-                <span class="badge loss">虧損</span>
-                <span class="hist-pnl" style="color:#dc2626">$-394.75</span>
-              </div>
-              <div class="hist-detail">$87.70 → $81.93 &nbsp;·&nbsp; 2026-06-03</div>
-              <div class="reason">同步：Alpaca 原生委託成交 @ $81.93</div>
-            </div>
-            <div class="card hist-card">
-              <div class="hist-header">
-                <span class="symbol">MS</span>
-                <span class="badge win">獲利</span>
-                <span class="hist-pnl" style="color:#16a34a">$+723.21</span>
-              </div>
-              <div class="hist-detail">$201.60 → $216.18 &nbsp;·&nbsp; 2026-06-03</div>
-              <div class="reason">同步：Alpaca 原生委託成交 @ $216.18</div>
             </div></div>
   </details>
 
@@ -309,14 +262,14 @@
           <div class="card">
             <div class="stat-grid">
               <div><label>SPY 起始價</label><val>$750.46（2026-05-27）</val></div>
-              <div><label>SPY 現價</label><val>$727.70（-3.03%）</val></div>
-              <div><label>我們的報酬</label><val style="color:#16a34a">+0.57%</val></div>
+              <div><label>SPY 現價</label><val>$725.95（-3.27%）</val></div>
+              <div><label>我們的報酬</label><val style="color:#16a34a">+0.74%</val></div>
               <div><label>挑戰狀態</label><val>✅ 跑贏 S&P — 第 16/14 天</val></div>
             </div>
           </div>
         </details>
 
-  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-06-11 21:36:57</p>
+  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-06-11 23:04:31</p>
 
   <script>
     function sortCards(listId, key, btn) {
