@@ -80,3 +80,31 @@
 2026-06-11 15:04:31,435 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-11 15:04:31,435 [INFO] 🔕 LINE notification suppressed — TW time is 23:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-11 15:04:31,435 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-11 16:34:34,471 [INFO] =======================================================
+2026-06-11 16:34:34,471 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-11 16:34:34,471 [INFO] =======================================================
+2026-06-11 16:34:34,471 [INFO] 📖 Previous dashboard loaded (1,997 chars) — Amara has prior-run context
+2026-06-11 16:34:34,728 [INFO] ✅ Alpaca market data connected
+2026-06-11 16:34:35,195 [INFO] ✅ Claude API connected
+2026-06-11 16:34:35,195 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-11 16:34:35,376 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 0
+2026-06-11 16:34:35,423 [INFO] 💰 Account — cash $99,742.99 | portfolio $99,742.99
+2026-06-11 16:34:35,423 [INFO] 🚀 Amara initialised
+2026-06-11 16:34:35,423 [INFO]    Capital: $100,000 USD
+2026-06-11 16:34:35,423 [INFO]    Max position: $10,000 USD
+2026-06-11 16:34:35,423 [INFO]    Daily loss limit: $5,000 USD
+2026-06-11 16:34:35,423 [INFO] 
+=======================================================
+2026-06-11 16:34:35,423 [INFO] ⏰ Amara run: 2026-06-11 16:34
+2026-06-11 16:34:35,654 [INFO] 📊 持倉中：0 筆 | 可用資金決定是否繼續開倉
+2026-06-11 16:34:35,654 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-11 16:34:39,019 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-11 16:34:39,121 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-11 16:34:39,124 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-06-11 16:34:39,126 [INFO]    Top 8 candidates → Claude: none
+2026-06-11 16:34:39,126 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $-123.60 | total P&L: $+740.10
+2026-06-11 16:34:39,127 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (55 lines)
+2026-06-11 16:34:39,128 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-11 16:34:39,128 [INFO] 🔕 LINE notification suppressed — TW time is 00:34 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-11 16:34:39,128 [INFO] ✅ Amara run complete — exiting cleanly.
