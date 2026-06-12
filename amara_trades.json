@@ -2389,6 +2389,30 @@
       "reasons": [],
       "momentum_5d_pct": 3.58,
       "current_price": 31.43
+    },
+    {
+      "timestamp": "2026-06-12 18:05",
+      "date": "2026-06-12",
+      "symbol": "ESAB",
+      "score": 70,
+      "rsi": 49.5,
+      "volume_ratio": 1.57,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① ESAB技術評分70/100，成交量放大至1.6倍均量，5日動能+3.6%，價格站上20日均線1.8%，具備基本技術條件，但RSI 49.5未進入動能區間（55–75），顯示多頭動能尚不充分。② 目前無任何新聞催化劑支撐，純技術驅動且動能訊號偏弱，缺乏基本面確認，難以形成強力突破依據。③ 整體風險報酬比雖達1:2（止損-5% vs 止盈+10%），但在動能不足、無新聞催化的情況下，達到+10%目標的概率偏低，預期值有限。④ 主要下行風險在於RSI尚在中性區間，若市場整體走弱，ESAB缺乏強勁動能支撐，易在止損位附近承壓，且無基本面緩衝保護。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.6× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 49.5 outside momentum zone (55–75) — no RSI pts",
+        "Price $91.35 above 20-MA ($89.75) +25pts",
+        "5-day momentum +3.6% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 3.62,
+      "current_price": 91.35
     }
   ],
   "total_capital_usd": 100000,
@@ -2399,7 +2423,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 741.04,
+    "current_price": 741.08,
     "goal_days": 14
   }
 }
