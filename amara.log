@@ -170,3 +170,62 @@
 2026-06-12 13:37:20,648 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-12 13:37:20,648 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-12 13:37:20,648 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-12 15:03:44,638 [INFO] =======================================================
+2026-06-12 15:03:44,639 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-12 15:03:44,639 [INFO] =======================================================
+2026-06-12 15:03:44,639 [INFO] 📖 Previous dashboard loaded (3,433 chars) — Amara has prior-run context
+2026-06-12 15:03:44,896 [INFO] ✅ Alpaca market data connected
+2026-06-12 15:03:45,366 [INFO] ✅ Claude API connected
+2026-06-12 15:03:45,366 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-12 15:03:45,579 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 4
+2026-06-12 15:03:45,622 [INFO] 💰 Account — cash $63,742.97 | portfolio $100,365.17
+2026-06-12 15:03:45,623 [INFO] 🚀 Amara initialised
+2026-06-12 15:03:45,623 [INFO]    Capital: $100,000 USD
+2026-06-12 15:03:45,623 [INFO]    Max position: $10,000 USD
+2026-06-12 15:03:45,623 [INFO]    Daily loss limit: $5,000 USD
+2026-06-12 15:03:45,623 [INFO] 
+=======================================================
+2026-06-12 15:03:45,623 [INFO] ⏰ Amara run: 2026-06-12 15:03
+2026-06-12 15:03:45,841 [INFO] 📋 Checking 4 open position(s)...
+2026-06-12 15:03:45,878 [INFO]   MGNI: $16.25 | +1.9% | 1d held
+2026-06-12 15:03:45,934 [INFO]   AMGN: $356.17 | +0.1% | 1d held
+2026-06-12 15:03:45,975 [INFO]   INTC: ✅ up 4.1% — moving stop from $113.78 → breakeven $118.02
+2026-06-12 15:03:46,048 [WARNING]   INTC: ⚠️ Could not place breakeven stop: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-06-12 15:03:46,048 [INFO]   INTC: $122.74 | +4.1% | 1d held
+2026-06-12 15:03:46,088 [INFO]   SBUX: $103.00 | +0.9% | 1d held
+2026-06-12 15:03:46,092 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-06-12 15:03:46,092 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-12 15:03:49,076 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-12 15:03:49,165 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-12 15:03:49,168 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-06-12 15:03:49,170 [INFO]    Top 8 candidates → Claude: none
+2026-06-12 15:03:49,170 [INFO] 🔍 Hold review: AMGN [LARGE]...
+2026-06-12 15:03:49,256 [WARNING] ⚠️ Cannot fetch news for AMGN: 'NewsSet' object has no attribute 'news'
+2026-06-12 15:03:49,262 [WARNING]   AMGN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.24×） — 動能衰竭出場
+2026-06-12 15:03:49,312 [INFO] 📤 SELL submitted: AMGN x28.109599437 (order 7e7ab29d-6795-4d51-b427-b1508b007f37)
+2026-06-12 15:03:52,398 [INFO] ✅ SELL filled: AMGN @ $355.73
+2026-06-12 15:03:52,402 [INFO] ❌ [Paper] Closed AMGN @ $355.73 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.24×） — 動能衰竭出場 | P&L: $-0.56
+2026-06-12 15:03:52,403 [INFO] 🔍 Hold review: INTC [LARGE]...
+2026-06-12 15:03:52,470 [WARNING] ⚠️ Cannot fetch news for INTC: 'NewsSet' object has no attribute 'news'
+2026-06-12 15:03:52,475 [WARNING]   INTC: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.27×） — 動能衰竭出場
+2026-06-12 15:03:52,529 [INFO] 📤 SELL submitted: INTC x84.812886816 (order 863a593b-f863-4bf8-84e6-6bbfa0adb742)
+2026-06-12 15:03:55,608 [INFO] ✅ SELL filled: INTC @ $122.70
+2026-06-12 15:03:55,612 [INFO] ✅ [Paper] Closed INTC @ $122.70 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.27×） — 動能衰竭出場 | P&L: $+406.80
+2026-06-12 15:03:55,613 [INFO] 🔍 Hold review: MGNI [MID]...
+2026-06-12 15:03:55,772 [WARNING] ⚠️ Cannot fetch news for MGNI: 'NewsSet' object has no attribute 'news'
+2026-06-12 15:03:55,778 [WARNING]   MGNI: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.36×） — 動能衰竭出場
+2026-06-12 15:03:55,827 [INFO] 📤 SELL submitted: MGNI x376.410915934 (order b9600ef5-536e-4ee6-a130-8e177488def3)
+2026-06-12 15:03:58,911 [INFO] ✅ SELL filled: MGNI @ $16.24
+2026-06-12 15:03:58,916 [INFO] ✅ [Paper] Closed MGNI @ $16.24 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.36×） — 動能衰竭出場 | P&L: $+112.92
+2026-06-12 15:03:58,916 [INFO] 🔍 Hold review: SBUX [LARGE]...
+2026-06-12 15:03:59,001 [WARNING] ⚠️ Cannot fetch news for SBUX: 'NewsSet' object has no attribute 'news'
+2026-06-12 15:03:59,006 [WARNING]   SBUX: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.19×） — 動能衰竭出場
+2026-06-12 15:03:59,068 [INFO] 📤 SELL submitted: SBUX x97.949951028 (order 98770c90-1b11-401a-bf60-24597f0f0970)
+2026-06-12 15:04:05,197 [INFO] ✅ SELL filled: SBUX @ $102.97
+2026-06-12 15:04:05,202 [INFO] ✅ [Paper] Closed SBUX @ $102.97 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.19×） — 動能衰竭出場 | P&L: $+85.92
+2026-06-12 15:04:05,203 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $+605.08 | total P&L: $+1,345.19
+2026-06-12 15:04:05,203 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (60 lines)
+2026-06-12 15:04:05,204 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-12 15:04:05,204 [INFO] 🔕 LINE notification suppressed — TW time is 23:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-12 15:04:05,204 [INFO] ✅ Amara run complete — exiting cleanly.
