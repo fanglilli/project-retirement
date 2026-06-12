@@ -304,9 +304,9 @@
       "pct_above_ma20": 12.74,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.02,
-      "last_checked": "2026-06-11 19:51",
-      "low_vol_runs": 0
+      "last_price": 16.11,
+      "last_checked": "2026-06-12 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "AMGN",
@@ -325,7 +325,10 @@
       "volume_ratio": 1.73,
       "pct_above_ma20": 5.39,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 355.3,
+      "last_checked": "2026-06-12 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "INTC",
@@ -344,7 +347,10 @@
       "volume_ratio": 1.53,
       "pct_above_ma20": 3.63,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 118.84,
+      "last_checked": "2026-06-12 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "SBUX",
@@ -363,7 +369,10 @@
       "volume_ratio": 1.56,
       "pct_above_ma20": 1.64,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 103.06,
+      "last_checked": "2026-06-12 13:36",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -3175,17 +3184,93 @@
       "reasons": [],
       "momentum_5d_pct": 7.73,
       "current_price": 16.02
+    },
+    {
+      "timestamp": "2026-06-12 13:37",
+      "date": "2026-06-12",
+      "symbol": "MGNI",
+      "score": 65,
+      "rsi": 67.1,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前價格上漲至$16.11（+1.1%），5日動能達9.7%，RSI維持67.1的強勢區間，整體走勢與原始買入邏輯吻合，但需注意成交量倍數驟降至0.0×，顯示今日市場參與度極低，動能的可持續性存疑。② 主要早期警示訊號為成交量完全萎縮（0.0×），在缺乏成交量支撐的情況下價格上漲，漲勢可靠性較低，需警惕假突破風險；目前無負面新聞。③ 建議密切觀察後續交易時段成交量能否回升至1.0×以上，若量能持續低迷且價格開始回落，應考慮提前出場，同時留意$16.02至$16.11區間能否形成有效支撐。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 9.67,
+      "current_price": 16.11
+    },
+    {
+      "timestamp": "2026-06-12 13:37",
+      "date": "2026-06-12",
+      "symbol": "AMGN",
+      "score": 55,
+      "rsi": 61.8,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前技術評分55分屬中性偏弱，RSI 61.8仍在健康區間，5日動能維持+1.6%尚可，但成交量倍數0.0×顯示今日幾乎無成交，動能明顯不足，與買入時1.7×的量能相比大幅萎縮，令人疑慮。② 成交量接近零為最大警示訊號，可能反映市場對此股興趣驟降或數據異常，需特別關注是否為數據錯誤；目前無負面新聞，止損距離3.4%仍提供足夠緩衝。③ 建議密切觀察明日是否出現正常成交量回升（至少達1.0×以上）以及價格能否守穩$355支撐位，若連續兩日量能持續低迷且價格跌破$350，應考慮提前減倉。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.65,
+      "current_price": 355.3
+    },
+    {
+      "timestamp": "2026-06-12 13:37",
+      "date": "2026-06-12",
+      "symbol": "INTC",
+      "score": 65,
+      "rsi": 58.3,
+      "volume_ratio": 0.03,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前價格小幅上漲0.8%至$118.81，RSI維持58.3的中性偏強區間，5日動能達20%顯示近期強勢，與買入邏輯基本吻合，尚無明顯背離跡象。② 最值得警惕的是成交量倍數顯示為0.0×，意味著今日幾乎無成交量支撐，價格上漲缺乏量能確認，這是最主要的早期警示訊號，需特別留意。③ 建議重點觀察後續交易日成交量是否回升至正常水準，若連續出現低量上漲或成交量萎縮配合價格回落，應重新評估持倉的必要性。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 20.05,
+      "current_price": 118.81
+    },
+    {
+      "timestamp": "2026-06-12 13:37",
+      "date": "2026-06-12",
+      "symbol": "SBUX",
+      "score": 65,
+      "rsi": 58.3,
+      "volume_ratio": 0.02,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前價格小幅上漲0.9%至$103.06，RSI維持58.3的中性偏強區間，5日動能達8.2%顯示近期買盤積極，與買入邏輯基本吻合。② 最值得警惕的是成交量倍數顯示為0.0×，此異常數值可能代表數據缺失或今日成交量極度低迷，無法確認價格上漲是否有實質量能支撐，需謹慎看待。③ 建議重點觀察明日成交量是否恢復正常水準，以及RSI能否突破60以上以確認強勢格局；若成交量持續低迷而價格停滯，應考慮提前評估出場時機。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 8.16,
+      "current_price": 103.06
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93743.0,
-  "portfolio_value": 99774.98,
-  "buying_power": 391861.56,
+  "cash_available": 63742.97,
+  "portfolio_value": 99948.27,
+  "buying_power": 356346.72,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 737.61,
+    "current_price": 739.21,
     "goal_days": 14
   }
 }
