@@ -175,6 +175,44 @@
       "pct_above_ma20": 4.57,
       "stop_order_id": "",
       "take_profit_order_id": ""
+    },
+    {
+      "symbol": "MGNI",
+      "entry_price": 16.38,
+      "entry_date": "2026-06-12",
+      "shares": 366.299755799,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 15.56,
+      "take_profit_price": 18.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 1.14,
+      "volume_ratio": 1.8,
+      "pct_above_ma20": 13.98,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
+    },
+    {
+      "symbol": "GBCI",
+      "entry_price": 50.011832,
+      "entry_date": "2026-06-12",
+      "shares": 119.971411435,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 47.51,
+      "take_profit_price": 55.01,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 2.38,
+      "volume_ratio": 1.86,
+      "pct_above_ma20": 5.32,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -2389,6 +2427,78 @@
       "reasons": [],
       "momentum_5d_pct": 3.58,
       "current_price": 31.43
+    },
+    {
+      "timestamp": "2026-06-12 19:51",
+      "date": "2026-06-12",
+      "symbol": "MGNI",
+      "score": 100,
+      "rsi": 69.5,
+      "volume_ratio": 1.8,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① MGNI技術面全面強勢，評分達滿分100分，RSI 69.5處於動能區間，5日動能+11.5%，成交量放大至1.8倍均量，價格高於20日均線14.0%，顯示短期多頭趨勢明確。② 目前無新聞催化劑，本次為純技術面驅動交易，缺乏基本面事件確認，但技術訊號本身高度一致且強烈。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），在動能延續的假設下具備合理的正期望值。④ 主要下行風險在於價格已大幅偏離均線（+14%），RSI接近超買邊界，若無基本面支撐則動能可能快速衰減，需嚴格執行止損紀律。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.8× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 69.5 in momentum zone (55–75) +30pts",
+        "Price $16.39 above 20-MA ($14.37) +25pts",
+        "5-day momentum +11.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 11.54,
+      "current_price": 16.39
+    },
+    {
+      "timestamp": "2026-06-12 19:52",
+      "date": "2026-06-12",
+      "symbol": "GBCI",
+      "score": 100,
+      "rsi": 64.8,
+      "volume_ratio": 1.86,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① GBCI技術面全面強勁，技術評分滿分100分，RSI 64.8處於健康動能區間，5日動能達+6.1%，成交量放大至1.9倍均量，股價高於20日均線5.3%，顯示短期多頭趨勢明確。② 目前無任何新聞催化劑，純屬技術面驅動，缺乏基本面事件確認，但同時也無負面消息干擾，屬中性偏正面背景。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），技術結構完整，勝率相對合理，適合短線動能操作。④ 主要下行風險在於無新聞支撐的純技術突破較易出現假突破回落，且RSI接近超買區域，若整體市場轉弱可能導致快速回測均線，需嚴守止損紀律。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.9× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 64.8 in momentum zone (55–75) +30pts",
+        "Price $50.00 above 20-MA ($47.47) +25pts",
+        "5-day momentum +6.1% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 6.09,
+      "current_price": 50.0
+    },
+    {
+      "timestamp": "2026-06-12 19:52",
+      "date": "2026-06-12",
+      "symbol": "ESAB",
+      "score": 70,
+      "rsi": 49.3,
+      "volume_ratio": 2.2,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① ESAB技術評分70分，成交量放大至2.2倍均量為最大亮點，但RSI僅49.3未進入動能區間（55–75），顯示多頭力道尚未確立，短期動能3.7%勉強達標。② 目前無任何新聞催化劑支撐，純屬技術面驅動，缺乏基本面或事件驅動的確認，訊號說服力不足。③ 整體風險報酬比雖具吸引力（止損-5% vs 止盈+10%），但技術面訊號強度偏弱，RSI未能突破動能門檻使上漲持續性存疑，勝率偏低。④ 主要下行風險在於RSI低於55表明買盤力度不足，若成交量放大屬於單日異常而非持續性資金介入，股價可能在5日內迅速回落至20日均線支撐位$89.75以下。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 2.2× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 49.3 outside momentum zone (55–75) — no RSI pts",
+        "Price $91.44 above 20-MA ($89.75) +25pts",
+        "5-day momentum +3.5% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 3.72,
+      "current_price": 91.44
     }
   ],
   "total_capital_usd": 100000,
@@ -2399,7 +2509,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 741.04,
+    "current_price": 740.87,
     "goal_days": 14
   }
 }
