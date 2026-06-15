@@ -194,8 +194,8 @@
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.59,
-      "last_checked": "2026-06-15 15:03",
+      "last_price": 16.73,
+      "last_checked": "2026-06-15 18:05",
       "low_vol_runs": 0
     },
     {
@@ -2581,17 +2581,60 @@
       "reasons": [],
       "momentum_5d_pct": 13.35,
       "current_price": 16.59
+    },
+    {
+      "timestamp": "2026-06-15 18:05",
+      "date": "2026-06-15",
+      "symbol": "CHEF",
+      "score": 70,
+      "rsi": 83.7,
+      "volume_ratio": 1.97,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① CHEF當前RSI高達83.7，遠超動能交易的適宜區間（55–75），屬於嚴重超買狀態；股價較20日均線高出16.4%，5日動能達15.7%，顯示短期漲幅過度擴張。② 無任何新聞催化劑支撐此次急漲，純技術面驅動的超買行情缺乏基本面背書，回調風險大幅提升。③ 雖然成交量放大至2.0倍且技術評分達70分，但在如此極端的超買條件下追高入場，風險報酬比明顯不利——止損空間僅-5%（$89.01），而股價隨時可能因獲利了結而急速回落。④ 主要下行風險在於無基本面催化劑支撐下的技術性回調，RSI均值回歸壓力強烈，若市場出現任何賣壓，股價可能迅速跌破止損位，建議等待RSI降至合理區間後再行評估。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 2.0× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 83.7 outside momentum zone (55–75) — no RSI pts",
+        "Price $93.69 above 20-MA ($80.52) +25pts",
+        "5-day momentum +15.7% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 15.71,
+      "current_price": 93.69
+    },
+    {
+      "timestamp": "2026-06-15 18:05",
+      "date": "2026-06-15",
+      "symbol": "MGNI",
+      "score": 100,
+      "rsi": 71.5,
+      "volume_ratio": 1.94,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① MGNI自買入後上漲2.2%，5日動能達14.4%，成交量倍數回升至1.9x，量價配合度明顯改善，與原始買入邏輯（量能放大配合動能突破）保持一致，短期動能仍維持正向。② RSI升至71.5，持續處於超買區間且有所擴張，為主要警示訊號，在缺乏新催化劑支撐下，超買壓力可能引發短線回檔；無重大負面新聞，技術面評分100分但標注無強烈訊號，需謹慎解讀。③ 目前僅剩最多2天持倉窗口，建議密切觀察價格能否有效突破並站穩$17.00整數關卡，若明日出現量縮回落或RSI持續擴張伴隨價格停滯，應提前考慮減碼或出場以鎖定現有獲利。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 14.38,
+      "current_price": 16.75
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 88347.92,
-  "portfolio_value": 100404.78,
-  "buying_power": 387150.88,
+  "cash_available": 94324.9,
+  "portfolio_value": 100458.59,
+  "buying_power": 394473.93,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 754.68,
+    "current_price": 754.715,
     "goal_days": 14
   }
 }
