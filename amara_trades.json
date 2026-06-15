@@ -194,8 +194,8 @@
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.59,
-      "last_checked": "2026-06-15 15:03",
+      "last_price": 16.89,
+      "last_checked": "2026-06-15 16:34",
       "low_vol_runs": 0
     },
     {
@@ -2581,17 +2581,60 @@
       "reasons": [],
       "momentum_5d_pct": 13.35,
       "current_price": 16.59
+    },
+    {
+      "timestamp": "2026-06-15 16:34",
+      "date": "2026-06-15",
+      "symbol": "CHEF",
+      "score": 70,
+      "rsi": 83.1,
+      "volume_ratio": 1.53,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① CHEF目前RSI高達83.1，已深度進入超買區間，遠超動能有效區間上限75，5日動能14.7%且價格高於20日均線15.4%，顯示短期漲幅已相當極端。② 本次無任何新聞催化劑支撐，純屬技術面驅動的漲勢，缺乏基本面故事支撐，漲勢的可持續性存疑，回落修正風險明顯提升。③ 雖然止盈空間為+10%（至$102.20），但在RSI如此高位追入，勝率偏低，風險報酬比並不理想，潛在下行空間大於預期獲利可能。④ 主要下行風險為技術性回調：RSI極度超買往往伴隨急速修正，若市場情緒轉變或獲利了結賣壓湧現，股價可能迅速跌破止損位$88.26，且無基本面催化劑可支撐支撐價格。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 83.1 outside momentum zone (55–75) — no RSI pts",
+        "Price $92.91 above 20-MA ($80.48) +25pts",
+        "5-day momentum +14.7% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 14.74,
+      "current_price": 92.91
+    },
+    {
+      "timestamp": "2026-06-15 16:34",
+      "date": "2026-06-15",
+      "symbol": "MGNI",
+      "score": 65,
+      "rsi": 72.3,
+      "volume_ratio": 1.34,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① MGNI自買入後已上漲3.1%，5日動能達15.3%，價格持續走強，與原始買入邏輯（量能放大配合動能）方向一致，但成交量倍數僅1.3x，量能支撐力道仍屬中等偏弱，動能能否延續至目標價$18.02仍有不確定性。② RSI升至72.3，正式進入超買區間，為最主要的早期警示訊號，若後續出現量縮價滯或跌破日內支撐，應視為動能衰竭的前兆；目前無重大負面新聞，基本面干擾風險較低。③ 建議重點觀察成交量是否能持續放大至2x以上以確認突破有效性，同時密切注意RSI是否從超買區間出現回落背離，並留意距離止盈目標$18.02（尚需+6.7%）的推進速度，若剩餘持倉天數內價格動能明顯趨緩，應考慮提前鎖定獲利。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 15.33,
+      "current_price": 16.89
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 88347.92,
-  "portfolio_value": 100404.78,
-  "buying_power": 387150.88,
+  "cash_available": 94324.9,
+  "portfolio_value": 100508.04,
+  "buying_power": 394612.39,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 754.68,
+    "current_price": 756.32,
     "goal_days": 14
   }
 }
