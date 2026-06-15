@@ -193,7 +193,10 @@
       "volume_ratio": 1.8,
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 16.39,
+      "last_checked": "2026-06-15 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "GBCI",
@@ -212,7 +215,10 @@
       "volume_ratio": 1.86,
       "pct_above_ma20": 5.32,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 49.97,
+      "last_checked": "2026-06-15 13:36",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -2499,17 +2505,55 @@
       ],
       "momentum_5d_pct": 3.72,
       "current_price": 91.44
+    },
+    {
+      "timestamp": "2026-06-15 13:36",
+      "date": "2026-06-15",
+      "symbol": "GBCI",
+      "score": 0,
+      "rsi": 64.7,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① GBCI目前僅小幅下跌0.1%，尚在正常波動範圍內，但技術評分已降至0分，顯示原本推動買入的動能訊號已明顯減弱。② 今日成交量倍數為0.0x，代表市場參與度極低，缺乏買方支撐，為主要警示訊號，需密切留意是否出現放量下跌。③ 建議觀察後續交易日是否能恢復正常成交量並重建多頭動能，若第4天仍無量且價格持續疲軟，應考慮提前出場以保護獲利。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 6.03,
+      "current_price": 49.97
+    },
+    {
+      "timestamp": "2026-06-15 13:36",
+      "date": "2026-06-15",
+      "symbol": "MGNI",
+      "score": 65,
+      "rsi": 69.6,
+      "volume_ratio": 0.02,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① MGNI自買入後僅微漲0.06%，5日動能達11.9%顯示近期有一定漲勢，但當前成交量倍數為0.0x，代表今日成交量極度萎縮，原始買入時1.8x的量能優勢已消失，動能支撐減弱。② RSI已達69.6，接近超買區間（70以上），成交量驟降配合高RSI是潛在警示訊號，若無新催化劑介入，短期回調風險上升。③ 建議密切觀察成交量是否能回升至均量以上，以及RSI是否突破70進入超買區域；距離止損（$15.56）仍有5%緩衝，可繼續持有，但若明日量能仍無法恢復，應考慮提前減碼。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 11.92,
+      "current_price": 16.39
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 100348.01,
-  "portfolio_value": 100348.01,
-  "buying_power": 401392.04,
+  "cash_available": 88347.92,
+  "portfolio_value": 100386.35,
+  "buying_power": 387099.29,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 740.87,
+    "current_price": 753.21,
     "goal_days": 14
   }
 }
