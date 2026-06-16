@@ -184,18 +184,18 @@
       "cost_usd": 5999.99,
       "stop_loss_price": 15.56,
       "take_profit_price": 18.02,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 18.04,
+      "exit_date": "2026-06-16 18:05",
+      "exit_reason": "固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單）",
+      "pnl_usd": 608.0575946263401,
       "daily_pct_at_entry": 1.14,
       "volume_ratio": 1.8,
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.74,
-      "last_checked": "2026-06-16 13:36",
+      "last_price": 18.04,
+      "last_checked": "2026-06-16 18:04",
       "low_vol_runs": 1
     },
     {
@@ -2643,17 +2643,41 @@
       "reasons": [],
       "momentum_5d_pct": 5.95,
       "current_price": 16.74
+    },
+    {
+      "timestamp": "2026-06-16 18:05",
+      "date": "2026-06-16",
+      "symbol": "MGNI",
+      "score": 70,
+      "rsi": 77.4,
+      "volume_ratio": 1.51,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① MGNI目前RSI高達77.4，已明顯超出動能交易的有效區間（55–75），顯示股價短期嚴重超買，同時5日動能14.1%與價格較20日均線高出21.9%，反映追高風險極高。② 本次無任何新聞催化劑支撐，純技術面驅動的情況下，超買訊號缺乏基本面確認，難以支持進一步的動能延續。③ 整體風險報酬不對稱：股價已大幅拉升，距止盈目標（+10%）空間有限，但超買回調的壓力卻相當顯著，預期報酬未能充分補償風險。④ 主要下行風險在於超買回調與獲利了結賣壓，一旦量能無法持續放大（當前僅1.5×），股價極易快速回落至止損位甚至更低，且系統持倉中MGNI已有5天，原始買入邏輯正在弱化。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 77.4 outside momentum zone (55–75) — no RSI pts",
+        "Price $18.04 above 20-MA ($14.79) +25pts",
+        "5-day momentum +14.1% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 14.15,
+      "current_price": 18.04
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 94324.87,
-  "portfolio_value": 100508.01,
-  "buying_power": 394612.27,
+  "portfolio_value": 100932.92,
+  "buying_power": 395802.01,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 755.19,
+    "current_price": 752.12,
     "goal_days": 14
   }
 }

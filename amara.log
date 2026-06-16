@@ -435,3 +435,39 @@
 2026-06-16 13:36:24,695 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-16 13:36:24,695 [INFO] 🔕 LINE notification suppressed — TW time is 21:36 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-16 13:36:24,695 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-16 18:04:54,837 [INFO] =======================================================
+2026-06-16 18:04:54,837 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-16 18:04:54,837 [INFO] =======================================================
+2026-06-16 18:04:54,837 [INFO] 📖 Previous dashboard loaded (2,293 chars) — Amara has prior-run context
+2026-06-16 18:04:55,089 [INFO] ✅ Alpaca market data connected
+2026-06-16 18:04:55,508 [INFO] ✅ Claude API connected
+2026-06-16 18:04:55,508 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-16 18:04:55,701 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 1
+2026-06-16 18:04:55,750 [INFO] 💰 Account — cash $94,324.87 | portfolio $100,932.92
+2026-06-16 18:04:55,750 [INFO] 🚀 Amara initialised
+2026-06-16 18:04:55,750 [INFO]    Capital: $100,000 USD
+2026-06-16 18:04:55,750 [INFO]    Max position: $10,000 USD
+2026-06-16 18:04:55,750 [INFO]    Daily loss limit: $5,000 USD
+2026-06-16 18:04:55,750 [INFO] 
+=======================================================
+2026-06-16 18:04:55,750 [INFO] ⏰ Amara run: 2026-06-16 18:04
+2026-06-16 18:04:56,061 [INFO] 📋 Checking 1 open position(s)...
+2026-06-16 18:04:56,108 [WARNING]   MGNI: ⚠️ no native take profit order found — executing Python fallback take profit
+2026-06-16 18:04:56,157 [INFO] 📤 SELL submitted: MGNI x366.299755799 (order 5738332d-e507-4d7c-bdda-f84ff668104d)
+2026-06-16 18:05:02,625 [INFO] ✅ SELL filled: MGNI @ $18.04
+2026-06-16 18:05:02,629 [INFO] ✅ [Paper] Closed MGNI @ $18.04 | 固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單） | P&L: $+608.06
+2026-06-16 18:05:02,629 [INFO] 📊 持倉中：0 筆 | 可用資金決定是否繼續開倉
+2026-06-16 18:05:02,629 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-16 18:05:05,547 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-16 18:05:05,634 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-16 18:05:05,637 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-06-16 18:05:05,638 [INFO]    Top 8 candidates → Claude: MGNI
+2026-06-16 18:05:05,804 [WARNING] ⚠️ Cannot fetch news for MGNI: 'NewsSet' object has no attribute 'news'
+2026-06-16 18:05:17,541 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-16 18:05:17,562 [INFO] 🧠 Claude on MGNI: ❌ REJECTED (conf 3/10) — ① MGNI目前RSI高達77.4，已明顯超出動能交易的有效區間（55–75），顯示股價短期嚴重超買，同時5日動能14.1%與價格較20日均線高出21.9%，反
+2026-06-16 18:05:17,566 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $+608.06 | total P&L: $+1,192.40
+2026-06-16 18:05:17,567 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (60 lines)
+2026-06-16 18:05:17,567 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-16 18:05:17,568 [INFO] 🔕 LINE notification suppressed — TW time is 02:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-16 18:05:17,568 [INFO] ✅ Amara run complete — exiting cleanly.
