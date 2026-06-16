@@ -194,9 +194,9 @@
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.59,
-      "last_checked": "2026-06-15 19:52",
-      "low_vol_runs": 0
+      "last_price": 16.74,
+      "last_checked": "2026-06-16 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "GBCI",
@@ -2624,17 +2624,36 @@
       "reasons": [],
       "momentum_5d_pct": 13.35,
       "current_price": 16.59
+    },
+    {
+      "timestamp": "2026-06-16 13:36",
+      "date": "2026-06-16",
+      "symbol": "MGNI",
+      "score": 65,
+      "rsi": 71.3,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前5日動能降至5.9%（相較先前13.4%明顯回落），成交量倍數驟降至0.0x，量能近乎消失，與原始買入邏輯（量能放大配合動能突破）出現明顯背離，上漲動能正在減弱。② RSI升至71.3持續處於超買區間，加上成交量歸零為重要警示訊號，顯示短期買盤動力不足，反轉風險上升；目前無重大利空新聞，但技術面已轉趨保守。③ 由於明日為第5天（最大持倉上限），建議密切關注開盤量能是否回升以及RSI是否出現回落，若成交量仍無法有效放大則應考慮於明日收盤前執行獲利了結，鎖定目前+2.2%的浮盈。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 5.95,
+      "current_price": 16.74
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 94324.9,
-  "portfolio_value": 100403.97,
-  "buying_power": 394321.01,
+  "cash_available": 94324.87,
+  "portfolio_value": 100508.01,
+  "buying_power": 394612.27,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 753.9,
+    "current_price": 755.19,
     "goal_days": 14
   }
 }
