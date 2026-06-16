@@ -182,7 +182,7 @@
       "entry_date": "2026-06-12",
       "shares": 366.299755799,
       "cost_usd": 5999.99,
-      "stop_loss_price": 15.56,
+      "stop_loss_price": 16.4,
       "take_profit_price": 18.02,
       "status": "open",
       "exit_price": 0.0,
@@ -194,9 +194,9 @@
       "pct_above_ma20": 13.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 16.74,
-      "last_checked": "2026-06-16 13:36",
-      "low_vol_runs": 1
+      "last_price": 17.53,
+      "last_checked": "2026-06-16 15:03",
+      "low_vol_runs": 0
     },
     {
       "symbol": "GBCI",
@@ -2643,17 +2643,36 @@
       "reasons": [],
       "momentum_5d_pct": 5.95,
       "current_price": 16.74
+    },
+    {
+      "timestamp": "2026-06-16 15:03",
+      "date": "2026-06-16",
+      "symbol": "MGNI",
+      "score": 35,
+      "rsi": 75.4,
+      "volume_ratio": 0.63,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前5日動能10.9%仍具一定強度，現價+7.0%已接近獲利目標（距止盈$18.02僅剩2.8%），動能仍在支撐但成交量倍數萎縮至0.6x，買盤動力明顯不足，難以突破止盈位。② RSI升至75.4深度超買，成交量萎縮配合高RSI是典型的動能耗盡警示，技術評分僅35/100顯示已無強勢訊號支撐。③ 明日為第5天（最大持倉天數），建議密切盯盤是否能順勢衝破$18.02止盈出場，若明日開盤缺乏放量突破跡象，應考慮主動鎖利平倉，避免回吐已有獲利。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 10.95,
+      "current_price": 17.53
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 94324.87,
-  "portfolio_value": 100508.01,
-  "buying_power": 394612.27,
+  "portfolio_value": 100758.93,
+  "buying_power": 395314.83,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 755.19,
+    "current_price": 753.235,
     "goal_days": 14
   }
 }
