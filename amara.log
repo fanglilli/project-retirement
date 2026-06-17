@@ -514,3 +514,39 @@
 2026-06-17 13:36:28,826 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-17 13:36:28,826 [INFO] 🔕 LINE notification suppressed — TW time is 21:36 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-17 13:36:28,826 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-17 15:03:40,599 [INFO] =======================================================
+2026-06-17 15:03:40,599 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-17 15:03:40,599 [INFO] =======================================================
+2026-06-17 15:03:40,600 [INFO] 📖 Previous dashboard loaded (2,291 chars) — Amara has prior-run context
+2026-06-17 15:03:40,866 [INFO] ✅ Alpaca market data connected
+2026-06-17 15:03:41,339 [INFO] ✅ Claude API connected
+2026-06-17 15:03:41,340 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-17 15:03:41,558 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 1
+2026-06-17 15:03:41,601 [INFO] 💰 Account — cash $90,932.85 | portfolio $100,921.35
+2026-06-17 15:03:41,601 [INFO] 🚀 Amara initialised
+2026-06-17 15:03:41,601 [INFO]    Capital: $100,000 USD
+2026-06-17 15:03:41,601 [INFO]    Max position: $10,000 USD
+2026-06-17 15:03:41,601 [INFO]    Daily loss limit: $5,000 USD
+2026-06-17 15:03:41,601 [INFO] 
+=======================================================
+2026-06-17 15:03:41,601 [INFO] ⏰ Amara run: 2026-06-17 15:03
+2026-06-17 15:03:41,869 [INFO] 📋 Checking 1 open position(s)...
+2026-06-17 15:03:41,917 [INFO]   PG: $152.14 | -0.1% | 1d held
+2026-06-17 15:03:41,920 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-06-17 15:03:41,921 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-17 15:03:45,440 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-17 15:03:45,531 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-17 15:03:45,534 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-06-17 15:03:45,535 [INFO]    Top 8 candidates → Claude: none
+2026-06-17 15:03:45,536 [INFO] 🔍 Hold review: PG [LARGE]...
+2026-06-17 15:03:45,627 [WARNING] ⚠️ Cannot fetch news for PG: 'NewsSet' object has no attribute 'news'
+2026-06-17 15:03:45,632 [WARNING]   PG: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.13×） — 動能衰竭出場
+2026-06-17 15:03:45,706 [INFO] 📤 SELL submitted: PG x65.655505219 (order 46ec3e61-117a-45ed-b3a6-33c4b7d75268)
+2026-06-17 15:03:48,791 [INFO] ✅ SELL filled: PG @ $152.11
+2026-06-17 15:03:48,795 [INFO] ❌ [Paper] Closed PG @ $152.11 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.13×） — 動能衰竭出場 | P&L: $-13.13
+2026-06-17 15:03:48,795 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $-13.13 | total P&L: $+1,179.27
+2026-06-17 15:03:48,796 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (57 lines)
+2026-06-17 15:03:48,797 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-17 15:03:48,797 [INFO] 🔕 LINE notification suppressed — TW time is 23:03 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-17 15:03:48,797 [INFO] ✅ Amara run complete — exiting cleanly.
