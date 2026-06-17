@@ -2751,17 +2751,41 @@
       "reasons": [],
       "momentum_5d_pct": 2.06,
       "current_price": 152.14
+    },
+    {
+      "timestamp": "2026-06-17 18:05",
+      "date": "2026-06-17",
+      "symbol": "MGNI",
+      "score": 70,
+      "rsi": 79.8,
+      "volume_ratio": 1.59,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① MGNI 的 RSI 高達 79.8，已嚴重進入超買區間，5 日動能達 +20%、價格高於 20 日均線 24.6%，顯示短期漲幅過大且追高風險極高。② 目前無任何新聞催化劑支撐此波漲勢，純屬技術面驅動，缺乏基本面或事件面的背書，行情持續性存疑。③ 整體風險報酬不佳——雖然目標報酬為 +10%，但在如此極端超買的狀態下入場，均值回歸的壓力遠大於繼續上漲的空間，且成交量僅 1.6 倍，動能放大程度有限。④ 主要下行風險在於 RSI 快速修正與獲利了結賣壓，一旦無法維持高位，價格快速回落至 20 日均線附近（-20% 以上）的可能性顯著，遠超 -5% 的止損設計。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.6× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 79.8 outside momentum zone (55–75) — no RSI pts",
+        "Price $18.80 above 20-MA ($15.09) +25pts",
+        "5-day momentum +19.8% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 19.97,
+      "current_price": 18.8
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 90932.85,
-  "portfolio_value": 100921.35,
-  "buying_power": 391699.2,
+  "cash_available": 100919.71,
+  "portfolio_value": 100919.71,
+  "buying_power": 403678.84,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 749.48,
+    "current_price": 745.19,
     "goal_days": 14
   }
 }
