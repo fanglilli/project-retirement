@@ -307,6 +307,25 @@
       "last_price": 331.54,
       "last_checked": "2026-06-18 15:02",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "ESAB",
+      "entry_price": 106.127593,
+      "entry_date": "2026-06-18",
+      "shares": 56.535626767,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 100.82,
+      "take_profit_price": 116.74,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 6.65,
+      "volume_ratio": 1.95,
+      "pct_above_ma20": 14.88,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -3075,6 +3094,30 @@
       "reasons": [],
       "momentum_5d_pct": 22.83,
       "current_price": 3.25
+    },
+    {
+      "timestamp": "2026-06-18 19:51",
+      "date": "2026-06-18",
+      "symbol": "ESAB",
+      "score": 100,
+      "rsi": 65.9,
+      "volume_ratio": 1.95,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① ESAB技術面表現強勁，技術評分滿分100分，成交量達均量1.9倍、RSI處於動能區間65.9、5日動能高達18.6%，顯示短期買盤積極。② 無新聞催化劑，此次走勢純粹由技術面驅動，缺乏基本面事件支撐，需對此保持警覺。③ 整體風險報酬比為1:2（止損-5% vs 止盈+10%），在技術訊號強烈的情況下風報比尚屬合理。④ 主要下行風險在於股價已高於20日均線近14.7%且5日漲幅達18.6%，短期超買壓力明顯，若無基本面配合，回調風險較高，建議嚴守止損。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.9× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 65.9 in momentum zone (55–75) +30pts",
+        "Price $106.01 above 20-MA ($92.38) +25pts",
+        "5-day momentum +18.8% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 18.65,
+      "current_price": 106.01
     }
   ],
   "total_capital_usd": 100000,
@@ -3085,7 +3128,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 746.68,
+    "current_price": 747.72,
     "goal_days": 14
   }
 }

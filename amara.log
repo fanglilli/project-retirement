@@ -797,3 +797,43 @@
 2026-06-18 18:03:48,208 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-18 18:03:48,208 [INFO] 🔕 LINE notification suppressed — TW time is 02:03 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-18 18:03:48,208 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-18 19:51:20,141 [INFO] =======================================================
+2026-06-18 19:51:20,141 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-18 19:51:20,141 [INFO] =======================================================
+2026-06-18 19:51:20,141 [INFO] 📖 Previous dashboard loaded (1,744 chars) — Amara has prior-run context
+2026-06-18 19:51:20,378 [INFO] ✅ Alpaca market data connected
+2026-06-18 19:51:20,791 [INFO] ✅ Claude API connected
+2026-06-18 19:51:20,792 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-18 19:51:20,959 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 0
+2026-06-18 19:51:21,003 [INFO] 💰 Account — cash $101,205.13 | portfolio $101,205.13
+2026-06-18 19:51:21,003 [INFO] 🚀 Amara initialised
+2026-06-18 19:51:21,003 [INFO]    Capital: $100,000 USD
+2026-06-18 19:51:21,003 [INFO]    Max position: $10,000 USD
+2026-06-18 19:51:21,003 [INFO]    Daily loss limit: $5,000 USD
+2026-06-18 19:51:21,003 [INFO] 
+=======================================================
+2026-06-18 19:51:21,003 [INFO] ⏰ Amara run: 2026-06-18 19:51
+2026-06-18 19:51:21,229 [INFO] 📊 持倉中：0 筆 | 可用資金決定是否繼續開倉
+2026-06-18 19:51:21,229 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-18 19:51:23,240 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-18 19:51:23,335 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-18 19:51:23,338 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-06-18 19:51:23,340 [INFO]    Top 8 candidates → Claude: ESAB
+2026-06-18 19:51:23,419 [WARNING] ⚠️ Cannot fetch news for ESAB: 'NewsSet' object has no attribute 'news'
+2026-06-18 19:51:29,751 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-18 19:51:29,773 [INFO] 🧠 Claude on ESAB: ✅ APPROVED (conf 7/10) — ① ESAB技術面表現強勁，技術評分滿分100分，成交量達均量1.9倍、RSI處於動能區間65.9、5日動能高達18.6%，顯示短期買盤積極。② 無新聞催化劑，
+2026-06-18 19:51:29,854 [INFO] 📤 BUY submitted: ESAB notional=$6,000.00 (order 9ee72509-1728-4df4-9e13-230047061b33)
+2026-06-18 19:51:36,002 [INFO] ✅ BUY filled: ESAB x56.535626767 @ $106.13
+2026-06-18 19:51:36,006 [INFO] 📋 New position: ESAB x56.5356 @ $106.13 ($6,000 USD)
+2026-06-18 19:51:36,006 [INFO] 🛒 [Paper] Bought ESAB x56.5356 @ $106.13 | SL $100.82 | TP $116.74
+2026-06-18 19:51:36,006 [INFO]    Claude: ① ESAB技術面表現強勁，技術評分滿分100分，成交量達均量1.9倍、RSI處於動能區間65.9、5日動能高達18.6%，顯示短期買盤積極。② 無新聞催化劑，此次走勢純粹由技術面驅動，缺乏基本面事件支撐，需對此保持警覺。③ 整體風險報酬比
+2026-06-18 19:51:36,050 [WARNING] ⚠️ Native stop order failed for ESAB: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-18 19:51:36,091 [WARNING] ⚠️ Native take profit order failed for ESAB: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-18 19:51:36,093 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $+285.44 | total P&L: $+1,464.72
+2026-06-18 19:51:36,094 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (61 lines)
+2026-06-18 19:51:36,095 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-18 19:51:36,095 [INFO] 📡 LINE: using default system network (no proxy configured)
+2026-06-18 19:51:37,218 [INFO] 📱 LINE message sent to U877a798...
+2026-06-18 19:51:37,817 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-18 19:51:37,818 [INFO] ✅ Amara run complete — exiting cleanly.
