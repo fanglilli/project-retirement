@@ -259,7 +259,10 @@
       "volume_ratio": 1.51,
       "pct_above_ma20": 9.38,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 3.25,
+      "last_checked": "2026-06-18 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "VCEL",
@@ -278,7 +281,10 @@
       "volume_ratio": 1.62,
       "pct_above_ma20": 8.58,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 39.19,
+      "last_checked": "2026-06-18 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "JPM",
@@ -297,7 +303,10 @@
       "volume_ratio": 1.77,
       "pct_above_ma20": 7.79,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 336.0,
+      "last_checked": "2026-06-18 13:36",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -2952,17 +2961,74 @@
       ],
       "momentum_5d_pct": -1.88,
       "current_price": 13.55
+    },
+    {
+      "timestamp": "2026-06-18 13:37",
+      "date": "2026-06-18",
+      "symbol": "RCKT",
+      "score": 65,
+      "rsi": 59.0,
+      "volume_ratio": 0.03,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 股價自買入後上漲3.0%，5日動能達22.8%顯示短期強勢，RSI 59仍在健康區間未過熱，原始買入邏輯仍維持有效。② 當前成交量倍數降至0.0x為主要警示訊號，量能萎縮可能代表突破動能不足，需留意是否為假突破；目前無負面新聞干擾。③ 重點觀察成交量是否能回升至1.5倍以上以確認動能持續，若量能持續低迷且價格無法向$3.48目標推進，應考慮提前出場鎖定獲利。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 22.83,
+      "current_price": 3.25
+    },
+    {
+      "timestamp": "2026-06-18 13:37",
+      "date": "2026-06-18",
+      "symbol": "VCEL",
+      "score": 0,
+      "rsi": 66.2,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前價格小幅上漲0.5%，5日動能達4.8%，RSI 66.2仍在合理範圍內未達超買，與原始買入時的動能邏輯基本一致，但技術評分降至0分令人警惕。② 今日成交量倍數僅0.0×，顯示市場參與度極低，原本支撐買入的成交量放大訊號已完全消失，這是明顯的警示訊號。③ 建議密切觀察成交量能否回升至1.5×以上以確認多頭持續性，若明日仍維持低量狀態且價格無法突破$40關口，應考慮提前減倉或出場。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.81,
+      "current_price": 39.19
+    },
+    {
+      "timestamp": "2026-06-18 13:37",
+      "date": "2026-06-18",
+      "symbol": "JPM",
+      "score": 65,
+      "rsi": 73.9,
+      "volume_ratio": 0.06,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① JPM自買入後小幅上漲0.7%，5日動能達7.1%且價格高於均線7.8%，原始買入邏輯的短期上漲趨勢基本維持，但技術評分僅65分顯示動能已趨弱。② RSI高達73.9已進入超買區間，且今日成交量倍數驟降至僅0.1×，顯示市場參與度極低，上漲缺乏量能支撐，為明顯的早期警示訊號。③ 需密切觀察成交量是否能回升至正常水平（至少1×以上）以確認多頭持續性，若明日仍為低量且RSI維持高位，應考慮提早了結部分獲利，避免動能耗盡後回調。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 7.06,
+      "current_price": 335.67
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 100919.71,
-  "portfolio_value": 100919.71,
-  "buying_power": 403678.84,
+  "cash_available": 78919.71,
+  "portfolio_value": 101345.07,
+  "buying_power": 373517.96,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 739.97,
+    "current_price": 744.79,
     "goal_days": 14
   }
 }
