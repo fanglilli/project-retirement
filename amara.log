@@ -968,3 +968,97 @@
 2026-06-19 16:37:51,350 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-19 16:37:51,350 [INFO] 🔕 LINE notification suppressed — TW time is 00:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-19 16:37:51,350 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-19 18:03:50,718 [INFO] =======================================================
+2026-06-19 18:03:50,718 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-19 18:03:50,718 [INFO] =======================================================
+2026-06-19 18:03:50,719 [INFO] 📖 Previous dashboard loaded (5,903 chars) — Amara has prior-run context
+2026-06-19 18:03:50,972 [INFO] ✅ Alpaca market data connected
+2026-06-19 18:03:51,414 [INFO] ✅ Claude API connected
+2026-06-19 18:03:51,414 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-19 18:03:51,549 [INFO] 🔄 Sync: actual fill price found for VCEL: $40.21
+2026-06-19 18:03:51,634 [INFO] 🗑️ Sync: cancelled orphan order 41e5b5d5-d808-45de-bd1f-912176832722 for VCEL
+2026-06-19 18:03:51,676 [INFO] 🗑️ Sync: cancelled orphan order 7b64a8c6-2e29-483f-a0fc-1e086af5adc3 for VCEL
+2026-06-19 18:03:51,680 [WARNING] 🔄 Sync [closed]  VCEL — gone from Alpaca (P&L $+4.48)
+2026-06-19 18:03:51,813 [INFO] 🗑️ Sync: cancelled orphan order 41054463-6688-49b9-bade-3a5745359e6f for TMDX
+2026-06-19 18:03:51,854 [INFO] 🗑️ Sync: cancelled orphan order b5966c49-a693-4ceb-962e-352a6093f0e6 for TMDX
+2026-06-19 18:03:51,858 [WARNING] 🔄 Sync [closed]  TMDX — gone from Alpaca (P&L $+0.00)
+2026-06-19 18:03:51,983 [INFO] 🗑️ Sync: cancelled orphan order 73b5a520-6e32-49e6-8ad6-f5d7ce39bcc3 for WMS
+2026-06-19 18:03:51,987 [WARNING] 🔄 Sync [closed]  WMS — gone from Alpaca (P&L $+0.00)
+2026-06-19 18:03:51,990 [INFO] ✅ Alpaca sync — added 0 | closed 3 | updated 1
+2026-06-19 18:03:52,039 [INFO] 💰 Account — cash $95,204.78 | portfolio $101,208.86
+2026-06-19 18:03:52,039 [INFO] 🚀 Amara initialised
+2026-06-19 18:03:52,039 [INFO]    Capital: $100,000 USD
+2026-06-19 18:03:52,039 [INFO]    Max position: $10,000 USD
+2026-06-19 18:03:52,039 [INFO]    Daily loss limit: $5,000 USD
+2026-06-19 18:03:52,039 [INFO] 
+=======================================================
+2026-06-19 18:03:52,039 [INFO] ⏰ Amara run: 2026-06-19 18:03
+2026-06-19 18:03:52,264 [INFO] 📋 Checking 1 open position(s)...
+2026-06-19 18:03:52,304 [INFO]   ESAB: $106.22 | +0.1% | 0d held
+2026-06-19 18:03:52,308 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-06-19 18:03:52,308 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-19 18:03:53,638 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-19 18:03:53,724 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-19 18:03:53,727 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 7/150 symbols
+2026-06-19 18:03:53,728 [INFO]    Top 8 candidates → Claude: HIMS, RCKT, VCEL, TMDX, WMS, BOOT
+2026-06-19 18:03:53,905 [WARNING] ⚠️ Cannot fetch news for HIMS: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:04:02,963 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:04:02,984 [INFO] 🧠 Claude on HIMS: ❌ REJECTED (conf 4/10) — ① HIMS技術評分達滿分100分，5日動能高達22.7%、成交量為均量1.6倍，短期動能強勁，但RSI已達71.0，正處於超買臨界區間，價格更較20日均線高出
+2026-06-19 18:04:03,056 [WARNING] ⚠️ Cannot fetch news for RCKT: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:04:10,585 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:04:10,586 [INFO] 🧠 Claude on RCKT: ✅ APPROVED (conf 7/10) — ① RCKT技術面強勁，5日動能高達26%，成交量放大至均量2倍，RSI處於60.6的動能區間，價格高於20日均線15%，技術評分達滿分100分，短期買盤積極。
+2026-06-19 18:04:10,781 [INFO] 📤 BUY submitted: RCKT notional=$6,000.00 (order 2bc67eda-37e9-4ec3-9e21-dff8f7d57e04)
+2026-06-19 18:05:11,853 [WARNING] ⚠️ Order 2bc67eda-37e9-4ec3-9e21-dff8f7d57e04 not confirmed within 60s — using scan price as fallback
+2026-06-19 18:05:11,853 [WARNING] ⚠️ Fill not confirmed for RCKT — using scan price
+2026-06-19 18:05:11,858 [INFO] 📋 New position: RCKT x1796.4072 @ $3.34 ($6,000 USD)
+2026-06-19 18:05:11,858 [INFO] 🛒 [Paper] Bought RCKT x1796.4072 @ $3.34 | SL $3.17 | TP $3.67
+2026-06-19 18:05:11,858 [INFO]    Claude: ① RCKT技術面強勁，5日動能高達26%，成交量放大至均量2倍，RSI處於60.6的動能區間，價格高於20日均線15%，技術評分達滿分100分，短期買盤積極。② 無任何新聞催化劑，此波上漲純屬技術面驅動，缺乏基本面支撐，需留意無消息帶動下
+2026-06-19 18:05:11,904 [WARNING] ⚠️ Native stop order failed for RCKT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-19 18:05:11,948 [WARNING] ⚠️ Native take profit order failed for RCKT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-19 18:05:12,108 [WARNING] ⚠️ Cannot fetch news for VCEL: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:05:19,060 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:05:19,062 [INFO] 🧠 Claude on VCEL: ✅ APPROVED (conf 7/10) — ① VCEL技術評分達滿分100分，RSI為69.3處於動能區間（55–75）邊緣，成交量為均量1.6倍，5日動能+4.0%，價格高於20日均線11.2%，各項
+2026-06-19 18:05:19,116 [INFO] 📤 BUY submitted: VCEL notional=$6,000.00 (order f738c360-d2d5-460d-a38c-257f4777145c)
+2026-06-19 18:06:20,139 [WARNING] ⚠️ Order f738c360-d2d5-460d-a38c-257f4777145c not confirmed within 60s — using scan price as fallback
+2026-06-19 18:06:20,139 [WARNING] ⚠️ Fill not confirmed for VCEL — using scan price
+2026-06-19 18:06:20,144 [INFO] 📋 New position: VCEL x149.3280 @ $40.18 ($6,000 USD)
+2026-06-19 18:06:20,144 [INFO] 🛒 [Paper] Bought VCEL x149.3280 @ $40.18 | SL $38.17 | TP $44.20
+2026-06-19 18:06:20,144 [INFO]    Claude: ① VCEL技術評分達滿分100分，RSI為69.3處於動能區間（55–75）邊緣，成交量為均量1.6倍，5日動能+4.0%，價格高於20日均線11.2%，各項技術指標均呈強勢。② 本次無任何新聞催化劑返回，純屬技術面驅動，無法借助基本面消
+2026-06-19 18:06:20,192 [WARNING] ⚠️ Native stop order failed for VCEL: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-19 18:06:20,235 [WARNING] ⚠️ Native take profit order failed for VCEL: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-19 18:06:20,406 [WARNING] ⚠️ Cannot fetch news for TMDX: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:06:26,899 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:06:26,900 [INFO] 🧠 Claude on TMDX: ✅ APPROVED (conf 7/10) — TMDX技術評分達滿分100分，現價$78.81高於20日均線10.2%，RSI 56.2處於動能黃金區間（55–75），5日動能達+6.9%，成交量為均量1.
+2026-06-19 18:06:26,904 [INFO]   TMDX: skipped — sector 'health' already has 2/2 positions
+2026-06-19 18:06:27,051 [WARNING] ⚠️ Cannot fetch news for WMS: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:06:34,077 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:06:34,078 [INFO] 🧠 Claude on WMS: ✅ APPROVED (conf 7/10) — WMS技術評分達滿分100分，RSI為60.4處於動能黃金區間（55–75），5日動能達+9.0%且股價高於20日均線8.1%，成交量放大至1.6倍均量，多項技
+2026-06-19 18:06:34,130 [INFO] 📤 BUY submitted: WMS notional=$6,000.00 (order 99ec2294-5fe8-4f73-bd6b-a41674df08d9)
+2026-06-19 18:07:35,183 [WARNING] ⚠️ Order 99ec2294-5fe8-4f73-bd6b-a41674df08d9 not confirmed within 60s — using scan price as fallback
+2026-06-19 18:07:35,183 [WARNING] ⚠️ Fill not confirmed for WMS — using scan price
+2026-06-19 18:07:35,188 [INFO] 📋 New position: WMS x40.7553 @ $147.22 ($6,000 USD)
+2026-06-19 18:07:35,188 [INFO] 🛒 [Paper] Bought WMS x40.7553 @ $147.22 | SL $139.86 | TP $161.94
+2026-06-19 18:07:35,188 [INFO]    Claude: WMS技術評分達滿分100分，RSI為60.4處於動能黃金區間（55–75），5日動能達+9.0%且股價高於20日均線8.1%，成交量放大至1.6倍均量，多項技術指標同步確認上行動能強勁。新聞面無任何催化劑回報，整體判斷依賴純技術面，無額外
+2026-06-19 18:07:35,243 [WARNING] ⚠️ Native stop order failed for WMS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-19 18:07:35,287 [WARNING] ⚠️ Native take profit order failed for WMS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-19 18:07:35,446 [WARNING] ⚠️ Cannot fetch news for BOOT: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:07:41,972 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:07:41,973 [INFO] 🧠 Claude on BOOT: ✅ APPROVED (conf 7/10) — BOOT技術評分達90分，現價高於20日均線4.3%，RSI 58.2處於動能區間（55-75），成交量為均量1.5倍，顯示短期買盤積極且技術面整體健康。唯一不
+2026-06-19 18:07:42,149 [INFO] 📤 BUY submitted: BOOT notional=$6,000.00 (order e2442116-d176-49d5-9da6-e909d3af8bc1)
+2026-06-19 18:08:45,005 [WARNING] ⚠️ Order e2442116-d176-49d5-9da6-e909d3af8bc1 not confirmed within 60s — using scan price as fallback
+2026-06-19 18:08:45,005 [WARNING] ⚠️ Fill not confirmed for BOOT — using scan price
+2026-06-19 18:08:45,010 [INFO] 📋 New position: BOOT x34.4195 @ $174.32 ($6,000 USD)
+2026-06-19 18:08:45,010 [INFO] 🛒 [Paper] Bought BOOT x34.4195 @ $174.32 | SL $165.60 | TP $191.75
+2026-06-19 18:08:45,010 [INFO]    Claude: BOOT技術評分達90分，現價高於20日均線4.3%，RSI 58.2處於動能區間（55-75），成交量為均量1.5倍，顯示短期買盤積極且技術面整體健康。唯一不足之處為5日動能-0.4%，未達+2%門檻，代表近期短線走勢略顯疲軟，上行加速度
+2026-06-19 18:08:45,052 [WARNING] ⚠️ Native stop order failed for BOOT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-19 18:08:45,094 [WARNING] ⚠️ Native take profit order failed for BOOT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-19 18:08:45,094 [INFO] 🔍 Hold review: ESAB [MID]...
+2026-06-19 18:08:46,366 [WARNING] ⚠️ Cannot fetch news for ESAB: 'NewsSet' object has no attribute 'news'
+2026-06-19 18:08:49,618 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-19 18:08:49,619 [INFO] 🔍 Hold review ESAB: ✅ Continue holding (conf 8/10)
+2026-06-19 18:08:49,625 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $-175.16 | total P&L: $+1,289.56
+2026-06-19 18:08:49,626 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (89 lines)
+2026-06-19 18:08:49,627 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-19 18:08:49,627 [INFO] 🔕 LINE notification suppressed — TW time is 02:08 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-19 18:08:49,627 [INFO] ✅ Amara run complete — exiting cleanly.
