@@ -1061,3 +1061,57 @@
 2026-06-19 19:56:37,611 [INFO] 📱 LINE message sent to U877a798...
 2026-06-19 19:56:37,884 [INFO] 📱 LINE message sent to U4eaa039...
 2026-06-19 19:56:37,885 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-22 13:37:25,714 [INFO] =======================================================
+2026-06-22 13:37:25,714 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-22 13:37:25,714 [INFO] =======================================================
+2026-06-22 13:37:25,715 [INFO] 📖 Previous dashboard loaded (6,971 chars) — Amara has prior-run context
+2026-06-22 13:37:25,996 [INFO] ✅ Alpaca market data connected
+2026-06-22 13:37:26,509 [INFO] ✅ Claude API connected
+2026-06-22 13:37:26,509 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-22 13:37:26,638 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 5
+2026-06-22 13:37:26,698 [INFO] 💰 Account — cash $60,546.51 | portfolio $100,932.49
+2026-06-22 13:37:26,698 [INFO] 🚀 Amara initialised
+2026-06-22 13:37:26,698 [INFO]    Capital: $100,000 USD
+2026-06-22 13:37:26,698 [INFO]    Max position: $10,000 USD
+2026-06-22 13:37:26,698 [INFO]    Daily loss limit: $5,000 USD
+2026-06-22 13:37:26,698 [INFO] 
+=======================================================
+2026-06-22 13:37:26,698 [INFO] ⏰ Amara run: 2026-06-22 13:37
+2026-06-22 13:37:26,877 [INFO] 📋 Checking 5 open position(s)...
+2026-06-22 13:37:26,940 [INFO]   ESAB: $106.17 | +0.0% | 3d held
+2026-06-22 13:37:26,995 [INFO]   RCKT: $3.43 | +2.7% | 3d held
+2026-06-22 13:37:27,055 [INFO]   VCEL: $40.58 | +1.0% | 3d held
+2026-06-22 13:37:27,112 [INFO]   WMS: $145.65 | -1.1% | 3d held
+2026-06-22 13:37:27,166 [INFO]   BOOT: $180.35 | +3.5% | 3d held
+2026-06-22 13:37:27,171 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-06-22 13:37:27,171 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-22 13:37:28,628 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-22 13:37:28,736 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-22 13:37:28,739 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-06-22 13:37:28,740 [INFO]    Top 8 candidates → Claude: none
+2026-06-22 13:37:28,741 [INFO] 🔍 Hold review: RCKT [MID]...
+2026-06-22 13:37:28,833 [WARNING] ⚠️ Cannot fetch news for RCKT: 'NewsSet' object has no attribute 'news'
+2026-06-22 13:37:34,463 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 13:37:34,486 [INFO] 🔍 Hold review RCKT: ✅ Continue holding (conf 6/10)
+2026-06-22 13:37:34,491 [INFO] 🔍 Hold review: WMS [MID]...
+2026-06-22 13:37:34,591 [WARNING] ⚠️ Cannot fetch news for WMS: 'NewsSet' object has no attribute 'news'
+2026-06-22 13:37:41,288 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 13:37:41,289 [INFO] 🔍 Hold review WMS: ✅ Continue holding (conf 5/10)
+2026-06-22 13:37:41,295 [INFO] 🔍 Hold review: VCEL [MID]...
+2026-06-22 13:37:41,383 [WARNING] ⚠️ Cannot fetch news for VCEL: 'NewsSet' object has no attribute 'news'
+2026-06-22 13:37:47,766 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 13:37:47,767 [INFO] 🔍 Hold review VCEL: ✅ Continue holding (conf 5/10)
+2026-06-22 13:37:47,773 [INFO] 🔍 Hold review: BOOT [MID]...
+2026-06-22 13:37:47,868 [WARNING] ⚠️ Cannot fetch news for BOOT: 'NewsSet' object has no attribute 'news'
+2026-06-22 13:37:54,153 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 13:37:54,154 [INFO] 🔍 Hold review BOOT: ✅ Continue holding (conf 6/10)
+2026-06-22 13:37:54,160 [INFO] 🔍 Hold review: ESAB [MID]...
+2026-06-22 13:37:54,245 [WARNING] ⚠️ Cannot fetch news for ESAB: 'NewsSet' object has no attribute 'news'
+2026-06-22 13:38:00,469 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 13:38:00,470 [INFO] 🔍 Hold review ESAB: ✅ Continue holding (conf 6/10)
+2026-06-22 13:38:00,477 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+0.00 | total P&L: $+1,289.56
+2026-06-22 13:38:00,478 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (67 lines)
+2026-06-22 13:38:00,479 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-22 13:38:00,479 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-22 13:38:00,479 [INFO] ✅ Amara run complete — exiting cleanly.
