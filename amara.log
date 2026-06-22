@@ -1177,3 +1177,47 @@
 2026-06-22 15:03:15,014 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-22 15:03:15,014 [INFO] 🔕 LINE notification suppressed — TW time is 23:03 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-22 15:03:15,014 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-22 18:03:48,204 [INFO] =======================================================
+2026-06-22 18:03:48,204 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-22 18:03:48,204 [INFO] =======================================================
+2026-06-22 18:03:48,204 [INFO] 📖 Previous dashboard loaded (2,896 chars) — Amara has prior-run context
+2026-06-22 18:03:48,464 [INFO] ✅ Alpaca market data connected
+2026-06-22 18:03:48,943 [INFO] ✅ Claude API connected
+2026-06-22 18:03:48,943 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-22 18:03:49,162 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 1
+2026-06-22 18:03:49,221 [INFO] 💰 Account — cash $88,414.58 | portfolio $100,445.50
+2026-06-22 18:03:49,221 [INFO] 🚀 Amara initialised
+2026-06-22 18:03:49,221 [INFO]    Capital: $100,000 USD
+2026-06-22 18:03:49,221 [INFO]    Max position: $10,000 USD
+2026-06-22 18:03:49,222 [INFO]    Daily loss limit: $5,000 USD
+2026-06-22 18:03:49,222 [INFO] 
+=======================================================
+2026-06-22 18:03:49,222 [INFO] ⏰ Amara run: 2026-06-22 18:03
+2026-06-22 18:03:49,513 [INFO] 📋 Checking 1 open position(s)...
+2026-06-22 18:03:49,562 [INFO]   BOOT: $180.33 | +3.4% | 3d held
+2026-06-22 18:03:49,571 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-06-22 18:03:49,571 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-22 18:03:51,030 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-22 18:03:51,146 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-22 18:03:51,149 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-06-22 18:03:51,151 [INFO]    Top 8 candidates → Claude: CWAN
+2026-06-22 18:03:51,351 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-22 18:03:58,345 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 18:03:58,384 [INFO] 🧠 Claude on CWAN: ✅ APPROVED (conf 7/10) — ① 技術評分高達90分，成交量放大至1.9倍顯示資金積極介入，RSI 65.2處於動能健康區間，且收盤高於開盤形成看漲K線，技術面整體強勢。② 本次無新聞催化劑
+2026-06-22 18:03:58,466 [INFO] 📤 BUY submitted: CWAN notional=$6,000.00 (order de245dbe-a2d5-47eb-a169-7a35b03cfa95)
+2026-06-22 18:04:04,630 [INFO] ✅ BUY filled: CWAN x244.598043212 @ $24.53
+2026-06-22 18:04:04,635 [INFO] 📋 New position: CWAN x244.5980 @ $24.53 ($6,000 USD)
+2026-06-22 18:04:04,635 [INFO] 🛒 [Paper] Bought CWAN x244.5980 @ $24.53 | SL $23.30 | TP $26.98
+2026-06-22 18:04:04,635 [INFO]    Claude: ① 技術評分高達90分，成交量放大至1.9倍顯示資金積極介入，RSI 65.2處於動能健康區間，且收盤高於開盤形成看漲K線，技術面整體強勢。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面題材支撐可能限制短期漲幅的持續性，但技術訊號一致性良
+2026-06-22 18:04:04,691 [WARNING] ⚠️ Native stop order failed for CWAN: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-22 18:04:04,743 [WARNING] ⚠️ Native take profit order failed for CWAN: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-22 18:04:04,744 [INFO] 🔍 Hold review: BOOT [MID]...
+2026-06-22 18:04:04,836 [WARNING] ⚠️ Cannot fetch news for BOOT: 'NewsSet' object has no attribute 'news'
+2026-06-22 18:04:10,407 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 18:04:10,409 [INFO] 🔍 Hold review BOOT: ✅ Continue holding (conf 6/10)
+2026-06-22 18:04:10,415 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-231.39 | total P&L: $+1,058.16
+2026-06-22 18:04:10,415 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (65 lines)
+2026-06-22 18:04:10,417 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-22 18:04:10,417 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-22 18:04:10,417 [INFO] ✅ Amara run complete — exiting cleanly.
