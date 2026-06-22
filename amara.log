@@ -1115,3 +1115,65 @@
 2026-06-22 13:38:00,479 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-22 13:38:00,479 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-22 13:38:00,479 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-22 15:02:51,656 [INFO] =======================================================
+2026-06-22 15:02:51,656 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-22 15:02:51,656 [INFO] =======================================================
+2026-06-22 15:02:51,656 [INFO] 📖 Previous dashboard loaded (3,711 chars) — Amara has prior-run context
+2026-06-22 15:02:51,919 [INFO] ✅ Alpaca market data connected
+2026-06-22 15:02:52,396 [INFO] ✅ Claude API connected
+2026-06-22 15:02:52,396 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-22 15:02:52,620 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 5
+2026-06-22 15:02:52,674 [INFO] 💰 Account — cash $59,204.84 | portfolio $100,621.53
+2026-06-22 15:02:52,674 [INFO] 🚀 Amara initialised
+2026-06-22 15:02:52,674 [INFO]    Capital: $100,000 USD
+2026-06-22 15:02:52,674 [INFO]    Max position: $10,000 USD
+2026-06-22 15:02:52,674 [INFO]    Daily loss limit: $5,000 USD
+2026-06-22 15:02:52,674 [INFO] 
+=======================================================
+2026-06-22 15:02:52,675 [INFO] ⏰ Amara run: 2026-06-22 15:02
+2026-06-22 15:02:52,967 [INFO] 📋 Checking 5 open position(s)...
+2026-06-22 15:02:53,032 [INFO]   ESAB: $104.19 | -1.8% | 3d held
+2026-06-22 15:02:53,087 [INFO]   RCKT: $3.37 | +0.9% | 3d held
+2026-06-22 15:02:53,141 [INFO]   VCEL: $39.50 | -1.7% | 3d held
+2026-06-22 15:02:53,197 [INFO]   WMS: $143.71 | -2.4% | 3d held
+2026-06-22 15:02:53,259 [INFO]   BOOT: $181.23 | +4.0% | 3d held
+2026-06-22 15:02:53,264 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-06-22 15:02:53,264 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-22 15:02:54,480 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-22 15:02:54,585 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-22 15:02:54,588 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-06-22 15:02:54,590 [INFO]    Top 8 candidates → Claude: none
+2026-06-22 15:02:54,590 [INFO] 🔍 Hold review: ESAB [MID]...
+2026-06-22 15:02:54,685 [WARNING] ⚠️ Cannot fetch news for ESAB: 'NewsSet' object has no attribute 'news'
+2026-06-22 15:02:54,691 [WARNING]   ESAB: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.23×） — 動能衰竭出場
+2026-06-22 15:02:54,983 [INFO] 📤 SELL submitted: ESAB x56.535626767 (order 1859535c-5aa9-445d-9eee-7f7f16f66c52)
+2026-06-22 15:02:58,085 [INFO] ✅ SELL filled: ESAB @ $104.12
+2026-06-22 15:02:58,090 [INFO] ❌ [Paper] Closed ESAB @ $104.12 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.23×） — 動能衰竭出場 | P&L: $-113.50
+2026-06-22 15:02:58,090 [INFO] 🔍 Hold review: WMS [MID]...
+2026-06-22 15:02:58,305 [WARNING] ⚠️ Cannot fetch news for WMS: 'NewsSet' object has no attribute 'news'
+2026-06-22 15:02:58,311 [WARNING]   WMS: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.18×） — 動能衰竭出場
+2026-06-22 15:02:58,370 [INFO] 📤 SELL submitted: WMS x41.194689651 (order 262a1791-7906-42f7-9a0b-784f02145810)
+2026-06-22 15:03:01,474 [INFO] ✅ SELL filled: WMS @ $143.87
+2026-06-22 15:03:01,479 [INFO] ❌ [Paper] Closed WMS @ $143.87 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.18×） — 動能衰竭出場 | P&L: $-138.00
+2026-06-22 15:03:01,479 [INFO] 🔍 Hold review: BOOT [MID]...
+2026-06-22 15:03:01,579 [WARNING] ⚠️ Cannot fetch news for BOOT: 'NewsSet' object has no attribute 'news'
+2026-06-22 15:03:08,426 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 15:03:08,449 [INFO] 🔍 Hold review BOOT: ✅ Continue holding (conf 6/10)
+2026-06-22 15:03:08,455 [INFO] 🔍 Hold review: VCEL [MID]...
+2026-06-22 15:03:08,532 [WARNING] ⚠️ Cannot fetch news for VCEL: 'NewsSet' object has no attribute 'news'
+2026-06-22 15:03:08,538 [WARNING]   VCEL: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.12×） — 動能衰竭出場
+2026-06-22 15:03:08,623 [INFO] 📤 SELL submitted: VCEL x144.57807229 (order 37d1690c-9eee-41d8-a8b6-e2956a269fb6)
+2026-06-22 15:03:11,728 [INFO] ✅ SELL filled: VCEL @ $39.84
+2026-06-22 15:03:11,733 [INFO] ❌ [Paper] Closed VCEL @ $39.84 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.12×） — 動能衰竭出場 | P&L: $-49.16
+2026-06-22 15:03:11,733 [INFO] 🔍 Hold review: RCKT [MID]...
+2026-06-22 15:03:11,830 [WARNING] ⚠️ Cannot fetch news for RCKT: 'NewsSet' object has no attribute 'news'
+2026-06-22 15:03:11,837 [WARNING]   RCKT: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.31×） — 動能衰竭出場
+2026-06-22 15:03:11,896 [INFO] 📤 SELL submitted: RCKT x3463.266537094 (order 4341c179-2f39-4022-bd57-c3b5fb1051cb)
+2026-06-22 15:03:15,006 [INFO] ✅ SELL filled: RCKT @ $3.36
+2026-06-22 15:03:15,011 [INFO] ✅ [Paper] Closed RCKT @ $3.36 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.31×） — 動能衰竭出場 | P&L: $+69.27
+2026-06-22 15:03:15,012 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-231.39 | total P&L: $+1,058.16
+2026-06-22 15:03:15,013 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (65 lines)
+2026-06-22 15:03:15,014 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-22 15:03:15,014 [INFO] 🔕 LINE notification suppressed — TW time is 23:03 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-22 15:03:15,014 [INFO] ✅ Amara run complete — exiting cleanly.
