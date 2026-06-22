@@ -535,7 +535,7 @@
       "entry_date": "2026-06-19",
       "shares": 66.716146121,
       "cost_usd": 6000.01,
-      "stop_loss_price": 165.6,
+      "stop_loss_price": 174.49,
       "take_profit_price": 191.75,
       "status": "open",
       "exit_price": 0.0,
@@ -547,8 +547,8 @@
       "pct_above_ma20": 4.33,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 181.23,
-      "last_checked": "2026-06-22 15:02",
+      "last_price": 181.78,
+      "last_checked": "2026-06-22 16:34",
       "low_vol_runs": 0
     }
   ],
@@ -3997,17 +3997,36 @@
       "reasons": [],
       "momentum_5d_pct": 22.77,
       "current_price": 3.37
+    },
+    {
+      "timestamp": "2026-06-22 16:34",
+      "date": "2026-06-22",
+      "symbol": "BOOT",
+      "score": 65,
+      "rsi": 63.1,
+      "volume_ratio": 0.74,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前漲幅4.3%、5日動能6.6%，原始買入邏輯基本維持，距離目標價5.5%仍有合理上行空間，RSI 63.1處於健康但接近中高水位，暫無超買疑慮。② 主要警示訊號為成交量持續萎縮至0.7倍，顯示漲勢缺乏買盤支撐，若明日成交量仍無法放大，上攻動能可能進一步減弱；技術評分65分偏中，無強勢突破訊號。③ 明日為第4天，接近最大持倉期限，建議重點觀察成交量能否回升至1倍以上，若成交量持續低迷且價格出現滯漲或回落，應考慮提前獲利了結。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 6.6,
+      "current_price": 181.78
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 59204.84,
-  "portfolio_value": 100621.53,
-  "buying_power": 343462.99,
+  "cash_available": 88414.58,
+  "portfolio_value": 100550.25,
+  "buying_power": 387638.19,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 745.27,
+    "current_price": 744.325,
     "goal_days": 14
   }
 }
