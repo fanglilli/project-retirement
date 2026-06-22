@@ -1221,3 +1221,74 @@
 2026-06-22 18:04:10,417 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-22 18:04:10,417 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-22 18:04:10,417 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-22 19:51:34,643 [INFO] =======================================================
+2026-06-22 19:51:34,643 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-22 19:51:34,643 [INFO] =======================================================
+2026-06-22 19:51:34,643 [INFO] 📖 Previous dashboard loaded (3,076 chars) — Amara has prior-run context
+2026-06-22 19:51:34,910 [INFO] ✅ Alpaca market data connected
+2026-06-22 19:51:35,420 [INFO] ✅ Claude API connected
+2026-06-22 19:51:35,420 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-22 19:51:35,654 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-06-22 19:51:35,744 [INFO] 💰 Account — cash $82,414.59 | portfolio $100,283.77
+2026-06-22 19:51:35,744 [INFO] 🚀 Amara initialised
+2026-06-22 19:51:35,744 [INFO]    Capital: $100,000 USD
+2026-06-22 19:51:35,744 [INFO]    Max position: $10,000 USD
+2026-06-22 19:51:35,744 [INFO]    Daily loss limit: $5,000 USD
+2026-06-22 19:51:35,745 [INFO] 
+=======================================================
+2026-06-22 19:51:35,745 [INFO] ⏰ Amara run: 2026-06-22 19:51
+2026-06-22 19:51:36,043 [INFO] 📋 Checking 2 open position(s)...
+2026-06-22 19:51:36,094 [INFO]   BOOT: $178.11 | +2.2% | 3d held
+2026-06-22 19:51:36,147 [INFO]   CWAN: $24.54 | +0.0% | 0d held
+2026-06-22 19:51:36,151 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-06-22 19:51:36,152 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-22 19:51:37,457 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-22 19:51:37,561 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-22 19:51:37,564 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 4/150 symbols
+2026-06-22 19:51:37,567 [INFO]    Top 8 candidates → Claude: SITM, WFC, ABBV
+2026-06-22 19:51:37,674 [WARNING] ⚠️ Cannot fetch news for SITM: 'NewsSet' object has no attribute 'news'
+2026-06-22 19:51:45,895 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 19:51:45,921 [INFO] 🧠 Claude on SITM: ✅ APPROVED (conf 7/10) — ① SITM技術評分達滿分100分，RSI 58.3處於動能區間、價格高於20日均線6.9%、成交量放大至1.6倍並出現看漲K線，5日動能+3.1%，多項指標齊
+2026-06-22 19:51:46,001 [INFO] 📤 BUY submitted: SITM notional=$6,000.00 (order 205a122a-02c1-49f5-88d8-c6b1ce0b5c19)
+2026-06-22 19:51:49,102 [INFO] ✅ BUY filled: SITM x7.952800053 @ $754.45
+2026-06-22 19:51:49,107 [INFO] 📋 New position: SITM x7.9528 @ $754.45 ($6,000 USD)
+2026-06-22 19:51:49,107 [INFO] 🛒 [Paper] Bought SITM x7.9528 @ $754.45 | SL $716.73 | TP $829.90
+2026-06-22 19:51:49,107 [INFO]    Claude: ① SITM技術評分達滿分100分，RSI 58.3處於動能區間、價格高於20日均線6.9%、成交量放大至1.6倍並出現看漲K線，5日動能+3.1%，多項指標齊步向上呈現強勁多頭態勢。② 本次無任何新聞催化劑，純屬技術面驅動，動能的可持續性
+2026-06-22 19:51:49,158 [WARNING] ⚠️ Native stop order failed for SITM: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-22 19:51:49,207 [WARNING] ⚠️ Native take profit order failed for SITM: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-22 19:51:49,401 [WARNING] ⚠️ Cannot fetch news for WFC: 'NewsSet' object has no attribute 'news'
+2026-06-22 19:51:56,606 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 19:51:56,608 [INFO] 🧠 Claude on WFC: ✅ APPROVED (conf 7/10) — ① WFC技術評分高達90分，成交量放大至1.5倍伴隨陽線收盤，RSI 61.1處於動能健康區間，價格位於20日均線上方4.3%，技術面整體強勢。② 本次無新聞
+2026-06-22 19:51:56,857 [INFO] 📤 BUY submitted: WFC notional=$10,000.00 (order 79de51dc-1609-4b1b-878c-d847522f6d0d)
+2026-06-22 19:51:59,969 [INFO] ✅ BUY filled: WFC x118.990837696 @ $84.04
+2026-06-22 19:51:59,974 [INFO] 📋 New position: WFC x118.9908 @ $84.04 ($10,000 USD)
+2026-06-22 19:51:59,974 [INFO] 🛒 [Paper] Bought WFC x118.9908 @ $84.04 | SL $81.10 | TP $89.92
+2026-06-22 19:51:59,974 [INFO]    Claude: ① WFC技術評分高達90分，成交量放大至1.5倍伴隨陽線收盤，RSI 61.1處於動能健康區間，價格位於20日均線上方4.3%，技術面整體強勢。② 本次無新聞催化劑，純屬技術驅動交易，缺乏基本面或消息面支撐，需依賴技術動能延續。③ 目標報
+2026-06-22 19:52:00,026 [WARNING] ⚠️ Native stop order failed for WFC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-22 19:52:00,075 [WARNING] ⚠️ Native take profit order failed for WFC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-22 19:52:00,172 [WARNING] ⚠️ Cannot fetch news for ABBV: 'NewsSet' object has no attribute 'news'
+2026-06-22 19:52:07,685 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 19:52:07,686 [INFO] 🧠 Claude on ABBV: ✅ APPROVED (conf 7/10) — ① ABBV技術評分高達90分，成交量放大至1.8倍均量並伴隨看漲K線，RSI 62.2處於動能健康區間，股價高於20日均線4.0%，整體技術面相當強勁。② 本
+2026-06-22 19:52:07,758 [INFO] 📤 BUY submitted: ABBV notional=$10,000.00 (order c62cd074-16bb-428d-ae52-0e0ac4944de1)
+2026-06-22 19:52:13,954 [INFO] ✅ BUY filled: ABBV x43.472547059 @ $230.03
+2026-06-22 19:52:13,963 [INFO] 📋 New position: ABBV x43.4725 @ $230.03 ($10,000 USD)
+2026-06-22 19:52:13,963 [INFO] 🛒 [Paper] Bought ABBV x43.4725 @ $230.03 | SL $221.98 | TP $246.13
+2026-06-22 19:52:13,963 [INFO]    Claude: ① ABBV技術評分高達90分，成交量放大至1.8倍均量並伴隨看漲K線，RSI 62.2處於動能健康區間，股價高於20日均線4.0%，整體技術面相當強勁。② 本次無新聞催化劑，純技術面驅動，缺乏基本面事件加持，但技術訊號本身已具備充分說服力
+2026-06-22 19:52:14,015 [WARNING] ⚠️ Native stop order failed for ABBV: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-22 19:52:14,063 [WARNING] ⚠️ Native take profit order failed for ABBV: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-22 19:52:14,064 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-22 19:52:14,161 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-22 19:52:20,571 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 19:52:20,572 [INFO] 🔍 Hold review CWAN: ✅ Continue holding (conf 7/10)
+2026-06-22 19:52:20,578 [INFO] 🔍 Hold review: BOOT [MID]...
+2026-06-22 19:52:20,692 [WARNING] ⚠️ Cannot fetch news for BOOT: 'NewsSet' object has no attribute 'news'
+2026-06-22 19:52:26,604 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-22 19:52:26,605 [INFO] 🔍 Hold review BOOT: ✅ Continue holding (conf 6/10)
+2026-06-22 19:52:26,612 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $-231.39 | total P&L: $+1,058.16
+2026-06-22 19:52:26,612 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (75 lines)
+2026-06-22 19:52:26,613 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-22 19:52:26,614 [INFO] 📡 LINE: using default system network (no proxy configured)
+2026-06-22 19:52:27,767 [INFO] 📱 LINE message sent to U877a798...
+2026-06-22 19:52:28,613 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-22 19:52:28,614 [INFO] ✅ Amara run complete — exiting cleanly.
