@@ -570,7 +570,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.55,
-      "last_checked": "2026-06-23 15:03",
+      "last_checked": "2026-06-23 16:34",
       "low_vol_runs": 0
     },
     {
@@ -4389,17 +4389,36 @@
       "reasons": [],
       "momentum_5d_pct": 1.13,
       "current_price": 24.55
+    },
+    {
+      "timestamp": "2026-06-23 16:34",
+      "date": "2026-06-23",
+      "symbol": "CWAN",
+      "score": 90,
+      "rsi": 66.5,
+      "volume_ratio": 1.94,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "CWAN目前價格$24.55略高於買入價$24.53，技術評分高達90/100，RSI 66.5顯示動能偏強但尚未進入超買區域，成交量1.9倍放大亦支撐原始買入邏輯仍然有效。目前無負面新聞，止損位$23.30距離充裕（5.1%），短期內並無明顯早期警示訊號，但5日動能僅1.1%顯示上漲速度偏緩。建議重點觀察RSI是否突破70進入超買、成交量是否持續放大，以及價格能否有效突破$25整數關口以確認趨勢延續。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.13,
+      "current_price": 24.55
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 61921.17,
-  "portfolio_value": 99840.21,
-  "buying_power": 353857.98,
+  "cash_available": 93805.42,
+  "portfolio_value": 99809.08,
+  "buying_power": 392031.93,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 736.635,
+    "current_price": 737.21,
     "goal_days": 14
   }
 }
