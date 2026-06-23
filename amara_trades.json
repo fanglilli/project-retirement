@@ -570,7 +570,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.55,
-      "last_checked": "2026-06-23 18:03",
+      "last_checked": "2026-06-23 19:51",
       "low_vol_runs": 0
     },
     {
@@ -4408,6 +4408,73 @@
       "reasons": [],
       "momentum_5d_pct": 1.13,
       "current_price": 24.55
+    },
+    {
+      "timestamp": "2026-06-23 19:51",
+      "date": "2026-06-23",
+      "symbol": "YETI",
+      "score": 65,
+      "rsi": 55.1,
+      "volume_ratio": 1.69,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① YETI技術評分僅65分，RSI 55.1雖處於動能區間，但5日動能為-3.7%，顯示近期價格持續下行壓力明顯，股價幾乎與20日均線持平（-0.0%），缺乏明確方向支撐。② 無任何新聞催化劑，純技術面判斷下缺乏基本面驅動力，成交量1.7倍雖有放大但無法確認是買盤或賣盤主導。③ 整體風險報酬不佳，目標獲利+10%對應停損-5%雖具2:1比例，但在無催化劑且動能負值的環境下，觸及目標的機率偏低。④ 主要下行風險在於5日動能仍為負值，若成交量放大係因賣盤湧入，則股價可能進一步跌破均線並測試停損位$45.64。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.7× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 55.1 in momentum zone (55–75) +30pts",
+        "Price $48.04 below 20-MA ($48.05) — no direction pts",
+        "5-day momentum -3.7% — below +2% threshold, no velocity pts"
+      ],
+      "momentum_5d_pct": -3.69,
+      "current_price": 48.04
+    },
+    {
+      "timestamp": "2026-06-23 19:51",
+      "date": "2026-06-23",
+      "symbol": "ABT",
+      "score": 60,
+      "rsi": 53.7,
+      "volume_ratio": 1.83,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① ABT技術評分僅60分，RSI 53.7未進入動能區間（55–75），5日動能+1.9%略低於+2%門檻，顯示上漲力道尚未達到強勢突破標準。② 無任何新聞催化劑支撐，純屬技術驅動，缺乏短期爆發的基本面依據，難以形成3–5日動能交易的強烈信號。③ 整體風險報酬雖有7%止盈對4%止損的不對稱優勢，但入場條件不夠充分，勝率期望偏低，不符合嚴格的動能交易紀律。④ 主要下行風險在於缺乏催化劑的情況下，股價可能在20日均線附近震盪整理，若市場環境轉弱，止損位$87.16有一定觸及概率。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.8× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 53.7 outside momentum zone (55–75) — no RSI pts",
+        "Price $90.33 above 20-MA ($88.52) +25pts",
+        "5-day momentum +1.8% — below +2% threshold, no velocity pts"
+      ],
+      "momentum_5d_pct": 1.85,
+      "current_price": 90.33
+    },
+    {
+      "timestamp": "2026-06-23 19:51",
+      "date": "2026-06-23",
+      "symbol": "CWAN",
+      "score": 90,
+      "rsi": 66.5,
+      "volume_ratio": 3.89,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前動能與買入邏輯高度一致，技術評分維持90分高位，成交量倍數從先前2.3倍進一步放大至3.9倍，顯示市場買盤積極介入，上漲動能持續健康。② 目前無任何負面新聞，RSI 66.5仍處於強勢區間且距超買區尚有空間，未出現量縮價跌或技術破位等早期警示訊號，整體風險結構良好。③ 建議重點觀察成交量是否能持續維持在3倍以上支撐股價突破，以及RSI若接近70是否出現背離訊號，止損$23.30提供充分保護空間，可持倉等待目標價$26.98。",
+      "confidence": 8,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.13,
+      "current_price": 24.55
     }
   ],
   "total_capital_usd": 100000,
@@ -4418,7 +4485,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 736.09,
+    "current_price": 735.09,
     "goal_days": 14
   }
 }
