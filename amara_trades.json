@@ -547,9 +547,9 @@
       "pct_above_ma20": 4.33,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 178.11,
-      "last_checked": "2026-06-22 19:51",
-      "low_vol_runs": 0
+      "last_price": 174.89,
+      "last_checked": "2026-06-23 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "CWAN",
@@ -570,8 +570,8 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.54,
-      "last_checked": "2026-06-22 19:51",
-      "low_vol_runs": 0
+      "last_checked": "2026-06-23 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "SITM",
@@ -581,16 +581,18 @@
       "cost_usd": 5999.99,
       "stop_loss_price": 716.73,
       "take_profit_price": 829.9,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 699.655,
+      "exit_date": "2026-06-23 13:37",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -435.7736789041356,
       "daily_pct_at_entry": 3.17,
       "volume_ratio": 1.65,
       "pct_above_ma20": 6.9,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 699.655,
+      "last_checked": "2026-06-23 13:36"
     },
     {
       "symbol": "WFC",
@@ -609,7 +611,10 @@
       "volume_ratio": 1.53,
       "pct_above_ma20": 4.26,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 83.67,
+      "last_checked": "2026-06-23 13:37",
+      "low_vol_runs": 1
     },
     {
       "symbol": "ABBV",
@@ -628,7 +633,10 @@
       "volume_ratio": 1.81,
       "pct_above_ma20": 4.17,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 232.08,
+      "last_checked": "2026-06-23 13:37",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -4229,17 +4237,93 @@
       "reasons": [],
       "momentum_5d_pct": 4.45,
       "current_price": 178.11
+    },
+    {
+      "timestamp": "2026-06-23 13:37",
+      "date": "2026-06-23",
+      "symbol": "WFC",
+      "score": 55,
+      "rsi": 60.5,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前WFC僅下跌0.5%，5日動能維持+0.6%且RSI 60.5仍處健康區間，與原始買入邏輯尚未明顯背離，距止損仍有3.0%緩衝空間。② 主要警示為成交量倍數異常偏低（0.0×），顯示今日市場幾乎無實質資金參與，技術評分僅55分且無強勢訊號，短期動能疲弱。③ 建議重點觀察明日成交量是否回升至1.5倍以上以確認買方力道，若成交量持續萎縮或價格跌破$83.00心理關卡，應提高警覺準備因應。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 0.57,
+      "current_price": 83.64
+    },
+    {
+      "timestamp": "2026-06-23 13:38",
+      "date": "2026-06-23",
+      "symbol": "CWAN",
+      "score": 55,
+      "rsi": 66.0,
+      "volume_ratio": 0.18,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前技術評分僅55分，成交量萎縮至僅0.2倍，與原始買入時高達90分、成交量2.3倍的強勢條件相比大幅惡化，動能明顯減弱，原始買入邏輯已顯著削弱。② 最大警示為成交量極度萎縮，顯示市場對該股興趣驟降，缺乏資金支撐的上漲難以持續，若明日成交量未能回升則需高度警惕。③ 建議重點觀察明日成交量能否回升至1倍以上以及股價能否有效突破$24.54阻力，若量能持續低迷且技術評分無改善，應考慮提前出場以保護資本。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.09,
+      "current_price": 24.54
+    },
+    {
+      "timestamp": "2026-06-23 13:38",
+      "date": "2026-06-23",
+      "symbol": "ABBV",
+      "score": 65,
+      "rsi": 63.8,
+      "volume_ratio": 0.03,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 目前上漲0.8%，5日動能4.7%表現穩健，RSI 63.8處於健康多頭區間，與原始買入邏輯基本相符，距目標價仍有6.1%上行空間，整體趨勢未見惡化。② 主要警示為成交量倍數顯示0.0×，今日交投幾乎停滯，漲勢缺乏資金動能支撐，技術評分僅65分且無強勢突破訊號，短期動能驗證不足。③ 建議重點觀察明日成交量是否回升至1.5倍以上以確認多頭參與度，若連續兩日成交量持續低迷且股價出現回落，應提前評估是否提早離場。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 4.72,
+      "current_price": 231.97
+    },
+    {
+      "timestamp": "2026-06-23 13:38",
+      "date": "2026-06-23",
+      "symbol": "BOOT",
+      "score": 65,
+      "rsi": 57.5,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前漲幅僅0.3%，動能明顯較前次審查時的2.2%大幅萎縮，5日動能雖維持5.3%尚可，但RSI從60.8下滑至57.5，整體多頭力道持續減弱，與原始買入邏輯的強勢突破預期漸行漸遠。② 最大警示為今日成交量幾乎歸零（0.0倍），顯示市場對此股完全缺乏興趣，無資金推動的上漲動能極難持續，技術評分65分且無強勢訊號支撐。③ 明日為第5天（持倉上限），若收盤前仍無成交量放大配合且無法有效突破$176阻力位，應考慮主動結束部位，避免讓小幅獲利轉為虧損。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 5.33,
+      "current_price": 174.89
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 82414.59,
-  "portfolio_value": 100283.77,
-  "buying_power": 379692.07,
+  "cash_available": 56413.97,
+  "portfolio_value": 99645.74,
+  "buying_power": 346704.84,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 744.52,
+    "current_price": 732.74,
     "goal_days": 14
   }
 }
