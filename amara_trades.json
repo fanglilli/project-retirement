@@ -655,7 +655,10 @@
       "volume_ratio": 1.54,
       "pct_above_ma20": 2.75,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 196.25,
+      "last_checked": "2026-06-24 18:03",
+      "low_vol_runs": 0
     }
   ],
   "daily_stats": [],
@@ -4556,17 +4559,36 @@
       ],
       "momentum_5d_pct": 0.4,
       "current_price": 196.81
+    },
+    {
+      "timestamp": "2026-06-24 18:04",
+      "date": "2026-06-24",
+      "symbol": "MATX",
+      "score": 90,
+      "rsi": 59.1,
+      "volume_ratio": 1.91,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前RSI 59.1與買入時59.8相近，技術評分維持90分高位，成交量倍數從1.5倍升至1.9倍顯示買盤積極，整體動能與原始買入邏輯吻合，短線偏多格局未變。② 股價小幅回落0.5%至196.25，屬正常波動，距止損位187.34仍有4.5%緩衝空間，目前無明確預警訊號或負面新聞，無需提前離場。③ 建議重點觀察股價能否守穩195元支撐區並重返20日均線以上，若成交量縮減且RSI跌破55，則需警惕動能衰退風險。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 0.11,
+      "current_price": 196.25
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 99807.81,
-  "portfolio_value": 99807.81,
-  "buying_power": 399231.24,
+  "cash_available": 93807.82,
+  "portfolio_value": 99770.46,
+  "buying_power": 391926.68,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 737.72,
+    "current_price": 732.48,
     "goal_days": 14
   }
 }
