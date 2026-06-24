@@ -570,8 +570,8 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.55,
-      "last_checked": "2026-06-23 19:51",
-      "low_vol_runs": 0
+      "last_checked": "2026-06-24 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "SITM",
@@ -4475,17 +4475,36 @@
       "reasons": [],
       "momentum_5d_pct": 1.13,
       "current_price": 24.55
+    },
+    {
+      "timestamp": "2026-06-24 13:36",
+      "date": "2026-06-24",
+      "symbol": "CWAN",
+      "score": 55,
+      "rsi": 66.5,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前技術評分已從前次高位90分大幅下滑至55分，成交量倍數驟降至0.0倍，顯示市場動能明顯減弱，與原始買入時強勢放量的邏輯出現顯著背離。② 雖無負面新聞，但量能幾乎消失是重要早期警示，RSI 66.5尚在合理區間，價格僅小漲0.1%，整體動能趨於停滯。③ 建議密切觀察後續交易時段能否出現成交量回升配合價格突破，若量能持續低迷且價格無法有效推進，應考慮提前減倉以鎖定現有微利，剩餘持倉天數僅3天需提高警覺。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.22,
+      "current_price": 24.55
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93805.42,
-  "portfolio_value": 99809.08,
-  "buying_power": 392031.93,
+  "cash_available": 93805.37,
+  "portfolio_value": 99809.03,
+  "buying_power": 392031.73,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 735.09,
+    "current_price": 737.06,
     "goal_days": 14
   }
 }
