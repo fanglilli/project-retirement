@@ -637,6 +637,25 @@
       "last_price": 234.31,
       "last_checked": "2026-06-23 15:03",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "MATX",
+      "entry_price": 197.2,
+      "entry_date": "2026-06-24",
+      "shares": 30.425912778,
+      "cost_usd": 5999.99,
+      "stop_loss_price": 187.34,
+      "take_profit_price": 216.92,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.21,
+      "volume_ratio": 1.54,
+      "pct_above_ma20": 2.75,
+      "stop_order_id": "",
+      "take_profit_order_id": ""
     }
   ],
   "daily_stats": [],
@@ -4513,17 +4532,41 @@
       "reasons": [],
       "momentum_5d_pct": 1.22,
       "current_price": 24.55
+    },
+    {
+      "timestamp": "2026-06-24 16:34",
+      "date": "2026-06-24",
+      "symbol": "MATX",
+      "score": 90,
+      "rsi": 59.8,
+      "volume_ratio": 1.54,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": true,
+      "claude_reason": "① MATX技術評分高達90分，成交量放大至1.5倍均量且出現看漲K線，RSI 59.8處於動能強勁區間（55–75），股價高於20日均線2.7%，整體技術面偏多。② 本次無相關新聞催化劑，純粹依賴技術面判斷，缺乏基本面驅動力，但技術訊號一致性強，未有負面消息干擾。③ 停損設於-5%（$186.96），目標獲利+10%（$216.49），風險報酬比約1:2，具備可接受的進場條件。④ 主要下行風險在於無新聞催化劑支撐，若市場整體回調或航運類股出現利空，5日動能僅+0.4%顯示短期加速度不足，可能導致突破力道有限而提前觸及停損。",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.5× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 59.8 in momentum zone (55–75) +30pts",
+        "Price $196.81 above 20-MA ($191.55) +25pts",
+        "5-day momentum +0.4% — below +2% threshold, no velocity pts"
+      ],
+      "momentum_5d_pct": 0.4,
+      "current_price": 196.81
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93805.37,
-  "portfolio_value": 99809.03,
-  "buying_power": 392031.73,
+  "cash_available": 99807.81,
+  "portfolio_value": 99807.81,
+  "buying_power": 399231.24,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 739.445,
+    "current_price": 737.72,
     "goal_days": 14
   }
 }
