@@ -656,9 +656,9 @@
       "pct_above_ma20": 2.75,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 194.33,
-      "last_checked": "2026-06-24 19:51",
-      "low_vol_runs": 0
+      "last_price": 195.43,
+      "last_checked": "2026-06-25 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "FOUR",
@@ -677,7 +677,10 @@
       "volume_ratio": 1.58,
       "pct_above_ma20": 8.68,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 43.37,
+      "last_checked": "2026-06-25 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "CVBF",
@@ -696,7 +699,10 @@
       "volume_ratio": 1.72,
       "pct_above_ma20": 6.29,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 22.21,
+      "last_checked": "2026-06-25 13:36",
+      "low_vol_runs": 1
     },
     {
       "symbol": "CWAN",
@@ -715,7 +721,10 @@
       "volume_ratio": 1.96,
       "pct_above_ma20": 0.74,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-06-25 13:36",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -4774,17 +4783,93 @@
       "reasons": [],
       "momentum_5d_pct": -0.87,
       "current_price": 194.33
+    },
+    {
+      "timestamp": "2026-06-25 13:37",
+      "date": "2026-06-25",
+      "symbol": "FOUR",
+      "score": 65,
+      "rsi": 55.5,
+      "volume_ratio": 0.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 5日動能仍維持強勁的+10.9%，技術評分65分屬中性偏正，RSI 55.5未達超買區間，原始買入邏輯尚未完全失效，但成交量倍數驟降至0.0倍為最大隱憂，顯示今日市場對該股缺乏興趣。② 成交量極度萎縮是明顯的早期警示訊號，無量下跌1.5%意味著多方支撐薄弱，若明日仍無法放量回升，動能恐將進一步衰退；目前無重大負面新聞，跌幅尚在正常波動範圍內。③ 建議重點觀察明日成交量是否能回升至平均水平以上（1.0倍以上），以及股價能否守穩$43.00關鍵支撐位，若成交量持續低迷且價格繼續下滑，應提前評估出場。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 10.92,
+      "current_price": 43.37
+    },
+    {
+      "timestamp": "2026-06-25 13:37",
+      "date": "2026-06-25",
+      "symbol": "CVBF",
+      "score": 65,
+      "rsi": 68.1,
+      "volume_ratio": 0.03,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 股價上漲0.8%，5日動能強勁達7.9%，且仍高於均線8.7%，短線動能基本維持，但技術評分65分屬中性，未見明顯加速訊號。② 成交量倍數為0.0倍是主要警示，顯示今日漲幅缺乏成交量支撐，RSI已升至68.1接近超買區間，後續上漲動力存疑。③ 建議重點觀察成交量是否回升以確認多頭動能，若RSI突破70且成交量持續低迷，應考慮提前減倉鎖利。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 7.94,
+      "current_price": 22.21
+    },
+    {
+      "timestamp": "2026-06-25 13:37",
+      "date": "2026-06-25",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 技術評分驟降至0分且成交量倍數僅0.0倍，顯示當前幾乎無交易動能支撐，與原始買入邏輯嚴重背離，RSI雖達67.3尚屬中性偏強區間，但5日動能1.3%的支撐力道十分有限。② 成交量萎縮至0倍為最大警示訊號，代表市場對該股興趣極低，若缺乏成交量配合，股價突破上行的機率大幅降低，需密切注意是否出現放量下跌。③ 建議觀察明日成交量是否回升至1.5倍以上，以及RSI是否跌破60作為動能轉弱確認，若兩者同時發生應優先考慮出場以保護資金。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-06-25 13:37",
+      "date": "2026-06-25",
+      "symbol": "MATX",
+      "score": 0,
+      "rsi": 57.8,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前技術評分已降至0分，成交量倍數顯示為0.0×，原始買入時的強勢動能與成交量支撐已完全消失，5日動能維持負值-0.3%，買入邏輯持續弱化。② 股價自買入後已下跌0.9%，技術評分歸零為明顯早期警示，雖距止損仍有4.1%空間，但動能結構惡化值得高度警惕。③ 建議密切觀察明日是否出現成交量回升（>1.0×）及技術評分是否反彈至30分以上，若持倉第2天仍無改善跡象，應考慮提前出場以保護資本。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": -0.31,
+      "current_price": 195.43
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 93807.82,
-  "portfolio_value": 99730.22,
-  "buying_power": 391814.01,
+  "cash_available": 75807.79,
+  "portfolio_value": 99754.27,
+  "buying_power": 353481.34,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 732.52,
+    "current_price": 737.78,
     "goal_days": 14
   }
 }
