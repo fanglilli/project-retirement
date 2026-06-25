@@ -1840,3 +1840,98 @@
 2026-06-25 18:04:03,332 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-25 18:04:03,332 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-25 18:04:03,332 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-25 19:51:48,641 [INFO] =======================================================
+2026-06-25 19:51:48,641 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-25 19:51:48,641 [INFO] =======================================================
+2026-06-25 19:51:48,641 [INFO] 📖 Previous dashboard loaded (3,362 chars) — Amara has prior-run context
+2026-06-25 19:51:48,949 [INFO] ✅ Alpaca market data connected
+2026-06-25 19:51:49,616 [INFO] ✅ Claude API connected
+2026-06-25 19:51:49,616 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-25 19:51:50,209 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-06-25 19:51:50,281 [INFO] 💰 Account — cash $87,883.81 | portfolio $99,960.01
+2026-06-25 19:51:50,281 [INFO] 🚀 Amara initialised
+2026-06-25 19:51:50,281 [INFO]    Capital: $100,000 USD
+2026-06-25 19:51:50,281 [INFO]    Max position: $10,000 USD
+2026-06-25 19:51:50,281 [INFO]    Daily loss limit: $5,000 USD
+2026-06-25 19:51:50,281 [INFO] 
+=======================================================
+2026-06-25 19:51:50,281 [INFO] ⏰ Amara run: 2026-06-25 19:51
+2026-06-25 19:51:50,869 [INFO] 📋 Checking 2 open position(s)...
+2026-06-25 19:51:50,937 [INFO]   CVBF: $22.32 | +1.3% | 1d held
+2026-06-25 19:51:51,026 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-06-25 19:51:51,034 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-06-25 19:51:51,034 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-25 19:51:53,273 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-25 19:51:53,414 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-25 19:51:53,418 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 6/150 symbols
+2026-06-25 19:51:53,420 [INFO]    Top 8 candidates → Claude: CAT, ABBV, ACAD, HD, TMO, BLD
+2026-06-25 19:51:53,927 [WARNING] ⚠️ Cannot fetch news for CAT: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:52:01,740 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:52:01,776 [INFO] 🧠 Claude on CAT: ✅ APPROVED (conf 7/10) — ① 技術面極為強勁，評分達滿分100分，成交量放大2倍、5日動能達9.8%、RSI 69.0位於動能區間，股價高於20日均線12.5%，多項指標同步確認上漲動能
+2026-06-25 19:52:01,860 [INFO] 📤 BUY submitted: CAT notional=$10,000.00 (order 62c4bd43-645f-41f1-ba22-208cf3eeb1aa)
+2026-06-25 19:52:04,993 [INFO] ✅ BUY filled: CAT x9.526612618 @ $1049.69
+2026-06-25 19:52:05,001 [INFO] 📋 New position: CAT x9.5266 @ $1049.69 ($10,000 USD)
+2026-06-25 19:52:05,001 [INFO] 🛒 [Paper] Bought CAT x9.5266 @ $1049.69 | SL $1012.95 | TP $1123.17
+2026-06-25 19:52:05,001 [INFO]    Claude: ① 技術面極為強勁，評分達滿分100分，成交量放大2倍、5日動能達9.8%、RSI 69.0位於動能區間，股價高於20日均線12.5%，多項指標同步確認上漲動能。② 本次無任何新聞催化劑，純屬技術面驅動，缺乏基本面事件支撐，不排除是機構進場
+2026-06-25 19:52:05,066 [WARNING] ⚠️ Native stop order failed for CAT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-25 19:52:05,149 [WARNING] ⚠️ Native take profit order failed for CAT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-25 19:52:05,598 [WARNING] ⚠️ Cannot fetch news for ABBV: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:52:16,146 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:52:16,147 [INFO] 🧠 Claude on ABBV: ❌ REJECTED (conf 4/10) — ① 技術面表現極為強勁，技術評分滿分100分，5日動能高達10.4%，成交量放大至1.8倍，各項指標均呈多頭格局。② 然而無任何新聞催化劑支撐此波急漲，純粹由技
+2026-06-25 19:52:16,647 [WARNING] ⚠️ Cannot fetch news for ACAD: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:52:24,472 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:52:24,473 [INFO] 🧠 Claude on ACAD: ✅ APPROVED (conf 7/10) — ① ACAD技術評分達滿分100分，5日動能強勁達9.4%，成交量放大至1.7倍，股價高於20日均線8.7%，各項技術指標全面同步向好，呈現強勢突破格局。② 本
+2026-06-25 19:52:24,552 [INFO] 📤 BUY submitted: ACAD notional=$6,000.00 (order df4a133d-02ec-4b30-87ad-e98a0b5c34ab)
+2026-06-25 19:52:27,772 [INFO] ✅ BUY filled: ACAD x253.914092255 @ $23.63
+2026-06-25 19:52:27,780 [INFO] 📋 New position: ACAD x253.9141 @ $23.63 ($6,000 USD)
+2026-06-25 19:52:27,780 [INFO] 🛒 [Paper] Bought ACAD x253.9141 @ $23.63 | SL $22.45 | TP $25.99
+2026-06-25 19:52:27,780 [INFO]    Claude: ① ACAD技術評分達滿分100分，5日動能強勁達9.4%，成交量放大至1.7倍，股價高於20日均線8.7%，各項技術指標全面同步向好，呈現強勢突破格局。② 本次無任何新聞催化劑，純屬技術面驅動，缺乏基本面事件支撐，漲勢的持續性較依賴市場情
+2026-06-25 19:52:27,843 [WARNING] ⚠️ Native stop order failed for ACAD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-25 19:52:27,921 [WARNING] ⚠️ Native take profit order failed for ACAD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-25 19:52:28,440 [WARNING] ⚠️ Cannot fetch news for HD: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:52:37,287 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:52:37,288 [INFO] 🧠 Claude on HD: ✅ APPROVED (conf 7/10) — ① HD技術評分達滿分100分，RSI 64.0處於動能黃金區間（55–75），5日動能+5.3%，成交量放大至1.5倍均量，且股價高於20日均線6.6%，多重
+2026-06-25 19:52:37,425 [INFO] 📤 BUY submitted: HD notional=$10,000.00 (order 350d3434-6b12-4cc2-8299-859e04fd19c5)
+2026-06-25 19:52:40,567 [INFO] ✅ BUY filled: HD x29.009196669 @ $344.72
+2026-06-25 19:52:40,575 [INFO] 📋 New position: HD x29.0092 @ $344.72 ($10,000 USD)
+2026-06-25 19:52:40,575 [INFO] 🛒 [Paper] Bought HD x29.0092 @ $344.72 | SL $332.65 | TP $368.85
+2026-06-25 19:52:40,575 [INFO]    Claude: ① HD技術評分達滿分100分，RSI 64.0處於動能黃金區間（55–75），5日動能+5.3%，成交量放大至1.5倍均量，且股價高於20日均線6.6%，多重技術指標同步確認強勢格局。② 本次無新聞催化劑，純屬技術驅動訊號，缺乏基本面或事
+2026-06-25 19:52:40,643 [WARNING] ⚠️ Native stop order failed for HD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-25 19:52:40,718 [WARNING] ⚠️ Native take profit order failed for HD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-25 19:52:41,170 [WARNING] ⚠️ Cannot fetch news for TMO: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:52:48,562 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:52:48,563 [INFO] 🧠 Claude on TMO: ✅ APPROVED (conf 7/10) — ① TMO技術面全面強勢，評分達100/100滿分，量能放大1.8倍、RSI 64.3處於動能區間、股價高於20日均線6.1%、5日動能達10.1%，多項指標同
+2026-06-25 19:52:48,823 [INFO] 📤 BUY submitted: TMO notional=$10,000.00 (order d4fd22d8-62ba-4176-8348-a54fc92ae22f)
+2026-06-25 19:52:51,966 [INFO] ✅ BUY filled: TMO x19.673014499 @ $508.31
+2026-06-25 19:52:51,973 [INFO] 📋 New position: TMO x19.6730 @ $508.31 ($10,000 USD)
+2026-06-25 19:52:51,974 [INFO] 🛒 [Paper] Bought TMO x19.6730 @ $508.31 | SL $490.52 | TP $543.89
+2026-06-25 19:52:51,974 [INFO]    Claude: ① TMO技術面全面強勢，評分達100/100滿分，量能放大1.8倍、RSI 64.3處於動能區間、股價高於20日均線6.1%、5日動能達10.1%，多項指標同步共振向上。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面事件支撐，但技術訊號
+2026-06-25 19:52:52,049 [WARNING] ⚠️ Native stop order failed for TMO: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-25 19:52:52,126 [WARNING] ⚠️ Native take profit order failed for TMO: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-25 19:52:52,585 [WARNING] ⚠️ Cannot fetch news for BLD: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:53:00,330 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:53:00,332 [INFO] 🧠 Claude on BLD: ✅ APPROVED (conf 7/10) — ① BLD技術評分達滿分100分，各項指標全面達標：成交量放大1.5倍並伴隨看漲K線、RSI 56.2處於動能最佳區間（55–75）、股價高於20日均線3.3%
+2026-06-25 19:53:00,462 [INFO] 📤 BUY submitted: BLD notional=$6,000.00 (order 727888f5-d8d9-4800-acbd-a11696e778e7)
+2026-06-25 19:53:03,611 [INFO] ✅ BUY filled: BLD x14.087790561 @ $425.90
+2026-06-25 19:53:03,620 [INFO] 📋 New position: BLD x14.0878 @ $425.90 ($6,000 USD)
+2026-06-25 19:53:03,620 [INFO] 🛒 [Paper] Bought BLD x14.0878 @ $425.90 | SL $404.60 | TP $468.49
+2026-06-25 19:53:03,620 [INFO]    Claude: ① BLD技術評分達滿分100分，各項指標全面達標：成交量放大1.5倍並伴隨看漲K線、RSI 56.2處於動能最佳區間（55–75）、股價高於20日均線3.3%、5日動能+3.3%，技術面呈現強勢突破格局。② 本次無相關新聞催化劑，純屬技術
+2026-06-25 19:53:03,686 [WARNING] ⚠️ Native stop order failed for BLD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-25 19:53:03,771 [WARNING] ⚠️ Native take profit order failed for BLD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-25 19:53:03,772 [INFO] 🔍 Hold review: CVBF [MID]...
+2026-06-25 19:53:04,225 [WARNING] ⚠️ Cannot fetch news for CVBF: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:53:09,627 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-25 19:53:09,628 [INFO] 🔍 Hold review CVBF: ✅ Continue holding (conf 7/10)
+2026-06-25 19:53:09,637 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-25 19:53:10,158 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-25 19:53:10,168 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-06-25 19:53:10,243 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-06-25 19:53:10,252 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-06-25 19:53:10,253 [INFO] 
+📊 Run complete — positions: 6 | today P&L: $+76.04 | total P&L: $+955.19
+2026-06-25 19:53:10,254 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (81 lines)
+2026-06-25 19:53:10,256 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-25 19:53:10,256 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:41233)
+2026-06-25 19:53:11,551 [INFO] 📱 LINE message sent to U877a798...
+2026-06-25 19:53:11,846 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-25 19:53:11,848 [INFO] ✅ Amara run complete — exiting cleanly.
