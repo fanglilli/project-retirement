@@ -879,6 +879,28 @@
       "last_price": 24.56,
       "last_checked": "2026-06-26 15:03",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "CWAN",
+      "entry_price": 24.56,
+      "entry_date": "2026-06-26",
+      "shares": 244.2992671,
+      "cost_usd": 5999.989999976,
+      "stop_loss_price": 23.33,
+      "take_profit_price": 27.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-06-26 16:34",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -5537,17 +5559,60 @@
       "reasons": [],
       "momentum_5d_pct": 1.28,
       "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-06-26 16:34",
+      "date": "2026-06-26",
+      "symbol": "ACAD",
+      "score": 70,
+      "rsi": 80.2,
+      "volume_ratio": 1.73,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "① ACAD 的 RSI 高達 80.2，已明顯進入超買區間，遠超動能有效區間（55–75），且 5 日動能達 +22.2%、股價高於 20 日均線 20.1%，顯示短期漲幅過度延伸。② 目前無任何新聞催化劑支撐此波急漲，缺乏基本面驅動使技術面的可持續性存疑，純動能追高風險極高。③ 雖然技術評分達 70 分，但在無催化劑且嚴重超買的情況下，3–5 日內出現均值回歸的概率遠大於繼續上漲，風險報酬比不利於進場。④ 主要下行風險為超買回調壓力強烈，若市場整體出現賣壓，ACAD 可能迅速跌破 -5% 停損位（$25.08），且追高後流動性風險亦不容忽視。",
+      "confidence": 3,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 1.7× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 80.2 outside momentum zone (55–75) — no RSI pts",
+        "Price $26.40 above 20-MA ($21.98) +25pts",
+        "5-day momentum +22.2% (above +2% threshold) +10pts"
+      ],
+      "momentum_5d_pct": 22.22,
+      "current_price": 26.4
+    },
+    {
+      "timestamp": "2026-06-26 16:34",
+      "date": "2026-06-26",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① CWAN 當前價格與進場價持平（+0.0%），RSI 67.3 顯示動能偏強但尚未超買，5日動能+1.3%維持正向，基本面與原始買入邏輯尚未被否定。② 最大警示訊號為成交量倍數為0.0x，顯示今日幾乎無成交量支撐，動能真實性存疑，需密切注意是否出現類似 BLD/HD 的動能衰竭訊號。③ 建議重點觀察後續時段成交量是否回升至均量0.5倍以上，若連續出現低量且價格無法突破，應考慮提前出場；停損$23.33提供5%緩衝，短期風險可控。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 52538.68,
-  "portfolio_value": 100291.27,
-  "buying_power": 327062.0,
+  "cash_available": 94261.41,
+  "portfolio_value": 100261.4,
+  "buying_power": 377045.64,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 733.27,
+    "current_price": 734.28,
     "goal_days": 14
   }
 }
