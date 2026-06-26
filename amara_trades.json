@@ -879,6 +879,28 @@
       "last_price": 24.56,
       "last_checked": "2026-06-26 15:03",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "CWAN",
+      "entry_price": 24.56,
+      "entry_date": "2026-06-26",
+      "shares": 244.2992671,
+      "cost_usd": 5999.989999976,
+      "stop_loss_price": 23.33,
+      "take_profit_price": 27.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-06-26 18:04",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -5537,17 +5559,36 @@
       "reasons": [],
       "momentum_5d_pct": 1.28,
       "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-06-26 18:04",
+      "date": "2026-06-26",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① CWAN 當前價格與進場價格相同（$24.56），尚未形成明確方向，5日動能僅1.3%，RSI 67.3接近超買區間但尚未觸頂，原始買入邏輯需進一步觀察確認。② 技術評分為0/100，且今日成交量倍數為0.0x，顯示市場參與度極低，動能支撐不足，是值得警惕的早期疲弱訊號。③ 建議密切觀察後續交易時段的成交量是否恢復正常水平（至少達到均量0.5倍以上），以及RSI是否突破70進入超買後回落，若量能持續低迷則需考量提前出場。",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 52538.68,
-  "portfolio_value": 100291.27,
-  "buying_power": 327062.0,
+  "cash_available": 94261.41,
+  "portfolio_value": 100261.4,
+  "buying_power": 377045.64,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 733.27,
+    "current_price": 734.33,
     "goal_days": 14
   }
 }
