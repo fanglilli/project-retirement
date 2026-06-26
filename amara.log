@@ -2112,3 +2112,99 @@
 2026-06-26 18:04:52,892 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-26 18:04:52,892 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-26 18:04:52,892 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-26 19:51:04,813 [INFO] =======================================================
+2026-06-26 19:51:04,813 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-26 19:51:04,813 [INFO] =======================================================
+2026-06-26 19:51:04,813 [INFO] 📖 Previous dashboard loaded (2,756 chars) — Amara has prior-run context
+2026-06-26 19:51:05,072 [INFO] ✅ Alpaca market data connected
+2026-06-26 19:51:05,565 [INFO] ✅ Claude API connected
+2026-06-26 19:51:05,565 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-26 19:51:06,069 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 1
+2026-06-26 19:51:06,147 [INFO] 💰 Account — cash $94,261.41 | portfolio $100,261.40
+2026-06-26 19:51:06,148 [INFO] 🚀 Amara initialised
+2026-06-26 19:51:06,148 [INFO]    Capital: $100,000 USD
+2026-06-26 19:51:06,148 [INFO]    Max position: $10,000 USD
+2026-06-26 19:51:06,148 [INFO]    Daily loss limit: $5,000 USD
+2026-06-26 19:51:06,148 [INFO] 
+=======================================================
+2026-06-26 19:51:06,148 [INFO] ⏰ Amara run: 2026-06-26 19:51
+2026-06-26 19:51:06,684 [INFO] 📋 Checking 1 open position(s)...
+2026-06-26 19:51:06,740 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-06-26 19:51:06,746 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-06-26 19:51:06,746 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-26 19:51:09,628 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-26 19:51:09,744 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-26 19:51:09,746 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 8/150 symbols
+2026-06-26 19:51:09,748 [INFO]    Top 8 candidates → Claude: PLMR, ABBV, LLY, MYRG, HRMY, HON, VCEL, NCNO
+2026-06-26 19:51:10,199 [WARNING] ⚠️ Cannot fetch news for PLMR: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:51:17,546 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:51:17,570 [INFO] 🧠 Claude on PLMR: ✅ APPROVED (conf 7/10) — ① PLMR技術評分滿分100/100，RSI 67.6處於動能區間（55–75），5日動能高達12.3%，成交量為均量1.6倍，且收盤高於開盤形成看漲蠟燭，技
+2026-06-26 19:51:17,680 [INFO] 📤 BUY submitted: PLMR notional=$6,000.00 (order abf47e88-11bb-4a83-90da-bbd9ecb1f876)
+2026-06-26 19:51:20,813 [INFO] ✅ BUY filled: PLMR x47.378316487 @ $126.64
+2026-06-26 19:51:20,819 [INFO] 📋 New position: PLMR x47.3783 @ $126.64 ($6,000 USD)
+2026-06-26 19:51:20,820 [INFO] 🛒 [Paper] Bought PLMR x47.3783 @ $126.64 | SL $120.31 | TP $139.30
+2026-06-26 19:51:20,820 [INFO]    Claude: ① PLMR技術評分滿分100/100，RSI 67.6處於動能區間（55–75），5日動能高達12.3%，成交量為均量1.6倍，且收盤高於開盤形成看漲蠟燭，技術面全面強勢。② 本次無新聞催化劑回傳，純屬技術面驅動，缺乏基本面確認，無法判斷
+2026-06-26 19:51:20,877 [WARNING] ⚠️ Native stop order failed for PLMR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-26 19:51:20,933 [WARNING] ⚠️ Native take profit order failed for PLMR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-26 19:51:21,364 [WARNING] ⚠️ Cannot fetch news for ABBV: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:51:28,408 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:51:28,409 [INFO] 🧠 Claude on ABBV: ❌ REJECTED (conf 4/10) — ① ABBV技術面極為強勁，技術評分滿分100/100，5日動能+15.2%，成交量放大至2.4倍，顯示短期買盤積極。② 然而無任何新聞催化劑支撐此波強勢漲幅，
+2026-06-26 19:51:28,841 [WARNING] ⚠️ Cannot fetch news for LLY: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:51:35,881 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:51:35,882 [INFO] 🧠 Claude on LLY: ✅ APPROVED (conf 7/10) — ① LLY技術評分達滿分100/100，RSI 72.8處於動能強勢區間，5日動能高達+10.3%，成交量為20日均量的2.0倍，顯示市場強烈買盤介入。② 本次
+2026-06-26 19:51:35,953 [INFO] 📤 BUY submitted: LLY notional=$10,000.00 (order a8f65d9d-dcd6-4236-ba88-e823b33fe3ac)
+2026-06-26 19:51:39,065 [INFO] ✅ BUY filled: LLY x8.243876903 @ $1213.02
+2026-06-26 19:51:39,072 [INFO] 📋 New position: LLY x8.2439 @ $1213.02 ($10,000 USD)
+2026-06-26 19:51:39,072 [INFO] 🛒 [Paper] Bought LLY x8.2439 @ $1213.02 | SL $1170.56 | TP $1297.93
+2026-06-26 19:51:39,073 [INFO]    Claude: ① LLY技術評分達滿分100/100，RSI 72.8處於動能強勢區間，5日動能高達+10.3%，成交量為20日均量的2.0倍，顯示市場強烈買盤介入。② 本次無新聞催化劑回傳，純粹依賴技術面判斷，缺乏基本面事件支撐，但技術訊號全面一致且強
+2026-06-26 19:51:39,132 [WARNING] ⚠️ Native stop order failed for LLY: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-26 19:51:39,189 [WARNING] ⚠️ Native take profit order failed for LLY: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-26 19:51:39,640 [WARNING] ⚠️ Cannot fetch news for MYRG: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:51:47,287 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:51:47,288 [INFO] 🧠 Claude on MYRG: ✅ APPROVED (conf 7/10) — ① MYRG技術面表現強勁，技術評分達滿分100/100，RSI 62.2處於動能區間（55-75），價格高於20日均線6.8%，5日動能達4.6%，成交量為均
+2026-06-26 19:51:47,367 [INFO] 📤 BUY submitted: MYRG notional=$6,000.00 (order 36e055a1-98d0-4382-bcf1-1f914d722b46)
+2026-06-26 19:51:50,485 [INFO] ✅ BUY filled: MYRG x12.436758975 @ $482.44
+2026-06-26 19:51:50,492 [INFO] 📋 New position: MYRG x12.4368 @ $482.44 ($6,000 USD)
+2026-06-26 19:51:50,492 [INFO] 🛒 [Paper] Bought MYRG x12.4368 @ $482.44 | SL $458.32 | TP $530.68
+2026-06-26 19:51:50,492 [INFO]    Claude: ① MYRG技術面表現強勁，技術評分達滿分100/100，RSI 62.2處於動能區間（55-75），價格高於20日均線6.8%，5日動能達4.6%，成交量為均量1.6倍，顯示買盤積極介入。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本面支
+2026-06-26 19:51:50,551 [WARNING] ⚠️ Native stop order failed for MYRG: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-26 19:51:50,612 [WARNING] ⚠️ Native take profit order failed for MYRG: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-26 19:51:52,180 [WARNING] ⚠️ Cannot fetch news for HRMY: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:51:59,331 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:51:59,332 [INFO] 🧠 Claude on HRMY: ✅ APPROVED (conf 7/10) — ① HRMY技術評分達滿分100/100，RSI 64.6處於動能黃金區間（55–75），5日動能+6.0%，價格高於20日均線5.3%，成交量放大至1.5倍，
+2026-06-26 19:51:59,636 [INFO] 📤 BUY submitted: HRMY notional=$6,000.00 (order f4e2bd02-7dcc-458e-bf19-a5b7fcf384f4)
+2026-06-26 19:52:02,878 [INFO] ✅ BUY filled: HRMY x170.144882336 @ $35.26
+2026-06-26 19:52:02,885 [INFO] 📋 New position: HRMY x170.1449 @ $35.26 ($6,000 USD)
+2026-06-26 19:52:02,885 [INFO] 🛒 [Paper] Bought HRMY x170.1449 @ $35.26 | SL $33.50 | TP $38.79
+2026-06-26 19:52:02,885 [INFO]    Claude: ① HRMY技術評分達滿分100/100，RSI 64.6處於動能黃金區間（55–75），5日動能+6.0%，價格高於20日均線5.3%，成交量放大至1.5倍，顯示買盤積極推升。② 本次無新聞催化劑，純屬技術面驅動，訊號一致性高但缺乏基本面
+2026-06-26 19:52:03,009 [WARNING] ⚠️ Native stop order failed for HRMY: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-26 19:52:03,110 [WARNING] ⚠️ Native take profit order failed for HRMY: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-26 19:52:03,729 [WARNING] ⚠️ Cannot fetch news for HON: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:52:11,054 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:52:11,055 [INFO] 🧠 Claude on HON: ✅ APPROVED (conf 7/10) — ① HON技術評分高達90/100，RSI 57.2處於動能區間（55-75），成交量放大至1.7倍均量，股價高於20日均線3.1%，技術面呈現穩健多頭格局。②
+2026-06-26 19:52:11,127 [INFO] 📤 BUY submitted: HON notional=$10,000.00 (order 36443fd3-0633-44b9-bb8e-a603143e4374)
+2026-06-26 19:52:14,252 [INFO] ✅ BUY filled: HON x43.127571484 @ $231.87
+2026-06-26 19:52:14,259 [INFO] 📋 New position: HON x43.1276 @ $231.87 ($10,000 USD)
+2026-06-26 19:52:14,259 [INFO] 🛒 [Paper] Bought HON x43.1276 @ $231.87 | SL $223.75 | TP $248.10
+2026-06-26 19:52:14,259 [INFO]    Claude: ① HON技術評分高達90/100，RSI 57.2處於動能區間（55-75），成交量放大至1.7倍均量，股價高於20日均線3.1%，技術面呈現穩健多頭格局。② 本次無新聞催化劑回傳，純屬技術面驅動交易，缺乏基本面確認，需依賴技術訊號獨立判
+2026-06-26 19:52:14,316 [WARNING] ⚠️ Native stop order failed for HON: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-26 19:52:14,382 [WARNING] ⚠️ Native take profit order failed for HON: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-26 19:52:14,969 [WARNING] ⚠️ Cannot fetch news for VCEL: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:52:23,280 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:52:23,281 [INFO] 🧠 Claude on VCEL: ❌ REJECTED (conf 3/10) — ① VCEL 的 RSI 高達 82.5，遠超動能區間上限（75），屬於嚴重超買狀態，5 日動能 +14.9% 且價格已高於 20 日均線 21.3%，短期漲幅
+2026-06-26 19:52:23,713 [WARNING] ⚠️ Cannot fetch news for NCNO: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:52:31,628 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-26 19:52:31,629 [INFO] 🧠 Claude on NCNO: ✅ APPROVED (conf 6/10) — ① NCNO技術面呈現溫和偏多格局：5日動能+5.9%、價格站上20日均線2.5%、成交量放大至1.9倍均量，顯示短期買盤有所增強，技術評分70/100屬中上水
+2026-06-26 19:52:31,637 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-26 19:52:32,057 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-26 19:52:32,065 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-06-26 19:52:32,139 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-06-26 19:52:32,145 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-06-26 19:52:32,147 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+377.66 | total P&L: $+1,332.85
+2026-06-26 19:52:32,147 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (80 lines)
+2026-06-26 19:52:32,148 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-26 19:52:32,149 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:35371)
+2026-06-26 19:52:33,215 [INFO] 📱 LINE message sent to U877a798...
+2026-06-26 19:52:33,542 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-26 19:52:33,544 [INFO] ✅ Amara run complete — exiting cleanly.
