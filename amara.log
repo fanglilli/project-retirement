@@ -2268,3 +2268,63 @@
 2026-06-29 13:37:08,012 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-29 13:37:08,013 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-29 13:37:08,013 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-29 16:33:54,828 [INFO] =======================================================
+2026-06-29 16:33:54,828 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-29 16:33:54,828 [INFO] =======================================================
+2026-06-29 16:33:54,829 [INFO] 📖 Previous dashboard loaded (4,088 chars) — Amara has prior-run context
+2026-06-29 16:33:55,091 [INFO] ✅ Alpaca market data connected
+2026-06-29 16:33:55,598 [INFO] ✅ Claude API connected
+2026-06-29 16:33:55,598 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-29 16:33:56,058 [INFO] 📋 New position: HON x43.1276 @ $231.87 ($10,000 USD)
+2026-06-29 16:33:56,058 [INFO] 🔄 Sync [added]   HON x43.127571484 @ $231.87
+2026-06-29 16:33:56,112 [WARNING] ⚠️ Sync: could not place stop for HON: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-06-29 16:33:56,195 [INFO] 🔄 Sync: actual fill price found for PLMR: $125.75
+2026-06-29 16:33:56,259 [WARNING] 🔄 Sync [closed]  PLMR — gone from Alpaca (P&L $-42.17)
+2026-06-29 16:33:56,317 [INFO] 🔄 Sync: actual fill price found for HRMY: $35.18
+2026-06-29 16:33:56,384 [WARNING] 🔄 Sync [closed]  HRMY — gone from Alpaca (P&L $-13.67)
+2026-06-29 16:33:56,405 [INFO] ✅ Alpaca sync — added 1 | closed 2 | updated 3
+2026-06-29 16:33:56,466 [INFO] 💰 Account — cash $68,205.49 | portfolio $100,373.58
+2026-06-29 16:33:56,466 [INFO] 🚀 Amara initialised
+2026-06-29 16:33:56,466 [INFO]    Capital: $100,000 USD
+2026-06-29 16:33:56,466 [INFO]    Max position: $10,000 USD
+2026-06-29 16:33:56,466 [INFO]    Daily loss limit: $5,000 USD
+2026-06-29 16:33:56,466 [INFO] 
+=======================================================
+2026-06-29 16:33:56,466 [INFO] ⏰ Amara run: 2026-06-29 16:33
+2026-06-29 16:33:56,976 [INFO] 📋 Checking 4 open position(s)...
+2026-06-29 16:33:57,032 [INFO]   LLY: $1216.01 | +0.2% | 3d held
+2026-06-29 16:33:57,090 [INFO]   MYRG: $483.26 | +0.2% | 3d held
+2026-06-29 16:33:57,154 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-06-29 16:33:57,296 [INFO]   HON: $235.23 | +1.4% | 0d held
+2026-06-29 16:33:57,302 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-06-29 16:33:57,302 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-29 16:33:58,983 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-29 16:33:59,090 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-29 16:33:59,092 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-06-29 16:33:59,094 [INFO]    Top 8 candidates → Claude: DXPE
+2026-06-29 16:33:59,571 [WARNING] ⚠️ Cannot fetch news for DXPE: 'NewsSet' object has no attribute 'news'
+2026-06-29 16:34:07,114 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 16:34:07,137 [INFO] 🧠 Claude on DXPE: ❌ REJECTED (conf 3/10) — ① 技術面訊號混雜：成交量達1.8×顯示有資金進場，RSI 53處於中性區間，股價僅微幅高於20日均線0.7%，但5日動能為-3.4%，顯示近期價格趨勢仍偏弱，
+2026-06-29 16:34:07,145 [INFO] 🔍 Hold review: MYRG [MID]...
+2026-06-29 16:34:07,597 [WARNING] ⚠️ Cannot fetch news for MYRG: 'NewsSet' object has no attribute 'news'
+2026-06-29 16:34:14,153 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 16:34:14,154 [INFO] 🔍 Hold review MYRG: ✅ Continue holding (conf 5/10)
+2026-06-29 16:34:14,162 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-29 16:34:14,606 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-29 16:34:14,614 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-06-29 16:34:14,680 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-06-29 16:34:14,686 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-06-29 16:34:14,687 [INFO] 🔍 Hold review: HON [LARGE]...
+2026-06-29 16:34:15,164 [WARNING] ⚠️ Cannot fetch news for HON: 'NewsSet' object has no attribute 'news'
+2026-06-29 16:34:21,099 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 16:34:21,100 [INFO] 🔍 Hold review HON: ✅ Continue holding (conf 6/10)
+2026-06-29 16:34:21,108 [INFO] 🔍 Hold review: LLY [LARGE]...
+2026-06-29 16:34:22,629 [WARNING] ⚠️ Cannot fetch news for LLY: 'NewsSet' object has no attribute 'news'
+2026-06-29 16:34:28,711 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 16:34:28,712 [INFO] 🔍 Hold review LLY: ✅ Continue holding (conf 6/10)
+2026-06-29 16:34:28,721 [INFO] 
+📊 Run complete — positions: 3 | today P&L: $+698.89 | total P&L: $+2,031.74
+2026-06-29 16:34:28,722 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (69 lines)
+2026-06-29 16:34:28,723 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-29 16:34:28,723 [INFO] 🔕 LINE notification suppressed — TW time is 00:34 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-06-29 16:34:28,723 [INFO] ✅ Amara run complete — exiting cleanly.
