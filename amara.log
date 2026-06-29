@@ -2328,3 +2328,80 @@
 2026-06-29 18:04:21,953 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-29 18:04:21,953 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-29 18:04:21,953 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-29 19:51:06,007 [INFO] =======================================================
+2026-06-29 19:51:06,007 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-29 19:51:06,007 [INFO] =======================================================
+2026-06-29 19:51:06,007 [INFO] 📖 Previous dashboard loaded (4,024 chars) — Amara has prior-run context
+2026-06-29 19:51:06,262 [INFO] ✅ Alpaca market data connected
+2026-06-29 19:51:06,765 [INFO] ✅ Claude API connected
+2026-06-29 19:51:06,765 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-29 19:51:07,228 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-06-29 19:51:07,228 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-06-29 19:51:07,281 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-06-29 19:51:07,301 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 3
+2026-06-29 19:51:07,377 [INFO] 💰 Account — cash $68,205.49 | portfolio $100,349.60
+2026-06-29 19:51:07,377 [INFO] 🚀 Amara initialised
+2026-06-29 19:51:07,377 [INFO]    Capital: $100,000 USD
+2026-06-29 19:51:07,377 [INFO]    Max position: $10,000 USD
+2026-06-29 19:51:07,377 [INFO]    Daily loss limit: $5,000 USD
+2026-06-29 19:51:07,377 [INFO] 
+=======================================================
+2026-06-29 19:51:07,377 [INFO] ⏰ Amara run: 2026-06-29 19:51
+2026-06-29 19:51:07,924 [INFO] 📋 Checking 4 open position(s)...
+2026-06-29 19:51:07,986 [INFO]   LLY: $1228.14 | +1.2% | 3d held
+2026-06-29 19:51:08,070 [INFO]   MYRG: $499.64 | +3.6% | 3d held
+2026-06-29 19:51:08,129 [INFO]   HON: $227.57 | -1.9% | 0d held
+2026-06-29 19:51:08,196 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-06-29 19:51:08,202 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-06-29 19:51:08,202 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-29 19:51:11,111 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-29 19:51:11,213 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-29 19:51:11,216 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-06-29 19:51:11,218 [INFO]    Top 8 candidates → Claude: PLMR, NTNX
+2026-06-29 19:51:11,662 [WARNING] ⚠️ Cannot fetch news for PLMR: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:51:20,313 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:51:20,336 [INFO] 🧠 Claude on PLMR: ✅ APPROVED (conf 7/10) — ① PLMR技術評分達滿分100分，成交量放大至1.7倍、RSI 66.1處於動能黃金區間（55-75）、股價高於20日均線11.3%、5日動能達12.4%，四
+2026-06-29 19:51:20,404 [INFO] 📤 BUY submitted: PLMR notional=$6,000.00 (order a538c6d0-6e2d-4bdd-b76a-b8d4d71d9081)
+2026-06-29 19:51:23,531 [INFO] ✅ BUY filled: PLMR x47.759213563 @ $125.63
+2026-06-29 19:51:23,538 [INFO] 📋 New position: PLMR x47.7592 @ $125.63 ($6,000 USD)
+2026-06-29 19:51:23,538 [INFO] 🛒 [Paper] Bought PLMR x47.7592 @ $125.63 | SL $119.35 | TP $138.19
+2026-06-29 19:51:23,538 [INFO]    Claude: ① PLMR技術評分達滿分100分，成交量放大至1.7倍、RSI 66.1處於動能黃金區間（55-75）、股價高於20日均線11.3%、5日動能達12.4%，四項技術指標全數合格，整體動能強勁。② 本次無新聞催化劑，純屬技術面驅動，缺乏基本
+2026-06-29 19:51:23,601 [WARNING] ⚠️ Native stop order failed for PLMR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-29 19:51:23,691 [WARNING] ⚠️ Native take profit order failed for PLMR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-29 19:51:24,108 [WARNING] ⚠️ Cannot fetch news for NTNX: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:51:31,947 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:51:31,948 [INFO] 🧠 Claude on NTNX: ✅ APPROVED (conf 7/10) — ① NTNX技術評分達滿分100分，RSI 58.1處於動能黃金區間（55-75），成交量放大至1.7倍均量，5日動能強勁達+9.0%，顯示短期買盤積極。② 本
+2026-06-29 19:51:32,027 [INFO] 📤 BUY submitted: NTNX notional=$6,000.00 (order 3386bacc-eae1-448b-a78e-f3760872f85b)
+2026-06-29 19:51:35,144 [INFO] ✅ BUY filled: NTNX x118.133293955 @ $50.79
+2026-06-29 19:51:35,151 [INFO] 📋 New position: NTNX x118.1333 @ $50.79 ($6,000 USD)
+2026-06-29 19:51:35,152 [INFO] 🛒 [Paper] Bought NTNX x118.1333 @ $50.79 | SL $48.25 | TP $55.87
+2026-06-29 19:51:35,152 [INFO]    Claude: ① NTNX技術評分達滿分100分，RSI 58.1處於動能黃金區間（55-75），成交量放大至1.7倍均量，5日動能強勁達+9.0%，顯示短期買盤積極。② 本次無新聞催化劑，純屬技術面驅動，無負面事件干擾，技術訊號一致性高，但缺乏基本面支
+2026-06-29 19:51:35,214 [WARNING] ⚠️ Native stop order failed for NTNX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-29 19:51:35,276 [WARNING] ⚠️ Native take profit order failed for NTNX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-29 19:51:35,276 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-29 19:51:35,702 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:51:41,775 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:51:41,776 [INFO] 🔍 Hold review CWAN: ✅ Continue holding (conf 4/10)
+2026-06-29 19:51:41,783 [INFO] 🔍 Hold review: LLY [LARGE]...
+2026-06-29 19:51:42,391 [WARNING] ⚠️ Cannot fetch news for LLY: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:51:48,809 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:51:48,810 [INFO] 🔍 Hold review LLY: ✅ Continue holding (conf 6/10)
+2026-06-29 19:51:48,817 [INFO] 🔍 Hold review: HON [LARGE]...
+2026-06-29 19:51:49,237 [WARNING] ⚠️ Cannot fetch news for HON: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:51:55,239 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:51:55,240 [INFO] 🔍 Hold review HON: ⚠️ Watch risk (conf 7/10)
+2026-06-29 19:51:55,247 [WARNING]   HON: 🤖 Claude hold=False conf=7 — closing position
+2026-06-29 19:51:55,311 [ERROR] ❌ SELL order failed for HON: {"code":42210000,"message":"fractional orders cannot be sold short"}
+2026-06-29 19:51:55,319 [INFO] ❌ [Paper] Closed HON @ $227.57 | Claude 建議出場（信心 7/10）：① 進場後股價即下跌1.9%，5日動能僅-0.2%，技術評分僅25/100且無明顯強勢訊號，原始買入邏輯目前缺乏支撐，動能表現疲弱。② 雖成交量倍數1.4×略有放大但伴隨下跌出現，RSI為53屬中性偏 | P&L: $-185.45
+2026-06-29 19:51:55,319 [INFO] 🔍 Hold review: MYRG [MID]...
+2026-06-29 19:51:55,775 [WARNING] ⚠️ Cannot fetch news for MYRG: 'NewsSet' object has no attribute 'news'
+2026-06-29 19:52:02,716 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-29 19:52:02,717 [INFO] 🔍 Hold review MYRG: ✅ Continue holding (conf 8/10)
+2026-06-29 19:52:02,726 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+513.44 | total P&L: $+1,846.29
+2026-06-29 19:52:02,727 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (79 lines)
+2026-06-29 19:52:02,728 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-29 19:52:02,728 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:36271)
+2026-06-29 19:52:03,974 [INFO] 📱 LINE message sent to U877a798...
+2026-06-29 19:52:04,355 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-29 19:52:04,357 [INFO] ✅ Amara run complete — exiting cleanly.
