@@ -2620,3 +2620,58 @@
 2026-06-30 18:04:05,557 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-06-30 18:04:05,557 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-06-30 18:04:05,557 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-06-30 19:51:20,463 [INFO] =======================================================
+2026-06-30 19:51:20,463 [INFO] 🤖  AMARA — serverless single-run mode
+2026-06-30 19:51:20,463 [INFO] =======================================================
+2026-06-30 19:51:20,464 [INFO] 📖 Previous dashboard loaded (3,698 chars) — Amara has prior-run context
+2026-06-30 19:51:20,692 [INFO] ✅ Alpaca market data connected
+2026-06-30 19:51:21,179 [INFO] ✅ Claude API connected
+2026-06-30 19:51:21,180 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-06-30 19:51:21,714 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-06-30 19:51:21,779 [INFO] 💰 Account — cash $87,857.71 | portfolio $100,049.34
+2026-06-30 19:51:21,780 [INFO] 🚀 Amara initialised
+2026-06-30 19:51:21,780 [INFO]    Capital: $100,000 USD
+2026-06-30 19:51:21,780 [INFO]    Max position: $10,000 USD
+2026-06-30 19:51:21,780 [INFO]    Daily loss limit: $5,000 USD
+2026-06-30 19:51:21,780 [INFO] 
+=======================================================
+2026-06-30 19:51:21,780 [INFO] ⏰ Amara run: 2026-06-30 19:51
+2026-06-30 19:51:22,442 [INFO] 📋 Checking 2 open position(s)...
+2026-06-30 19:51:22,514 [INFO]   MYRG: $497.85 | +3.2% | 4d held
+2026-06-30 19:51:22,615 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-06-30 19:51:22,622 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-06-30 19:51:22,622 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-06-30 19:51:25,676 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-06-30 19:51:25,778 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-06-30 19:51:25,781 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 2/150 symbols
+2026-06-30 19:51:25,783 [INFO]    Top 8 candidates → Claude: ALKT, PATK
+2026-06-30 19:51:26,260 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-06-30 19:51:33,833 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 19:51:33,855 [INFO] 🧠 Claude on ALKT: ✅ APPROVED (conf 7/10) — ① 技術面全面強勁，技術評分達滿分100分，RSI 65.4處於動能健康區間，5日動能高達19.3%，成交量放大至1.8倍，股價高於20日均線13.6%，顯示短
+2026-06-30 19:51:33,956 [INFO] 📤 BUY submitted: ALKT notional=$6,000.00 (order 3609c172-fd48-470d-980e-cc727ea44ad4)
+2026-06-30 19:51:40,190 [INFO] ✅ BUY filled: ALKT x333.670928293 @ $17.98
+2026-06-30 19:51:40,198 [INFO] 📋 New position: ALKT x333.6709 @ $17.98 ($6,000 USD)
+2026-06-30 19:51:40,198 [INFO] 🛒 [Paper] Bought ALKT x333.6709 @ $17.98 | SL $17.08 | TP $19.78
+2026-06-30 19:51:40,198 [INFO]    Claude: ① 技術面全面強勁，技術評分達滿分100分，RSI 65.4處於動能健康區間，5日動能高達19.3%，成交量放大至1.8倍，股價高於20日均線13.6%，顯示短期動能極為充沛。② 由於API未返回任何新聞，無法確認基本面催化劑，此次交易純屬
+2026-06-30 19:51:40,274 [WARNING] ⚠️ Native stop order failed for ALKT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-06-30 19:51:40,350 [WARNING] ⚠️ Native take profit order failed for ALKT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-06-30 19:51:41,604 [WARNING] ⚠️ Cannot fetch news for PATK: 'NewsSet' object has no attribute 'news'
+2026-06-30 19:51:50,586 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 19:51:50,587 [INFO] 🧠 Claude on PATK: ✅ APPROVED (conf 6/10) — ① 主要技術訊號為成交量爆量至5.2倍均量，配合收陽K線，量價齊揚為短線最強訊號，技術評分70分，股價高於20日均線1.7%，5日動能+2.7%達門檻，整體技術
+2026-06-30 19:51:50,595 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-06-30 19:51:51,040 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-06-30 19:51:51,048 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-06-30 19:51:51,114 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-06-30 19:51:51,121 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-06-30 19:51:51,121 [INFO] 🔍 Hold review: MYRG [MID]...
+2026-06-30 19:51:51,578 [WARNING] ⚠️ Cannot fetch news for MYRG: 'NewsSet' object has no attribute 'news'
+2026-06-30 19:51:57,616 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-06-30 19:51:57,616 [INFO] 🔍 Hold review MYRG: ✅ Continue holding (conf 7/10)
+2026-06-30 19:51:57,626 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-347.71 | total P&L: $+1,498.58
+2026-06-30 19:51:57,627 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (70 lines)
+2026-06-30 19:51:57,627 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-06-30 19:51:57,628 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:39363)
+2026-06-30 19:51:58,718 [INFO] 📱 LINE message sent to U877a798...
+2026-06-30 19:51:59,085 [INFO] 📱 LINE message sent to U4eaa039...
+2026-06-30 19:51:59,086 [INFO] ✅ Amara run complete — exiting cleanly.
