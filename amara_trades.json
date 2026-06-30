@@ -964,8 +964,8 @@
       "pct_above_ma20": 6.99,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 493.76,
-      "last_checked": "2026-06-30 16:34",
+      "last_price": 496.82,
+      "last_checked": "2026-06-30 18:03",
       "low_vol_runs": 0
     },
     {
@@ -1164,6 +1164,28 @@
       "last_price": 24.56,
       "last_checked": "2026-06-30 16:34",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "CWAN",
+      "entry_price": 24.56,
+      "entry_date": "2026-06-30",
+      "shares": 244.2992671,
+      "cost_usd": 5999.989999976,
+      "stop_loss_price": 23.33,
+      "take_profit_price": 27.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-06-30 18:03",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -6637,17 +6659,55 @@
       "reasons": [],
       "momentum_5d_pct": 5.43,
       "current_price": 493.76
+    },
+    {
+      "timestamp": "2026-06-30 18:03",
+      "date": "2026-06-30",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 當前股價與買入價持平（+0.0%），5日動能僅1.3%，技術評分為0分且無強力訊號支撐，原始買入邏輯尚未獲得確認，動能表現疲弱。② 成交量倍數顯示為0.0×，極度異常，可能為當日甫開倉或資料尚未更新，但若真實成交量極低則顯示市場對該股興趣不足，RSI 67.3接近超買區間但仍在合理範圍內，暫無明顯負面新聞。③ 建議密切觀察後續成交量是否放大以確認突破動能，若持倉1-2天後仍無明顯量能配合且股價無法向上推進，應考慮提前出場以避免時間成本耗損。",
+      "confidence": 4,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-06-30 18:04",
+      "date": "2026-06-30",
+      "symbol": "MYRG",
+      "score": 65,
+      "rsi": 63.6,
+      "volume_ratio": 1.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "① 股價自買入後已上漲3.0%，5日動能維持6.1%，原始買入邏輯仍然有效，RSI 63.6處於健康區間尚未超買，距離停利目標$530.68仍有6.8%的上漲空間，技術面整體偏多。② 主要警示為成交量倍數僅1.0×，上漲缺乏量能強力確認，動能未獲充分支撐；此外持倉已達第4天，接近5天最大持倉上限，時間風險逐漸升高，需留意明日是否出現轉弱訊號。③ 建議重點觀察明日（第5天）開盤量能是否放大突破1.5×以上，以及RSI是否進一步向70逼近形成超買壓力，若量能持續低迷或價格出現回測則應優先考慮獲利了結。",
+      "confidence": 6,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 6.08,
+      "current_price": 496.82
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 87857.71,
-  "portfolio_value": 99999.59,
-  "buying_power": 368628.14,
+  "portfolio_value": 100020.05,
+  "buying_power": 368685.43,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 746.24,
+    "current_price": 746.74,
     "goal_days": 14
   }
 }
