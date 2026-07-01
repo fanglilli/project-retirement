@@ -2675,3 +2675,50 @@
 2026-06-30 19:51:58,718 [INFO] 📱 LINE message sent to U877a798...
 2026-06-30 19:51:59,085 [INFO] 📱 LINE message sent to U4eaa039...
 2026-06-30 19:51:59,086 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-01 13:37:09,640 [INFO] =======================================================
+2026-07-01 13:37:09,640 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-01 13:37:09,641 [INFO] =======================================================
+2026-07-01 13:37:09,641 [INFO] 📖 Previous dashboard loaded (4,071 chars) — Amara has prior-run context
+2026-07-01 13:37:09,916 [INFO] ✅ Alpaca market data connected
+2026-07-01 13:37:10,553 [INFO] ✅ Claude API connected
+2026-07-01 13:37:10,554 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-01 13:37:11,411 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-01 13:37:11,411 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-01 13:37:11,526 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-01 13:37:11,545 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 2
+2026-07-01 13:37:11,668 [INFO] 💰 Account — cash $81,857.67 | portfolio $99,993.07
+2026-07-01 13:37:11,668 [INFO] 🚀 Amara initialised
+2026-07-01 13:37:11,668 [INFO]    Capital: $100,000 USD
+2026-07-01 13:37:11,668 [INFO]    Max position: $10,000 USD
+2026-07-01 13:37:11,668 [INFO]    Daily loss limit: $5,000 USD
+2026-07-01 13:37:11,668 [INFO] 
+=======================================================
+2026-07-01 13:37:11,668 [INFO] ⏰ Amara run: 2026-07-01 13:37
+2026-07-01 13:37:12,370 [INFO] 📋 Checking 3 open position(s)...
+2026-07-01 13:37:12,623 [INFO] 📤 SELL submitted: MYRG x12.436758975 (order e45625b7-14eb-45d1-90ac-7c89c5ba5fd2)
+2026-07-01 13:37:35,026 [INFO] ✅ SELL filled: MYRG @ $466.05
+2026-07-01 13:37:35,036 [INFO] ❌ [Paper] Closed MYRG @ $466.05 | 持倉達上限（5天） | P&L: $-203.84
+2026-07-01 13:37:35,098 [INFO]   ALKT: ✅ up 4.4% — moving stop from $17.08 → breakeven $18.00
+2026-07-01 13:37:35,304 [WARNING]   ALKT: ⚠️ Could not place breakeven stop: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-07-01 13:37:35,304 [INFO]   ALKT: $18.77 | +4.4% | 1d held
+2026-07-01 13:37:35,377 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-01 13:37:35,386 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-01 13:37:35,386 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-01 13:37:38,786 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-01 13:37:38,917 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-01 13:37:38,921 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-01 13:37:38,923 [INFO]    Top 8 candidates → Claude: none
+2026-07-01 13:37:38,923 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-01 13:37:39,409 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-01 13:37:45,685 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 13:37:45,715 [INFO] 🔍 Hold review CWAN: ✅ Continue holding (conf 4/10)
+2026-07-01 13:37:45,725 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-01 13:37:46,285 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-01 13:37:52,407 [INFO] HTTP Request: POST https://api.anthropic.com/v1/messages "HTTP/1.1 200 OK"
+2026-07-01 13:37:52,408 [INFO] 🔍 Hold review ALKT: ✅ Continue holding (conf 6/10)
+2026-07-01 13:37:52,420 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-203.84 | total P&L: $+1,294.74
+2026-07-01 13:37:52,421 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-07-01 13:37:52,422 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-01 13:37:52,422 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-01 13:37:52,422 [INFO] ✅ Amara run complete — exiting cleanly.
