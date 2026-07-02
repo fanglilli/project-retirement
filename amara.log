@@ -2977,3 +2977,107 @@
 2026-07-02 13:37:45,495 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-02 13:37:45,495 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-02 13:37:45,495 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-02 15:04:42,840 [INFO] =======================================================
+2026-07-02 15:04:42,840 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-02 15:04:42,840 [INFO] =======================================================
+2026-07-02 15:04:42,840 [INFO] 📖 Previous dashboard loaded (4,158 chars) — Amara has prior-run context
+2026-07-02 15:04:43,116 [INFO] ✅ Alpaca market data connected
+2026-07-02 15:04:43,624 [INFO] ✅ Claude API connected
+2026-07-02 15:04:43,624 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-02 15:04:44,200 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-02 15:04:44,200 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-02 15:04:44,289 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-02 15:04:44,339 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 5
+2026-07-02 15:04:44,421 [INFO] 💰 Account — cash $59,653.84 | portfolio $99,073.04
+2026-07-02 15:04:44,421 [INFO] 🚀 Amara initialised
+2026-07-02 15:04:44,421 [INFO]    Capital: $100,000 USD
+2026-07-02 15:04:44,421 [INFO]    Max position: $10,000 USD
+2026-07-02 15:04:44,421 [INFO]    Daily loss limit: $5,000 USD
+2026-07-02 15:04:44,421 [INFO] 
+=======================================================
+2026-07-02 15:04:44,421 [INFO] ⏰ Amara run: 2026-07-02 15:04
+2026-07-02 15:04:45,104 [INFO] 📋 Checking 6 open position(s)...
+2026-07-02 15:04:45,176 [INFO]   ALKT: $19.02 | +5.8% | 2d held
+2026-07-02 15:04:45,291 [WARNING]   META: ⚠️ no native stop order found — executing Python fallback stop-loss
+2026-07-02 15:04:45,405 [INFO] 📤 SELL submitted: META x16.135782747 (order afb9040e-1bd1-4754-b07c-88a4ff6866ab)
+2026-07-02 15:04:48,549 [INFO] ✅ SELL filled: META @ $587.75
+2026-07-02 15:04:48,558 [INFO] ❌ [Paper] Closed META @ $587.75 | 硬停損 -3.5% [LARGE] （Python 備援 — 無原生停損單） | P&L: $-516.19
+2026-07-02 15:04:48,637 [INFO]   HIMS: $36.45 | -3.5% | 1d held
+2026-07-02 15:04:48,725 [INFO]   ITRI: $85.78 | -1.5% | 1d held
+2026-07-02 15:04:48,828 [INFO]   NTNX: $50.89 | -2.3% | 1d held
+2026-07-02 15:04:48,924 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-02 15:04:48,937 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-07-02 15:04:48,937 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-02 15:04:52,912 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-02 15:04:53,057 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-02 15:04:53,060 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-02 15:04:53,062 [INFO]    Top 8 candidates → Claude: none
+2026-07-02 15:04:53,062 [INFO] 🔍 Hold review: ITRI [MID]...
+2026-07-02 15:04:53,655 [WARNING] ⚠️ Cannot fetch news for ITRI: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:04:53,665 [WARNING]   ITRI: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場
+2026-07-02 15:04:53,745 [INFO] 📤 SELL submitted: ITRI x68.917872731 (order d39bcb43-25ea-4014-a70d-a1a37b487e2a)
+2026-07-02 15:04:57,092 [INFO] ✅ SELL filled: ITRI @ $85.55
+2026-07-02 15:04:57,101 [INFO] ❌ [Paper] Closed ITRI @ $85.55 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場 | P&L: $-104.07
+2026-07-02 15:04:57,101 [INFO] 🔍 Hold review: NTNX [MID]...
+2026-07-02 15:04:57,688 [WARNING] ⚠️ Cannot fetch news for NTNX: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:04:57,698 [WARNING]   NTNX: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場
+2026-07-02 15:04:57,794 [INFO] 📤 SELL submitted: NTNX x115.229306702 (order 7136f27e-f1ac-417e-981f-15f418bd0e0f)
+2026-07-02 15:05:04,484 [INFO] ✅ SELL filled: NTNX @ $50.84
+2026-07-02 15:05:04,494 [INFO] ❌ [Paper] Closed NTNX @ $50.84 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場 | P&L: $-141.73
+2026-07-02 15:05:04,494 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-02 15:05:05,071 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:05:05,085 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 15:05:05,095 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-02 15:05:05,698 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:05:05,708 [WARNING] ⚠️ Hold review failed for ALKT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 15:05:05,717 [INFO] 🔍 Hold review: HIMS [MID]...
+2026-07-02 15:05:06,209 [WARNING] ⚠️ Cannot fetch news for HIMS: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:05:06,221 [WARNING]   HIMS: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.22×） — 動能衰竭出場
+2026-07-02 15:05:06,308 [INFO] 📤 SELL submitted: HIMS x158.81392271 (order 98109136-4431-48a1-9fe8-f1624b673358)
+2026-07-02 15:05:09,522 [INFO] ✅ SELL filled: HIMS @ $36.45
+2026-07-02 15:05:09,530 [INFO] ❌ [Paper] Closed HIMS @ $36.45 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.22×） — 動能衰竭出場 | P&L: $-211.44
+2026-07-02 15:05:09,532 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-973.42 | total P&L: $+321.31
+2026-07-02 15:05:09,532 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (68 lines)
+2026-07-02 15:05:09,533 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-02 15:05:09,533 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-02 15:05:09,533 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-02 15:05:15,166 [INFO] =======================================================
+2026-07-02 15:05:15,167 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-02 15:05:15,167 [INFO] =======================================================
+2026-07-02 15:05:15,167 [INFO] 📖 Previous dashboard loaded (3,576 chars) — Amara has prior-run context
+2026-07-02 15:05:15,397 [INFO] ✅ Alpaca market data connected
+2026-07-02 15:05:15,896 [INFO] ✅ Claude API connected
+2026-07-02 15:05:15,896 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-02 15:05:16,396 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-07-02 15:05:16,472 [INFO] 💰 Account — cash $86,680.37 | portfolio $99,020.11
+2026-07-02 15:05:16,472 [INFO] 🚀 Amara initialised
+2026-07-02 15:05:16,472 [INFO]    Capital: $100,000 USD
+2026-07-02 15:05:16,472 [INFO]    Max position: $10,000 USD
+2026-07-02 15:05:16,472 [INFO]    Daily loss limit: $5,000 USD
+2026-07-02 15:05:16,472 [INFO] 
+=======================================================
+2026-07-02 15:05:16,472 [INFO] ⏰ Amara run: 2026-07-02 15:05
+2026-07-02 15:05:17,109 [INFO] 📋 Checking 2 open position(s)...
+2026-07-02 15:05:17,229 [INFO]   ALKT: $19.00 | +5.7% | 2d held
+2026-07-02 15:05:17,383 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-02 15:05:17,391 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-02 15:05:17,391 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-02 15:05:24,121 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-02 15:05:24,241 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-02 15:05:24,244 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-02 15:05:24,246 [INFO]    Top 8 candidates → Claude: none
+2026-07-02 15:05:24,246 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-02 15:05:24,821 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:05:24,835 [WARNING] ⚠️ Hold review failed for ALKT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 15:05:24,843 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-02 15:05:25,372 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-02 15:05:25,382 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-02 15:05:25,466 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-02 15:05:25,474 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-02 15:05:25,475 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-973.42 | total P&L: $+321.31
+2026-07-02 15:05:25,475 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-07-02 15:05:25,476 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-02 15:05:25,476 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-02 15:05:25,476 [INFO] ✅ Amara run complete — exiting cleanly.
