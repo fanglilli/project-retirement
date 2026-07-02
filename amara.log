@@ -2977,3 +2977,51 @@
 2026-07-02 13:37:45,495 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-02 13:37:45,495 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-02 13:37:45,495 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-02 16:39:31,342 [INFO] =======================================================
+2026-07-02 16:39:31,342 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-02 16:39:31,343 [INFO] =======================================================
+2026-07-02 16:39:31,343 [INFO] 📖 Previous dashboard loaded (4,158 chars) — Amara has prior-run context
+2026-07-02 16:39:31,626 [INFO] ✅ Alpaca market data connected
+2026-07-02 16:39:32,207 [INFO] ✅ Claude API connected
+2026-07-02 16:39:32,207 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-02 16:39:32,830 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-02 16:39:32,830 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-02 16:39:32,900 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-02 16:39:32,998 [INFO] 🔄 Sync: actual fill price found for META: $587.75
+2026-07-02 16:39:33,108 [WARNING] 🔄 Sync [closed]  META — gone from Alpaca (P&L $-516.19)
+2026-07-02 16:39:33,185 [INFO] 🔄 Sync: actual fill price found for HIMS: $36.45
+2026-07-02 16:39:33,270 [WARNING] 🔄 Sync [closed]  HIMS — gone from Alpaca (P&L $-211.44)
+2026-07-02 16:39:33,343 [INFO] 🔄 Sync: actual fill price found for ITRI: $85.55
+2026-07-02 16:39:33,425 [WARNING] 🔄 Sync [closed]  ITRI — gone from Alpaca (P&L $-104.07)
+2026-07-02 16:39:33,493 [INFO] 🔄 Sync: actual fill price found for NTNX: $50.84
+2026-07-02 16:39:33,570 [WARNING] 🔄 Sync [closed]  NTNX — gone from Alpaca (P&L $-141.73)
+2026-07-02 16:39:33,578 [INFO] ✅ Alpaca sync — added 1 | closed 4 | updated 1
+2026-07-02 16:39:33,656 [INFO] 💰 Account — cash $86,680.37 | portfolio $99,048.47
+2026-07-02 16:39:33,656 [INFO] 🚀 Amara initialised
+2026-07-02 16:39:33,656 [INFO]    Capital: $100,000 USD
+2026-07-02 16:39:33,656 [INFO]    Max position: $10,000 USD
+2026-07-02 16:39:33,656 [INFO]    Daily loss limit: $5,000 USD
+2026-07-02 16:39:33,656 [INFO] 
+=======================================================
+2026-07-02 16:39:33,656 [INFO] ⏰ Amara run: 2026-07-02 16:39
+2026-07-02 16:39:34,360 [INFO] 📋 Checking 2 open position(s)...
+2026-07-02 16:39:34,526 [INFO]   ALKT: $19.12 | +6.3% | 2d held
+2026-07-02 16:39:34,633 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-02 16:39:34,640 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-02 16:39:34,640 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-02 16:39:37,306 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-02 16:39:37,431 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-02 16:39:37,434 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-02 16:39:37,435 [INFO]    Top 8 candidates → Claude: none
+2026-07-02 16:39:37,436 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-02 16:39:38,092 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-02 16:39:38,106 [WARNING] ⚠️ Hold review failed for ALKT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 16:39:38,115 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-02 16:39:38,749 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-02 16:39:38,760 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 16:39:38,773 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-973.43 | total P&L: $+321.31
+2026-07-02 16:39:38,773 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-07-02 16:39:38,775 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-02 16:39:38,775 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-02 16:39:38,775 [INFO] ✅ Amara run complete — exiting cleanly.
