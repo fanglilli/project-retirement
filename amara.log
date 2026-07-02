@@ -3025,3 +3025,82 @@
 2026-07-02 16:39:38,775 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-02 16:39:38,775 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-02 16:39:38,775 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-02 18:03:38,608 [INFO] =======================================================
+2026-07-02 18:03:38,608 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-02 18:03:38,608 [INFO] =======================================================
+2026-07-02 18:03:38,608 [INFO] 📖 Previous dashboard loaded (3,058 chars) — Amara has prior-run context
+2026-07-02 18:03:38,857 [INFO] ✅ Alpaca market data connected
+2026-07-02 18:03:39,356 [INFO] ✅ Claude API connected
+2026-07-02 18:03:39,356 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-02 18:03:40,169 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-07-02 18:03:40,260 [INFO] 💰 Account — cash $86,680.37 | portfolio $99,086.84
+2026-07-02 18:03:40,260 [INFO] 🚀 Amara initialised
+2026-07-02 18:03:40,260 [INFO]    Capital: $100,000 USD
+2026-07-02 18:03:40,261 [INFO]    Max position: $10,000 USD
+2026-07-02 18:03:40,261 [INFO]    Daily loss limit: $5,000 USD
+2026-07-02 18:03:40,261 [INFO] 
+=======================================================
+2026-07-02 18:03:40,261 [INFO] ⏰ Amara run: 2026-07-02 18:03
+2026-07-02 18:03:41,084 [INFO] 📋 Checking 2 open position(s)...
+2026-07-02 18:03:41,161 [INFO]   ALKT: $19.18 | +6.7% | 2d held
+2026-07-02 18:03:41,239 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-02 18:03:41,247 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-02 18:03:41,247 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-02 18:03:46,510 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-02 18:03:46,631 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-02 18:03:46,634 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-02 18:03:46,635 [INFO]    Top 8 candidates → Claude: none
+2026-07-02 18:03:46,635 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-02 18:03:47,171 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-02 18:03:47,184 [WARNING] ⚠️ Hold review failed for ALKT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 18:03:47,193 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-02 18:03:47,765 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-02 18:03:47,776 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-02 18:03:47,857 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-02 18:03:47,865 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-02 18:03:47,866 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-973.43 | total P&L: $+321.31
+2026-07-02 18:03:47,867 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-07-02 18:03:47,867 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-02 18:03:47,868 [INFO] 🔕 LINE notification suppressed — TW time is 02:03 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-02 18:03:47,868 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-02 18:03:55,930 [INFO] =======================================================
+2026-07-02 18:03:55,930 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-02 18:03:55,930 [INFO] =======================================================
+2026-07-02 18:03:55,930 [INFO] 📖 Previous dashboard loaded (2,911 chars) — Amara has prior-run context
+2026-07-02 18:03:56,163 [INFO] ✅ Alpaca market data connected
+2026-07-02 18:03:56,665 [INFO] ✅ Claude API connected
+2026-07-02 18:03:56,665 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-02 18:03:57,303 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-02 18:03:57,303 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-02 18:03:57,394 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-02 18:03:57,402 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 1
+2026-07-02 18:03:57,479 [INFO] 💰 Account — cash $86,680.37 | portfolio $99,086.84
+2026-07-02 18:03:57,479 [INFO] 🚀 Amara initialised
+2026-07-02 18:03:57,479 [INFO]    Capital: $100,000 USD
+2026-07-02 18:03:57,480 [INFO]    Max position: $10,000 USD
+2026-07-02 18:03:57,480 [INFO]    Daily loss limit: $5,000 USD
+2026-07-02 18:03:57,480 [INFO] 
+=======================================================
+2026-07-02 18:03:57,480 [INFO] ⏰ Amara run: 2026-07-02 18:03
+2026-07-02 18:03:58,206 [INFO] 📋 Checking 2 open position(s)...
+2026-07-02 18:03:58,289 [INFO]   ALKT: $19.18 | +6.7% | 2d held
+2026-07-02 18:03:58,364 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-02 18:03:58,371 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-02 18:03:58,371 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-02 18:04:04,144 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-02 18:04:04,292 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-02 18:04:04,295 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-02 18:04:04,296 [INFO]    Top 8 candidates → Claude: none
+2026-07-02 18:04:04,297 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-02 18:04:04,888 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-02 18:04:04,903 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 18:04:04,912 [INFO] 🔍 Hold review: ALKT [MID]...
+2026-07-02 18:04:05,475 [WARNING] ⚠️ Cannot fetch news for ALKT: 'NewsSet' object has no attribute 'news'
+2026-07-02 18:04:05,485 [WARNING] ⚠️ Hold review failed for ALKT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-02 18:04:05,493 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-973.43 | total P&L: $+321.31
+2026-07-02 18:04:05,494 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (67 lines)
+2026-07-02 18:04:05,494 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-02 18:04:05,495 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-02 18:04:05,495 [INFO] ✅ Amara run complete — exiting cleanly.
