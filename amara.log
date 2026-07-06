@@ -3574,3 +3574,66 @@
 2026-07-06 13:38:57,047 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-06 13:38:57,047 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-06 13:38:57,047 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-06 15:05:00,963 [INFO] =======================================================
+2026-07-06 15:05:00,963 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-06 15:05:00,963 [INFO] =======================================================
+2026-07-06 15:05:00,963 [INFO] 📖 Previous dashboard loaded (3,800 chars) — Amara has prior-run context
+2026-07-06 15:05:01,239 [INFO] ✅ Alpaca market data connected
+2026-07-06 15:05:01,838 [INFO] ✅ Claude API connected
+2026-07-06 15:05:01,838 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-06 15:05:02,418 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 5
+2026-07-06 15:05:02,686 [INFO] 💰 Account — cash $60,960.03 | portfolio $99,213.49
+2026-07-06 15:05:02,686 [INFO] 🚀 Amara initialised
+2026-07-06 15:05:02,686 [INFO]    Capital: $100,000 USD
+2026-07-06 15:05:02,686 [INFO]    Max position: $10,000 USD
+2026-07-06 15:05:02,686 [INFO]    Daily loss limit: $5,000 USD
+2026-07-06 15:05:02,686 [INFO] 
+=======================================================
+2026-07-06 15:05:02,686 [INFO] ⏰ Amara run: 2026-07-06 15:05
+2026-07-06 15:05:03,349 [INFO] 📋 Checking 5 open position(s)...
+2026-07-06 15:05:03,425 [INFO]   AAPL: $312.79 | +1.5% | 3d held
+2026-07-06 15:05:03,514 [INFO]   PLMR: $139.47 | -0.8% | 3d held
+2026-07-06 15:05:03,605 [INFO]   CALX: $39.08 | +1.5% | 3d held
+2026-07-06 15:05:03,674 [INFO]   PLTR: $130.37 | +1.0% | 3d held
+2026-07-06 15:05:03,776 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-06 15:05:03,785 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-07-06 15:05:03,785 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-06 15:05:05,671 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-06 15:05:05,794 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-06 15:05:05,797 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-06 15:05:05,799 [INFO]    Top 8 candidates → Claude: none
+2026-07-06 15:05:05,799 [INFO] 🔍 Hold review: AAPL [LARGE]...
+2026-07-06 15:05:06,329 [WARNING] ⚠️ Cannot fetch news for AAPL: 'NewsSet' object has no attribute 'news'
+2026-07-06 15:05:06,341 [WARNING]   AAPL: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.26×） — 動能衰竭出場
+2026-07-06 15:05:06,509 [INFO] 📤 SELL submitted: AAPL x32.46501964 (order aac3045c-b4d4-4212-87aa-9ded73fb9831)
+2026-07-06 15:05:09,633 [INFO] ✅ SELL filled: AAPL @ $312.62
+2026-07-06 15:05:09,645 [INFO] ✅ [Paper] Closed AAPL @ $312.62 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.26×） — 動能衰竭出場 | P&L: $+149.22
+2026-07-06 15:05:09,645 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-06 15:05:10,139 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-06 15:05:10,152 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-06 15:05:10,225 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-06 15:05:10,234 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-06 15:05:10,235 [INFO] 🔍 Hold review: PLTR [LARGE]...
+2026-07-06 15:05:10,704 [WARNING] ⚠️ Cannot fetch news for PLTR: 'NewsSet' object has no attribute 'news'
+2026-07-06 15:05:10,714 [WARNING]   PLTR: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場
+2026-07-06 15:05:10,792 [INFO] 📤 SELL submitted: PLTR x76.881602214 (order cae9ce17-cf08-4da5-a0a6-242c61b4e558)
+2026-07-06 15:05:13,923 [INFO] ✅ SELL filled: PLTR @ $130.41
+2026-07-06 15:05:13,934 [INFO] ✅ [Paper] Closed PLTR @ $130.41 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場 | P&L: $+103.13
+2026-07-06 15:05:13,934 [INFO] 🔍 Hold review: PLMR [MID]...
+2026-07-06 15:05:14,376 [WARNING] ⚠️ Cannot fetch news for PLMR: 'NewsSet' object has no attribute 'news'
+2026-07-06 15:05:14,388 [WARNING]   PLMR: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.45×） — 動能衰竭出場
+2026-07-06 15:05:14,462 [INFO] 📤 SELL submitted: PLMR x42.680253236 (order b68c417f-9eb6-4fc5-994f-a2848f3b7528)
+2026-07-06 15:05:20,642 [INFO] ✅ SELL filled: PLMR @ $139.34
+2026-07-06 15:05:20,652 [INFO] ❌ [Paper] Closed PLMR @ $139.34 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.45×） — 動能衰竭出場 | P&L: $-52.92
+2026-07-06 15:05:20,653 [INFO] 🔍 Hold review: CALX [MID]...
+2026-07-06 15:05:21,178 [WARNING] ⚠️ Cannot fetch news for CALX: 'NewsSet' object has no attribute 'news'
+2026-07-06 15:05:21,190 [WARNING]   CALX: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.16×） — 動能衰竭出場
+2026-07-06 15:05:21,259 [INFO] 📤 SELL submitted: CALX x156.586468129 (order 3894a388-bb77-43b8-b60b-8a8c4d902127)
+2026-07-06 15:05:27,443 [INFO] ✅ SELL filled: CALX @ $39.04
+2026-07-06 15:05:27,452 [INFO] ✅ [Paper] Closed CALX @ $39.04 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.16×） — 動能衰竭出場 | P&L: $+82.99
+2026-07-06 15:05:27,454 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $+625.51 | total P&L: $+946.82
+2026-07-06 15:05:27,454 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (61 lines)
+2026-07-06 15:05:27,455 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-06 15:05:27,455 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-06 15:05:27,455 [INFO] ✅ Amara run complete — exiting cleanly.
