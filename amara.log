@@ -3518,3 +3518,59 @@
 2026-07-03 19:54:33,881 [INFO] 📱 LINE message sent to U877a798...
 2026-07-03 19:54:34,569 [INFO] 📱 LINE message sent to U4eaa039...
 2026-07-03 19:54:34,571 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-06 13:37:46,982 [INFO] =======================================================
+2026-07-06 13:37:46,982 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-06 13:37:46,982 [INFO] =======================================================
+2026-07-06 13:37:46,983 [INFO] 📖 Previous dashboard loaded (5,703 chars) — Amara has prior-run context
+2026-07-06 13:37:47,213 [INFO] ✅ Alpaca market data connected
+2026-07-06 13:37:47,814 [INFO] ✅ Claude API connected
+2026-07-06 13:37:47,814 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-06 13:37:48,342 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-06 13:37:48,342 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-06 13:37:48,399 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-06 13:37:48,444 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 5
+2026-07-06 13:37:48,516 [INFO] 💰 Account — cash $56,273.87 | portfolio $98,965.48
+2026-07-06 13:37:48,516 [INFO] 🚀 Amara initialised
+2026-07-06 13:37:48,516 [INFO]    Capital: $100,000 USD
+2026-07-06 13:37:48,516 [INFO]    Max position: $10,000 USD
+2026-07-06 13:37:48,516 [INFO]    Daily loss limit: $5,000 USD
+2026-07-06 13:37:48,516 [INFO] 
+=======================================================
+2026-07-06 13:37:48,516 [INFO] ⏰ Amara run: 2026-07-06 13:37
+2026-07-06 13:37:49,077 [INFO] 📋 Checking 6 open position(s)...
+2026-07-06 13:37:49,240 [INFO] 📤 SELL submitted: ALKT x333.670928293 (order 1b0d5a80-060e-4e13-b1d2-dcd47201eab6)
+2026-07-06 13:38:50,476 [WARNING] ⚠️ Order 1b0d5a80-060e-4e13-b1d2-dcd47201eab6 not confirmed within 60s — using scan price as fallback
+2026-07-06 13:38:50,476 [WARNING] ⚠️ Fill not confirmed for ALKT — using trigger price
+2026-07-06 13:38:50,486 [INFO] ✅ [Paper] Closed ALKT @ $19.01 | 持倉達上限（6天） | P&L: $+343.09
+2026-07-06 13:38:50,542 [INFO]   AAPL: $308.81 | +0.3% | 3d held
+2026-07-06 13:38:50,605 [INFO]   PLMR: $138.14 | -1.7% | 3d held
+2026-07-06 13:38:50,665 [INFO]   CALX: $38.29 | -0.6% | 3d held
+2026-07-06 13:38:50,729 [INFO]   PLTR: $130.13 | +0.8% | 3d held
+2026-07-06 13:38:50,842 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-06 13:38:50,851 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-07-06 13:38:50,851 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-06 13:38:52,059 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-06 13:38:52,174 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-06 13:38:52,177 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-06 13:38:52,179 [INFO]    Top 8 candidates → Claude: none
+2026-07-06 13:38:52,179 [INFO] 🔍 Hold review: AAPL [LARGE]...
+2026-07-06 13:38:52,831 [WARNING] ⚠️ Cannot fetch news for AAPL: 'NewsSet' object has no attribute 'news'
+2026-07-06 13:38:52,846 [WARNING] ⚠️ Hold review failed for AAPL: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-06 13:38:52,856 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-06 13:38:53,312 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-06 13:38:53,324 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-06 13:38:53,348 [INFO] 🔍 Hold review: PLTR [LARGE]...
+2026-07-06 13:38:53,875 [WARNING] ⚠️ Cannot fetch news for PLTR: 'NewsSet' object has no attribute 'news'
+2026-07-06 13:38:53,887 [WARNING] ⚠️ Hold review failed for PLTR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-06 13:38:53,897 [INFO] 🔍 Hold review: CALX [MID]...
+2026-07-06 13:38:54,364 [WARNING] ⚠️ Cannot fetch news for CALX: 'NewsSet' object has no attribute 'news'
+2026-07-06 13:38:54,375 [WARNING] ⚠️ Hold review failed for CALX: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-06 13:38:54,384 [INFO] 🔍 Hold review: PLMR [MID]...
+2026-07-06 13:38:57,023 [WARNING] ⚠️ Cannot fetch news for PLMR: 'NewsSet' object has no attribute 'news'
+2026-07-06 13:38:57,035 [WARNING] ⚠️ Hold review failed for PLMR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-06 13:38:57,045 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+343.09 | total P&L: $+664.40
+2026-07-06 13:38:57,046 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (69 lines)
+2026-07-06 13:38:57,047 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-06 13:38:57,047 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-06 13:38:57,047 [INFO] ✅ Amara run complete — exiting cleanly.
