@@ -3959,3 +3959,85 @@
 2026-07-07 16:40:14,821 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-07 16:40:14,821 [INFO] 🔕 LINE notification suppressed — TW time is 00:40 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-07 16:40:14,821 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-07 19:51:56,573 [INFO] =======================================================
+2026-07-07 19:51:56,573 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-07 19:51:56,573 [INFO] =======================================================
+2026-07-07 19:51:56,573 [INFO] 📖 Previous dashboard loaded (3,625 chars) — Amara has prior-run context
+2026-07-07 19:51:56,897 [INFO] ✅ Alpaca market data connected
+2026-07-07 19:51:57,661 [INFO] ✅ Claude API connected
+2026-07-07 19:51:57,661 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-07 19:51:58,151 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-07 19:51:58,151 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-07 19:51:58,209 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-07 19:51:58,234 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 2
+2026-07-07 19:51:58,303 [INFO] 💰 Account — cash $81,184.46 | portfolio $99,267.69
+2026-07-07 19:51:58,303 [INFO] 🚀 Amara initialised
+2026-07-07 19:51:58,303 [INFO]    Capital: $100,000 USD
+2026-07-07 19:51:58,303 [INFO]    Max position: $10,000 USD
+2026-07-07 19:51:58,303 [INFO]    Daily loss limit: $5,000 USD
+2026-07-07 19:51:58,303 [INFO] 
+=======================================================
+2026-07-07 19:51:58,303 [INFO] ⏰ Amara run: 2026-07-07 19:51
+2026-07-07 19:51:58,933 [INFO] 📋 Checking 3 open position(s)...
+2026-07-07 19:51:58,997 [INFO]   BCPC: $167.51 | +0.0% | 0d held
+2026-07-07 19:51:59,083 [INFO]   PLMR: $144.83 | +1.3% | 0d held
+2026-07-07 19:51:59,150 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-07 19:51:59,163 [INFO] 📊 持倉中：3 筆 | 可用資金決定是否繼續開倉
+2026-07-07 19:51:59,163 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-07 19:52:01,060 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-07 19:52:01,198 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-07 19:52:01,202 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 6/150 symbols
+2026-07-07 19:52:01,205 [INFO]    Top 8 candidates → Claude: KFRC, NTNX, AXSM, GSHD
+2026-07-07 19:52:01,681 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:01,688 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-07 19:52:01,783 [INFO] 📤 BUY submitted: KFRC notional=$6,000.00 (order 5edc4b2d-ba70-4175-85fc-88e9bfc0c3d9)
+2026-07-07 19:52:04,905 [INFO] ✅ BUY filled: KFRC x109.970491202 @ $54.56
+2026-07-07 19:52:04,919 [INFO] 📋 New position: KFRC x109.9705 @ $54.56 ($6,000 USD)
+2026-07-07 19:52:04,919 [INFO] 🛒 [Paper] Bought KFRC x109.9705 @ $54.56 | SL $51.83 | TP $60.02
+2026-07-07 19:52:04,919 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-07 19:52:04,980 [WARNING] ⚠️ Native stop order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-07 19:52:05,040 [WARNING] ⚠️ Native take profit order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-07 19:52:05,470 [WARNING] ⚠️ Cannot fetch news for NTNX: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:05,473 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-07 19:52:05,566 [INFO] 📤 BUY submitted: NTNX notional=$6,000.00 (order 94baec86-13e8-46a5-8d81-28c2a8d3f567)
+2026-07-07 19:52:08,683 [INFO] ✅ BUY filled: NTNX x111.152093367 @ $53.98
+2026-07-07 19:52:08,696 [INFO] 📋 New position: NTNX x111.1521 @ $53.98 ($6,000 USD)
+2026-07-07 19:52:08,696 [INFO] 🛒 [Paper] Bought NTNX x111.1521 @ $53.98 | SL $51.28 | TP $59.38
+2026-07-07 19:52:08,696 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-07 19:52:08,753 [WARNING] ⚠️ Native stop order failed for NTNX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-07 19:52:08,820 [WARNING] ⚠️ Native take profit order failed for NTNX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-07 19:52:09,266 [WARNING] ⚠️ Cannot fetch news for AXSM: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:09,268 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-07 19:52:09,375 [INFO] 📤 BUY submitted: AXSM notional=$6,000.00 (order 8453b080-645e-49f6-966e-77d3f9dc9031)
+2026-07-07 19:52:12,554 [INFO] ✅ BUY filled: AXSM x23.969279322 @ $250.32
+2026-07-07 19:52:12,567 [INFO] 📋 New position: AXSM x23.9693 @ $250.32 ($6,000 USD)
+2026-07-07 19:52:12,567 [INFO] 🛒 [Paper] Bought AXSM x23.9693 @ $250.32 | SL $237.80 | TP $275.35
+2026-07-07 19:52:12,567 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-07 19:52:12,666 [WARNING] ⚠️ Native stop order failed for AXSM: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-07 19:52:12,726 [WARNING] ⚠️ Native take profit order failed for AXSM: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-07 19:52:13,148 [WARNING] ⚠️ Cannot fetch news for GSHD: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:13,151 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-07 19:52:13,235 [INFO] 📤 BUY submitted: GSHD notional=$6,000.00 (order abdd5f5e-6d3e-45c1-b704-a7c90fc48552)
+2026-07-07 19:52:16,364 [INFO] ✅ BUY filled: GSHD x108.030068419 @ $55.54
+2026-07-07 19:52:16,377 [INFO] 📋 New position: GSHD x108.0301 @ $55.54 ($6,000 USD)
+2026-07-07 19:52:16,377 [INFO] 🛒 [Paper] Bought GSHD x108.0301 @ $55.54 | SL $52.76 | TP $61.09
+2026-07-07 19:52:16,377 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-07 19:52:16,436 [WARNING] ⚠️ Native stop order failed for GSHD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-07 19:52:16,503 [WARNING] ⚠️ Native take profit order failed for GSHD: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-07 19:52:16,504 [INFO] 🔍 Hold review: BCPC [MID]...
+2026-07-07 19:52:18,759 [WARNING] ⚠️ Cannot fetch news for BCPC: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:18,778 [WARNING] ⚠️ Hold review failed for BCPC: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-07 19:52:18,793 [INFO] 🔍 Hold review: PLMR [MID]...
+2026-07-07 19:52:19,236 [WARNING] ⚠️ Cannot fetch news for PLMR: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:19,253 [WARNING] ⚠️ Hold review failed for PLMR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-07 19:52:19,267 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-07 19:52:19,709 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-07 19:52:19,723 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-07 19:52:19,737 [INFO] 
+📊 Run complete — positions: 7 | today P&L: $-126.52 | total P&L: $+820.30
+2026-07-07 19:52:19,738 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (85 lines)
+2026-07-07 19:52:19,739 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-07 19:52:19,740 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:35013)
+2026-07-07 19:52:21,230 [INFO] 📱 LINE message sent to U877a798...
+2026-07-07 19:52:21,502 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-07 19:52:21,503 [INFO] ✅ Amara run complete — exiting cleanly.
