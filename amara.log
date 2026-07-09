@@ -4410,3 +4410,38 @@
 2026-07-09 15:05:54,140 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-09 15:05:54,140 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-09 15:05:54,140 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-09 16:40:03,189 [INFO] =======================================================
+2026-07-09 16:40:03,190 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-09 16:40:03,190 [INFO] =======================================================
+2026-07-09 16:40:03,190 [INFO] 📖 Previous dashboard loaded (2,655 chars) — Amara has prior-run context
+2026-07-09 16:40:03,453 [INFO] ✅ Alpaca market data connected
+2026-07-09 16:40:03,945 [INFO] ✅ Claude API connected
+2026-07-09 16:40:03,945 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-09 16:40:04,455 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 1
+2026-07-09 16:40:04,542 [INFO] 💰 Account — cash $92,248.84 | portfolio $98,248.83
+2026-07-09 16:40:04,542 [INFO] 🚀 Amara initialised
+2026-07-09 16:40:04,542 [INFO]    Capital: $100,000 USD
+2026-07-09 16:40:04,542 [INFO]    Max position: $10,000 USD
+2026-07-09 16:40:04,542 [INFO]    Daily loss limit: $5,000 USD
+2026-07-09 16:40:04,542 [INFO] 
+=======================================================
+2026-07-09 16:40:04,542 [INFO] ⏰ Amara run: 2026-07-09 16:40
+2026-07-09 16:40:05,132 [INFO] 📋 Checking 1 open position(s)...
+2026-07-09 16:40:05,208 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-09 16:40:05,219 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-07-09 16:40:05,219 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-09 16:40:11,155 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-09 16:40:11,267 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-09 16:40:11,270 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-09 16:40:11,272 [INFO]    Top 8 candidates → Claude: none
+2026-07-09 16:40:11,273 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-09 16:40:11,821 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-09 16:40:11,833 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-09 16:40:11,986 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-09 16:40:11,997 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-09 16:40:11,998 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $-439.44 | total P&L: $-115.19
+2026-07-09 16:40:11,999 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (57 lines)
+2026-07-09 16:40:12,000 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-09 16:40:12,000 [INFO] 🔕 LINE notification suppressed — TW time is 00:40 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-09 16:40:12,000 [INFO] ✅ Amara run complete — exiting cleanly.
