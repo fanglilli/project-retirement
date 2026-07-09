@@ -4370,3 +4370,43 @@
 2026-07-09 13:37:19,827 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-09 13:37:19,827 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-09 13:37:19,827 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-09 15:05:42,937 [INFO] =======================================================
+2026-07-09 15:05:42,937 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-09 15:05:42,937 [INFO] =======================================================
+2026-07-09 15:05:42,938 [INFO] 📖 Previous dashboard loaded (2,556 chars) — Amara has prior-run context
+2026-07-09 15:05:43,207 [INFO] ✅ Alpaca market data connected
+2026-07-09 15:05:43,736 [INFO] ✅ Claude API connected
+2026-07-09 15:05:43,737 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-09 15:05:44,294 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-09 15:05:44,294 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-09 15:05:44,352 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-09 15:05:44,363 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 1
+2026-07-09 15:05:44,430 [INFO] 💰 Account — cash $86,688.29 | portfolio $98,277.36
+2026-07-09 15:05:44,430 [INFO] 🚀 Amara initialised
+2026-07-09 15:05:44,430 [INFO]    Capital: $100,000 USD
+2026-07-09 15:05:44,430 [INFO]    Max position: $10,000 USD
+2026-07-09 15:05:44,430 [INFO]    Daily loss limit: $5,000 USD
+2026-07-09 15:05:44,430 [INFO] 
+=======================================================
+2026-07-09 15:05:44,430 [INFO] ⏰ Amara run: 2026-07-09 15:05
+2026-07-09 15:05:44,963 [INFO] 📋 Checking 2 open position(s)...
+2026-07-09 15:05:45,035 [WARNING]   GSHD: ⚠️ no native stop order found — executing Python fallback stop-loss
+2026-07-09 15:05:45,149 [INFO] 📤 SELL submitted: GSHD x105.63362676 (order 97f1a42e-3577-4645-95c6-4d6bfb1c1df4)
+2026-07-09 15:05:48,274 [INFO] ✅ SELL filled: GSHD @ $52.64
+2026-07-09 15:05:48,286 [INFO] ❌ [Paper] Closed GSHD @ $52.64 | 硬停損 -5.0% [MID] （Python 備援 — 無原生停損單） | P&L: $-439.44
+2026-07-09 15:05:48,349 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-09 15:05:48,362 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-07-09 15:05:48,362 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-09 15:05:53,451 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-09 15:05:53,566 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-09 15:05:53,569 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-09 15:05:53,571 [INFO]    Top 8 candidates → Claude: none
+2026-07-09 15:05:53,571 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-09 15:05:54,110 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-09 15:05:54,126 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-09 15:05:54,138 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-439.44 | total P&L: $-115.19
+2026-07-09 15:05:54,139 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (62 lines)
+2026-07-09 15:05:54,140 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-09 15:05:54,140 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-09 15:05:54,140 [INFO] ✅ Amara run complete — exiting cleanly.
