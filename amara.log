@@ -4713,3 +4713,50 @@
 2026-07-13 18:04:30,604 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-13 18:04:30,604 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-13 18:04:30,604 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-13 19:52:20,079 [INFO] =======================================================
+2026-07-13 19:52:20,079 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-13 19:52:20,079 [INFO] =======================================================
+2026-07-13 19:52:20,079 [INFO] 📖 Previous dashboard loaded (1,935 chars) — Amara has prior-run context
+2026-07-13 19:52:20,342 [INFO] ✅ Alpaca market data connected
+2026-07-13 19:52:20,870 [INFO] ✅ Claude API connected
+2026-07-13 19:52:20,870 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-13 19:52:21,446 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-13 19:52:21,446 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-13 19:52:21,527 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-13 19:52:21,527 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 0
+2026-07-13 19:52:21,608 [INFO] 💰 Account — cash $91,852.16 | portfolio $97,852.15
+2026-07-13 19:52:21,608 [INFO] 🚀 Amara initialised
+2026-07-13 19:52:21,608 [INFO]    Capital: $100,000 USD
+2026-07-13 19:52:21,608 [INFO]    Max position: $10,000 USD
+2026-07-13 19:52:21,608 [INFO]    Daily loss limit: $5,000 USD
+2026-07-13 19:52:21,608 [INFO] 
+=======================================================
+2026-07-13 19:52:21,609 [INFO] ⏰ Amara run: 2026-07-13 19:52
+2026-07-13 19:52:22,244 [INFO] 📋 Checking 1 open position(s)...
+2026-07-13 19:52:22,318 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-13 19:52:22,329 [INFO] 📊 持倉中：1 筆 | 可用資金決定是否繼續開倉
+2026-07-13 19:52:22,329 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-13 19:52:24,248 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-13 19:52:24,368 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-13 19:52:24,373 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-07-13 19:52:24,376 [INFO]    Top 8 candidates → Claude: WSFS
+2026-07-13 19:52:24,915 [WARNING] ⚠️ Cannot fetch news for WSFS: 'NewsSet' object has no attribute 'news'
+2026-07-13 19:52:24,921 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-13 19:52:25,005 [INFO] 📤 BUY submitted: WSFS notional=$6,000.00 (order a49eb120-a667-49ec-86ac-7a085293a5f2)
+2026-07-13 19:52:28,140 [INFO] ✅ BUY filled: WSFS x77.110782675 @ $77.81
+2026-07-13 19:52:28,152 [INFO] 📋 New position: WSFS x77.1108 @ $77.81 ($6,000 USD)
+2026-07-13 19:52:28,152 [INFO] 🛒 [Paper] Bought WSFS x77.1108 @ $77.81 | SL $73.92 | TP $85.59
+2026-07-13 19:52:28,152 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-13 19:52:28,220 [WARNING] ⚠️ Native stop order failed for WSFS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-13 19:52:28,288 [WARNING] ⚠️ Native take profit order failed for WSFS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-13 19:52:28,289 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-13 19:52:29,026 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-13 19:52:29,039 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-13 19:52:29,052 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-396.61 | total P&L: $-511.80
+2026-07-13 19:52:29,053 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (67 lines)
+2026-07-13 19:52:29,054 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-13 19:52:29,054 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:41293)
+2026-07-13 19:52:30,566 [INFO] 📱 LINE message sent to U877a798...
+2026-07-13 19:52:31,197 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-13 19:52:31,198 [INFO] ✅ Amara run complete — exiting cleanly.
