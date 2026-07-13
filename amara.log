@@ -4527,3 +4527,118 @@
 2026-07-09 19:51:40,982 [INFO] 📱 LINE message sent to U877a798...
 2026-07-09 19:51:41,540 [INFO] 📱 LINE message sent to U4eaa039...
 2026-07-09 19:51:41,541 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-13 13:37:21,107 [INFO] =======================================================
+2026-07-13 13:37:21,107 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-13 13:37:21,107 [INFO] =======================================================
+2026-07-13 13:37:21,108 [INFO] 📖 Previous dashboard loaded (2,425 chars) — Amara has prior-run context
+2026-07-13 13:37:21,429 [INFO] ✅ Alpaca market data connected
+2026-07-13 13:37:22,126 [INFO] ✅ Claude API connected
+2026-07-13 13:37:22,127 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-13 13:37:22,760 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-13 13:37:22,760 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-13 13:37:22,822 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-13 13:37:22,838 [INFO] 📋 New position: IIPR x93.1965 @ $64.38 ($6,000 USD)
+2026-07-13 13:37:22,838 [INFO] 🔄 Sync [added]   IIPR x93.196489593 @ $64.38
+2026-07-13 13:37:22,913 [WARNING] ⚠️ Sync: could not place stop for IIPR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-07-13 13:37:22,938 [INFO] 📋 New position: META x14.9727 @ $667.88 ($10,000 USD)
+2026-07-13 13:37:22,939 [INFO] 🔄 Sync [added]   META x14.972734622 @ $667.88
+2026-07-13 13:37:23,002 [WARNING] ⚠️ Sync: could not place stop for META: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-07-13 13:37:23,025 [INFO] 📋 New position: NVDA x47.5954 @ $210.10 ($10,000 USD)
+2026-07-13 13:37:23,025 [INFO] 🔄 Sync [added]   NVDA x47.595402408 @ $210.10
+2026-07-13 13:37:23,093 [WARNING] ⚠️ Sync: could not place stop for NVDA: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-07-13 13:37:23,194 [INFO] 🔄 Sync: actual fill price found for GTLB: $32.36
+2026-07-13 13:37:23,277 [WARNING] 🔄 Sync [closed]  GTLB — gone from Alpaca (P&L $-336.06)
+2026-07-13 13:37:23,277 [INFO] ✅ Alpaca sync — added 4 | closed 1 | updated 0
+2026-07-13 13:37:23,362 [INFO] 💰 Account — cash $65,912.74 | portfolio $97,858.75
+2026-07-13 13:37:23,362 [INFO] 🚀 Amara initialised
+2026-07-13 13:37:23,362 [INFO]    Capital: $100,000 USD
+2026-07-13 13:37:23,362 [INFO]    Max position: $10,000 USD
+2026-07-13 13:37:23,362 [INFO]    Daily loss limit: $5,000 USD
+2026-07-13 13:37:23,362 [INFO] 
+=======================================================
+2026-07-13 13:37:23,362 [INFO] ⏰ Amara run: 2026-07-13 13:37
+2026-07-13 13:37:24,041 [INFO] 📋 Checking 4 open position(s)...
+2026-07-13 13:37:24,213 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-13 13:37:24,321 [INFO]   IIPR: $64.45 | +0.1% | 0d held
+2026-07-13 13:37:24,461 [INFO]   META: $666.50 | -0.2% | 0d held
+2026-07-13 13:37:24,570 [INFO]   NVDA: $208.59 | -0.7% | 0d held
+2026-07-13 13:37:24,585 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-13 13:37:24,585 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-13 13:37:29,617 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-13 13:37:29,757 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-13 13:37:29,761 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-13 13:37:29,763 [INFO]    Top 8 candidates → Claude: none
+2026-07-13 13:37:29,764 [INFO] 🔍 Hold review: NVDA [LARGE]...
+2026-07-13 13:37:30,259 [WARNING] ⚠️ Cannot fetch news for NVDA: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:30,279 [WARNING] ⚠️ Hold review failed for NVDA: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-13 13:37:30,294 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-13 13:37:30,801 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:30,819 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-13 13:37:30,834 [INFO] 🔍 Hold review: IIPR [MID]...
+2026-07-13 13:37:31,352 [WARNING] ⚠️ Cannot fetch news for IIPR: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:31,368 [WARNING] ⚠️ Hold review failed for IIPR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-13 13:37:31,382 [INFO] 🔍 Hold review: META [LARGE]...
+2026-07-13 13:37:31,926 [WARNING] ⚠️ Cannot fetch news for META: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:31,942 [WARNING] ⚠️ Hold review failed for META: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-13 13:37:31,957 [INFO] 
+📊 Run complete — positions: 4 | today P&L: $-336.06 | total P&L: $-451.25
+2026-07-13 13:37:31,959 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (65 lines)
+2026-07-13 13:37:31,960 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-13 13:37:31,960 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-13 13:37:31,960 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-13 13:37:39,948 [INFO] =======================================================
+2026-07-13 13:37:39,948 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-13 13:37:39,948 [INFO] =======================================================
+2026-07-13 13:37:39,948 [INFO] 📖 Previous dashboard loaded (3,470 chars) — Amara has prior-run context
+2026-07-13 13:37:40,309 [INFO] ✅ Alpaca market data connected
+2026-07-13 13:37:40,980 [INFO] ✅ Claude API connected
+2026-07-13 13:37:40,980 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-13 13:37:42,138 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 4
+2026-07-13 13:37:42,311 [INFO] 💰 Account — cash $65,912.74 | portfolio $97,873.71
+2026-07-13 13:37:42,311 [INFO] 🚀 Amara initialised
+2026-07-13 13:37:42,311 [INFO]    Capital: $100,000 USD
+2026-07-13 13:37:42,311 [INFO]    Max position: $10,000 USD
+2026-07-13 13:37:42,311 [INFO]    Daily loss limit: $5,000 USD
+2026-07-13 13:37:42,311 [INFO] 
+=======================================================
+2026-07-13 13:37:42,311 [INFO] ⏰ Amara run: 2026-07-13 13:37
+2026-07-13 13:37:43,013 [INFO] 📋 Checking 4 open position(s)...
+2026-07-13 13:37:43,071 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-13 13:37:43,141 [INFO]   IIPR: $64.45 | +0.1% | 0d held
+2026-07-13 13:37:43,209 [INFO]   META: $666.58 | -0.2% | 0d held
+2026-07-13 13:37:43,280 [INFO]   NVDA: $209.03 | -0.5% | 0d held
+2026-07-13 13:37:43,295 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-13 13:37:43,295 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-13 13:37:46,880 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-13 13:37:47,009 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-13 13:37:47,013 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-13 13:37:47,015 [INFO]    Top 8 candidates → Claude: none
+2026-07-13 13:37:47,015 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-13 13:37:47,505 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:47,522 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-13 13:37:47,736 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-13 13:37:47,751 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-13 13:37:47,752 [INFO] 🔍 Hold review: NVDA [LARGE]...
+2026-07-13 13:37:49,410 [WARNING] ⚠️ Cannot fetch news for NVDA: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:49,426 [WARNING]   NVDA: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.03×） — 動能衰竭出場
+2026-07-13 13:37:49,652 [INFO] 📤 SELL submitted: NVDA x47.595402408 (order 28d81367-4e24-481f-90fe-3fcf56b8c047)
+2026-07-13 13:37:53,070 [INFO] ✅ SELL filled: NVDA @ $208.72
+2026-07-13 13:37:53,087 [INFO] ❌ [Paper] Closed NVDA @ $208.72 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.03×） — 動能衰竭出場 | P&L: $-65.88
+2026-07-13 13:37:53,088 [INFO] 🔍 Hold review: META [LARGE]...
+2026-07-13 13:37:53,619 [WARNING] ⚠️ Cannot fetch news for META: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:53,647 [WARNING]   META: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.06×） — 動能衰竭出場
+2026-07-13 13:37:53,837 [INFO] 📤 SELL submitted: META x14.972734622 (order 990da9d3-7f24-49f5-83cc-ea81ae355310)
+2026-07-13 13:37:57,168 [INFO] ✅ SELL filled: META @ $667.36
+2026-07-13 13:37:57,184 [INFO] ❌ [Paper] Closed META @ $667.36 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.06×） — 動能衰竭出場 | P&L: $-7.72
+2026-07-13 13:37:57,185 [INFO] 🔍 Hold review: IIPR [MID]...
+2026-07-13 13:37:58,468 [WARNING] ⚠️ Cannot fetch news for IIPR: 'NewsSet' object has no attribute 'news'
+2026-07-13 13:37:58,486 [WARNING]   IIPR: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.09×） — 動能衰竭出場
+2026-07-13 13:37:58,653 [INFO] 📤 SELL submitted: IIPR x93.196489593 (order 9374a016-ac76-4935-8698-2da5c6c6efcd)
+2026-07-13 13:38:01,902 [INFO] ✅ SELL filled: IIPR @ $64.52
+2026-07-13 13:38:01,917 [INFO] ✅ [Paper] Closed IIPR @ $64.52 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.09×） — 動能衰竭出場 | P&L: $+13.05
+2026-07-13 13:38:01,918 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $-396.61 | total P&L: $-511.80
+2026-07-13 13:38:01,919 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (60 lines)
+2026-07-13 13:38:01,920 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-13 13:38:01,921 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-13 13:38:01,921 [INFO] ✅ Amara run complete — exiting cleanly.
