@@ -4947,3 +4947,46 @@
 2026-07-15 13:41:22,877 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-15 13:41:22,877 [INFO] 🔕 LINE notification suppressed — TW time is 21:41 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-15 13:41:22,877 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-15 15:05:31,236 [INFO] =======================================================
+2026-07-15 15:05:31,236 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-15 15:05:31,236 [INFO] =======================================================
+2026-07-15 15:05:31,237 [INFO] 📖 Previous dashboard loaded (1,934 chars) — Amara has prior-run context
+2026-07-15 15:05:31,583 [INFO] ✅ Alpaca market data connected
+2026-07-15 15:05:32,248 [INFO] ✅ Claude API connected
+2026-07-15 15:05:32,249 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-15 15:05:34,898 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-15 15:05:34,898 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-15 15:05:34,954 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-15 15:05:34,970 [INFO] 📋 New position: GS x8.7604 @ $1141.50 ($10,000 USD)
+2026-07-15 15:05:34,970 [INFO] 🔄 Sync [added]   GS x8.760394218 @ $1141.50
+2026-07-15 15:05:35,049 [WARNING] ⚠️ Sync: could not place stop for GS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-07-15 15:05:35,049 [INFO] ✅ Alpaca sync — added 2 | closed 0 | updated 0
+2026-07-15 15:05:35,127 [INFO] 💰 Account — cash $81,861.35 | portfolio $97,789.63
+2026-07-15 15:05:35,127 [INFO] 🚀 Amara initialised
+2026-07-15 15:05:35,127 [INFO]    Capital: $100,000 USD
+2026-07-15 15:05:35,127 [INFO]    Max position: $10,000 USD
+2026-07-15 15:05:35,127 [INFO]    Daily loss limit: $5,000 USD
+2026-07-15 15:05:35,127 [INFO] 
+=======================================================
+2026-07-15 15:05:35,127 [INFO] ⏰ Amara run: 2026-07-15 15:05
+2026-07-15 15:05:35,957 [INFO] 📋 Checking 2 open position(s)...
+2026-07-15 15:05:36,021 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-15 15:05:36,113 [INFO]   GS: $1133.32 | -0.7% | 0d held
+2026-07-15 15:05:36,127 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-15 15:05:36,128 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-15 15:05:40,467 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-15 15:05:40,636 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-15 15:05:40,641 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-15 15:05:40,644 [INFO]    Top 8 candidates → Claude: none
+2026-07-15 15:05:40,645 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-15 15:05:41,150 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-15 15:05:41,174 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-15 15:05:41,191 [INFO] 🔍 Hold review: GS [LARGE]...
+2026-07-15 15:05:42,195 [WARNING] ⚠️ Cannot fetch news for GS: 'NewsSet' object has no attribute 'news'
+2026-07-15 15:05:42,215 [WARNING] ⚠️ Hold review failed for GS: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-15 15:05:42,235 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $+0.00 | total P&L: $-502.54
+2026-07-15 15:05:42,236 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (62 lines)
+2026-07-15 15:05:42,237 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-15 15:05:42,237 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-15 15:05:42,237 [INFO] ✅ Amara run complete — exiting cleanly.
