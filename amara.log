@@ -5069,3 +5069,62 @@
 2026-07-15 18:04:01,871 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-15 18:04:01,871 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-15 18:04:01,871 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-15 19:52:25,947 [INFO] =======================================================
+2026-07-15 19:52:25,947 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-15 19:52:25,947 [INFO] =======================================================
+2026-07-15 19:52:25,947 [INFO] 📖 Previous dashboard loaded (3,447 chars) — Amara has prior-run context
+2026-07-15 19:52:26,217 [INFO] ✅ Alpaca market data connected
+2026-07-15 19:52:26,797 [INFO] ✅ Claude API connected
+2026-07-15 19:52:26,797 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-15 19:52:27,330 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-07-15 19:52:27,403 [INFO] 💰 Account — cash $81,861.35 | portfolio $97,958.83
+2026-07-15 19:52:27,403 [INFO] 🚀 Amara initialised
+2026-07-15 19:52:27,403 [INFO]    Capital: $100,000 USD
+2026-07-15 19:52:27,403 [INFO]    Max position: $10,000 USD
+2026-07-15 19:52:27,403 [INFO]    Daily loss limit: $5,000 USD
+2026-07-15 19:52:27,403 [INFO] 
+=======================================================
+2026-07-15 19:52:27,403 [INFO] ⏰ Amara run: 2026-07-15 19:52
+2026-07-15 19:52:28,284 [INFO] 📋 Checking 2 open position(s)...
+2026-07-15 19:52:28,436 [INFO]   GS: $1152.69 | +1.0% | 0d held
+2026-07-15 19:52:28,553 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-15 19:52:28,570 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-15 19:52:28,571 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-15 19:52:32,296 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-15 19:52:32,441 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-15 19:52:32,446 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-15 19:52:32,448 [INFO]    Top 8 candidates → Claude: BILL, MS
+2026-07-15 19:52:33,429 [WARNING] ⚠️ Cannot fetch news for BILL: 'NewsSet' object has no attribute 'news'
+2026-07-15 19:52:33,435 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-15 19:52:33,526 [INFO] 📤 BUY submitted: BILL notional=$6,000.00 (order a3f43bde-c6fc-4791-bb7c-1cfc1a690060)
+2026-07-15 19:52:39,703 [INFO] ✅ BUY filled: BILL x134.801842282 @ $44.51
+2026-07-15 19:52:39,715 [INFO] 📋 New position: BILL x134.8018 @ $44.51 ($6,000 USD)
+2026-07-15 19:52:39,715 [INFO] 🛒 [Paper] Bought BILL x134.8018 @ $44.51 | SL $42.28 | TP $48.96
+2026-07-15 19:52:39,716 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-15 19:52:39,772 [WARNING] ⚠️ Native stop order failed for BILL: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-15 19:52:39,828 [WARNING] ⚠️ Native take profit order failed for BILL: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-15 19:52:40,335 [WARNING] ⚠️ Cannot fetch news for MS: 'NewsSet' object has no attribute 'news'
+2026-07-15 19:52:40,337 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-15 19:52:40,411 [INFO] 📤 BUY submitted: MS notional=$10,000.00 (order 68949e08-1ef4-4090-911d-8169acabb4ef)
+2026-07-15 19:52:43,525 [INFO] ✅ BUY filled: MS x43.609647592 @ $229.31
+2026-07-15 19:52:43,537 [INFO] 📋 New position: MS x43.6096 @ $229.31 ($10,000 USD)
+2026-07-15 19:52:43,537 [INFO] 🛒 [Paper] Bought MS x43.6096 @ $229.31 | SL $221.28 | TP $245.36
+2026-07-15 19:52:43,537 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-15 19:52:43,591 [WARNING] ⚠️ Native stop order failed for MS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-15 19:52:43,644 [WARNING] ⚠️ Native take profit order failed for MS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-15 19:52:43,645 [INFO] 🔍 Hold review: GS [LARGE]...
+2026-07-15 19:52:44,183 [WARNING] ⚠️ Cannot fetch news for GS: 'NewsSet' object has no attribute 'news'
+2026-07-15 19:52:44,197 [WARNING] ⚠️ Hold review failed for GS: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-15 19:52:44,211 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-15 19:52:44,704 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-15 19:52:44,727 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-15 19:52:44,811 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-15 19:52:44,825 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-15 19:52:44,826 [INFO] 
+📊 Run complete — positions: 3 | today P&L: $+0.00 | total P&L: $-502.54
+2026-07-15 19:52:44,827 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (70 lines)
+2026-07-15 19:52:44,829 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-15 19:52:44,829 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:33115)
+2026-07-15 19:52:46,025 [INFO] 📱 LINE message sent to U877a798...
+2026-07-15 19:52:46,441 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-15 19:52:46,443 [INFO] ✅ Amara run complete — exiting cleanly.
