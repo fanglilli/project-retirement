@@ -4,43 +4,38 @@
 
 | 項目 | 數值 |
 |:-----|:-----|
-| **最後執行** | `2026-07-15 19:52:44` |
+| **最後執行** | `2026-07-16 13:37:51` |
 | **模式** | 🧪 模擬盤 |
-| **可用現金** | `$81,861.35` |
-| **資產總值** | `$97,958.83` |
-| **可用買力** | `$355,718.38` |
-| **累計損益**（含未實現）| `$-404.51` (▼ 0.40%) |
-| **今日損益**（含未實現）| `$+98.03` |
+| **可用現金** | `$65,861.36` |
+| **資產總值** | `$97,513.89` |
+| **可用買力** | `$335,272.56` |
+| **累計損益**（含未實現）| `$-877.56` (▼ 0.88%) |
+| **今日損益**（含未實現）| `$-375.01` |
 | **勝率** | 30/114 (26%) |
-| **持倉中** | 3 筆 |
+| **持倉中** | 4 筆 |
 | **監控股票數** | 150 檔 |
 
 ## 📋 持倉中
 
 | 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 | Claude 審查 |
 |:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|:------------|
-| **GS** | $1141.50 | $1152.69 | 🟢 +1.0% | 1 天 | 0.0× | +0.0% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **BILL** | $44.51 | $44.51 | 🟢 +0.0% | 1 天 | 1.6× | +19.1% | $6,000 | — |
-| **MS** | $229.31 | $229.31 | 🟢 +0.0% | 1 天 | 1.8× | +4.0% | $10,000 | MS自買入以來上漲約1.3%，動能持續向上，5日動能達3.3%且技術評分滿分100，買入邏輯仍然成立。主要警示訊號為RSI已升至70.6，接近超買區域，需留意短線回調風險，但目前止損距離仍有4.7%的緩衝空間。建議重點觀察RSI是否進一步突… |
+| **GS** | $1141.50 | $1126.39 | 🔴 -1.3% | 2 天 | 0.0× | +0.0% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **BILL** | $44.51 | $45.08 | 🟢 +1.3% | 2 天 | 1.6× | +19.1% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **MS** | $229.31 | $221.98 | 🔴 -3.2% | 2 天 | 1.8× | +4.0% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **CWAN** | $24.56 | $24.56 | 🟢 +0.0% | 1 天 | 0.0× | +0.0% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
 
 ## 🧠 本次決策
 
-| 時間 | 股票 | 動作 | 信心 | 評分 | 理由 |
-|:----:|:----:|:----:|:----:|:----:|:-----|
-| 19:52 | **BILL [MID]** | ✅ BUY | 7/10 | 100 | Claude 分析失敗；依技術評分判斷通過 |
-| 19:52 | **MS [LARGE]** | ✅ BUY | 7/10 | 100 | Claude 分析失敗；依技術評分判斷通過 |
-| 19:52 | **CWAN** | 🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場) | — | — | P&L: $+0.00 (+0.0%) |
+*本次無買賣決策 — 市場休市或無符合條件的訊號。*
 
 ## 🔍 掃描結果
 
 | 時間 | 股票 | 評分↓ | RSI | 成交量倍數 | 決策 | AI 分析 |
 |:----:|:----:|------:|----:|----------:|:----:|:--------|
-| 2026-07-15 19:52 | **BILL** | 100 | 70.3 | 1.6× | ✅ 買入 | Claude 分析失敗；依技術評分判斷通過 |
-| 2026-07-15 19:52 | **MS** | 100 | 64.9 | 1.8× | ✅ 買入 | Claude 分析失敗；依技術評分判斷通過 |
-| 2026-07-15 19:52 | **GS** | 100 | 68.8 | 2.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-15 15:05 | **GS** | 65 | 65.8 | 0.8× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-15 16:40 | **GS** | 65 | 62.9 | 1.3× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-15 18:04 | **GS** | 65 | 67.8 | 1.6× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-16 13:37 | **GS** | 65 | 62.7 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-16 13:37 | **BILL** | 65 | 71.3 | 0.1× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-16 13:37 | **MS** | 55 | 56.1 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-16 13:37 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 
 ## 📒 近期交易紀錄
 
@@ -62,9 +57,9 @@
 | 項目 | 數值 |
 |:-----|:-----|
 | SPY 起始價 | `$750.46`（2026-05-27）|
-| SPY 現價 | `$754.08`（+0.48%）|
-| 我們的報酬 | `-0.40%` |
-| 挑戰狀態 | ❌ 落後 S&P 500 — 第 50 天 / 14 天 |
+| SPY 現價 | `$752.26`（+0.24%）|
+| 我們的報酬 | `-0.88%` |
+| 挑戰狀態 | ❌ 落後 S&P 500 — 第 51 天 / 14 天 |
 
 ---
-*Amara · 單次執行模式 · 產生時間：2026-07-15 19:52:44*
+*Amara · 單次執行模式 · 產生時間：2026-07-16 13:37:51*
