@@ -5316,3 +5316,63 @@
 2026-07-16 16:39:42,580 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-16 16:39:42,580 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-16 16:39:42,580 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-16 19:52:06,245 [INFO] =======================================================
+2026-07-16 19:52:06,245 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-16 19:52:06,245 [INFO] =======================================================
+2026-07-16 19:52:06,245 [INFO] 📖 Previous dashboard loaded (2,637 chars) — Amara has prior-run context
+2026-07-16 19:52:06,554 [INFO] ✅ Alpaca market data connected
+2026-07-16 19:52:07,255 [INFO] ✅ Claude API connected
+2026-07-16 19:52:07,255 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-16 19:52:08,029 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-16 19:52:08,029 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-16 19:52:08,091 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-16 19:52:08,107 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 1
+2026-07-16 19:52:08,180 [INFO] 💰 Account — cash $81,346.90 | portfolio $97,334.24
+2026-07-16 19:52:08,180 [INFO] 🚀 Amara initialised
+2026-07-16 19:52:08,180 [INFO]    Capital: $100,000 USD
+2026-07-16 19:52:08,180 [INFO]    Max position: $10,000 USD
+2026-07-16 19:52:08,180 [INFO]    Daily loss limit: $5,000 USD
+2026-07-16 19:52:08,180 [INFO] 
+=======================================================
+2026-07-16 19:52:08,180 [INFO] ⏰ Amara run: 2026-07-16 19:52
+2026-07-16 19:52:08,940 [INFO] 📋 Checking 2 open position(s)...
+2026-07-16 19:52:09,006 [INFO]   ABT: $98.79 | -0.1% | 0d held
+2026-07-16 19:52:09,100 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-16 19:52:09,115 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-16 19:52:09,115 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-16 19:52:13,284 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-16 19:52:13,421 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-16 19:52:13,426 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-16 19:52:13,429 [INFO]    Top 8 candidates → Claude: KFRC, MATX
+2026-07-16 19:52:13,978 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-16 19:52:13,984 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-16 19:52:14,068 [INFO] 📤 BUY submitted: KFRC notional=$6,000.00 (order 508f01a8-5ef4-4554-8824-366d91041845)
+2026-07-16 19:52:17,200 [INFO] ✅ BUY filled: KFRC x102.023295357 @ $58.81
+2026-07-16 19:52:17,216 [INFO] 📋 New position: KFRC x102.0233 @ $58.81 ($6,000 USD)
+2026-07-16 19:52:17,216 [INFO] 🛒 [Paper] Bought KFRC x102.0233 @ $58.81 | SL $55.87 | TP $64.69
+2026-07-16 19:52:17,216 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-16 19:52:17,274 [WARNING] ⚠️ Native stop order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-16 19:52:17,333 [WARNING] ⚠️ Native take profit order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-16 19:52:17,954 [WARNING] ⚠️ Cannot fetch news for MATX: 'NewsSet' object has no attribute 'news'
+2026-07-16 19:52:17,957 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-16 19:52:18,127 [INFO] 📤 BUY submitted: MATX notional=$6,000.00 (order b03006fb-be3f-41c1-83e6-32f2f4f29a6b)
+2026-07-16 19:52:21,276 [INFO] ✅ BUY filled: MATX x26.705790715 @ $224.67
+2026-07-16 19:52:21,293 [INFO] 📋 New position: MATX x26.7058 @ $224.67 ($6,000 USD)
+2026-07-16 19:52:21,293 [INFO] 🛒 [Paper] Bought MATX x26.7058 @ $224.67 | SL $213.44 | TP $247.14
+2026-07-16 19:52:21,293 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-16 19:52:21,352 [WARNING] ⚠️ Native stop order failed for MATX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-16 19:52:21,411 [WARNING] ⚠️ Native take profit order failed for MATX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-16 19:52:21,413 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-16 19:52:21,951 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-16 19:52:21,969 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-16 19:52:21,986 [INFO] 🔍 Hold review: ABT [LARGE]...
+2026-07-16 19:52:22,959 [WARNING] ⚠️ Cannot fetch news for ABT: 'NewsSet' object has no attribute 'news'
+2026-07-16 19:52:22,976 [WARNING] ⚠️ Hold review failed for ABT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-16 19:52:22,992 [INFO] 
+📊 Run complete — positions: 4 | today P&L: $-514.44 | total P&L: $-1,016.98
+2026-07-16 19:52:22,993 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (74 lines)
+2026-07-16 19:52:22,994 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-16 19:52:22,995 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:42785)
+2026-07-16 19:52:24,535 [INFO] 📱 LINE message sent to U877a798...
+2026-07-16 19:52:24,864 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-16 19:52:24,866 [INFO] ✅ Amara run complete — exiting cleanly.
