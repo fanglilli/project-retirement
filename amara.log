@@ -5176,3 +5176,59 @@
 2026-07-16 13:37:51,892 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-16 13:37:51,893 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-16 13:37:51,893 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-16 15:05:41,684 [INFO] =======================================================
+2026-07-16 15:05:41,684 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-16 15:05:41,684 [INFO] =======================================================
+2026-07-16 15:05:41,684 [INFO] 📖 Previous dashboard loaded (3,478 chars) — Amara has prior-run context
+2026-07-16 15:05:42,020 [INFO] ✅ Alpaca market data connected
+2026-07-16 15:05:42,676 [INFO] ✅ Claude API connected
+2026-07-16 15:05:42,677 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-16 15:05:43,231 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 4
+2026-07-16 15:05:43,305 [INFO] 💰 Account — cash $65,861.36 | portfolio $97,364.52
+2026-07-16 15:05:43,305 [INFO] 🚀 Amara initialised
+2026-07-16 15:05:43,305 [INFO]    Capital: $100,000 USD
+2026-07-16 15:05:43,305 [INFO]    Max position: $10,000 USD
+2026-07-16 15:05:43,305 [INFO]    Daily loss limit: $5,000 USD
+2026-07-16 15:05:43,305 [INFO] 
+=======================================================
+2026-07-16 15:05:43,305 [INFO] ⏰ Amara run: 2026-07-16 15:05
+2026-07-16 15:05:43,983 [INFO] 📋 Checking 4 open position(s)...
+2026-07-16 15:05:44,055 [INFO]   GS: $1119.58 | -1.9% | 1d held
+2026-07-16 15:05:44,128 [INFO]   BILL: $44.60 | +0.2% | 1d held
+2026-07-16 15:05:44,206 [INFO]   MS: $221.89 | -3.2% | 1d held
+2026-07-16 15:05:44,284 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-16 15:05:44,299 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-16 15:05:44,299 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-16 15:05:49,036 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-16 15:05:49,188 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-16 15:05:49,192 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-16 15:05:49,195 [INFO]    Top 8 candidates → Claude: none
+2026-07-16 15:05:49,195 [INFO] 🔍 Hold review: BILL [MID]...
+2026-07-16 15:05:49,749 [WARNING] ⚠️ Cannot fetch news for BILL: 'NewsSet' object has no attribute 'news'
+2026-07-16 15:05:49,767 [WARNING]   BILL: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場
+2026-07-16 15:05:49,866 [INFO] 📤 SELL submitted: BILL x134.801842282 (order 6dda391c-f3b9-4b6e-95e1-cce69d9f24dc)
+2026-07-16 15:05:52,975 [INFO] ✅ SELL filled: BILL @ $44.66
+2026-07-16 15:05:52,991 [INFO] ✅ [Paper] Closed BILL @ $44.66 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場 | P&L: $+20.26
+2026-07-16 15:05:52,992 [INFO] 🔍 Hold review: GS [LARGE]...
+2026-07-16 15:05:53,551 [WARNING] ⚠️ Cannot fetch news for GS: 'NewsSet' object has no attribute 'news'
+2026-07-16 15:05:53,569 [WARNING]   GS: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.38×） — 動能衰竭出場
+2026-07-16 15:05:53,644 [INFO] 📤 SELL submitted: GS x8.760394218 (order ce5619a7-51b7-45a6-87f7-aea74f639965)
+2026-07-16 15:05:56,757 [INFO] ✅ SELL filled: GS @ $1118.58
+2026-07-16 15:05:56,773 [INFO] ❌ [Paper] Closed GS @ $1118.58 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.38×） — 動能衰竭出場 | P&L: $-200.79
+2026-07-16 15:05:56,774 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-16 15:05:57,343 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-16 15:05:57,359 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-16 15:05:57,428 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-16 15:05:57,442 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-16 15:05:57,443 [INFO] 🔍 Hold review: MS [LARGE]...
+2026-07-16 15:06:00,254 [WARNING] ⚠️ Cannot fetch news for MS: 'NewsSet' object has no attribute 'news'
+2026-07-16 15:06:00,271 [WARNING]   MS: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場
+2026-07-16 15:06:00,347 [INFO] 📤 SELL submitted: MS x43.609647592 (order 44dd4493-9f24-4167-9cfa-237223b6d1e8)
+2026-07-16 15:06:03,457 [INFO] ✅ SELL filled: MS @ $221.65
+2026-07-16 15:06:03,478 [INFO] ❌ [Paper] Closed MS @ $221.65 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.35×） — 動能衰竭出場 | P&L: $-333.91
+2026-07-16 15:06:03,481 [INFO] 
+📊 Run complete — positions: 0 | today P&L: $-514.44 | total P&L: $-1,016.98
+2026-07-16 15:06:03,482 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (60 lines)
+2026-07-16 15:06:03,483 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-16 15:06:03,483 [INFO] 🔕 LINE notification suppressed — TW time is 23:06 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-16 15:06:03,483 [INFO] ✅ Amara run complete — exiting cleanly.
