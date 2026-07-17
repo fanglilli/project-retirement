@@ -2561,8 +2561,8 @@
       "pct_above_ma20": 6.99,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 100.09,
-      "last_checked": "2026-07-17 16:39",
+      "last_price": 99.61,
+      "last_checked": "2026-07-17 18:04",
       "low_vol_runs": 0
     },
     {
@@ -2652,6 +2652,28 @@
       "last_price": 24.56,
       "last_checked": "2026-07-17 16:39",
       "low_vol_runs": 2
+    },
+    {
+      "symbol": "CWAN",
+      "entry_price": 24.56,
+      "entry_date": "2026-07-17",
+      "shares": 244.2992671,
+      "cost_usd": 5999.989999976,
+      "stop_loss_price": 23.33,
+      "take_profit_price": 27.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-07-17 18:04",
+      "low_vol_runs": 1
     }
   ],
   "daily_stats": [],
@@ -11935,17 +11957,55 @@
       "reasons": [],
       "momentum_5d_pct": 6.56,
       "current_price": 100.09
+    },
+    {
+      "timestamp": "2026-07-17 18:04",
+      "date": "2026-07-17",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "Review failed — check manually: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-07-17 18:04",
+      "date": "2026-07-17",
+      "symbol": "ABT",
+      "score": 65,
+      "rsi": 65.2,
+      "volume_ratio": 1.24,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "Review failed — check manually: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 6.05,
+      "current_price": 99.61
     }
   ],
   "total_capital_usd": 100000,
   "cash_available": 81206.55,
-  "portfolio_value": 97325.31,
-  "buying_power": 353158.76,
+  "portfolio_value": 97276.28,
+  "buying_power": 353021.48,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 745.83,
+    "current_price": 744.95,
     "goal_days": 14
   }
 }
