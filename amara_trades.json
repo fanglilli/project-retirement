@@ -2561,8 +2561,8 @@
       "pct_above_ma20": 6.99,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 101.7,
-      "last_checked": "2026-07-17 15:06",
+      "last_price": 100.09,
+      "last_checked": "2026-07-17 16:39",
       "low_vol_runs": 0
     },
     {
@@ -2639,10 +2639,10 @@
       "cost_usd": 5999.989999976,
       "stop_loss_price": 23.33,
       "take_profit_price": 27.02,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
+      "status": "closed",
+      "exit_price": 24.56,
+      "exit_date": "2026-07-17 16:39",
+      "exit_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場",
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 0.0,
       "volume_ratio": 0.0,
@@ -2650,8 +2650,8 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.56,
-      "last_checked": "2026-07-17 15:06",
-      "low_vol_runs": 1
+      "last_checked": "2026-07-17 16:39",
+      "low_vol_runs": 2
     }
   ],
   "daily_stats": [],
@@ -11897,17 +11897,55 @@
       "reasons": [],
       "momentum_5d_pct": 1.28,
       "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-07-17 16:39",
+      "date": "2026-07-17",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": false,
+      "hold_review": true,
+      "claude_approved": false,
+      "claude_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場",
+      "confidence": 0,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-07-17 16:39",
+      "date": "2026-07-17",
+      "symbol": "ABT",
+      "score": 65,
+      "rsi": 65.9,
+      "volume_ratio": 1.01,
+      "tech_signal": false,
+      "sent_to_claude": true,
+      "hold_review": true,
+      "claude_approved": true,
+      "claude_reason": "Review failed — check manually: \"Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted\"",
+      "confidence": 5,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 6.56,
+      "current_price": 100.09
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 69346.87,
-  "portfolio_value": 97562.92,
-  "buying_power": 339592.45,
+  "cash_available": 81206.55,
+  "portfolio_value": 97325.31,
+  "buying_power": 353158.76,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 744.38,
+    "current_price": 745.83,
     "goal_days": 14
   }
 }
