@@ -5556,3 +5556,33 @@
 2026-07-17 18:04:31,039 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-17 18:04:31,040 [INFO] 🔕 LINE notification suppressed — TW time is 02:04 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-17 18:04:31,040 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-17 20:00:39,424 [INFO] =======================================================
+2026-07-17 20:00:39,425 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-17 20:00:39,425 [INFO] =======================================================
+2026-07-17 20:00:39,425 [INFO] 📖 Previous dashboard loaded (3,619 chars) — Amara has prior-run context
+2026-07-17 20:00:39,714 [INFO] ✅ Alpaca market data connected
+2026-07-17 20:00:40,417 [INFO] ✅ Claude API connected
+2026-07-17 20:00:40,417 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-17 20:00:41,377 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-07-17 20:00:41,459 [INFO] 💰 Account — cash $81,206.55 | portfolio $97,383.44
+2026-07-17 20:00:41,459 [INFO] 🚀 Amara initialised
+2026-07-17 20:00:41,460 [INFO]    Capital: $100,000 USD
+2026-07-17 20:00:41,460 [INFO]    Max position: $10,000 USD
+2026-07-17 20:00:41,460 [INFO]    Daily loss limit: $5,000 USD
+2026-07-17 20:00:41,460 [INFO] 
+=======================================================
+2026-07-17 20:00:41,460 [INFO] ⏰ Amara run: 2026-07-17 20:00
+2026-07-17 20:00:41,471 [INFO] 🌙 US market is closed — skipping new trade scan.
+2026-07-17 20:00:41,472 [INFO]    Monitoring existing positions, refreshing balances, and updating dashboard.
+2026-07-17 20:00:42,277 [INFO] 📋 Checking 2 open position(s)...
+2026-07-17 20:00:42,336 [INFO]   ABT: $100.68 | +1.8% | 1d held
+2026-07-17 20:00:42,409 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-17 20:00:42,424 [INFO] 🔍 Scan skipped — market closed.
+2026-07-17 20:00:42,425 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-140.30 | total P&L: $-1,157.28
+2026-07-17 20:00:42,426 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (67 lines)
+2026-07-17 20:00:42,427 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-17 20:00:42,428 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:45683)
+2026-07-17 20:00:43,833 [INFO] 📱 LINE message sent to U877a798...
+2026-07-17 20:00:44,125 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-17 20:00:44,126 [INFO] ✅ Amara run complete — exiting cleanly.

@@ -2561,8 +2561,8 @@
       "pct_above_ma20": 6.99,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 99.61,
-      "last_checked": "2026-07-17 18:04",
+      "last_price": 100.68,
+      "last_checked": "2026-07-17 20:00",
       "low_vol_runs": 0
     },
     {
@@ -2672,7 +2672,7 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.56,
-      "last_checked": "2026-07-17 18:04",
+      "last_checked": "2026-07-17 20:00",
       "low_vol_runs": 1
     }
   ],
@@ -11999,13 +11999,13 @@
   ],
   "total_capital_usd": 100000,
   "cash_available": 81206.55,
-  "portfolio_value": 97276.28,
-  "buying_power": 353021.48,
+  "portfolio_value": 97383.44,
+  "buying_power": 353321.52,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 744.95,
+    "current_price": 743.28,
     "goal_days": 14
   }
 }
