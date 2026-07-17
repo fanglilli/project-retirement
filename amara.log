@@ -5376,3 +5376,50 @@
 2026-07-16 19:52:24,535 [INFO] 📱 LINE message sent to U877a798...
 2026-07-16 19:52:24,864 [INFO] 📱 LINE message sent to U4eaa039...
 2026-07-16 19:52:24,866 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-17 13:38:20,848 [INFO] =======================================================
+2026-07-17 13:38:20,848 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-17 13:38:20,849 [INFO] =======================================================
+2026-07-17 13:38:20,849 [INFO] 📖 Previous dashboard loaded (4,125 chars) — Amara has prior-run context
+2026-07-17 13:38:21,079 [INFO] ✅ Alpaca market data connected
+2026-07-17 13:38:21,611 [INFO] ✅ Claude API connected
+2026-07-17 13:38:21,611 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-17 13:38:22,350 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 4
+2026-07-17 13:38:22,421 [INFO] 💰 Account — cash $69,346.87 | portfolio $97,345.07
+2026-07-17 13:38:22,421 [INFO] 🚀 Amara initialised
+2026-07-17 13:38:22,421 [INFO]    Capital: $100,000 USD
+2026-07-17 13:38:22,421 [INFO]    Max position: $10,000 USD
+2026-07-17 13:38:22,421 [INFO]    Daily loss limit: $5,000 USD
+2026-07-17 13:38:22,421 [INFO] 
+=======================================================
+2026-07-17 13:38:22,422 [INFO] ⏰ Amara run: 2026-07-17 13:38
+2026-07-17 13:38:22,985 [INFO] 📋 Checking 4 open position(s)...
+2026-07-17 13:38:23,112 [INFO]   ABT: $100.52 | +1.6% | 1d held
+2026-07-17 13:38:23,183 [INFO]   CWAN: $24.56 | +0.0% | 1d held
+2026-07-17 13:38:23,262 [INFO]   KFRC: $59.58 | +1.3% | 1d held
+2026-07-17 13:38:23,358 [INFO]   MATX: $223.57 | -0.5% | 1d held
+2026-07-17 13:38:23,369 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-17 13:38:23,370 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-17 13:38:27,659 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-17 13:38:27,781 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-17 13:38:27,784 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-17 13:38:27,786 [INFO]    Top 8 candidates → Claude: none
+2026-07-17 13:38:27,786 [INFO] 🔍 Hold review: MATX [MID]...
+2026-07-17 13:38:28,360 [WARNING] ⚠️ Cannot fetch news for MATX: 'NewsSet' object has no attribute 'news'
+2026-07-17 13:38:28,379 [WARNING] ⚠️ Hold review failed for MATX: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-17 13:38:28,393 [INFO] 🔍 Hold review: KFRC [MID]...
+2026-07-17 13:38:28,973 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-17 13:38:28,988 [WARNING] ⚠️ Hold review failed for KFRC: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-17 13:38:29,000 [INFO] 🔍 Hold review: ABT [LARGE]...
+2026-07-17 13:38:29,717 [WARNING] ⚠️ Cannot fetch news for ABT: 'NewsSet' object has no attribute 'news'
+2026-07-17 13:38:29,731 [WARNING] ⚠️ Hold review failed for ABT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-17 13:38:29,744 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-17 13:38:30,235 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-17 13:38:30,248 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-17 13:38:30,349 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-17 13:38:30,361 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-17 13:38:30,362 [INFO] 
+📊 Run complete — positions: 3 | today P&L: $+0.00 | total P&L: $-1,016.98
+2026-07-17 13:38:30,363 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (65 lines)
+2026-07-17 13:38:30,364 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-17 13:38:30,364 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-17 13:38:30,364 [INFO] ✅ Amara run complete — exiting cleanly.
