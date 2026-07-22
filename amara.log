@@ -5956,3 +5956,53 @@
 2026-07-22 13:38:03,718 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-22 13:38:03,718 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-22 13:38:03,718 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-22 15:05:32,700 [INFO] =======================================================
+2026-07-22 15:05:32,700 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-22 15:05:32,700 [INFO] =======================================================
+2026-07-22 15:05:32,700 [INFO] 📖 Previous dashboard loaded (2,897 chars) — Amara has prior-run context
+2026-07-22 15:05:33,062 [INFO] ✅ Alpaca market data connected
+2026-07-22 15:05:33,809 [INFO] ✅ Claude API connected
+2026-07-22 15:05:33,809 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-22 15:05:34,522 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-22 15:05:34,522 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-22 15:05:34,651 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-22 15:05:34,683 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 2
+2026-07-22 15:05:34,796 [INFO] 💰 Account — cash $75,399.83 | portfolio $97,301.81
+2026-07-22 15:05:34,796 [INFO] 🚀 Amara initialised
+2026-07-22 15:05:34,796 [INFO]    Capital: $100,000 USD
+2026-07-22 15:05:34,796 [INFO]    Max position: $10,000 USD
+2026-07-22 15:05:34,796 [INFO]    Daily loss limit: $5,000 USD
+2026-07-22 15:05:34,796 [INFO] 
+=======================================================
+2026-07-22 15:05:34,796 [INFO] ⏰ Amara run: 2026-07-22 15:05
+2026-07-22 15:05:35,547 [INFO] 📋 Checking 3 open position(s)...
+2026-07-22 15:05:35,636 [INFO]   TMO: $519.42 | -0.7% | 1d held
+2026-07-22 15:05:35,749 [INFO]   HRMY: $36.16 | -0.7% | 1d held
+2026-07-22 15:05:35,859 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-22 15:05:35,875 [INFO] 📊 持倉中：3 筆 | 可用資金決定是否繼續開倉
+2026-07-22 15:05:35,875 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-22 15:05:42,313 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-22 15:05:42,497 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-22 15:05:42,501 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-22 15:05:42,503 [INFO]    Top 8 candidates → Claude: none
+2026-07-22 15:05:42,503 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-22 15:05:43,185 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-22 15:05:43,209 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-22 15:05:43,230 [INFO] 🔍 Hold review: HRMY [MID]...
+2026-07-22 15:05:43,919 [WARNING] ⚠️ Cannot fetch news for HRMY: 'NewsSet' object has no attribute 'news'
+2026-07-22 15:05:43,938 [WARNING]   HRMY: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.10×） — 動能衰竭出場
+2026-07-22 15:05:44,117 [INFO] 📤 SELL submitted: HRMY x164.744371224 (order 85a44fac-2f6f-40ae-a41e-206f758c20d6)
+2026-07-22 15:05:53,464 [INFO] ✅ SELL filled: HRMY @ $36.10
+2026-07-22 15:05:53,481 [INFO] ❌ [Paper] Closed HRMY @ $36.10 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.10×） — 動能衰竭出場 | P&L: $-52.72
+2026-07-22 15:05:53,482 [INFO] 🔍 Hold review: TMO [LARGE]...
+2026-07-22 15:05:54,227 [WARNING] ⚠️ Cannot fetch news for TMO: 'NewsSet' object has no attribute 'news'
+2026-07-22 15:05:54,247 [WARNING]   TMO: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.37×） — 動能衰竭出場
+2026-07-22 15:05:54,358 [INFO] 📤 SELL submitted: TMO x19.117880971 (order 5f6bd6f7-361c-4870-8e40-b11f127d0e2c)
+2026-07-22 15:05:57,535 [INFO] ✅ SELL filled: TMO @ $519.91
+2026-07-22 15:05:57,554 [INFO] ❌ [Paper] Closed TMO @ $519.91 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.37×） — 動能衰竭出場 | P&L: $-60.41
+2026-07-22 15:05:57,557 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-113.13 | total P&L: $-1,077.04
+2026-07-22 15:05:57,558 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (63 lines)
+2026-07-22 15:05:57,559 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-22 15:05:57,559 [INFO] 🔕 LINE notification suppressed — TW time is 23:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-22 15:05:57,559 [INFO] ✅ Amara run complete — exiting cleanly.
