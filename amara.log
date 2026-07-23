@@ -6129,3 +6129,94 @@
 2026-07-23 13:37:57,047 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-23 13:37:57,047 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-23 13:37:57,047 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-23 15:06:14,175 [INFO] =======================================================
+2026-07-23 15:06:14,175 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-23 15:06:14,175 [INFO] =======================================================
+2026-07-23 15:06:14,176 [INFO] 📖 Previous dashboard loaded (2,537 chars) — Amara has prior-run context
+2026-07-23 15:06:14,447 [INFO] ✅ Alpaca market data connected
+2026-07-23 15:06:14,986 [INFO] ✅ Claude API connected
+2026-07-23 15:06:14,986 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-23 15:06:15,563 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-23 15:06:15,563 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-23 15:06:15,633 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-23 15:06:15,648 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 1
+2026-07-23 15:06:15,725 [INFO] 💰 Account — cash $85,286.69 | portfolio $97,128.41
+2026-07-23 15:06:15,725 [INFO] 🚀 Amara initialised
+2026-07-23 15:06:15,725 [INFO]    Capital: $100,000 USD
+2026-07-23 15:06:15,725 [INFO]    Max position: $10,000 USD
+2026-07-23 15:06:15,725 [INFO]    Daily loss limit: $5,000 USD
+2026-07-23 15:06:15,726 [INFO] 
+=======================================================
+2026-07-23 15:06:15,726 [INFO] ⏰ Amara run: 2026-07-23 15:06
+2026-07-23 15:06:16,363 [INFO] 📋 Checking 2 open position(s)...
+2026-07-23 15:06:16,433 [INFO]   YETI: $50.49 | -2.8% | 1d held
+2026-07-23 15:06:16,513 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-23 15:06:16,525 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-23 15:06:16,525 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-23 15:06:28,700 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-23 15:06:28,815 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-23 15:06:28,818 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-07-23 15:06:28,820 [INFO]    Top 8 candidates → Claude: TMO
+2026-07-23 15:06:30,109 [WARNING] ⚠️ Cannot fetch news for TMO: 'NewsSet' object has no attribute 'news'
+2026-07-23 15:06:30,115 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-23 15:06:30,275 [INFO] 📤 BUY submitted: TMO notional=$10,000.00 (order c57da13f-2508-45fc-9413-694660c0de98)
+2026-07-23 15:06:33,405 [INFO] ✅ BUY filled: TMO x17.261301848 @ $579.33
+2026-07-23 15:06:33,419 [INFO] 📋 New position: TMO x17.2613 @ $579.33 ($10,000 USD)
+2026-07-23 15:06:33,419 [INFO] 🛒 [Paper] Bought TMO x17.2613 @ $579.33 | SL $559.05 | TP $619.88
+2026-07-23 15:06:33,419 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-23 15:06:33,488 [WARNING] ⚠️ Native stop order failed for TMO: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-23 15:06:33,554 [WARNING] ⚠️ Native take profit order failed for TMO: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-23 15:06:33,554 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-23 15:06:34,143 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-23 15:06:34,158 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-23 15:06:34,171 [INFO] 🔍 Hold review: YETI [MID]...
+2026-07-23 15:06:34,793 [WARNING] ⚠️ Cannot fetch news for YETI: 'NewsSet' object has no attribute 'news'
+2026-07-23 15:06:34,809 [WARNING]   YETI: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.08×） — 動能衰竭出場
+2026-07-23 15:06:34,895 [INFO] 📤 SELL submitted: YETI x115.517712745 (order 5e1421a4-ed95-4191-a96d-353382e0096c)
+2026-07-23 15:06:41,091 [INFO] ✅ SELL filled: YETI @ $50.52
+2026-07-23 15:06:41,104 [INFO] ❌ [Paper] Closed YETI @ $50.52 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.08×） — 動能衰竭出場 | P&L: $-164.04
+2026-07-23 15:06:41,105 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $-164.04 | total P&L: $-1,241.07
+2026-07-23 15:06:41,106 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (65 lines)
+2026-07-23 15:06:41,107 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-23 15:06:41,107 [INFO] 🔕 LINE notification suppressed — TW time is 23:06 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-23 15:06:41,107 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-23 15:06:49,193 [INFO] =======================================================
+2026-07-23 15:06:49,193 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-23 15:06:49,193 [INFO] =======================================================
+2026-07-23 15:06:49,193 [INFO] 📖 Previous dashboard loaded (2,912 chars) — Amara has prior-run context
+2026-07-23 15:06:49,435 [INFO] ✅ Alpaca market data connected
+2026-07-23 15:06:50,015 [INFO] ✅ Claude API connected
+2026-07-23 15:06:50,015 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-23 15:06:50,987 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 2
+2026-07-23 15:06:51,071 [INFO] 💰 Account — cash $81,122.65 | portfolio $97,111.58
+2026-07-23 15:06:51,071 [INFO] 🚀 Amara initialised
+2026-07-23 15:06:51,071 [INFO]    Capital: $100,000 USD
+2026-07-23 15:06:51,071 [INFO]    Max position: $10,000 USD
+2026-07-23 15:06:51,071 [INFO]    Daily loss limit: $5,000 USD
+2026-07-23 15:06:51,071 [INFO] 
+=======================================================
+2026-07-23 15:06:51,071 [INFO] ⏰ Amara run: 2026-07-23 15:06
+2026-07-23 15:06:51,654 [INFO] 📋 Checking 2 open position(s)...
+2026-07-23 15:06:51,758 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-23 15:06:51,840 [INFO]   TMO: $578.67 | -0.1% | 0d held
+2026-07-23 15:06:51,853 [INFO] 📊 持倉中：2 筆 | 可用資金決定是否繼續開倉
+2026-07-23 15:06:51,854 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-23 15:07:02,765 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-23 15:07:02,923 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-23 15:07:02,927 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-07-23 15:07:02,929 [INFO]    Top 8 candidates → Claude: none
+2026-07-23 15:07:02,929 [INFO] 🔍 Hold review: TMO [LARGE]...
+2026-07-23 15:07:03,573 [WARNING] ⚠️ Cannot fetch news for TMO: 'NewsSet' object has no attribute 'news'
+2026-07-23 15:07:03,592 [WARNING] ⚠️ Hold review failed for TMO: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-23 15:07:03,606 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-23 15:07:04,082 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-23 15:07:04,100 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-23 15:07:04,187 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-23 15:07:04,201 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-23 15:07:04,202 [INFO] 
+📊 Run complete — positions: 1 | today P&L: $-164.04 | total P&L: $-1,241.07
+2026-07-23 15:07:04,203 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (62 lines)
+2026-07-23 15:07:04,204 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-23 15:07:04,204 [INFO] 🔕 LINE notification suppressed — TW time is 23:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-23 15:07:04,204 [INFO] ✅ Amara run complete — exiting cleanly.
