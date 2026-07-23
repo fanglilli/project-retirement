@@ -4,28 +4,27 @@
 
 | 項目 | 數值 |
 |:-----|:-----|
-| **最後執行** | `2026-07-23 16:39:33` |
+| **最後執行** | `2026-07-23 18:05:09` |
 | **模式** | 🧪 模擬盤 |
 | **可用現金** | `$81,122.65` |
-| **資產總值** | `$96,977.46` |
+| **資產總值** | `$97,044.09` |
 | **可用買力** | `$81,122.65` |
-| **累計損益**（含未實現）| `$-1,385.72` (▼ 1.39%) |
-| **今日損益**（含未實現）| `$-308.68` |
+| **累計損益**（含未實現）| `$-1,320.30` (▼ 1.32%) |
+| **今日損益**（含未實現）| `$-243.26` |
 | **勝率** | 33/137 (24%) |
-| **持倉中** | 1 筆 |
+| **持倉中** | 2 筆 |
 | **監控股票數** | 150 檔 |
 
 ## 📋 持倉中
 
 | 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 | Claude 審查 |
 |:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|:------------|
-| **TMO** | $579.33 | $570.95 | 🔴 -1.4% | 1 天 | 1.5× | +10.5% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **TMO** | $579.33 | $574.74 | 🔴 -0.8% | 1 天 | 1.5× | +10.5% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **CWAN** | $24.56 | $24.56 | 🟢 +0.0% | 1 天 | 0.0× | +0.0% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
 
 ## 🧠 本次決策
 
-| 時間 | 股票 | 動作 | 信心 | 評分 | 理由 |
-|:----:|:----:|:----:|:----:|:----:|:-----|
-| 16:39 | **CWAN** | 🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場) | — | — | P&L: $+0.00 (+0.0%) |
+*本次無買賣決策 — 市場休市或無符合條件的訊號。*
 
 ## 🔍 掃描結果
 
@@ -33,8 +32,15 @@
 |:----:|:----:|------:|----:|----------:|:----:|:--------|
 | 2026-07-23 15:06 | **TMO** | 100 | 74.4 | 1.5× | ✅ 買入 | Claude 分析失敗；依技術評分判斷通過 |
 | 2026-07-23 15:07 | **TMO** | 100 | 74.4 | 1.5× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-23 18:05 | **TMO** | 100 | 73.5 | 2.4× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 | 2026-07-23 16:39 | **TMO** | 65 | 72.8 | 1.9× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 | 2026-07-23 16:39 | **TMO** | 65 | 72.8 | 1.9× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-23 13:37 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 |
+| 2026-07-23 15:06 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-23 15:07 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 |
+| 2026-07-23 16:39 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-23 16:39 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 |
+| 2026-07-23 18:05 | **CWAN** | 0 | 67.3 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 
 ## 📒 近期交易紀錄
 
@@ -56,9 +62,9 @@
 | 項目 | 數值 |
 |:-----|:-----|
 | SPY 起始價 | `$750.46`（2026-05-27）|
-| SPY 現價 | `$739.66`（-1.44%）|
-| 我們的報酬 | `-1.39%` |
+| SPY 現價 | `$737.03`（-1.79%）|
+| 我們的報酬 | `-1.32%` |
 | 挑戰狀態 | ✅ 跑贏 S&P 500 — 第 58 天 / 14 天 |
 
 ---
-*Amara · 單次執行模式 · 產生時間：2026-07-23 16:39:33*
+*Amara · 單次執行模式 · 產生時間：2026-07-23 18:05:09*
