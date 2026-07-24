@@ -78,7 +78,7 @@
 </head>
 <body>
   <h1>🤖 Amara <span class="badge-mode">模擬盤</span></h1>
-  <p class="meta">更新時間：2026-07-25 00:39:03 台灣時間 · 每 5 分鐘自動刷新</p>
+  <p class="meta">更新時間：2026-07-25 02:04:23 台灣時間 · 每 5 分鐘自動刷新</p>
 
   <div class="hero">
     <div class="big">$1,613.40</div>
@@ -92,31 +92,16 @@
         <div><label>可用現金</label><val>$90,750.23</val></div>
         <div><label>資產總值</label><val>$96,750.22</val></div>
         <div><label>今日損益（含未實現）</label><val style="color:#dc2626">$-372.33</val></div>
-        <div><label>勝率</label><val>33/140 (24%)</val></div>
-        <div><label>持倉中</label><val>1 筆</val></div>
+        <div><label>勝率</label><val>33/141 (23%)</val></div>
+        <div><label>持倉中</label><val>0 筆</val></div>
         <div><label>監控股票</label><val>150 檔</val></div>
       </div>
     </div>
   </details>
 
   <details open>
-    <summary>💼 Open Positions (1)</summary>
-    <div class="pos-list">
-            <div class="card pos-card">
-              <div class="pos-header">
-                <span class="symbol">CWAN</span>
-                <span class="pnl" style="color:#16a34a">🟢 +0.0%</span>
-              </div>
-              <div class="pos-grid">
-                <div><label>買入價</label><val>$24.56</val></div>
-                <div><label>現價</label><val>$24.56</val></div>
-                <div><label>成交量倍數</label><val>0.0×</val></div>
-                <div><label>高於均線</label><val>+0.0%</val></div>
-                <div><label>投入金額</label><val>$6,000</val></div>
-                <div><label>持倉天數</label><val>2 天</val></div>
-              </div>
-              <p class="hold-note">🤖 Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"</p>
-            </div></div>
+    <summary>💼 Open Positions (0)</summary>
+    <p class="empty">目前無持倉。</p>
   </details>
 
   <details>
@@ -152,7 +137,23 @@
 
   <details open>
     <summary>🎯 This Run's Decisions</summary>
-    <p class="empty">本次無買賣決策 — 市場休市或無符合條件的訊號。</p>
+    <div class="dec-list" id="decList">
+            <div class="card dec-card" data-score="60">
+              <div class="dec-header">
+                <span class="symbol">TASK [MID]</span>
+                <span style="color:#6b7280;font-weight:700">❌ SKIP</span>
+                <span class="conf">信心 7/10 &nbsp;|&nbsp; 評分 60</span>
+              </div>
+              <p class="reason">Claude 分析失敗；依技術評分判斷通過</p>
+            </div>
+            <div class="card dec-card" data-score="0">
+              <div class="dec-header">
+                <span class="symbol">CWAN</span>
+                <span style="color:#dc2626;font-weight:700">🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場)</span>
+                <span class="conf">信心 — &nbsp;|&nbsp; 評分 —</span>
+              </div>
+              <p class="reason">P&L: $+0.00 (+0.0%)</p>
+            </div></div>
   </details>
 
   <details>
@@ -165,19 +166,6 @@
           <button class="sort-btn" onclick="sortCards('scanList','vol',this)">成交量↓</button>
         </div>
         <div class="scan-list" id="scanList">
-            <div class="card scan-card" data-score="100" data-rsi="57.1" data-vol="1.5">
-              <div class="scan-header">
-                <span class="symbol">HLNE</span>
-                <span class="score">評分：100/100</span>
-                <span class="sbadge bought">✅ 買入</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 57.1</span>
-                <span>成交量 1.5×</span>
-                <span>2026-07-20 19:52</span>
-              </div>
-              <p class="reason">Claude 分析失敗；依技術評分判斷通過</p>
-            </div>
             <div class="card scan-card" data-score="100" data-rsi="57.5" data-vol="2.1">
               <div class="scan-header">
                 <span class="symbol">HRMY</span>
@@ -243,193 +231,33 @@
               </div>
               <p class="reason">Claude 分析失敗；依技術評分判斷通過</p>
             </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
+            <div class="card scan-card" data-score="60" data-rsi="47.9" data-vol="3.0">
               <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
+                <span class="symbol">TASK</span>
+                <span class="score">評分：60/100</span>
+                <span class="sbadge skipped">❌ 略過</span>
               </div>
               <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-20 18:04</span>
+                <span>RSI 47.9</span>
+                <span>成交量 3.0×</span>
+                <span>2026-07-24 18:04</span>
               </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-20 19:52</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-21 13:37</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-21 16:39</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-21 18:04</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-21 19:52</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-22 13:38</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-22 15:05</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-22 18:03</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-22 19:52</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-23 13:37</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-23 15:06</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-23 15:07</span>
-              </div>
-              <p class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</p>
-            </div>
-            <div class="card scan-card" data-score="0" data-rsi="67.3" data-vol="0.0">
-              <div class="scan-header">
-                <span class="symbol">CWAN</span>
-                <span class="score">評分：0/100</span>
-                <span class="sbadge review">持倉審查</span>
-              </div>
-              <div class="scan-stats">
-                <span>RSI 67.3</span>
-                <span>成交量 0.0×</span>
-                <span>2026-07-23 16:39</span>
-              </div>
-              <p class="reason">Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be </p>
+              <p class="reason">Claude 分析失敗；依技術評分判斷通過</p>
             </div></div>
   </details>
 
   <details>
     <summary>📜 Recent Trades</summary>
     <div class="hist-list">
+            <div class="card hist-card">
+              <div class="hist-header">
+                <span class="symbol">CWAN</span>
+                <span class="badge loss">虧損</span>
+                <span class="hist-pnl" style="color:#dc2626">$+0.00</span>
+              </div>
+              <div class="hist-detail">$24.56 → $24.56 &nbsp;·&nbsp; 2026-07-24</div>
+              <div class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</div>
+            </div>
             <div class="card hist-card">
               <div class="hist-header">
                 <span class="symbol">CWAN</span>
@@ -510,15 +338,6 @@
               </div>
               <div class="hist-detail">$36.42 → $36.10 &nbsp;·&nbsp; 2026-07-22</div>
               <div class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.10×） — 動能衰竭出場</div>
-            </div>
-            <div class="card hist-card">
-              <div class="hist-header">
-                <span class="symbol">CWAN</span>
-                <span class="badge loss">虧損</span>
-                <span class="hist-pnl" style="color:#dc2626">$+0.00</span>
-              </div>
-              <div class="hist-detail">$24.56 → $24.56 &nbsp;·&nbsp; 2026-07-22</div>
-              <div class="reason">成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場</div>
             </div></div>
   </details>
 
@@ -528,14 +347,14 @@
           <div class="card">
             <div class="stat-grid">
               <div><label>SPY 起始價</label><val>$750.46（2026-05-27）</val></div>
-              <div><label>SPY 現價</label><val>$742.37（-1.08%）</val></div>
+              <div><label>SPY 現價</label><val>$740.85（-1.28%）</val></div>
               <div><label>我們的報酬</label><val style="color:#dc2626">-1.61%</val></div>
               <div><label>挑戰狀態</label><val>❌ 落後 S&P — 第 60/14 天</val></div>
             </div>
           </div>
         </details>
 
-  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-07-25 00:39:03</p>
+  <p class="footer">Amara · 單次執行模式 · 產生時間：2026-07-25 02:04:23</p>
 
   <script>
     function sortCards(listId, key, btn) {

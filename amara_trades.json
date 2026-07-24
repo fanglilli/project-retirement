@@ -3013,10 +3013,10 @@
       "cost_usd": 5999.989999976,
       "stop_loss_price": 23.33,
       "take_profit_price": 27.02,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
+      "status": "closed",
+      "exit_price": 24.56,
+      "exit_date": "2026-07-24 18:04",
+      "exit_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場",
       "pnl_usd": 0.0,
       "daily_pct_at_entry": 0.0,
       "volume_ratio": 0.0,
@@ -3024,8 +3024,8 @@
       "stop_order_id": "",
       "take_profit_order_id": "",
       "last_price": 24.56,
-      "last_checked": "2026-07-24 16:39",
-      "low_vol_runs": 1
+      "last_checked": "2026-07-24 18:04",
+      "low_vol_runs": 2
     }
   ],
   "daily_stats": [],
@@ -13175,6 +13175,49 @@
       "reasons": [],
       "momentum_5d_pct": 1.28,
       "current_price": 24.56
+    },
+    {
+      "timestamp": "2026-07-24 18:04",
+      "date": "2026-07-24",
+      "symbol": "TASK",
+      "score": 60,
+      "rsi": 47.9,
+      "volume_ratio": 2.95,
+      "tech_signal": true,
+      "sent_to_claude": true,
+      "hold_review": false,
+      "claude_approved": false,
+      "claude_reason": "Claude 分析失敗；依技術評分判斷通過",
+      "confidence": 7,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [
+        "Volume 2.9× 20-day avg + bullish candle (close>open) → 量能放大 +35pts",
+        "RSI 47.9 outside momentum zone (55–75) — no RSI pts",
+        "Price $5.46 above 20-MA ($5.40) +25pts",
+        "5-day momentum -6.6% — below +2% threshold, no velocity pts"
+      ],
+      "momentum_5d_pct": -6.59,
+      "current_price": 5.46
+    },
+    {
+      "timestamp": "2026-07-24 18:04",
+      "date": "2026-07-24",
+      "symbol": "CWAN",
+      "score": 0,
+      "rsi": 67.3,
+      "volume_ratio": 0.0,
+      "tech_signal": false,
+      "sent_to_claude": false,
+      "hold_review": true,
+      "claude_approved": false,
+      "claude_reason": "成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場",
+      "confidence": 0,
+      "risk": "",
+      "key_signal": "",
+      "reasons": [],
+      "momentum_5d_pct": 1.28,
+      "current_price": 24.56
     }
   ],
   "total_capital_usd": 100000,
@@ -13185,7 +13228,7 @@
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 742.37,
+    "current_price": 740.85,
     "goal_days": 14
   }
 }
