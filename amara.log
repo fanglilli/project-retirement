@@ -6745,3 +6745,57 @@
 2026-07-27 18:07:04,171 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-27 18:07:04,171 [INFO] 🔕 LINE notification suppressed — TW time is 02:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-27 18:07:04,171 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-27 19:51:51,616 [INFO] =======================================================
+2026-07-27 19:51:51,616 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-27 19:51:51,616 [INFO] =======================================================
+2026-07-27 19:51:51,617 [INFO] 📖 Previous dashboard loaded (3,813 chars) — Amara has prior-run context
+2026-07-27 19:51:51,874 [INFO] ✅ Alpaca market data connected
+2026-07-27 19:51:52,429 [INFO] ✅ Claude API connected
+2026-07-27 19:51:52,429 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-27 19:51:53,124 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 3
+2026-07-27 19:51:53,219 [INFO] 💰 Account — cash $78,750.23 | portfolio $96,613.19
+2026-07-27 19:51:53,219 [INFO] 🚀 Amara initialised
+2026-07-27 19:51:53,219 [INFO]    Capital: $100,000 USD
+2026-07-27 19:51:53,220 [INFO]    Max position: $10,000 USD
+2026-07-27 19:51:53,220 [INFO]    Daily loss limit: $5,000 USD
+2026-07-27 19:51:53,220 [INFO] 
+=======================================================
+2026-07-27 19:51:53,220 [INFO] ⏰ Amara run: 2026-07-27 19:51
+2026-07-27 19:51:53,838 [INFO] 📋 Checking 3 open position(s)...
+2026-07-27 19:51:53,918 [INFO]   AWI: $164.31 | -1.4% | 0d held
+2026-07-27 19:51:53,992 [INFO]   STVN: $19.76 | -0.9% | 0d held
+2026-07-27 19:51:54,107 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-27 19:51:54,121 [INFO] 📊 持倉中：3 筆 | 可用資金決定是否繼續開倉
+2026-07-27 19:51:54,121 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-27 19:51:56,158 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-27 19:51:56,288 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-27 19:51:56,290 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-27 19:51:56,292 [INFO]    Top 8 candidates → Claude: KFRC
+2026-07-27 19:51:56,815 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-27 19:51:56,820 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-27 19:51:56,951 [INFO] 📤 BUY submitted: KFRC notional=$6,000.00 (order 4f2e52da-3e84-4095-a608-ee772e8624b0)
+2026-07-27 19:52:00,124 [INFO] ✅ BUY filled: KFRC x103.537359792 @ $57.95
+2026-07-27 19:52:00,140 [INFO] 📋 New position: KFRC x103.5374 @ $57.95 ($6,000 USD)
+2026-07-27 19:52:00,140 [INFO] 🛒 [Paper] Bought KFRC x103.5374 @ $57.95 | SL $55.05 | TP $63.75
+2026-07-27 19:52:00,140 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-27 19:52:00,209 [WARNING] ⚠️ Native stop order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-27 19:52:00,283 [WARNING] ⚠️ Native take profit order failed for KFRC: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-27 19:52:00,284 [INFO] 🔍 Hold review: AWI [MID]...
+2026-07-27 19:52:00,769 [WARNING] ⚠️ Cannot fetch news for AWI: 'NewsSet' object has no attribute 'news'
+2026-07-27 19:52:00,788 [WARNING] ⚠️ Hold review failed for AWI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-27 19:52:00,804 [INFO] 🔍 Hold review: STVN [MID]...
+2026-07-27 19:52:01,265 [WARNING] ⚠️ Cannot fetch news for STVN: 'NewsSet' object has no attribute 'news'
+2026-07-27 19:52:01,282 [WARNING] ⚠️ Hold review failed for STVN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-27 19:52:01,299 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-27 19:52:01,803 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-27 19:52:01,818 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-27 19:52:01,909 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-27 19:52:01,923 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-27 19:52:01,924 [INFO] 
+📊 Run complete — positions: 3 | today P&L: $+0.00 | total P&L: $-1,613.40
+2026-07-27 19:52:01,925 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (71 lines)
+2026-07-27 19:52:01,926 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-27 19:52:01,926 [INFO] 📡 LINE: routing via proxy (http://127.0.0.1:36175)
+2026-07-27 19:52:03,545 [INFO] 📱 LINE message sent to U877a798...
+2026-07-27 19:52:03,912 [INFO] 📱 LINE message sent to U4eaa039...
+2026-07-27 19:52:03,914 [INFO] ✅ Amara run complete — exiting cleanly.
