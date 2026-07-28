@@ -6799,3 +6799,62 @@
 2026-07-27 19:52:03,545 [INFO] 📱 LINE message sent to U877a798...
 2026-07-27 19:52:03,912 [INFO] 📱 LINE message sent to U4eaa039...
 2026-07-27 19:52:03,914 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-28 16:39:46,848 [INFO] =======================================================
+2026-07-28 16:39:46,849 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-28 16:39:46,849 [INFO] =======================================================
+2026-07-28 16:39:46,849 [INFO] 📖 Previous dashboard loaded (3,837 chars) — Amara has prior-run context
+2026-07-28 16:39:47,459 [INFO] ✅ Alpaca market data connected
+2026-07-28 16:39:48,378 [INFO] ✅ Claude API connected
+2026-07-28 16:39:48,379 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-28 16:39:49,235 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-28 16:39:49,235 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-28 16:39:49,298 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-28 16:39:49,350 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 3
+2026-07-28 16:39:49,435 [INFO] 💰 Account — cash $72,750.23 | portfolio $97,404.08
+2026-07-28 16:39:49,435 [INFO] 🚀 Amara initialised
+2026-07-28 16:39:49,435 [INFO]    Capital: $100,000 USD
+2026-07-28 16:39:49,435 [INFO]    Max position: $10,000 USD
+2026-07-28 16:39:49,435 [INFO]    Daily loss limit: $5,000 USD
+2026-07-28 16:39:49,435 [INFO] 
+=======================================================
+2026-07-28 16:39:49,435 [INFO] ⏰ Amara run: 2026-07-28 16:39
+2026-07-28 16:39:50,333 [INFO] 📋 Checking 4 open position(s)...
+2026-07-28 16:39:50,414 [INFO]   AWI: ✅ up 9.7% — moving stop from $158.24 → breakeven $166.74
+2026-07-28 16:39:50,521 [WARNING]   AWI: ⚠️ Could not place breakeven stop: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-07-28 16:39:50,521 [INFO]   AWI: $182.72 | +9.7% | 1d held
+2026-07-28 16:39:50,693 [INFO]   STVN: $19.92 | -0.1% | 1d held
+2026-07-28 16:39:50,826 [INFO]   KFRC: $58.49 | +0.9% | 1d held
+2026-07-28 16:39:50,943 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-28 16:39:50,962 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-28 16:39:50,962 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-28 16:39:56,234 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-28 16:39:56,422 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-28 16:39:56,426 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 2/150 symbols
+2026-07-28 16:39:56,430 [INFO]    Top 8 candidates → Claude: ITRI
+2026-07-28 16:39:57,426 [WARNING] ⚠️ Cannot fetch news for ITRI: 'NewsSet' object has no attribute 'news'
+2026-07-28 16:39:57,467 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-28 16:39:57,577 [INFO] 📤 BUY submitted: ITRI notional=$6,000.00 (order cc20e739-a0a3-4d2c-a8cc-cdc990d48014)
+2026-07-28 16:40:00,830 [INFO] ✅ BUY filled: ITRI x60.673374456 @ $98.89
+2026-07-28 16:40:00,872 [INFO] 📋 New position: ITRI x60.6734 @ $98.89 ($6,000 USD)
+2026-07-28 16:40:00,872 [INFO] 🛒 [Paper] Bought ITRI x60.6734 @ $98.89 | SL $93.95 | TP $108.78
+2026-07-28 16:40:00,873 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-28 16:40:00,946 [WARNING] ⚠️ Native stop order failed for ITRI: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-28 16:40:01,018 [WARNING] ⚠️ Native take profit order failed for ITRI: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-28 16:40:01,051 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-28 16:40:01,594 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-28 16:40:01,624 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 16:40:01,645 [INFO] 🔍 Hold review: STVN [MID]...
+2026-07-28 16:40:02,208 [WARNING] ⚠️ Cannot fetch news for STVN: 'NewsSet' object has no attribute 'news'
+2026-07-28 16:40:02,240 [WARNING] ⚠️ Hold review failed for STVN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 16:40:02,264 [INFO] 🔍 Hold review: KFRC [MID]...
+2026-07-28 16:40:02,865 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-28 16:40:02,888 [WARNING] ⚠️ Hold review failed for KFRC: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 16:40:02,910 [INFO] 🔍 Hold review: AWI [MID]...
+2026-07-28 16:40:03,499 [WARNING] ⚠️ Cannot fetch news for AWI: 'NewsSet' object has no attribute 'news'
+2026-07-28 16:40:03,521 [WARNING] ⚠️ Hold review failed for AWI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 16:40:03,570 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+0.00 | total P&L: $-1,613.40
+2026-07-28 16:40:03,576 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (69 lines)
+2026-07-28 16:40:03,594 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-28 16:40:03,594 [INFO] 🔕 LINE notification suppressed — TW time is 00:40 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-28 16:40:03,595 [INFO] ✅ Amara run complete — exiting cleanly.
