@@ -6858,3 +6858,65 @@
 2026-07-28 16:40:03,594 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-28 16:40:03,594 [INFO] 🔕 LINE notification suppressed — TW time is 00:40 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-28 16:40:03,595 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-28 18:05:02,293 [INFO] =======================================================
+2026-07-28 18:05:02,293 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-28 18:05:02,294 [INFO] =======================================================
+2026-07-28 18:05:02,294 [INFO] 📖 Previous dashboard loaded (3,874 chars) — Amara has prior-run context
+2026-07-28 18:05:02,697 [INFO] ✅ Alpaca market data connected
+2026-07-28 18:05:03,501 [INFO] ✅ Claude API connected
+2026-07-28 18:05:03,502 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-28 18:05:04,134 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 5
+2026-07-28 18:05:04,218 [INFO] 💰 Account — cash $66,750.24 | portfolio $97,676.21
+2026-07-28 18:05:04,218 [INFO] 🚀 Amara initialised
+2026-07-28 18:05:04,219 [INFO]    Capital: $100,000 USD
+2026-07-28 18:05:04,219 [INFO]    Max position: $10,000 USD
+2026-07-28 18:05:04,219 [INFO]    Daily loss limit: $5,000 USD
+2026-07-28 18:05:04,219 [INFO] 
+=======================================================
+2026-07-28 18:05:04,219 [INFO] ⏰ Amara run: 2026-07-28 18:05
+2026-07-28 18:05:04,836 [INFO] 📋 Checking 5 open position(s)...
+2026-07-28 18:05:04,901 [INFO]   AWI: $181.84 | +9.2% | 1d held
+2026-07-28 18:05:04,994 [INFO]   STVN: $19.97 | +0.2% | 1d held
+2026-07-28 18:05:05,079 [INFO]   KFRC: $58.35 | +0.7% | 1d held
+2026-07-28 18:05:05,161 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-28 18:05:05,241 [INFO]   ITRI: ✅ up 5.6% — moving stop from $93.95 → breakeven $98.99
+2026-07-28 18:05:05,325 [WARNING]   ITRI: ⚠️ Could not place breakeven stop: {"code":42210000,"message":"fractional orders must be DAY orders"}
+2026-07-28 18:05:05,326 [INFO]   ITRI: $104.39 | +5.6% | 0d held
+2026-07-28 18:05:05,344 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-07-28 18:05:05,344 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-28 18:05:11,733 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-28 18:05:11,855 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-28 18:05:11,858 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-28 18:05:11,860 [INFO]    Top 8 candidates → Claude: BA
+2026-07-28 18:05:12,454 [WARNING] ⚠️ Cannot fetch news for BA: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:12,461 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-28 18:05:12,553 [INFO] 📤 BUY submitted: BA notional=$10,000.00 (order 394c380b-1c41-44e3-b89b-f5d61808adae)
+2026-07-28 18:05:15,682 [INFO] ✅ BUY filled: BA x45.09985117 @ $221.73
+2026-07-28 18:05:15,697 [INFO] 📋 New position: BA x45.0999 @ $221.73 ($10,000 USD)
+2026-07-28 18:05:15,697 [INFO] 🛒 [Paper] Bought BA x45.0999 @ $221.73 | SL $213.97 | TP $237.25
+2026-07-28 18:05:15,697 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-28 18:05:15,765 [WARNING] ⚠️ Native stop order failed for BA: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-28 18:05:15,829 [WARNING] ⚠️ Native take profit order failed for BA: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-28 18:05:15,830 [INFO] 🔍 Hold review: AWI [MID]...
+2026-07-28 18:05:16,391 [WARNING] ⚠️ Cannot fetch news for AWI: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:16,408 [WARNING] ⚠️ Hold review failed for AWI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 18:05:16,422 [INFO] 🔍 Hold review: ITRI [MID]...
+2026-07-28 18:05:16,939 [WARNING] ⚠️ Cannot fetch news for ITRI: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:16,955 [WARNING] ⚠️ Hold review failed for ITRI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 18:05:16,968 [INFO] 🔍 Hold review: KFRC [MID]...
+2026-07-28 18:05:17,499 [WARNING] ⚠️ Cannot fetch news for KFRC: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:17,515 [WARNING] ⚠️ Hold review failed for KFRC: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 18:05:17,530 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-28 18:05:18,090 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:18,105 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-28 18:05:18,182 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-28 18:05:18,196 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-28 18:05:18,197 [INFO] 🔍 Hold review: STVN [MID]...
+2026-07-28 18:05:18,877 [WARNING] ⚠️ Cannot fetch news for STVN: 'NewsSet' object has no attribute 'news'
+2026-07-28 18:05:18,894 [WARNING] ⚠️ Hold review failed for STVN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-28 18:05:18,908 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+0.00 | total P&L: $-1,613.40
+2026-07-28 18:05:18,909 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (74 lines)
+2026-07-28 18:05:18,911 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-28 18:05:18,911 [INFO] 🔕 LINE notification suppressed — TW time is 02:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-28 18:05:18,911 [INFO] ✅ Amara run complete — exiting cleanly.
