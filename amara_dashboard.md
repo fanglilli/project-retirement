@@ -4,39 +4,31 @@
 
 | 項目 | 數值 |
 |:-----|:-----|
-| **最後執行** | `2026-07-29 13:37:58` |
+| **最後執行** | `2026-07-29 15:07:12` |
 | **模式** | 🧪 模擬盤 |
-| **可用現金** | `$2,750.31` |
-| **資產總值** | `$97,223.18` |
-| **可用買力** | `$254,062.45` |
-| **累計損益**（含未實現）| `$-1,144.71` (▼ 1.14%) |
-| **今日損益**（含未實現）| `$+468.69` |
-| **勝率** | 33/146 (23%) |
-| **持倉中** | 12 筆 |
+| **可用現金** | `$58,659.34` |
+| **資產總值** | `$98,018.18` |
+| **可用買力** | `$328,042.14` |
+| **累計損益**（含未實現）| `$-347.41` (▼ 0.35%) |
+| **今日損益**（含未實現）| `$+1,265.99` |
+| **勝率** | 37/155 (24%) |
+| **持倉中** | 4 筆 |
 | **監控股票數** | 150 檔 |
 
 ## 📋 持倉中
 
 | 股票 | 買入價 | 現價 | 未實現損益 | 持倉天數 | 成交量倍數 | 高於均線 | 投入金額 | Claude 審查 |
 |:----:|-------:|-----:|:---------:|:-------:|----------:|--------:|--------:|:------------|
-| **AWI** | $166.57 | $174.00 | 🟢 +4.5% | 3 天 | 1.8× | +5.7% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **STVN** | $19.94 | $20.05 | 🟢 +0.6% | 3 天 | 1.5× | +3.4% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **KFRC** | $57.95 | $58.55 | 🟢 +1.0% | 3 天 | 1.8× | +6.5% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **ITRI** | $98.89 | $101.61 | 🟢 +2.8% | 2 天 | 4.6× | +16.0% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **BA** | $221.73 | $215.99 | 🔴 -2.6% | 2 天 | 1.5× | +1.8% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **TTGT** | $4.55 | $4.49 | 🔴 -1.3% | 2 天 | 2.0× | +19.1% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **RYAN** | $46.07 | $45.81 | 🔴 -0.6% | 2 天 | 1.9× | +11.4% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **ADBE** | $248.34 | $249.69 | 🟢 +0.5% | 2 天 | 1.6× | +10.4% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **FOUR** | $54.96 | $53.79 | 🔴 -2.1% | 2 天 | 1.6× | +9.4% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **BLK** | $1102.31 | $1092.37 | 🔴 -0.9% | 2 天 | 1.5× | +6.4% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **V** | $367.11 | $366.03 | 🔴 -0.3% | 2 天 | 1.6× | +3.2% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
-| **CHEF** | $100.28 | $108.73 | 🟢 +8.4% | 2 天 | 2.3× | +3.2% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **ITRI** | $98.89 | $101.68 | 🟢 +2.8% | 2 天 | 4.6× | +16.0% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **ADBE** | $248.34 | $262.34 | 🟢 +5.6% | 2 天 | 1.6× | +10.4% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **V** | $367.11 | $370.09 | 🟢 +0.8% | 2 天 | 1.6× | +3.2% | $10,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
+| **CHEF** | $100.28 | $109.35 | 🟢 +9.0% | 2 天 | 2.3× | +3.2% | $6,000 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, auth_token, or creden… |
 
 ## 🧠 本次決策
 
 | 時間 | 股票 | 動作 | 信心 | 評分 | 理由 |
 |:----:|:----:|:----:|:----:|:----:|:-----|
-| 13:37 | **CWAN** | 🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場) | — | — | P&L: $+0.00 (+0.0%) |
+| 15:07 | **CWAN** | 🔴 SELL (成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場) | — | — | P&L: $+0.00 (+0.0%) |
 
 ## 🔍 掃描結果
 
@@ -44,40 +36,40 @@
 |:----:|:----:|------:|----:|----------:|:----:|:--------|
 | 2026-07-29 13:37 | **CHEF** | 65 | 70.7 | 0.1× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 | 2026-07-29 13:37 | **ADBE** | 65 | 63.6 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **AWI** | 65 | 65.4 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **BLK** | 65 | 61.0 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **STVN** | 65 | 60.6 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **FOUR** | 65 | 62.4 | 0.1× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **TTGT** | 65 | 64.2 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 | 2026-07-29 13:37 | **V** | 65 | 64.6 | 0.1× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **RYAN** | 65 | 69.6 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 | 2026-07-29 13:37 | **ITRI** | 65 | 71.5 | 0.1× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **BA** | 10 | 49.8 | 0.3× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
-| 2026-07-29 13:37 | **KFRC** | 0 | 65.2 | 0.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:06 | **V** | 65 | 67.2 | 0.5× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:06 | **ADBE** | 65 | 68.1 | 0.6× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:06 | **ITRI** | 65 | 71.6 | 0.8× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:06 | **CHEF** | 65 | 74.6 | 1.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:07 | **V** | 65 | 67.3 | 0.5× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:07 | **CHEF** | 65 | 73.8 | 1.0× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:07 | **ITRI** | 65 | 71.7 | 0.8× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
+| 2026-07-29 15:07 | **ADBE** | 65 | 68.2 | 0.6× | 🔍 持倉審查 | Review failed — check manually: "Could not resolve authentication method. Expected one of api_key, a… |
 
 ## 📒 近期交易紀錄
 
 | 股票 | 買入價 | 賣出價 | 損益 | 結果 | 原因 | 結算日 |
 |:----:|-------:|-------:|-----:|:----:|:-----|:------:|
 | **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-29 |
+| **BLK** | $1102.31 | $1096.52 | `$-52.54` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.45×） — 動能衰竭出場 | 2026-07-29 |
+| **FOUR** | $54.96 | $55.21 | `$+27.29` | ✅ 獲利 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.40×） — 動能衰竭出場 | 2026-07-29 |
+| **RYAN** | $46.07 | $46.45 | `$+49.49` | ✅ 獲利 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.32×） — 動能衰竭出場 | 2026-07-29 |
+| **TTGT** | $4.55 | $4.36 | `$-250.55` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場 | 2026-07-29 |
+| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-29 |
+| **BA** | $221.73 | $211.85 | `$-445.59` | ❌ 虧損 | 硬停損 -3.5% [LARGE] （Python 備援 — 無原生停損單） | 2026-07-29 |
 | **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-28 |
+| **KFRC** | $57.95 | $60.63 | `$+277.48` | ✅ 獲利 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.22×） — 動能衰竭出場 | 2026-07-29 |
 | **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-27 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-27 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-27 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-24 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-24 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-23 |
-| **CWAN** | $24.56 | $24.56 | `$+0.00` | ❌ 虧損 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | 2026-07-23 |
-| **TMO** | $579.33 | $557.76 | `$-372.33` | ❌ 虧損 | 硬停損 -3.5% [LARGE] （Python 備援 — 無原生停損單） | 2026-07-24 |
 
 ## 🏁 S&P 500 基準比較
 
 | 項目 | 數值 |
 |:-----|:-----|
 | SPY 起始價 | `$750.46`（2026-05-27）|
-| SPY 現價 | `$739.60`（-1.45%）|
-| 我們的報酬 | `-1.14%` |
+| SPY 現價 | `$734.95`（-2.07%）|
+| 我們的報酬 | `-0.35%` |
 | 挑戰狀態 | ✅ 跑贏 S&P 500 — 第 64 天 / 14 天 |
 
 ---
-*Amara · 單次執行模式 · 產生時間：2026-07-29 13:37:58*
+*Amara · 單次執行模式 · 產生時間：2026-07-29 15:07:12*
