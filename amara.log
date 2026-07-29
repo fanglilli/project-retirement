@@ -7356,3 +7356,67 @@
 2026-07-29 16:39:27,772 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-29 16:39:27,772 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-29 16:39:27,772 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-29 18:06:05,756 [INFO] =======================================================
+2026-07-29 18:06:05,756 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-29 18:06:05,756 [INFO] =======================================================
+2026-07-29 18:06:05,756 [INFO] 📖 Previous dashboard loaded (6,382 chars) — Amara has prior-run context
+2026-07-29 18:06:06,260 [INFO] ✅ Alpaca market data connected
+2026-07-29 18:06:07,562 [INFO] ✅ Claude API connected
+2026-07-29 18:06:07,563 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-29 18:06:08,291 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 6
+2026-07-29 18:06:08,396 [INFO] 💰 Account — cash $53,298.36 | portfolio $98,264.24
+2026-07-29 18:06:08,396 [INFO] 🚀 Amara initialised
+2026-07-29 18:06:08,397 [INFO]    Capital: $100,000 USD
+2026-07-29 18:06:08,397 [INFO]    Max position: $10,000 USD
+2026-07-29 18:06:08,397 [INFO]    Daily loss limit: $5,000 USD
+2026-07-29 18:06:08,397 [INFO] 
+=======================================================
+2026-07-29 18:06:08,397 [INFO] ⏰ Amara run: 2026-07-29 18:06
+2026-07-29 18:06:09,158 [INFO] 📋 Checking 6 open position(s)...
+2026-07-29 18:06:09,227 [INFO]   ITRI: $103.02 | +4.2% | 1d held
+2026-07-29 18:06:09,329 [INFO]   ADBE: $264.65 | +6.6% | 1d held
+2026-07-29 18:06:09,431 [INFO]   V: $367.65 | +0.1% | 1d held
+2026-07-29 18:06:09,535 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-29 18:06:09,653 [INFO]   EXLS: $35.84 | +0.3% | 0d held
+2026-07-29 18:06:09,743 [INFO]   CHEF: $111.99 | +0.6% | 0d held
+2026-07-29 18:06:09,778 [INFO] 📊 持倉中：6 筆 | 可用資金決定是否繼續開倉
+2026-07-29 18:06:09,778 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-29 18:06:15,782 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-29 18:06:15,956 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-29 18:06:15,961 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-29 18:06:15,964 [INFO]    Top 8 candidates → Claude: GKOS
+2026-07-29 18:06:16,523 [WARNING] ⚠️ Cannot fetch news for GKOS: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:16,529 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-29 18:06:16,632 [INFO] 📤 BUY submitted: GKOS notional=$6,000.00 (order 729191f9-270f-4d22-96bf-5f7d051e411e)
+2026-07-29 18:06:19,762 [INFO] ✅ BUY filled: GKOS x37.68364527 @ $159.22
+2026-07-29 18:06:19,783 [INFO] 📋 New position: GKOS x37.6836 @ $159.22 ($6,000 USD)
+2026-07-29 18:06:19,783 [INFO] 🛒 [Paper] Bought GKOS x37.6836 @ $159.22 | SL $151.26 | TP $175.14
+2026-07-29 18:06:19,783 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-29 18:06:19,849 [WARNING] ⚠️ Native stop order failed for GKOS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-29 18:06:19,917 [WARNING] ⚠️ Native take profit order failed for GKOS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-29 18:06:19,918 [INFO] 🔍 Hold review: EXLS [MID]...
+2026-07-29 18:06:20,412 [WARNING] ⚠️ Cannot fetch news for EXLS: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:20,437 [WARNING] ⚠️ Hold review failed for EXLS: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 18:06:20,457 [INFO] 🔍 Hold review: V [LARGE]...
+2026-07-29 18:06:21,005 [WARNING] ⚠️ Cannot fetch news for V: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:21,027 [WARNING] ⚠️ Hold review failed for V: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 18:06:21,047 [INFO] 🔍 Hold review: ITRI [MID]...
+2026-07-29 18:06:21,561 [WARNING] ⚠️ Cannot fetch news for ITRI: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:21,583 [WARNING] ⚠️ Hold review failed for ITRI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 18:06:21,603 [INFO] 🔍 Hold review: CHEF [MID]...
+2026-07-29 18:06:22,101 [WARNING] ⚠️ Cannot fetch news for CHEF: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:22,123 [WARNING] ⚠️ Hold review failed for CHEF: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 18:06:22,143 [INFO] 🔍 Hold review: ADBE [LARGE]...
+2026-07-29 18:06:22,495 [WARNING] ⚠️ Cannot fetch news for ADBE: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:22,522 [WARNING] ⚠️ Hold review failed for ADBE: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 18:06:22,543 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-29 18:06:23,109 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-29 18:06:23,135 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-29 18:06:23,219 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-29 18:06:23,239 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-29 18:06:23,240 [INFO] 
+📊 Run complete — positions: 6 | today P&L: $+548.13 | total P&L: $-1,065.27
+2026-07-29 18:06:23,241 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (86 lines)
+2026-07-29 18:06:23,243 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-29 18:06:23,243 [INFO] 🔕 LINE notification suppressed — TW time is 02:06 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-29 18:06:23,243 [INFO] ✅ Amara run complete — exiting cleanly.
