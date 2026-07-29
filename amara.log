@@ -7420,3 +7420,43 @@
 2026-07-29 18:06:23,243 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-29 18:06:23,243 [INFO] 🔕 LINE notification suppressed — TW time is 02:06 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-29 18:06:23,243 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-29 21:06:43,251 [INFO] =======================================================
+2026-07-29 21:06:43,251 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-29 21:06:43,251 [INFO] =======================================================
+2026-07-29 21:06:43,251 [INFO] 📖 Previous dashboard loaded (6,355 chars) — Amara has prior-run context
+2026-07-29 21:06:43,554 [INFO] ✅ Alpaca market data connected
+2026-07-29 21:06:44,337 [INFO] ✅ Claude API connected
+2026-07-29 21:06:44,337 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-29 21:06:45,131 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-29 21:06:45,131 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-29 21:06:45,194 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-29 21:06:45,349 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 6
+2026-07-29 21:06:45,436 [INFO] 💰 Account — cash $47,298.37 | portfolio $98,493.34
+2026-07-29 21:06:45,436 [INFO] 🚀 Amara initialised
+2026-07-29 21:06:45,436 [INFO]    Capital: $100,000 USD
+2026-07-29 21:06:45,436 [INFO]    Max position: $10,000 USD
+2026-07-29 21:06:45,436 [INFO]    Daily loss limit: $5,000 USD
+2026-07-29 21:06:45,436 [INFO] 
+=======================================================
+2026-07-29 21:06:45,436 [INFO] ⏰ Amara run: 2026-07-29 21:06
+2026-07-29 21:06:45,452 [INFO] 🌙 US market is closed — skipping new trade scan.
+2026-07-29 21:06:45,452 [INFO]    Monitoring existing positions, refreshing balances, and updating dashboard.
+2026-07-29 21:06:46,045 [INFO] 📋 Checking 7 open position(s)...
+2026-07-29 21:06:46,110 [INFO]   ITRI: $102.46 | +3.6% | 1d held
+2026-07-29 21:06:46,203 [INFO]   ADBE: $263.44 | +6.1% | 1d held
+2026-07-29 21:06:46,303 [INFO]   V: $369.12 | +0.5% | 1d held
+2026-07-29 21:06:46,398 [INFO]   EXLS: $36.09 | +1.0% | 0d held
+2026-07-29 21:06:46,498 [WARNING]   CHEF: ⚠️ no native stop order found — executing Python fallback stop-loss
+2026-07-29 21:06:46,564 [INFO] 📤 SELL submitted: CHEF x53.874382688 (order 15855f51-c560-4903-9888-bc8f48c6a09b)
+2026-07-29 21:07:47,869 [WARNING] ⚠️ Order 15855f51-c560-4903-9888-bc8f48c6a09b not confirmed within 60s — using scan price as fallback
+2026-07-29 21:07:47,869 [WARNING] ⚠️ Fill not confirmed for CHEF — using trigger price
+2026-07-29 21:07:47,889 [INFO] ❌ [Paper] Closed CHEF @ $105.64 | 硬停損 -5.0% [MID] （Python 備援 — 無原生停損單） | P&L: $-308.97
+2026-07-29 21:07:47,955 [INFO]   GKOS: $162.28 | +1.9% | 0d held
+2026-07-29 21:07:48,039 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-29 21:07:48,060 [INFO] 🔍 Scan skipped — market closed.
+2026-07-29 21:07:48,061 [INFO] 
+📊 Run complete — positions: 6 | today P&L: $+239.16 | total P&L: $-1,374.24
+2026-07-29 21:07:48,062 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (85 lines)
+2026-07-29 21:07:48,064 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-29 21:07:48,064 [INFO] 🔕 LINE notification suppressed — TW time is 05:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-29 21:07:48,064 [INFO] ✅ Amara run complete — exiting cleanly.

@@ -3199,8 +3199,8 @@
       "pct_above_ma20": 15.98,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 103.02,
-      "last_checked": "2026-07-29 18:06",
+      "last_price": 102.46,
+      "last_checked": "2026-07-29 21:06",
       "low_vol_runs": 0
     },
     {
@@ -3309,8 +3309,8 @@
       "pct_above_ma20": 10.38,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 264.65,
-      "last_checked": "2026-07-29 18:06",
+      "last_price": 263.44,
+      "last_checked": "2026-07-29 21:06",
       "low_vol_runs": 0
     },
     {
@@ -3375,8 +3375,8 @@
       "pct_above_ma20": 3.23,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 367.65,
-      "last_checked": "2026-07-29 18:06",
+      "last_price": 369.12,
+      "last_checked": "2026-07-29 21:06",
       "low_vol_runs": 0
     },
     {
@@ -3463,8 +3463,8 @@
       "pct_above_ma20": 26.87,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 35.84,
-      "last_checked": "2026-07-29 18:06",
+      "last_price": 36.09,
+      "last_checked": "2026-07-29 21:06",
       "low_vol_runs": 0
     },
     {
@@ -3475,18 +3475,18 @@
       "cost_usd": 5999.99,
       "stop_loss_price": 105.8,
       "take_profit_price": 122.51,
-      "status": "open",
-      "exit_price": 0.0,
-      "exit_date": "",
-      "exit_reason": "",
-      "pnl_usd": 0.0,
+      "status": "closed",
+      "exit_price": 105.635,
+      "exit_date": "2026-07-29 21:07",
+      "exit_reason": "硬停損 -5.0% [MID] （Python 備援 — 無原生停損單）",
+      "pnl_usd": -308.96958471567996,
       "daily_pct_at_entry": 11.16,
       "volume_ratio": 1.81,
       "pct_above_ma20": 14.17,
       "stop_order_id": "",
       "take_profit_order_id": "",
-      "last_price": 111.99,
-      "last_checked": "2026-07-29 18:06",
+      "last_price": 105.63,
+      "last_checked": "2026-07-29 21:06",
       "low_vol_runs": 0
     },
     {
@@ -3506,7 +3506,30 @@
       "volume_ratio": 1.62,
       "pct_above_ma20": 4.09,
       "stop_order_id": "",
-      "take_profit_order_id": ""
+      "take_profit_order_id": "",
+      "last_price": 162.28,
+      "last_checked": "2026-07-29 21:07"
+    },
+    {
+      "symbol": "CWAN",
+      "entry_price": 24.56,
+      "entry_date": "2026-07-29",
+      "shares": 244.2992671,
+      "cost_usd": 5999.989999976,
+      "stop_loss_price": 23.33,
+      "take_profit_price": 27.02,
+      "status": "open",
+      "exit_price": 0.0,
+      "exit_date": "",
+      "exit_reason": "",
+      "pnl_usd": 0.0,
+      "daily_pct_at_entry": 0.0,
+      "volume_ratio": 0.0,
+      "pct_above_ma20": 0.0,
+      "stop_order_id": "",
+      "take_profit_order_id": "",
+      "last_price": 24.56,
+      "last_checked": "2026-07-29 21:07"
     }
   ],
   "daily_stats": [],
@@ -15340,14 +15363,14 @@
     }
   ],
   "total_capital_usd": 100000,
-  "cash_available": 53298.36,
-  "portfolio_value": 98265.19,
-  "buying_power": 322300.6,
+  "cash_available": 47298.37,
+  "portfolio_value": 98493.34,
+  "buying_power": 315739.43,
   "benchmark": {
     "symbol": "SPY",
     "start_date": "2026-05-27",
     "start_price": 750.46,
-    "current_price": 738.71,
+    "current_price": 728.0,
     "goal_days": 14
   }
 }
