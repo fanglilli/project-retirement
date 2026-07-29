@@ -7286,3 +7286,73 @@
 2026-07-29 15:07:12,478 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-29 15:07:12,478 [INFO] 🔕 LINE notification suppressed — TW time is 23:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-29 15:07:12,478 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-29 16:39:07,391 [INFO] =======================================================
+2026-07-29 16:39:07,391 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-29 16:39:07,391 [INFO] =======================================================
+2026-07-29 16:39:07,392 [INFO] 📖 Previous dashboard loaded (4,945 chars) — Amara has prior-run context
+2026-07-29 16:39:07,747 [INFO] ✅ Alpaca market data connected
+2026-07-29 16:39:08,500 [INFO] ✅ Claude API connected
+2026-07-29 16:39:08,501 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-29 16:39:09,017 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-07-29 16:39:09,017 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-07-29 16:39:09,083 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-07-29 16:39:09,156 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 4
+2026-07-29 16:39:09,242 [INFO] 💰 Account — cash $58,659.34 | portfolio $98,204.07
+2026-07-29 16:39:09,242 [INFO] 🚀 Amara initialised
+2026-07-29 16:39:09,242 [INFO]    Capital: $100,000 USD
+2026-07-29 16:39:09,242 [INFO]    Max position: $10,000 USD
+2026-07-29 16:39:09,242 [INFO]    Daily loss limit: $5,000 USD
+2026-07-29 16:39:09,242 [INFO] 
+=======================================================
+2026-07-29 16:39:09,242 [INFO] ⏰ Amara run: 2026-07-29 16:39
+2026-07-29 16:39:09,835 [INFO] 📋 Checking 5 open position(s)...
+2026-07-29 16:39:09,925 [INFO]   ITRI: $101.89 | +3.0% | 1d held
+2026-07-29 16:39:10,003 [INFO]   ADBE: $261.83 | +5.4% | 1d held
+2026-07-29 16:39:10,089 [INFO]   V: $373.65 | +1.8% | 1d held
+2026-07-29 16:39:10,182 [WARNING]   CHEF: ⚠️ no native take profit order found — executing Python fallback take profit
+2026-07-29 16:39:10,265 [INFO] 📤 SELL submitted: CHEF x59.832369365 (order 37b14a49-f5d8-4ab8-a9e5-4b7bc9576d0d)
+2026-07-29 16:39:13,398 [INFO] ✅ SELL filled: CHEF @ $110.96
+2026-07-29 16:39:13,414 [INFO] ✅ [Paper] Closed CHEF @ $110.96 | 固定止盈 +10.0% [MID] （Python 備援 — 無原生限價單） | P&L: $+639.01
+2026-07-29 16:39:13,477 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-29 16:39:13,492 [INFO] 📊 持倉中：4 筆 | 可用資金決定是否繼續開倉
+2026-07-29 16:39:13,492 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-29 16:39:17,253 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-29 16:39:17,369 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-29 16:39:17,372 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 2/150 symbols
+2026-07-29 16:39:17,374 [INFO]    Top 8 candidates → Claude: EXLS, CHEF
+2026-07-29 16:39:18,038 [WARNING] ⚠️ Cannot fetch news for EXLS: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:18,044 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-29 16:39:18,133 [INFO] 📤 BUY submitted: EXLS notional=$6,000.00 (order df416a5a-6443-471f-85c0-b871dfa341bc)
+2026-07-29 16:39:21,268 [INFO] ✅ BUY filled: EXLS x167.972844344 @ $35.72
+2026-07-29 16:39:21,285 [INFO] 📋 New position: EXLS x167.9728 @ $35.72 ($6,000 USD)
+2026-07-29 16:39:21,285 [INFO] 🛒 [Paper] Bought EXLS x167.9728 @ $35.72 | SL $33.93 | TP $39.29
+2026-07-29 16:39:21,285 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-29 16:39:21,353 [WARNING] ⚠️ Native stop order failed for EXLS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-29 16:39:21,440 [WARNING] ⚠️ Native take profit order failed for EXLS: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-29 16:39:21,931 [WARNING] ⚠️ Cannot fetch news for CHEF: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:21,933 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-29 16:39:22,043 [INFO] 📤 BUY submitted: CHEF notional=$6,000.00 (order d95716ac-f3af-4ea0-8d34-2e77907c0bdd)
+2026-07-29 16:39:25,248 [INFO] ✅ BUY filled: CHEF x53.874382688 @ $111.37
+2026-07-29 16:39:25,263 [INFO] 📋 New position: CHEF x53.8744 @ $111.37 ($6,000 USD)
+2026-07-29 16:39:25,263 [INFO] 🛒 [Paper] Bought CHEF x53.8744 @ $111.37 | SL $105.80 | TP $122.51
+2026-07-29 16:39:25,264 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-29 16:39:25,418 [WARNING] ⚠️ Native stop order failed for CHEF: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-29 16:39:25,495 [WARNING] ⚠️ Native take profit order failed for CHEF: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-29 16:39:25,496 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-29 16:39:26,027 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:26,048 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 16:39:26,065 [INFO] 🔍 Hold review: ADBE [LARGE]...
+2026-07-29 16:39:26,606 [WARNING] ⚠️ Cannot fetch news for ADBE: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:26,623 [WARNING] ⚠️ Hold review failed for ADBE: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 16:39:26,639 [INFO] 🔍 Hold review: ITRI [MID]...
+2026-07-29 16:39:27,134 [WARNING] ⚠️ Cannot fetch news for ITRI: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:27,150 [WARNING] ⚠️ Hold review failed for ITRI: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 16:39:27,165 [INFO] 🔍 Hold review: V [LARGE]...
+2026-07-29 16:39:27,709 [WARNING] ⚠️ Cannot fetch news for V: 'NewsSet' object has no attribute 'news'
+2026-07-29 16:39:27,737 [WARNING] ⚠️ Hold review failed for V: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-29 16:39:27,763 [INFO] 
+📊 Run complete — positions: 6 | today P&L: $+548.13 | total P&L: $-1,065.27
+2026-07-29 16:39:27,764 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (87 lines)
+2026-07-29 16:39:27,772 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-29 16:39:27,772 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-29 16:39:27,772 [INFO] ✅ Amara run complete — exiting cleanly.
