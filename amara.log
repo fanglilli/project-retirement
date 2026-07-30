@@ -7460,3 +7460,75 @@
 2026-07-29 21:07:48,064 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-29 21:07:48,064 [INFO] 🔕 LINE notification suppressed — TW time is 05:07 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-29 21:07:48,064 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-30 16:39:04,041 [INFO] =======================================================
+2026-07-30 16:39:04,041 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-30 16:39:04,041 [INFO] =======================================================
+2026-07-30 16:39:04,041 [INFO] 📖 Previous dashboard loaded (6,133 chars) — Amara has prior-run context
+2026-07-30 16:39:04,307 [INFO] ✅ Alpaca market data connected
+2026-07-30 16:39:04,810 [INFO] ✅ Claude API connected
+2026-07-30 16:39:04,810 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-30 16:39:05,362 [INFO] 📋 New position: MSFT x22.4570 @ $445.30 ($10,000 USD)
+2026-07-30 16:39:05,362 [INFO] 🔄 Sync [added]   MSFT x22.456981157 @ $445.30
+2026-07-30 16:39:05,428 [WARNING] ⚠️ Sync: could not place stop for MSFT: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-07-30 16:39:05,535 [INFO] 🔄 Sync: actual fill price found for ADBE: $243.98
+2026-07-30 16:39:05,618 [WARNING] 🔄 Sync [closed]  ADBE — gone from Alpaca (P&L $-175.42)
+2026-07-30 16:39:05,682 [INFO] 🔄 Sync: actual fill price found for EXLS: $33.87
+2026-07-30 16:39:05,756 [WARNING] 🔄 Sync [closed]  EXLS — gone from Alpaca (P&L $-310.75)
+2026-07-30 16:39:05,821 [INFO] 🔄 Sync: actual fill price found for GKOS: $174.86
+2026-07-30 16:39:05,895 [WARNING] 🔄 Sync [closed]  GKOS — gone from Alpaca (P&L $+589.37)
+2026-07-30 16:39:05,932 [INFO] ✅ Alpaca sync — added 1 | closed 3 | updated 3
+2026-07-30 16:39:06,011 [INFO] 💰 Account — cash $65,126.89 | portfolio $97,234.60
+2026-07-30 16:39:06,011 [INFO] 🚀 Amara initialised
+2026-07-30 16:39:06,012 [INFO]    Capital: $100,000 USD
+2026-07-30 16:39:06,012 [INFO]    Max position: $10,000 USD
+2026-07-30 16:39:06,012 [INFO]    Daily loss limit: $5,000 USD
+2026-07-30 16:39:06,012 [INFO] 
+=======================================================
+2026-07-30 16:39:06,012 [INFO] ⏰ Amara run: 2026-07-30 16:39
+2026-07-30 16:39:06,574 [INFO] 📋 Checking 4 open position(s)...
+2026-07-30 16:39:06,642 [WARNING]   ITRI: ⚠️ no native stop order found — executing Python fallback stop-loss
+2026-07-30 16:39:06,710 [INFO] 📤 SELL submitted: ITRI x60.673374456 (order 38468f9b-9a5e-4b81-bb83-a27ac055bfc9)
+2026-07-30 16:39:12,896 [INFO] ✅ SELL filled: ITRI @ $98.45
+2026-07-30 16:39:12,911 [INFO] ❌ [Paper] Closed ITRI @ $98.45 | 硬停損 -5.0% [MID] （Python 備援 — 無原生停損單） | P&L: $-26.70
+2026-07-30 16:39:13,012 [INFO]   V: $364.07 | -0.8% | 2d held
+2026-07-30 16:39:13,085 [INFO]   CWAN: $24.56 | +0.0% | 1d held
+2026-07-30 16:39:13,175 [INFO]   MSFT: $454.87 | +2.1% | 0d held
+2026-07-30 16:39:13,186 [INFO] 📊 持倉中：3 筆 | 可用資金決定是否繼續開倉
+2026-07-30 16:39:13,186 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-30 16:39:17,938 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-30 16:39:18,077 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-30 16:39:18,080 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 3/150 symbols
+2026-07-30 16:39:18,083 [INFO]    Top 8 candidates → Claude: NEOG, SBUX
+2026-07-30 16:39:18,619 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-07-30 16:39:18,625 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-30 16:39:18,719 [INFO] 📤 BUY submitted: NEOG notional=$6,000.00 (order b3cb4dd5-9355-435a-8182-3233681b98f0)
+2026-07-30 16:39:21,844 [INFO] ✅ BUY filled: NEOG x548.445155393 @ $10.94
+2026-07-30 16:39:21,856 [INFO] 📋 New position: NEOG x548.4452 @ $10.94 ($6,000 USD)
+2026-07-30 16:39:21,857 [INFO] 🛒 [Paper] Bought NEOG x548.4452 @ $10.94 | SL $10.39 | TP $12.03
+2026-07-30 16:39:21,857 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-30 16:39:21,922 [WARNING] ⚠️ Native stop order failed for NEOG: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-30 16:39:21,983 [WARNING] ⚠️ Native take profit order failed for NEOG: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-30 16:39:22,469 [WARNING] ⚠️ Cannot fetch news for SBUX: 'NewsSet' object has no attribute 'news'
+2026-07-30 16:39:22,471 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-07-30 16:39:22,551 [INFO] 📤 BUY submitted: SBUX notional=$10,000.00 (order fdb75f1e-cb7a-4f9c-b372-638b92e88286)
+2026-07-30 16:39:25,702 [INFO] ✅ BUY filled: SBUX x92.902173913 @ $107.64
+2026-07-30 16:39:25,717 [INFO] 📋 New position: SBUX x92.9022 @ $107.64 ($10,000 USD)
+2026-07-30 16:39:25,717 [INFO] 🛒 [Paper] Bought SBUX x92.9022 @ $107.64 | SL $103.87 | TP $115.17
+2026-07-30 16:39:25,717 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-07-30 16:39:25,782 [WARNING] ⚠️ Native stop order failed for SBUX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-07-30 16:39:25,843 [WARNING] ⚠️ Native take profit order failed for SBUX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-07-30 16:39:25,844 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-30 16:39:26,386 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-30 16:39:26,401 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-30 16:39:26,414 [INFO] 🔍 Hold review: V [LARGE]...
+2026-07-30 16:39:26,882 [WARNING] ⚠️ Cannot fetch news for V: 'NewsSet' object has no attribute 'news'
+2026-07-30 16:39:26,896 [WARNING] ⚠️ Hold review failed for V: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-30 16:39:26,911 [INFO] 🔍 Hold review: MSFT [LARGE]...
+2026-07-30 16:39:27,445 [WARNING] ⚠️ Cannot fetch news for MSFT: 'NewsSet' object has no attribute 'news'
+2026-07-30 16:39:27,461 [WARNING] ⚠️ Hold review failed for MSFT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-30 16:39:27,477 [INFO] 
+📊 Run complete — positions: 5 | today P&L: $+76.50 | total P&L: $-1,297.74
+2026-07-30 16:39:27,478 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (71 lines)
+2026-07-30 16:39:27,479 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-30 16:39:27,479 [INFO] 🔕 LINE notification suppressed — TW time is 00:39 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-30 16:39:27,479 [INFO] ✅ Amara run complete — exiting cleanly.
