@@ -7657,3 +7657,64 @@
 2026-07-31 13:37:44,614 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-07-31 13:37:44,614 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-07-31 13:37:44,614 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-07-31 15:05:53,315 [INFO] =======================================================
+2026-07-31 15:05:53,315 [INFO] 🤖  AMARA — serverless single-run mode
+2026-07-31 15:05:53,315 [INFO] =======================================================
+2026-07-31 15:05:53,316 [INFO] 📖 Previous dashboard loaded (4,329 chars) — Amara has prior-run context
+2026-07-31 15:05:53,633 [INFO] ✅ Alpaca market data connected
+2026-07-31 15:05:54,259 [INFO] ✅ Claude API connected
+2026-07-31 15:05:54,259 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-07-31 15:05:54,942 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 6
+2026-07-31 15:05:55,094 [INFO] 💰 Account — cash $44,691.09 | portfolio $96,678.42
+2026-07-31 15:05:55,094 [INFO] 🚀 Amara initialised
+2026-07-31 15:05:55,094 [INFO]    Capital: $100,000 USD
+2026-07-31 15:05:55,094 [INFO]    Max position: $10,000 USD
+2026-07-31 15:05:55,094 [INFO]    Daily loss limit: $5,000 USD
+2026-07-31 15:05:55,094 [INFO] 
+=======================================================
+2026-07-31 15:05:55,094 [INFO] ⏰ Amara run: 2026-07-31 15:05
+2026-07-31 15:05:55,818 [INFO] 📋 Checking 6 open position(s)...
+2026-07-31 15:05:55,888 [INFO]   V: $363.64 | -0.9% | 3d held
+2026-07-31 15:05:55,975 [INFO]   MSFT: $452.55 | +1.6% | 1d held
+2026-07-31 15:05:56,073 [INFO]   NEOG: $11.61 | +6.1% | 1d held
+2026-07-31 15:05:56,190 [INFO]   SBUX: $104.65 | -2.8% | 1d held
+2026-07-31 15:05:56,318 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-07-31 15:05:56,420 [INFO]   MA: $569.16 | -1.7% | 0d held
+2026-07-31 15:05:56,435 [INFO] 📊 持倉中：6 筆 | 可用資金決定是否繼續開倉
+2026-07-31 15:05:56,435 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-07-31 15:06:03,285 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-07-31 15:06:03,493 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-07-31 15:06:03,496 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-07-31 15:06:03,498 [INFO]    Top 8 candidates → Claude: none
+2026-07-31 15:06:03,498 [INFO] 🔍 Hold review: SBUX [LARGE]...
+2026-07-31 15:06:04,247 [WARNING] ⚠️ Cannot fetch news for SBUX: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:04,265 [WARNING]   SBUX: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.33×） — 動能衰竭出場
+2026-07-31 15:06:04,351 [INFO] 📤 SELL submitted: SBUX x92.902173913 (order 4c15e00c-d9cd-485f-a78f-3653a9e38e72)
+2026-07-31 15:06:10,550 [INFO] ✅ SELL filled: SBUX @ $104.63
+2026-07-31 15:06:10,567 [INFO] ❌ [Paper] Closed SBUX @ $104.63 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.33×） — 動能衰竭出場 | P&L: $-279.64
+2026-07-31 15:06:10,567 [INFO] 🔍 Hold review: NEOG [MID]...
+2026-07-31 15:06:11,142 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:11,167 [WARNING] ⚠️ Hold review failed for NEOG: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-31 15:06:11,185 [INFO] 🔍 Hold review: MA [LARGE]...
+2026-07-31 15:06:11,671 [WARNING] ⚠️ Cannot fetch news for MA: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:11,689 [WARNING] ⚠️ Hold review failed for MA: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-31 15:06:11,706 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-07-31 15:06:12,281 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:12,299 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-07-31 15:06:12,379 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-07-31 15:06:12,395 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-07-31 15:06:12,395 [INFO] 🔍 Hold review: MSFT [LARGE]...
+2026-07-31 15:06:12,905 [WARNING] ⚠️ Cannot fetch news for MSFT: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:12,921 [WARNING] ⚠️ Hold review failed for MSFT: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-07-31 15:06:12,936 [INFO] 🔍 Hold review: V [LARGE]...
+2026-07-31 15:06:13,561 [WARNING] ⚠️ Cannot fetch news for V: 'NewsSet' object has no attribute 'news'
+2026-07-31 15:06:13,579 [WARNING]   V: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.40×） — 動能衰竭出場
+2026-07-31 15:06:13,685 [INFO] 📤 SELL submitted: V x27.239764648 (order d4e1d1a6-6448-45b7-9746-834b09d62f36)
+2026-07-31 15:06:16,992 [INFO] ✅ SELL filled: V @ $363.53
+2026-07-31 15:06:17,011 [INFO] ❌ [Paper] Closed V @ $363.53 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.40×） — 動能衰竭出場 | P&L: $-97.52
+2026-07-31 15:06:17,011 [INFO] 
+📊 Run complete — positions: 3 | today P&L: $-786.18 | total P&L: $-2,083.92
+2026-07-31 15:06:17,012 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (70 lines)
+2026-07-31 15:06:17,013 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-07-31 15:06:17,013 [INFO] 🔕 LINE notification suppressed — TW time is 23:06 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-07-31 15:06:17,013 [INFO] ✅ Amara run complete — exiting cleanly.
