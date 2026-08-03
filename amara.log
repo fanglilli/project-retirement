@@ -7972,3 +7972,77 @@
 2026-08-03 13:38:03,195 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-08-03 13:38:03,195 [INFO] 🔕 LINE notification suppressed — TW time is 21:38 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-08-03 13:38:03,195 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-08-03 15:09:34,182 [INFO] =======================================================
+2026-08-03 15:09:34,182 [INFO] 🤖  AMARA — serverless single-run mode
+2026-08-03 15:09:34,182 [INFO] =======================================================
+2026-08-03 15:09:34,182 [INFO] 📖 Previous dashboard loaded (4,094 chars) — Amara has prior-run context
+2026-08-03 15:09:34,441 [INFO] ✅ Alpaca market data connected
+2026-08-03 15:09:34,969 [INFO] ✅ Claude API connected
+2026-08-03 15:09:34,969 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-08-03 15:09:35,593 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-08-03 15:09:35,593 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-08-03 15:09:35,657 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-08-03 15:09:35,726 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 5
+2026-08-03 15:09:35,810 [INFO] 💰 Account — cash $53,862.63 | portfolio $98,309.48
+2026-08-03 15:09:35,810 [INFO] 🚀 Amara initialised
+2026-08-03 15:09:35,810 [INFO]    Capital: $100,000 USD
+2026-08-03 15:09:35,810 [INFO]    Max position: $10,000 USD
+2026-08-03 15:09:35,810 [INFO]    Daily loss limit: $5,000 USD
+2026-08-03 15:09:35,810 [INFO] 
+=======================================================
+2026-08-03 15:09:35,811 [INFO] ⏰ Amara run: 2026-08-03 15:09
+2026-08-03 15:09:36,593 [INFO] 📋 Checking 6 open position(s)...
+2026-08-03 15:09:36,669 [INFO]   MA: $572.69 | -1.1% | 3d held
+2026-08-03 15:09:36,785 [INFO]   AMZN: $284.69 | +5.2% | 3d held
+2026-08-03 15:09:36,867 [INFO]   HESM: $40.91 | +0.1% | 3d held
+2026-08-03 15:09:36,946 [INFO]   NEOG: $12.21 | +1.1% | 3d held
+2026-08-03 15:09:37,029 [INFO]   CHEF: $114.49 | -1.0% | 3d held
+2026-08-03 15:09:37,105 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-08-03 15:09:37,119 [INFO] 📊 持倉中：6 筆 | 可用資金決定是否繼續開倉
+2026-08-03 15:09:37,119 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-08-03 15:09:40,285 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-08-03 15:09:40,401 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-08-03 15:09:40,403 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-08-03 15:09:40,405 [INFO]    Top 8 candidates → Claude: ATKR
+2026-08-03 15:09:41,052 [WARNING] ⚠️ Cannot fetch news for ATKR: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:41,057 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-08-03 15:09:41,143 [INFO] 📤 BUY submitted: ATKR notional=$6,000.00 (order b599b74b-0c6f-4c35-9e63-5b9ee5ada171)
+2026-08-03 15:09:44,276 [INFO] ✅ BUY filled: ATKR x64.177879987 @ $93.49
+2026-08-03 15:09:44,298 [INFO] 📋 New position: ATKR x64.1779 @ $93.49 ($6,000 USD)
+2026-08-03 15:09:44,298 [INFO] 🛒 [Paper] Bought ATKR x64.1779 @ $93.49 | SL $88.82 | TP $102.84
+2026-08-03 15:09:44,298 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-08-03 15:09:44,362 [WARNING] ⚠️ Native stop order failed for ATKR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-08-03 15:09:44,453 [WARNING] ⚠️ Native take profit order failed for ATKR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-08-03 15:09:44,454 [INFO] 🔍 Hold review: AMZN [LARGE]...
+2026-08-03 15:09:45,034 [WARNING] ⚠️ Cannot fetch news for AMZN: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:45,058 [WARNING] ⚠️ Hold review failed for AMZN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 15:09:45,081 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-08-03 15:09:45,562 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:45,586 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 15:09:45,610 [INFO] 🔍 Hold review: HESM [MID]...
+2026-08-03 15:09:46,563 [WARNING] ⚠️ Cannot fetch news for HESM: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:46,585 [WARNING]   HESM: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.32×） — 動能衰竭出場
+2026-08-03 15:09:46,731 [INFO] 📤 SELL submitted: HESM x146.842633382 (order 1b989210-cf23-42c3-b323-791cefbfe944)
+2026-08-03 15:09:49,926 [INFO] ✅ SELL filled: HESM @ $40.93
+2026-08-03 15:09:49,943 [INFO] ✅ [Paper] Closed HESM @ $40.93 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.32×） — 動能衰竭出場 | P&L: $+10.28
+2026-08-03 15:09:49,944 [INFO] 🔍 Hold review: CHEF [MID]...
+2026-08-03 15:09:50,511 [WARNING] ⚠️ Cannot fetch news for CHEF: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:50,526 [WARNING]   CHEF: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場
+2026-08-03 15:09:50,610 [INFO] 📤 SELL submitted: CHEF x51.907517951 (order ff9e9361-b7e1-4a22-9230-e80045c96cd9)
+2026-08-03 15:09:53,753 [INFO] ✅ SELL filled: CHEF @ $114.34
+2026-08-03 15:09:53,770 [INFO] ❌ [Paper] Closed CHEF @ $114.34 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.17×） — 動能衰竭出場 | P&L: $-64.88
+2026-08-03 15:09:53,771 [INFO] 🔍 Hold review: MA [LARGE]...
+2026-08-03 15:09:54,260 [WARNING] ⚠️ Cannot fetch news for MA: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:54,278 [WARNING]   MA: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.39×） — 動能衰竭出場
+2026-08-03 15:09:54,365 [INFO] 📤 SELL submitted: MA x17.273228196 (order 824bee32-cff0-49e4-8232-6d84d0b33c9b)
+2026-08-03 15:09:57,503 [INFO] ✅ SELL filled: MA @ $572.75
+2026-08-03 15:09:57,519 [INFO] ❌ [Paper] Closed MA @ $572.75 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.39×） — 動能衰竭出場 | P&L: $-106.75
+2026-08-03 15:09:57,519 [INFO] 🔍 Hold review: NEOG [MID]...
+2026-08-03 15:09:58,093 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-08-03 15:09:58,110 [WARNING] ⚠️ Hold review failed for NEOG: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 15:09:58,126 [INFO] 
+📊 Run complete — positions: 4 | today P&L: $+735.23 | total P&L: $-734.43
+2026-08-03 15:09:58,127 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (73 lines)
+2026-08-03 15:09:58,128 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-08-03 15:09:58,128 [INFO] 🔕 LINE notification suppressed — TW time is 23:09 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-08-03 15:09:58,128 [INFO] ✅ Amara run complete — exiting cleanly.
