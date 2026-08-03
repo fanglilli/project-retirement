@@ -8046,3 +8046,57 @@
 2026-08-03 15:09:58,128 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-08-03 15:09:58,128 [INFO] 🔕 LINE notification suppressed — TW time is 23:09 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-08-03 15:09:58,128 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-08-03 18:04:58,115 [INFO] =======================================================
+2026-08-03 18:04:58,115 [INFO] 🤖  AMARA — serverless single-run mode
+2026-08-03 18:04:58,115 [INFO] =======================================================
+2026-08-03 18:04:58,115 [INFO] 📖 Previous dashboard loaded (4,149 chars) — Amara has prior-run context
+2026-08-03 18:04:58,572 [INFO] ✅ Alpaca market data connected
+2026-08-03 18:04:59,341 [INFO] ✅ Claude API connected
+2026-08-03 18:04:59,342 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-08-03 18:05:00,140 [INFO] 📋 New position: TMDX x73.2242 @ $81.94 ($6,000 USD)
+2026-08-03 18:05:00,140 [INFO] 🔄 Sync [added]   TMDX x73.22418843 @ $81.94
+2026-08-03 18:05:00,207 [WARNING] ⚠️ Sync: could not place stop for TMDX: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-08-03 18:05:00,282 [INFO] ✅ Alpaca sync — added 1 | closed 0 | updated 4
+2026-08-03 18:05:00,379 [INFO] 💰 Account — cash $63,701.27 | portfolio $98,204.74
+2026-08-03 18:05:00,379 [INFO] 🚀 Amara initialised
+2026-08-03 18:05:00,379 [INFO]    Capital: $100,000 USD
+2026-08-03 18:05:00,379 [INFO]    Max position: $10,000 USD
+2026-08-03 18:05:00,379 [INFO]    Daily loss limit: $5,000 USD
+2026-08-03 18:05:00,379 [INFO] 
+=======================================================
+2026-08-03 18:05:00,379 [INFO] ⏰ Amara run: 2026-08-03 18:05
+2026-08-03 18:05:00,997 [INFO] 📋 Checking 5 open position(s)...
+2026-08-03 18:05:01,100 [INFO]   AMZN: $283.74 | +4.8% | 3d held
+2026-08-03 18:05:01,184 [INFO]   NEOG: $12.21 | +1.0% | 3d held
+2026-08-03 18:05:01,264 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-08-03 18:05:01,357 [INFO]   ATKR: $93.45 | -0.0% | 0d held
+2026-08-03 18:05:01,452 [INFO]   TMDX: $81.37 | -0.7% | 0d held
+2026-08-03 18:05:01,469 [INFO] 📊 持倉中：5 筆 | 可用資金決定是否繼續開倉
+2026-08-03 18:05:01,469 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-08-03 18:05:07,955 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-08-03 18:05:08,077 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-08-03 18:05:08,081 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-08-03 18:05:08,083 [INFO]    Top 8 candidates → Claude: none
+2026-08-03 18:05:08,083 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-08-03 18:05:08,581 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-08-03 18:05:08,600 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-08-03 18:05:08,700 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-08-03 18:05:08,717 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-08-03 18:05:08,718 [INFO] 🔍 Hold review: AMZN [LARGE]...
+2026-08-03 18:05:09,230 [WARNING] ⚠️ Cannot fetch news for AMZN: 'NewsSet' object has no attribute 'news'
+2026-08-03 18:05:09,252 [WARNING] ⚠️ Hold review failed for AMZN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 18:05:09,271 [INFO] 🔍 Hold review: TMDX [MID]...
+2026-08-03 18:05:09,749 [WARNING] ⚠️ Cannot fetch news for TMDX: 'NewsSet' object has no attribute 'news'
+2026-08-03 18:05:09,771 [WARNING] ⚠️ Hold review failed for TMDX: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 18:05:09,788 [INFO] 🔍 Hold review: NEOG [MID]...
+2026-08-03 18:05:10,700 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-08-03 18:05:10,722 [WARNING] ⚠️ Hold review failed for NEOG: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 18:05:10,739 [INFO] 🔍 Hold review: ATKR [MID]...
+2026-08-03 18:05:11,291 [WARNING] ⚠️ Cannot fetch news for ATKR: 'NewsSet' object has no attribute 'news'
+2026-08-03 18:05:11,310 [WARNING] ⚠️ Hold review failed for ATKR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-03 18:05:11,335 [INFO] 
+📊 Run complete — positions: 4 | today P&L: $+735.23 | total P&L: $-734.43
+2026-08-03 18:05:11,337 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (72 lines)
+2026-08-03 18:05:11,339 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-08-03 18:05:11,339 [INFO] 🔕 LINE notification suppressed — TW time is 02:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-08-03 18:05:11,339 [INFO] ✅ Amara run complete — exiting cleanly.
