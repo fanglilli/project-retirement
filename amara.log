@@ -8100,3 +8100,69 @@
 2026-08-03 18:05:11,339 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-08-03 18:05:11,339 [INFO] 🔕 LINE notification suppressed — TW time is 02:05 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-08-03 18:05:11,339 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-08-04 13:37:39,904 [INFO] =======================================================
+2026-08-04 13:37:39,904 [INFO] 🤖  AMARA — serverless single-run mode
+2026-08-04 13:37:39,904 [INFO] =======================================================
+2026-08-04 13:37:39,904 [INFO] 📖 Previous dashboard loaded (4,380 chars) — Amara has prior-run context
+2026-08-04 13:37:40,172 [INFO] ✅ Alpaca market data connected
+2026-08-04 13:37:40,761 [INFO] ✅ Claude API connected
+2026-08-04 13:37:40,761 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-08-04 13:37:41,344 [INFO] 📋 New position: APPF x31.3840 @ $191.18 ($6,000 USD)
+2026-08-04 13:37:41,344 [INFO] 🔄 Sync [added]   APPF x31.38398368 @ $191.18
+2026-08-04 13:37:41,413 [WARNING] ⚠️ Sync: could not place stop for APPF: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-08-04 13:37:41,428 [INFO] 📋 New position: BA x42.7972 @ $233.66 ($10,000 USD)
+2026-08-04 13:37:41,429 [INFO] 🔄 Sync [added]   BA x42.797183942 @ $233.66
+2026-08-04 13:37:41,498 [WARNING] ⚠️ Sync: could not place stop for BA: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active
+2026-08-04 13:37:41,514 [INFO] 📋 New position: CWAN x244.2993 @ $24.56 ($6,000 USD)
+2026-08-04 13:37:41,514 [INFO] 🔄 Sync [added]   CWAN x244.2992671 @ $24.56
+2026-08-04 13:37:41,582 [WARNING] ⚠️ Sync: could not place stop for CWAN: {"code":40010001,"message":"asset CWAN is not active"} — Python fallback active
+2026-08-04 13:37:41,646 [INFO] ✅ Alpaca sync — added 3 | closed 0 | updated 4
+2026-08-04 13:37:41,748 [INFO] 💰 Account — cash $47,701.23 | portfolio $98,022.04
+2026-08-04 13:37:41,748 [INFO] 🚀 Amara initialised
+2026-08-04 13:37:41,748 [INFO]    Capital: $100,000 USD
+2026-08-04 13:37:41,748 [INFO]    Max position: $10,000 USD
+2026-08-04 13:37:41,748 [INFO]    Daily loss limit: $5,000 USD
+2026-08-04 13:37:41,748 [INFO] 
+=======================================================
+2026-08-04 13:37:41,748 [INFO] ⏰ Amara run: 2026-08-04 13:37
+2026-08-04 13:37:42,500 [INFO] 📋 Checking 7 open position(s)...
+2026-08-04 13:37:42,569 [INFO]   AMZN: $277.80 | +2.7% | 4d held
+2026-08-04 13:37:42,670 [INFO]   NEOG: $12.04 | -0.3% | 4d held
+2026-08-04 13:37:42,756 [INFO]   ATKR: $93.49 | +0.0% | 1d held
+2026-08-04 13:37:42,839 [INFO]   TMDX: $80.85 | -1.3% | 1d held
+2026-08-04 13:37:42,920 [INFO]   APPF: $192.37 | +0.6% | 0d held
+2026-08-04 13:37:43,003 [INFO]   BA: $236.41 | +1.2% | 0d held
+2026-08-04 13:37:43,091 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-08-04 13:37:43,108 [INFO] 📊 持倉中：7 筆 | 可用資金決定是否繼續開倉
+2026-08-04 13:37:43,108 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-08-04 13:37:48,761 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-08-04 13:37:48,888 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-08-04 13:37:48,892 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 0/150 symbols
+2026-08-04 13:37:48,894 [INFO]    Top 8 candidates → Claude: none
+2026-08-04 13:37:48,895 [INFO] 🔍 Hold review: AMZN [LARGE]...
+2026-08-04 13:37:49,483 [WARNING] ⚠️ Cannot fetch news for AMZN: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:49,504 [WARNING] ⚠️ Hold review failed for AMZN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:49,521 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-08-04 13:37:50,112 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:50,130 [WARNING] ⚠️ Hold review failed for CWAN: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:50,147 [INFO] 🔍 Hold review: TMDX [MID]...
+2026-08-04 13:37:50,662 [WARNING] ⚠️ Cannot fetch news for TMDX: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:50,680 [WARNING] ⚠️ Hold review failed for TMDX: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:50,696 [INFO] 🔍 Hold review: NEOG [MID]...
+2026-08-04 13:37:51,351 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:51,368 [WARNING] ⚠️ Hold review failed for NEOG: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:51,384 [INFO] 🔍 Hold review: BA [LARGE]...
+2026-08-04 13:37:51,960 [WARNING] ⚠️ Cannot fetch news for BA: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:51,978 [WARNING] ⚠️ Hold review failed for BA: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:51,994 [INFO] 🔍 Hold review: ATKR [MID]...
+2026-08-04 13:37:52,507 [WARNING] ⚠️ Cannot fetch news for ATKR: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:52,528 [WARNING] ⚠️ Hold review failed for ATKR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:52,548 [INFO] 🔍 Hold review: APPF [MID]...
+2026-08-04 13:37:53,052 [WARNING] ⚠️ Cannot fetch news for APPF: 'NewsSet' object has no attribute 'news'
+2026-08-04 13:37:53,070 [WARNING] ⚠️ Hold review failed for APPF: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 13:37:53,087 [INFO] 
+📊 Run complete — positions: 7 | today P&L: $+0.00 | total P&L: $-734.43
+2026-08-04 13:37:53,087 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (71 lines)
+2026-08-04 13:37:53,089 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-08-04 13:37:53,089 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-08-04 13:37:53,089 [INFO] ✅ Amara run complete — exiting cleanly.
