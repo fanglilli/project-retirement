@@ -8166,3 +8166,86 @@
 2026-08-04 13:37:53,089 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
 2026-08-04 13:37:53,089 [INFO] 🔕 LINE notification suppressed — TW time is 21:37 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
 2026-08-04 13:37:53,089 [INFO] ✅ Amara run complete — exiting cleanly.
+2026-08-04 15:11:37,998 [INFO] =======================================================
+2026-08-04 15:11:37,998 [INFO] 🤖  AMARA — serverless single-run mode
+2026-08-04 15:11:37,998 [INFO] =======================================================
+2026-08-04 15:11:37,999 [INFO] 📖 Previous dashboard loaded (4,563 chars) — Amara has prior-run context
+2026-08-04 15:11:38,274 [INFO] ✅ Alpaca market data connected
+2026-08-04 15:11:38,919 [INFO] ✅ Claude API connected
+2026-08-04 15:11:38,919 [INFO] ✅ Alpaca Trading Client connected — mode: PAPER
+2026-08-04 15:11:39,510 [INFO] ✅ Alpaca sync — added 0 | closed 0 | updated 7
+2026-08-04 15:11:39,587 [INFO] 💰 Account — cash $47,701.23 | portfolio $97,818.70
+2026-08-04 15:11:39,588 [INFO] 🚀 Amara initialised
+2026-08-04 15:11:39,588 [INFO]    Capital: $100,000 USD
+2026-08-04 15:11:39,588 [INFO]    Max position: $10,000 USD
+2026-08-04 15:11:39,588 [INFO]    Daily loss limit: $5,000 USD
+2026-08-04 15:11:39,588 [INFO] 
+=======================================================
+2026-08-04 15:11:39,588 [INFO] ⏰ Amara run: 2026-08-04 15:11
+2026-08-04 15:11:40,347 [INFO] 📋 Checking 7 open position(s)...
+2026-08-04 15:11:40,423 [INFO]   AMZN: $277.11 | +2.4% | 4d held
+2026-08-04 15:11:40,547 [INFO]   NEOG: $11.78 | -2.5% | 4d held
+2026-08-04 15:11:40,628 [INFO]   ATKR: $93.38 | -0.1% | 1d held
+2026-08-04 15:11:40,741 [INFO]   TMDX: $80.49 | -1.8% | 1d held
+2026-08-04 15:11:40,871 [INFO]   APPF: $192.16 | +0.5% | 0d held
+2026-08-04 15:11:40,976 [INFO]   BA: $235.04 | +0.6% | 0d held
+2026-08-04 15:11:41,066 [INFO]   CWAN: $24.56 | +0.0% | 0d held
+2026-08-04 15:11:41,080 [INFO] 📊 持倉中：7 筆 | 可用資金決定是否繼續開倉
+2026-08-04 15:11:41,080 [INFO] 🔍 Batch-fetching bars for 150 symbols (300-day window)...
+2026-08-04 15:11:45,382 [INFO] 📦 Batch fetch complete — 144/150 symbols returned, 300d window
+2026-08-04 15:11:45,524 [INFO] 📡 Real-time prices fetched for 150 symbols
+2026-08-04 15:11:45,526 [INFO]    Qualifying (score≥60, vol+RSI+MA20 signals): 1/150 symbols
+2026-08-04 15:11:45,528 [INFO]    Top 8 candidates → Claude: PLTR
+2026-08-04 15:11:46,042 [WARNING] ⚠️ Cannot fetch news for PLTR: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:11:46,048 [WARNING] ⚠️ Claude analysis failed: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted" — falling back to technical signal
+2026-08-04 15:11:46,137 [INFO] 📤 BUY submitted: PLTR notional=$10,000.00 (order bfb5d2f8-4db9-4920-b727-91a827304a73)
+2026-08-04 15:11:49,297 [INFO] ✅ BUY filled: PLTR x62.938810198 @ $158.88
+2026-08-04 15:11:49,311 [INFO] 📋 New position: PLTR x62.9388 @ $158.88 ($10,000 USD)
+2026-08-04 15:11:49,311 [INFO] 🛒 [Paper] Bought PLTR x62.9388 @ $158.88 | SL $153.32 | TP $170.01
+2026-08-04 15:11:49,311 [INFO]    Claude: Claude 分析失敗；依技術評分判斷通過
+2026-08-04 15:11:49,381 [WARNING] ⚠️ Native stop order failed for PLTR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce stop)
+2026-08-04 15:11:49,452 [WARNING] ⚠️ Native take profit order failed for PLTR: {"code":42210000,"message":"fractional orders must be DAY orders"} — Python fallback active (bot must be running to enforce take profit)
+2026-08-04 15:11:49,453 [INFO] 🔍 Hold review: ATKR [MID]...
+2026-08-04 15:11:50,034 [WARNING] ⚠️ Cannot fetch news for ATKR: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:11:50,049 [WARNING] ⚠️ Hold review failed for ATKR: "Could not resolve authentication method. Expected one of api_key, auth_token, or credentials to be set. Or for one of the `X-Api-Key` or `Authorization` headers to be explicitly omitted"
+2026-08-04 15:11:50,063 [INFO] 🔍 Hold review: TMDX [MID]...
+2026-08-04 15:11:50,572 [WARNING] ⚠️ Cannot fetch news for TMDX: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:11:50,587 [WARNING]   TMDX: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場
+2026-08-04 15:11:50,722 [INFO] 📤 SELL submitted: TMDX x73.22418843 (order 5eed260b-e764-4c50-b448-5106e9a6e957)
+2026-08-04 15:11:53,872 [INFO] ✅ SELL filled: TMDX @ $80.58
+2026-08-04 15:11:53,887 [INFO] ❌ [Paper] Closed TMDX @ $80.58 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.20×） — 動能衰竭出場 | P&L: $-99.58
+2026-08-04 15:11:53,888 [INFO] 🔍 Hold review: NEOG [MID]...
+2026-08-04 15:11:54,657 [WARNING] ⚠️ Cannot fetch news for NEOG: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:11:54,672 [WARNING]   NEOG: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.31×） — 動能衰竭出場
+2026-08-04 15:11:54,770 [INFO] 📤 SELL submitted: NEOG x496.687913907 (order 595a3bd8-dc78-4e7b-90d7-3bd522d02249)
+2026-08-04 15:11:57,909 [INFO] ✅ SELL filled: NEOG @ $11.77
+2026-08-04 15:11:57,926 [INFO] ❌ [Paper] Closed NEOG @ $11.77 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.31×） — 動能衰竭出場 | P&L: $-153.97
+2026-08-04 15:11:57,926 [INFO] 🔍 Hold review: AMZN [LARGE]...
+2026-08-04 15:11:58,897 [WARNING] ⚠️ Cannot fetch news for AMZN: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:11:58,914 [WARNING]   AMZN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.44×） — 動能衰竭出場
+2026-08-04 15:11:58,993 [INFO] 📤 SELL submitted: AMZN x36.951110454 (order dfd76c25-01a1-40de-88e7-1aa6c7465eac)
+2026-08-04 15:12:02,329 [INFO] ✅ SELL filled: AMZN @ $277.35
+2026-08-04 15:12:02,343 [INFO] ✅ [Paper] Closed AMZN @ $277.35 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.44×） — 動能衰竭出場 | P&L: $+248.32
+2026-08-04 15:12:02,344 [INFO] 🔍 Hold review: BA [LARGE]...
+2026-08-04 15:12:02,889 [WARNING] ⚠️ Cannot fetch news for BA: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:12:02,909 [WARNING]   BA: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.41×） — 動能衰竭出場
+2026-08-04 15:12:03,005 [INFO] 📤 SELL submitted: BA x42.797183942 (order 353c8fc4-4b2e-4660-9cb4-7cd71c1b6318)
+2026-08-04 15:12:06,134 [INFO] ✅ SELL filled: BA @ $234.94
+2026-08-04 15:12:06,148 [INFO] ✅ [Paper] Closed BA @ $234.94 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.41×） — 動能衰竭出場 | P&L: $+54.78
+2026-08-04 15:12:06,149 [INFO] 🔍 Hold review: APPF [MID]...
+2026-08-04 15:12:06,673 [WARNING] ⚠️ Cannot fetch news for APPF: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:12:06,688 [WARNING]   APPF: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.46×） — 動能衰竭出場
+2026-08-04 15:12:06,769 [INFO] 📤 SELL submitted: APPF x31.38398368 (order ca026b4f-22f9-427a-9a4b-9d372bfeaa50)
+2026-08-04 15:12:09,911 [INFO] ✅ SELL filled: APPF @ $192.97
+2026-08-04 15:12:09,925 [INFO] ✅ [Paper] Closed APPF @ $192.97 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.46×） — 動能衰竭出場 | P&L: $+56.18
+2026-08-04 15:12:09,926 [INFO] 🔍 Hold review: CWAN [MID]...
+2026-08-04 15:12:10,447 [WARNING] ⚠️ Cannot fetch news for CWAN: 'NewsSet' object has no attribute 'news'
+2026-08-04 15:12:10,461 [WARNING]   CWAN: 📉 Volume decay exit triggered — 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場
+2026-08-04 15:12:10,540 [ERROR] ❌ SELL order failed for CWAN: {"code":40010001,"message":"asset CWAN is not active"}
+2026-08-04 15:12:10,555 [INFO] ❌ [Paper] Closed CWAN @ $24.56 | 成交量連續 2 次低於 0.5 倍均量 （最近 0.00×） — 動能衰竭出場 | P&L: $+0.00
+2026-08-04 15:12:10,556 [INFO] 
+📊 Run complete — positions: 2 | today P&L: $+105.72 | total P&L: $-628.71
+2026-08-04 15:12:10,556 [INFO] 📊 amara_dashboard.md written → /home/user/project-retirement/amara_dashboard.md (70 lines)
+2026-08-04 15:12:10,558 [INFO] 🌐 index.html written → /home/user/project-retirement/index.html
+2026-08-04 15:12:10,558 [INFO] 🔕 LINE notification suppressed — TW time is 23:12 (outside 03:30–05:00 window). Only the pre-close run fires LINE.
+2026-08-04 15:12:10,558 [INFO] ✅ Amara run complete — exiting cleanly.
